@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32516.85
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechLanches.API", "TechLanches.API\TechLanches.API.csproj", "{C7300449-6F88-44D3-8357-3F4629E038AA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C7300449-6F88-44D3-8357-3F4629E038AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C7300449-6F88-44D3-8357-3F4629E038AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C7300449-6F88-44D3-8357-3F4629E038AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C7300449-6F88-44D3-8357-3F4629E038AA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {90375589-63E6-4F0F-8F51-A7B40E657961}
+	EndGlobalSection
+EndGlobal
