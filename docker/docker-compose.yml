@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  api:
+    image: techlanches-api
+    build:
+        context: ../src/TechLanches/TechLanches.API
+        dockerfile: Dockerfile
+    ports: 
+      - 5000:80
+    container_name: techlanche-api
+    restart: always
+    networks: 
+      - techlanche-network            
+    depends_on:
+        - db
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    restart: always
+    container_name: techlanche-sqlserver
+    environment:
+      ACCEPT_EULA: Y
+      MSSQL_SA_PASSWORD: 1q2w3e4r@#$
+    volumes:
+      - techlanche-sqlserverdata:/var/opt/mssql
+    networks: 
+      - techlanche-network
+    ports:
+      - 14033:1433
+
+volumes:
+  techlanche-sqlserverdata:
+networks:
+  techlanche-network:
+    driver: bridge

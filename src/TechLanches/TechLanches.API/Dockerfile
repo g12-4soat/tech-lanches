@@ -6,10 +6,10 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["TechLanches.API/TechLanches.API.csproj", "TechLanches.API/"]
-RUN dotnet restore "TechLanches.API/TechLanches.API.csproj"
+COPY ["TechLanches.API.csproj", "TechLanches/TechLanches.API/"]
+RUN dotnet restore "TechLanches/TechLanches.API/TechLanches.API.csproj"
+WORKDIR "TechLanches/TechLanches.API"
 COPY . .
-WORKDIR "/src/TechLanches.API"
 RUN dotnet build "TechLanches.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
