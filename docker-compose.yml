@@ -3,8 +3,8 @@
 services:
   webapi:
     build:
-        context: ./src/TechLanches/
-        dockerfile: /TechLanches.API/Dockerfile
+        context: ./src/TechLanches/TechLanches.API/
+        dockerfile: Dockerfile
     container_name: api-dotnet6
     ports:
       - "5050:80"
