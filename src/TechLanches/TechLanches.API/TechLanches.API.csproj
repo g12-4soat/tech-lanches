@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TechLanches.Application\TechLanches.Application.csproj" />
     <ProjectReference Include="..\TechLanches.Infrastructure\TechLanches.Infrastructure.csproj" />
   </ItemGroup>
 

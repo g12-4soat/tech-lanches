@@ -7,11 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.API", "TechLanc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Core", "TechLanches.Core\TechLanches.Core.csproj", "{B7297942-27B8-48F9-B1B6-F8D061E33066}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechLanches.Domain", "TechLanches.Domain\TechLanches.Domain.csproj", "{BD41D228-8AAE-4001-A6AF-71818C415B79}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Domain", "TechLanches.Domain\TechLanches.Domain.csproj", "{BD41D228-8AAE-4001-A6AF-71818C415B79}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechLanches.Application", "TechLanches.Application\TechLanches.Application.csproj", "{08FC5690-B17E-43C3-9B8A-DFA7AA00B318}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Application", "TechLanches.Application\TechLanches.Application.csproj", "{08FC5690-B17E-43C3-9B8A-DFA7AA00B318}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechLanches.Infrastructure", "TechLanches.Infrastructure\TechLanches.Infrastructure.csproj", "{275F3B23-A3DA-451E-BE51-04B478462252}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Infrastructure", "TechLanches.Infrastructure\TechLanches.Infrastructure.csproj", "{275F3B23-A3DA-451E-BE51-04B478462252}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
