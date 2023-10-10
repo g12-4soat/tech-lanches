@@ -25,7 +25,11 @@ namespace TechLanches.Application
         {
             var cliente = new Cliente(nome, email, cpf);
 
-            return await _clienteRepository.Cadastrar(cliente);
+            var novoCliente = await _clienteRepository.Cadastrar(cliente);
+
+            await _clienteRepository.UnitOfWork.Commit();
+
+            return novoCliente;
         }
     }
 }

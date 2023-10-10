@@ -13,13 +13,28 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// mover para extensão
 builder.Services.AddDbContext<TechLanchesDbContext>(config => 
     config.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// mover para extensão
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 
 var app = builder.Build();
+
+// mover para extensão
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    var context = services.GetRequiredService<TechLanchesDbContext>();
+
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        context.Database.Migrate();
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -28,6 +43,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// mover para extensão
 app.MapClienteEndpoints();
 
 app.Run();

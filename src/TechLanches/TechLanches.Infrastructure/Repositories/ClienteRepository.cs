@@ -16,9 +16,11 @@ public class ClienteRepository : IClienteRepository
         _context = context ?? throw new ArgumentNullException(nameof(context)); 
     }
 
-    public Task<Cliente> BuscarPorCpf(string cpf)
+    public async Task<Cliente> BuscarPorCpf(string cpf)
     {
-        return _context.Clientes.SingleOrDefaultAsync(x => x.CPF.Numero == cpf);
+        var clientes = await _context.Clientes.ToListAsync();
+
+        return clientes.SingleOrDefault(x => x.CPF.Numero == cpf);
     }
 
     public async Task<Cliente> Cadastrar(Cliente cliente)

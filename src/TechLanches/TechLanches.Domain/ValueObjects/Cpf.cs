@@ -5,6 +5,11 @@ namespace TechLanches.Domain.ValueObjects
 {
     public class Cpf: ValueObject
     {
+        private Cpf()
+        {
+
+        }
+
         public Cpf(string cpf)
         {
             ArgumentNullException.ThrowIfNull(cpf);

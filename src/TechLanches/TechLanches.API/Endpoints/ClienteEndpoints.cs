@@ -17,7 +17,7 @@ public static class ClienteEndpoints
     {
         var cliente = await clienteService.BuscarPorCpf(cpf);
 
-        return cliente is null 
+        return cliente is not null 
             ? Results.Ok(cliente) 
             : Results.NotFound(cpf);
     }
@@ -30,7 +30,7 @@ public static class ClienteEndpoints
     {
         var cliente = await clienteService.Cadastrar(nome, email, cpf);
 
-        return cliente is null 
+        return cliente is not null 
             ? Results.Ok(cliente) 
             : Results.BadRequest(new { nome, email, cpf });
     }
