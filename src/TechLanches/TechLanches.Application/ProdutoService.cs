@@ -5,7 +5,7 @@ namespace TechLanches.Application
 {
     public class ProdutoService : IProdutoService
     {
-        public Task<Produto> Atualizar(int produtoId)
+        public void Atualizar(int produtoId, string nome, string descricao, double preco, int categoriaId)
         {
             throw new NotImplementedException();
         }
@@ -25,12 +25,11 @@ namespace TechLanches.Application
             throw new NotImplementedException();
         }
 
-        public Task<Produto> Cadastrar(Produto produto)
+        public Task<Produto> Cadastrar(string nome, string descricao, double preco, int categoriaId)
         {
             throw new NotImplementedException();
         }
-
-        public Task Deletar(int produtoId)
+        public void Deletar(int produtoId)
         {
             throw new NotImplementedException();
         }
