@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Application", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Infrastructure", "TechLanches.Infrastructure\TechLanches.Infrastructure.csproj", "{275F3B23-A3DA-451E-BE51-04B478462252}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechLanches.UnitTests", "TechLanches.UnitTests\TechLanches.UnitTests.csproj", "{0D1D93C5-0F2F-428E-9964-34088DA07343}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{275F3B23-A3DA-451E-BE51-04B478462252}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{275F3B23-A3DA-451E-BE51-04B478462252}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{275F3B23-A3DA-451E-BE51-04B478462252}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D1D93C5-0F2F-428E-9964-34088DA07343}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D1D93C5-0F2F-428E-9964-34088DA07343}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D1D93C5-0F2F-428E-9964-34088DA07343}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D1D93C5-0F2F-428E-9964-34088DA07343}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
