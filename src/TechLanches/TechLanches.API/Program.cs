@@ -20,6 +20,8 @@ builder.Services.AddDbContext<TechLanchesDbContext>(config =>
 // mover para extensão
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
+builder.Services.AddScoped<IProdutoService, IProdutoService>();
+builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 
 var app = builder.Build();
 
