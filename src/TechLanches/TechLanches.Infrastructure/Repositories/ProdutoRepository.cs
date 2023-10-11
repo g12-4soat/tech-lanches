@@ -3,6 +3,7 @@ using System;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Repositories;
+using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Infrastructure.Repositories
 {
@@ -21,9 +22,9 @@ namespace TechLanches.Infrastructure.Repositories
             _context.Entry(produto).State = EntityState.Modified;
         }
 
-        public async Task<List<Produto>> BuscarPorCategoria(int categoriaId)
+        public async Task<List<Produto>> BuscarPorCategoria(CategoriaProduto categoria)
         {
-            return await _context.Produtos.Where(x => x.Categoria.Id == categoriaId).ToListAsync(); //mesmo erro do Cliente?
+            return await _context.Produtos.Where(x => x.Categoria.Id == categoria.Id).ToListAsync(); //mesmo erro do Cliente?
         }
 
         public async Task<Produto> BuscarPorId(int produtoId)

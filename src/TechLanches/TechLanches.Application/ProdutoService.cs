@@ -1,37 +1,54 @@
 ﻿using TechLanches.Domain.Aggregates;
+using TechLanches.Domain.Repositories;
 using TechLanches.Domain.Services;
+using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Application
 {
     public class ProdutoService : IProdutoService
     {
-        public void Atualizar(int produtoId, string nome, string descricao, double preco, int categoriaId)
+        private readonly IProdutoRepository _produtoRepository;
+
+        public ProdutoService(IProdutoRepository produtoRepository)
         {
-            throw new NotImplementedException();
+            _produtoRepository = produtoRepository;
         }
 
-        public Task<List<Produto>> BuscarPorCategoria(int categoriaId)
+        public async void Atualizar(int produtoId, string nome, string descricao, double preco, int categoriaId)
         {
-            throw new NotImplementedException();
+            var produto = new Produto(produtoId, nome, descricao, preco, categoriaId);
+            _produtoRepository.Atualizar(produto);
         }
 
-        public Task<Produto> BuscarPorId(int produtoId)
+        public async Task<List<Produto>> BuscarPorCategoria(int categoriaId)
         {
-            throw new NotImplementedException();
+            var categoriaProduto = CategoriaProduto.From(categoriaId);
+            return await _produtoRepository.BuscarPorCategoria(categoriaProduto);
         }
 
-        public Task<List<Produto>> BuscarTodos()
+        public async Task<Produto> BuscarPorId(int produtoId)
         {
-            throw new NotImplementedException();
+            var produto = await _produtoRepository.BuscarPorId(produtoId);// se for nulo, lançaremos exception?
+            return produto;
         }
 
-        public Task<Produto> Cadastrar(string nome, string descricao, double preco, int categoriaId)
+        public async Task<List<Produto>> BuscarTodos()
         {
-            throw new NotImplementedException();
+            return await _produtoRepository.BuscarTodos();
+        }
+
+        public async Task<Produto> Cadastrar(string nome, string descricao, double preco, int categoriaId)
+        {
+            var produto = new Produto(nome, descricao, preco, categoriaId);
+
+            var novoProduto = await _produtoRepository.Cadastrar(produto);
+            await _produtoRepository.UnitOfWork.Commit();
+
+            return novoProduto;
         }
         public void Deletar(int produtoId)
         {
-            throw new NotImplementedException();
+            _produtoRepository.Deletar(produtoId);
         }
     }
 }

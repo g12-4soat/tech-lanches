@@ -12,7 +12,17 @@ namespace TechLanches.Domain.Aggregates
     {
         protected Produto() { }
 
-        protected Produto(string nome, string descricao, double preco, int categoriaId)
+        public Produto(string nome, string descricao, double preco, int categoriaId)
+        {
+            Nome = nome;
+            Descricao = descricao;
+            Preco = preco;
+            Categoria = CategoriaProduto.From(categoriaId);
+
+            Validar();
+        }
+
+        public Produto(int produtoId, string nome, string descricao, double preco, int categoriaId):base(produtoId)
         {
             Nome = nome;
             Descricao = descricao;
