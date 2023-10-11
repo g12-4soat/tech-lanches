@@ -8,10 +8,10 @@ namespace TechLanches.Domain.Aggregates
     {
         private Pedido() { }
 
-        public Pedido(int clienteId, int statusPedidoId, List<ItemPedido> itensPedido)
+        public Pedido(int clienteId, List<ItemPedido> itensPedido)
         {
             ClienteId = clienteId;
-            StatusPedido = StatusPedido.From(statusPedidoId);
+            StatusPedido = StatusPedido.PedidoCriado;
             _itensPedido = new List<ItemPedido>();
             AdicionarItensPedidos(itensPedido);
             Validar();
@@ -40,6 +40,46 @@ namespace TechLanches.Domain.Aggregates
         {
             Valor = _itensPedido.Sum(i => i.Valor);
         }
+
+        public void TrocarStatus(StatusPedido statusPedido)
+        {
+            ValidarStatus(statusPedido);
+            StatusPedido = statusPedido;
+        }
+
+        private void ValidarStatus(StatusPedido statusPedido)
+        {
+            if (statusPedido == StatusPedido.PedidoEmPreparacao && StatusPedido != StatusPedido.PedidoCriado)
+            {
+                throw new DomainException("O status selecionado não é válido");
+            }
+
+            if (statusPedido == StatusPedido.PedidoPronto && StatusPedido != StatusPedido.PedidoEmPreparacao)
+            {
+                throw new DomainException("O status selecionado não é válido");
+            }
+
+            if (statusPedido == StatusPedido.PedidoRetirado && StatusPedido != StatusPedido.PedidoPronto)
+            {
+                throw new DomainException("O status selecionado não é válido");
+            }
+
+            if (statusPedido == StatusPedido.PedidoDescartado && StatusPedido != StatusPedido.PedidoPronto)
+            {
+                throw new DomainException("O status selecionado não é válido");
+            }
+
+            if (statusPedido == StatusPedido.PedidoCancelado && StatusPedido != StatusPedido.PedidoPronto)
+            {
+                throw new DomainException("O status selecionado não é válido");
+            }
+
+            if (statusPedido == StatusPedido.PedidoFinalizado && StatusPedido != StatusPedido.PedidoRetirado)
+            {
+                throw new DomainException("O status selecionado não é válido");
+            }
+        }
+        
 
         private void Validar()
         {

@@ -19,10 +19,15 @@ public class PedidoRepository : IPedidoRepository
     }
 
     public async Task<List<Pedido>> BuscarTodosPedidos()
-        => new List<Pedido>() { new Pedido(1,2, new List<ItemPedido>() { new ItemPedido(2, 1, 4, 20) }) };
+        => new List<Pedido>() { new Pedido(1, new List<ItemPedido>() { new ItemPedido(2, 1, 4, 20) }) };
 
     public async Task<Pedido> BuscarPedidoPorId(int idPedido)
-        => new Pedido(1, 2, new List<ItemPedido>() { new ItemPedido(2, 1, 4, 20) });
+        => new Pedido(1, new List<ItemPedido>() { new ItemPedido(2, 1, 4, 20) });
+
+    public Task<List<Pedido>> BuscarPedidosPorStatus(StatusPedido statusPedido)
+    {
+        throw new NotImplementedException();
+    }
 
     //public async Task<List<Pedido>> BuscarTodosPedidos()
     //    => await _context.Pedidos.AsNoTracking().ToListAsync();

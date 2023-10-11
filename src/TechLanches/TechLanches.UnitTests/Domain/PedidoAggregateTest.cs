@@ -91,7 +91,6 @@ namespace TechLanches.UnitTests.Domain
         {
             //Arrange    
             var clienteId = 1;
-            var statusPedidoId = 1;
             var produtoId = 1;
             var pedidoId = 1;
             var quantidade = 1;
@@ -99,7 +98,7 @@ namespace TechLanches.UnitTests.Domain
             var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
 
             //Act
-            var pedido = new Pedido(clienteId, statusPedidoId, itensPedido);
+            var pedido = new Pedido(clienteId, itensPedido);
 
             //Assert
             Assert.NotNull(pedido);
@@ -110,15 +109,10 @@ namespace TechLanches.UnitTests.Domain
         {
             //Arrange    
             var clienteId = 1;
-            var statusPedidoId = 1;
-            var produtoId = 1;
-            var pedidoId = 1;
-            var quantidade = 1;
-            var precoProduto = 1;
             var itensPedido = new List<ItemPedido>() { };
 
             //Act & Assert
-            Assert.Throws<DomainException>(() => new Pedido(clienteId, statusPedidoId, itensPedido));
+            Assert.Throws<DomainException>(() => new Pedido(clienteId, itensPedido));
         }
 
         [Fact(DisplayName = "Criar um pedido com valor valido")]
@@ -126,7 +120,6 @@ namespace TechLanches.UnitTests.Domain
         {
             //Arrange    
             var clienteId = 1;
-            var statusPedidoId = 1;
             var produtoId = 1;
             var pedidoId = 1;
             var quantidade = 3;
@@ -134,10 +127,169 @@ namespace TechLanches.UnitTests.Domain
             var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
 
             //Act
-            var pedido = new Pedido(clienteId, statusPedidoId, itensPedido);
+            var pedido = new Pedido(clienteId, itensPedido);
 
             //Assert
             Assert.Equal(30, pedido.Valor);
+        }
+
+        [Fact(DisplayName = "Trocar o status do pedido com sucesso")]
+        public void Trocar_status_pedido_com_sucesso()
+        {
+            //Arrange    
+            var clienteId = 1;
+            var produtoId = 1;
+            var pedidoId = 1;
+            var quantidade = 3;
+            var precoProduto = 10;
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+
+            //Act
+            var pedido = new Pedido(clienteId, itensPedido);
+            pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
+
+            //Assert
+            Assert.Equal(StatusPedido.PedidoEmPreparacao, pedido.StatusPedido);
+        }
+
+        [Fact(DisplayName = "Trocar o status do pedido para preparação com falha")]
+        public void Trocar_status_pedido_para_preparacao_com_falha()
+        {
+            //Arrange    
+            var clienteId = 1;
+            var produtoId = 1;
+            var pedidoId = 1;
+            var quantidade = 3;
+            var precoProduto = 10;
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+
+            //Act
+            var pedido = new Pedido(clienteId, itensPedido);
+            pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
+            pedido.TrocarStatus(StatusPedido.PedidoPronto);
+            var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao));
+
+            //Assert
+            Assert.NotNull(exception);
+            Assert.Equal("O status selecionado não é válido", exception.Message);
+        }
+
+        [Fact(DisplayName = "Trocar o status do pedido para pronto com falha")]
+        public void Trocar_status_pedido_para_pronto_com_falha()
+        {
+            //Arrange    
+            var clienteId = 1;
+            var produtoId = 1;
+            var pedidoId = 1;
+            var quantidade = 3;
+            var precoProduto = 10;
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+
+            //Act
+            var pedido = new Pedido(clienteId, itensPedido);
+            pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
+            pedido.TrocarStatus(StatusPedido.PedidoPronto);
+            pedido.TrocarStatus(StatusPedido.PedidoRetirado);
+            var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(StatusPedido.PedidoPronto));
+
+            //Assert
+            Assert.NotNull(exception);
+            Assert.Equal("O status selecionado não é válido", exception.Message);
+        }
+
+        [Fact(DisplayName = "Trocar o status do pedido para retirado com falha")]
+        public void Trocar_status_pedido_para_retirado_com_falha()
+        {
+            //Arrange    
+            var clienteId = 1;
+            var produtoId = 1;
+            var pedidoId = 1;
+            var quantidade = 3;
+            var precoProduto = 10;
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+
+            //Act
+            var pedido = new Pedido(clienteId, itensPedido);
+            pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
+            pedido.TrocarStatus(StatusPedido.PedidoPronto);
+            pedido.TrocarStatus(StatusPedido.PedidoRetirado);
+            pedido.TrocarStatus(StatusPedido.PedidoFinalizado);
+            var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(StatusPedido.PedidoRetirado));
+
+            //Assert
+            Assert.NotNull(exception);
+            Assert.Equal("O status selecionado não é válido", exception.Message);
+        }
+
+        [Fact(DisplayName = "Trocar o status do pedido para descartado com falha")]
+        public void Trocar_status_pedido_para_descartado_com_falha()
+        {
+            //Arrange    
+            var clienteId = 1;
+            var produtoId = 1;
+            var pedidoId = 1;
+            var quantidade = 3;
+            var precoProduto = 10;
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+
+            //Act
+            var pedido = new Pedido(clienteId, itensPedido);
+            pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
+            pedido.TrocarStatus(StatusPedido.PedidoPronto);
+            pedido.TrocarStatus(StatusPedido.PedidoRetirado);
+            pedido.TrocarStatus(StatusPedido.PedidoFinalizado);
+            var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(StatusPedido.PedidoDescartado));
+
+            //Assert
+            Assert.NotNull(exception);
+            Assert.Equal("O status selecionado não é válido", exception.Message);
+        }
+
+        [Fact(DisplayName = "Trocar o status do pedido para cancelado com falha")]
+        public void Trocar_status_pedido_para_cancelado_com_falha()
+        {
+            //Arrange    
+            var clienteId = 1;
+            var produtoId = 1;
+            var pedidoId = 1;
+            var quantidade = 3;
+            var precoProduto = 10;
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+
+            //Act
+            var pedido = new Pedido(clienteId, itensPedido);
+            pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
+            pedido.TrocarStatus(StatusPedido.PedidoPronto);
+            pedido.TrocarStatus(StatusPedido.PedidoRetirado);
+            pedido.TrocarStatus(StatusPedido.PedidoFinalizado);
+            var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(StatusPedido.PedidoCancelado));
+
+            //Assert
+            Assert.NotNull(exception);
+            Assert.Equal("O status selecionado não é válido", exception.Message);
+        }
+
+        [Fact(DisplayName = "Trocar o status do pedido para finalizado com falha")]
+        public void Trocar_status_pedido_para_finalizado_com_falha()
+        {
+            //Arrange    
+            var clienteId = 1;
+            var produtoId = 1;
+            var pedidoId = 1;
+            var quantidade = 3;
+            var precoProduto = 10;
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+
+            //Act
+            var pedido = new Pedido(clienteId, itensPedido);
+            pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
+            pedido.TrocarStatus(StatusPedido.PedidoPronto);
+            pedido.TrocarStatus(StatusPedido.PedidoCancelado);
+            var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(StatusPedido.PedidoFinalizado));
+
+            //Assert
+            Assert.NotNull(exception);
+            Assert.Equal("O status selecionado não é válido", exception.Message);
         }
     }
 }
