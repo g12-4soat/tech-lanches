@@ -33,12 +33,21 @@ namespace TechLanches.Domain.Aggregates
         public void AdicionarItemPedido(ItemPedido itemPedido) 
         { 
             _itensPedido.Add(itemPedido);
+            CalcularValor();
+        }
+
+        private void CalcularValor()
+        {
+            Valor = _itensPedido.Sum(i => i.Valor);
         }
 
         private void Validar()
         {
             if (_itensPedido is null || !_itensPedido.Any())
                 throw new DomainException("O pedido deve possuir pelo menos um item.");
+
+            if (Valor <= 0)
+                throw new DomainException("Valor deve ser maior que zero.");
         }
     }
 }

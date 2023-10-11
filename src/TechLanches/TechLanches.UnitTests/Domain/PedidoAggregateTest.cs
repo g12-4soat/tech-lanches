@@ -70,6 +70,22 @@ namespace TechLanches.UnitTests.Domain
             Assert.Equal("Preço Produto deve ser maior que zero.", exception.Message);
         }
 
+        [Fact(DisplayName = "Criar item do pedido com valor valido")]
+        public void Criar_item_pedido_com_valor_valido()
+        {
+            //Arrange    
+            var produtoId = 1;
+            var pedidoId = 1;
+            var quantidade = 3;
+            var precoProduto = 10;
+
+            //Act
+            var itemPedido = new ItemPedido(produtoId, pedidoId, quantidade, precoProduto);
+
+            //Assert
+            Assert.Equal(30, itemPedido.Valor);
+        }
+
         [Fact(DisplayName = "Criar um pedido com sucesso")]
         public void Criar_pedido_com_sucesso()
         {
@@ -87,6 +103,41 @@ namespace TechLanches.UnitTests.Domain
 
             //Assert
             Assert.NotNull(pedido);
+        }
+
+        [Fact(DisplayName = "Criar um pedido com falha")]
+        public void Criar_pedido_com_falha()
+        {
+            //Arrange    
+            var clienteId = 1;
+            var statusPedidoId = 1;
+            var produtoId = 1;
+            var pedidoId = 1;
+            var quantidade = 1;
+            var precoProduto = 1;
+            var itensPedido = new List<ItemPedido>() { };
+
+            //Act & Assert
+            Assert.Throws<DomainException>(() => new Pedido(clienteId, statusPedidoId, itensPedido));
+        }
+
+        [Fact(DisplayName = "Criar um pedido com valor valido")]
+        public void Criar_pedido_com_valor_valido()
+        {
+            //Arrange    
+            var clienteId = 1;
+            var statusPedidoId = 1;
+            var produtoId = 1;
+            var pedidoId = 1;
+            var quantidade = 3;
+            var precoProduto = 10;
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+
+            //Act
+            var pedido = new Pedido(clienteId, statusPedidoId, itensPedido);
+
+            //Assert
+            Assert.Equal(30, pedido.Valor);
         }
     }
 }
