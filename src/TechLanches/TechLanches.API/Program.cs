@@ -23,6 +23,9 @@ builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IProdutoService, IProdutoService>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
 
+builder.Services.AddScoped<IProdutoService, ProdutoService>();
+
+
 var app = builder.Build();
 
 // mover para extensão
