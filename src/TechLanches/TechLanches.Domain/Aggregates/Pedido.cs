@@ -1,5 +1,6 @@
 ﻿using TechLanches.Core;
 using TechLanches.Domain.Entities;
+using TechLanches.Domain.Validations;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Domain.Aggregates
@@ -47,39 +48,16 @@ namespace TechLanches.Domain.Aggregates
             StatusPedido = statusPedido;
         }
 
-        private void ValidarStatus(StatusPedido statusPedido)
+        private void ValidarStatus(StatusPedido statusPedidoNovo)
         {
-            if (statusPedido == StatusPedido.PedidoEmPreparacao && StatusPedido != StatusPedido.PedidoCriado)
-            {
-                throw new DomainException("O status selecionado não é válido");
-            }
-
-            if (statusPedido == StatusPedido.PedidoPronto && StatusPedido != StatusPedido.PedidoEmPreparacao)
-            {
-                throw new DomainException("O status selecionado não é válido");
-            }
-
-            if (statusPedido == StatusPedido.PedidoRetirado && StatusPedido != StatusPedido.PedidoPronto)
-            {
-                throw new DomainException("O status selecionado não é válido");
-            }
-
-            if (statusPedido == StatusPedido.PedidoDescartado && StatusPedido != StatusPedido.PedidoPronto)
-            {
-                throw new DomainException("O status selecionado não é válido");
-            }
-
-            if (statusPedido == StatusPedido.PedidoCancelado && StatusPedido != StatusPedido.PedidoPronto)
-            {
-                throw new DomainException("O status selecionado não é válido");
-            }
-
-            if (statusPedido == StatusPedido.PedidoFinalizado && StatusPedido != StatusPedido.PedidoRetirado)
-            {
-                throw new DomainException("O status selecionado não é válido");
-            }
+            new StatusPedidoValidacao(new StatusPedidoCriadoValidacao()).Validar(StatusPedido, statusPedidoNovo);
+            new StatusPedidoValidacao(new StatusPedidoEmPreparacaoValidacao()).Validar(StatusPedido, statusPedidoNovo);
+            new StatusPedidoValidacao(new StatusPedidoProntoValidacao()).Validar(StatusPedido, statusPedidoNovo);
+            new StatusPedidoValidacao(new StatusPedidoRetiradoValidacao()).Validar(StatusPedido, statusPedidoNovo);
+            new StatusPedidoValidacao(new StatusPedidoDescartadoValidacao()).Validar(StatusPedido, statusPedidoNovo);
+            new StatusPedidoValidacao(new StatusPedidoCanceladoValidacao()).Validar(StatusPedido, statusPedidoNovo);
+            new StatusPedidoValidacao(new StatusPedidoFinalizadoValidacao()).Validar(StatusPedido, statusPedidoNovo);
         }
-        
 
         private void Validar()
         {

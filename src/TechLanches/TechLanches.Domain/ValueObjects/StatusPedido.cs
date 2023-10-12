@@ -9,8 +9,8 @@ namespace TechLanches.Domain.ValueObjects
         public static StatusPedido PedidoPronto = new(3, nameof(PedidoPronto));
         public static StatusPedido PedidoRetirado = new(4, nameof(PedidoRetirado));
         public static StatusPedido PedidoDescartado = new(5, nameof(PedidoDescartado));
-        public static StatusPedido PedidoFinalizado = new(6, nameof(PedidoFinalizado));
-        public static StatusPedido PedidoCancelado = new(7, nameof(PedidoCancelado));
+        public static StatusPedido PedidoCancelado = new(6, nameof(PedidoCancelado));
+        public static StatusPedido PedidoFinalizado = new(7, nameof(PedidoFinalizado));
 
         public StatusPedido(int id, string nome)
             : base(id, nome)
@@ -25,8 +25,8 @@ namespace TechLanches.Domain.ValueObjects
                     PedidoPronto,
                     PedidoRetirado, 
                     PedidoDescartado,
-                    PedidoFinalizado,
-                    PedidoCancelado
+                    PedidoCancelado,
+                    PedidoFinalizado
                 };
 
         public static StatusPedido From(int id)
