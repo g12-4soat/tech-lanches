@@ -5,6 +5,11 @@ namespace TechLanches.Domain.ValueObjects
 {
     public class Email : ValueObject
     {
+        private Email()
+        {
+
+        }
+
         public Email(string email)
         {
             ArgumentNullException.ThrowIfNull(email);

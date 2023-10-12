@@ -34,6 +34,8 @@ using (var scope = app.Services.CreateScope())
     {
         context.Database.Migrate();
     }
+
+    DataSeeder.Seed(context);
 }
 
 // Configure the HTTP request pipeline.
