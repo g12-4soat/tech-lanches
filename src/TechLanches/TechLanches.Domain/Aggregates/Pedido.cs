@@ -61,9 +61,12 @@ namespace TechLanches.Domain.Aggregates
 
         private void Validar()
         {
-            if (_itensPedido is null || !_itensPedido.Any())
+            ArgumentNullException.ThrowIfNull(ClienteId);
+            ArgumentNullException.ThrowIfNull(_itensPedido);
+            if (!_itensPedido.Any())
                 throw new DomainException("O pedido deve possuir pelo menos um item.");
 
+            ArgumentNullException.ThrowIfNull(Valor);
             if (Valor <= 0)
                 throw new DomainException("Valor deve ser maior que zero.");
         }
