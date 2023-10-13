@@ -5,6 +5,7 @@ using TechLanches.Domain.Repositories;
 using TechLanches.Domain.Services;
 using TechLanches.Infrastructure;
 using TechLanches.Infrastructure.Repositories;
+using static TechLanches.Infrastructure.TechLanchesDbContext;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -38,6 +39,8 @@ using (var scope = app.Services.CreateScope())
     {
         context.Database.Migrate();
     }
+
+    DataSeeder.Seed(context);
 }
 
 // Configure the HTTP request pipeline.
