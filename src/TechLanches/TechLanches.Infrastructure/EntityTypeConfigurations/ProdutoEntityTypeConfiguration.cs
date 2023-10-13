@@ -23,9 +23,14 @@ namespace TechLanches.Infrastructure.EntityTypeConfigurations
                 .IsRequired();
 
             builder.OwnsOne(x => x.Categoria,
-                y => {
-                    y.Property(z => z.Id)
-                        .HasColumnName("Categoria_Id");
+                navigationBuilder =>
+                {
+                    navigationBuilder
+                        .Property(categoria => categoria.Id)
+                        .HasColumnName("Categoria_Id")
+                        .IsRequired();
+
+                    navigationBuilder.Ignore(categoria => categoria.Nome);
                 });
 
             builder.Ignore(x => x.DomainEvents);

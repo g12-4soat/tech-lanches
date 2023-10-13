@@ -85,10 +85,6 @@ namespace TechLanches.Infrastructure.Migrations
                                 .HasColumnType("int")
                                 .HasColumnName("Categoria_Id");
 
-                            b1.Property<string>("Nome")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
-
                             b1.HasKey("ProdutoId");
 
                             b1.ToTable("Produtos");

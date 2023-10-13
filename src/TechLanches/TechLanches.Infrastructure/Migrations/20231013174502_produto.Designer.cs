@@ -11,7 +11,7 @@ using TechLanches.Infrastructure;
 namespace TechLanches.Infrastructure.Migrations
 {
     [DbContext(typeof(TechLanchesDbContext))]
-    [Migration("20231012164949_produto")]
+    [Migration("20231013174502_produto")]
     partial class produto
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -86,10 +86,6 @@ namespace TechLanches.Infrastructure.Migrations
                             b1.Property<int>("Id")
                                 .HasColumnType("int")
                                 .HasColumnName("Categoria_Id");
-
-                            b1.Property<string>("Nome")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
 
                             b1.HasKey("ProdutoId");
 

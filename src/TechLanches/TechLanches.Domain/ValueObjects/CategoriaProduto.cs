@@ -19,6 +19,8 @@ namespace TechLanches.Domain.ValueObjects
         {
         }
 
+        private CategoriaProduto() { }
+
         public static IEnumerable<CategoriaProduto> List() =>
        new[] { Lanche, Acompanhamento, Bebida, Sobremesa };
 

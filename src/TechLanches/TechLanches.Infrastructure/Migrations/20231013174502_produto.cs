@@ -17,7 +17,6 @@ namespace TechLanches.Infrastructure.Migrations
                     Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Descricao = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Preco = table.Column<double>(type: "float", nullable: false),
-                    Categoria_Nome = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Categoria_Id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
