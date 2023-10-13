@@ -14,10 +14,11 @@ namespace TechLanches.Application
             _produtoRepository = produtoRepository;
         }
 
-        public async void Atualizar(int produtoId, string nome, string descricao, double preco, int categoriaId)
+        public async Task Atualizar(int produtoId, string nome, string descricao, double preco, int categoriaId)
         {
             var produto = new Produto(produtoId, nome, descricao, preco, categoriaId);
             _produtoRepository.Atualizar(produto);
+            await _produtoRepository.UnitOfWork.Commit();
         }
 
         public async Task<List<Produto>> BuscarPorCategoria(int categoriaId)
@@ -46,9 +47,15 @@ namespace TechLanches.Application
 
             return novoProduto;
         }
-        public void Deletar(int produtoId)
+        public async Task Deletar(int produtoId)
         {
-            _produtoRepository.Deletar(produtoId);
+            var produto = await BuscarPorId(produtoId);
+
+            if (produto is null)
+                throw new Exception($"Produto não encontrado para o id: {produtoId}."); // criar exception customizada?
+
+            _produtoRepository.Deletar(produto);
+            await _produtoRepository.UnitOfWork.Commit();
         }
     }
 }

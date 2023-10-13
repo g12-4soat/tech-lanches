@@ -10,7 +10,7 @@ namespace TechLanches.Domain.Repositories
         Task<List<Produto>> BuscarPorCategoria(CategoriaProduto categoria);
         Task<Produto> Cadastrar(Produto produto);
         void Atualizar(Produto produto);
-        void Deletar(int produtoId);
+        void Deletar(Produto produto);
 
     }
 }

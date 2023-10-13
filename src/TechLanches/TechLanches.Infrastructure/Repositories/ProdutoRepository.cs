@@ -42,12 +42,9 @@ namespace TechLanches.Infrastructure.Repositories
             return (await _context.AddAsync(produto)).Entity;
         }
 
-        public async void Deletar(int produtoId)
+        public async void Deletar(Produto produto)
         {
-            var produto = await BuscarPorId(produtoId);
-
-            if (produto is not null)
-                _context.Remove(produtoId);
+            _context.Remove(produto);
         }
     }
 }

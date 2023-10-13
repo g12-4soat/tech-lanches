@@ -22,7 +22,6 @@ builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
 builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
-
 builder.Services.AddScoped<IProdutoService, ProdutoService>();
 
 
@@ -50,5 +49,6 @@ if (app.Environment.IsDevelopment())
 
 // mover para extensão
 app.MapClienteEndpoints();
+app.MapProdutoEndpoints();
 
 app.Run();
