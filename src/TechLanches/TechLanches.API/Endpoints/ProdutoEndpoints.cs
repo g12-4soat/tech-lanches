@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TechLanches.Application.DTOs;
 using TechLanches.Domain.Services;
+using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.API.Endpoints
 {
@@ -65,9 +67,18 @@ namespace TechLanches.API.Endpoints
            [FromServices] IProdutoService produtoService)
         {
             var produto = await produtoService.BuscarPorId(id);
-            return produto is not null
-                 ? Results.Ok(produto)
-                 : Results.NotFound(new { id, error = "Produto não encontrado" });
+            if(produto is null)
+                return Results.NotFound(new { id, error = "Produto não encontrado" });
+
+            var produtoDTO = new ProdutoResponseDTO();
+
+            produtoDTO.Id = produto.Id;
+            produtoDTO.Preco = produto.Preco;
+            produtoDTO.Descricao = produto.Descricao;
+            produtoDTO.Nome = produto.Nome;
+            produtoDTO.Categoria = CategoriaProduto.From(produto.Categoria.Id).Nome;
+
+            return Results.Ok(produtoDTO);
         }
 
         private static async Task<IResult> BuscarProdutosPorCategoria(
