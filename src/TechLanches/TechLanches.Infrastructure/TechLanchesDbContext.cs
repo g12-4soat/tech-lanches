@@ -2,6 +2,7 @@
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Entities;
+using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Infrastructure
 {
@@ -9,6 +10,8 @@ namespace TechLanches.Infrastructure
     {
         public DbSet<Cliente> Clientes { get; set; }
         //public DbSet<Pedido> Pedidos { get; set; }
+        //public DbSet<StatusPedido> StatusPedido { get; set; }
+        //public DbSet<ItemPedido> ItemPedido { get; set; }
 
         public TechLanchesDbContext(DbContextOptions options) : base (options)
         {

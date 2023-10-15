@@ -15,19 +15,21 @@ namespace TechLanches.Infrastructure.EntityTypeConfigurations
     //        builder.HasKey(x => x.Id);
     //        builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
-    //        builder.Property(x => x.ClienteId)
-    //               .HasColumnName("ClienteId")
-    //               .IsRequired();
-
     //        builder.Property(x => x.Valor)
     //               .HasColumnName("Valor")
     //               .IsRequired();
 
-    //        builder.Property(x => x.StatusPedido)
-    //               .HasColumnName("StatusPedidoId")
+    //        builder.Property<int>("StatusPedidoId")
+    //               .IsRequired();
+
+    //        builder.Property(x => x.ClienteId)
+    //               .HasColumnName("ClienteId")
     //               .IsRequired();
 
     //        builder.Ignore(x => x.DomainEvents);
+
+    //        var navigation = builder.Metadata.FindNavigation(nameof(Pedido.ItensPedido));
+    //        navigation?.SetPropertyAccessMode(PropertyAccessMode.Field);
     //    }
     //}
 }
