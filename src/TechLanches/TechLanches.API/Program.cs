@@ -46,10 +46,6 @@ if (app.Environment.IsDevelopment())
 
 app.UseSwaggerConfiguration();
 
-//app.UseMapEndpointsConfiguration();
-
-// mover para extensão
-app.MapClienteEndpoints();
-app.MapPedidoEndpoints();
+app.UseMapEndpointsConfiguration();
 
 app.Run();
