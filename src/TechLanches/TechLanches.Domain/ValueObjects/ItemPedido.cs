@@ -1,4 +1,5 @@
 ﻿using TechLanches.Core;
+using TechLanches.Domain.Aggregates;
 
 namespace TechLanches.Domain.ValueObjects
 {
@@ -19,6 +20,7 @@ namespace TechLanches.Domain.ValueObjects
         public int Quantidade { get; private set; }
         public decimal PrecoProduto { get; private set; }
         public decimal Valor { get; private set; }
+        public Pedido Pedido { get; private set; }
 
         private void CalcularValor()
         {

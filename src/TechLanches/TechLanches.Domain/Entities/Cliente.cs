@@ -22,5 +22,7 @@ namespace TechLanches.Domain.Entities
         }
 
         public Cpf CPF { get; private set; }
+
+        public IReadOnlyCollection<Pedido> Pedidos { get; private set; }
     }
 }
