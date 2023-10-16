@@ -17,6 +17,8 @@ namespace TechLanches.Domain.ValueObjects
         {
         }
 
+        private StatusPedido() { }
+
         public static IEnumerable<StatusPedido> List() =>
                 new[] 
                 { 

@@ -27,6 +27,8 @@ namespace TechLanches.API.Configuration
                 {
                     context.Database.Migrate();
                 }
+
+                DataSeeder.Seed(context);
             }
         }
     }

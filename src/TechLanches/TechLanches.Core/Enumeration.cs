@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace TechLanches.Core
 {
@@ -12,7 +9,7 @@ namespace TechLanches.Core
         public int Id { get; private set; }
 
         protected Enumeration(int id, string nome) => (Id, Nome) = (id, nome);
-
+        protected Enumeration() { }
         public override string ToString() => Nome;
 
         public static IEnumerable<T> GetAll<T>() where T : Enumeration =>

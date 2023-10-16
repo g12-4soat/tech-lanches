@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
-using TechLanches.Domain.Entities;
 using TechLanches.Domain.Repositories;
 using TechLanches.Domain.ValueObjects;
 
@@ -15,23 +14,26 @@ public class PedidoRepository : IPedidoRepository
 
     public PedidoRepository(TechLanchesDbContext context)
     {
-        _context = context ?? throw new ArgumentNullException(nameof(context)); 
+        _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
     public async Task<List<Pedido>> BuscarTodosPedidos()
-        => new List<Pedido>() { new Pedido(1, new List<ItemPedido>() { new ItemPedido(2, 1, 4, 20) }) };
-
-    public async Task<Pedido> BuscarPedidoPorId(int idPedido)
-        => new Pedido(1, new List<ItemPedido>() { new ItemPedido(2, 1, 4, 20) });
-
-    public Task<List<Pedido>> BuscarPedidosPorStatus(StatusPedido statusPedido)
     {
-        throw new NotImplementedException();
+        return await _context.Pedidos.AsNoTracking().ToListAsync();
     }
 
-    //public async Task<List<Pedido>> BuscarTodosPedidos()
-    //    => await _context.Pedidos.AsNoTracking().ToListAsync();
+    public async Task<Pedido> BuscarPedidoPorId(int idPedido)
+    {
+        return await _context.Pedidos.AsNoTracking().SingleOrDefaultAsync(x => x.Id == idPedido);
+    }
 
-    //public async Task<Pedido> BuscarPedidoPorId(int idPedido)
-    //    => await _context.Pedidos.FindAsync(idPedido);
+    public async Task<List<Pedido>> BuscarPedidosPorStatus(StatusPedido statusPedido)
+    {
+        return await _context.Pedidos.AsNoTracking().Where(x => x.StatusPedido.Id == statusPedido.Id).ToListAsync();
+    }
+
+    public async Task<Pedido> Cadastrar(Pedido pedido)
+    {
+        return (await _context.AddAsync(pedido)).Entity;
+    }
 }
