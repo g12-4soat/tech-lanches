@@ -1,17 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using TechLanches.Infrastructure;
-using System.Data.Common;
 using TechLanches.Application;
 using TechLanches.Domain.Repositories;
 using TechLanches.Domain.Services;
 using TechLanches.Infrastructure.Repositories;
-using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using TechLanches.Application.DTOs;
 using TechLanches.Domain.Aggregates;
 using Mapster;
 using System.Reflection;
-using MapsterMapper;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.API.Extensions

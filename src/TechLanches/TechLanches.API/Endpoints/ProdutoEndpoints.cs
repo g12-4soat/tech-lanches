@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using TechLanches.Application.DTOs;
 using TechLanches.Domain.Services;
-using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.API.Endpoints
 {

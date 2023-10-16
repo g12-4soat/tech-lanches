@@ -1,11 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using TechLanches.API.Endpoints;
 using TechLanches.API.Extensions;
-using TechLanches.Application;
-using TechLanches.Domain.Repositories;
-using TechLanches.Domain.Services;
 using TechLanches.Infrastructure;
-using TechLanches.Infrastructure.Repositories;
 using static TechLanches.Infrastructure.TechLanchesDbContext;
 
 var builder = WebApplication.CreateBuilder(args);
