@@ -18,6 +18,7 @@ builder.Services.AddDbContext<TechLanchesDbContext>(config =>
     config.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // mover para extensão
+builder.Services.AddScoped<IPagamentoService, FakeCheckoutService>();
 builder.Services.AddScoped<IClienteService, ClienteService>();
 builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
 
