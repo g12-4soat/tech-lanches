@@ -1,4 +1,5 @@
-﻿using TechLanches.Domain.Aggregates;
+﻿using TechLanches.Application.DTOs;
+using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Repositories;
 using TechLanches.Domain.Services;
 using TechLanches.Domain.ValueObjects;

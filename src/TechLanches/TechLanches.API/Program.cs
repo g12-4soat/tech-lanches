@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using TechLanches.API.Endpoints;
+using TechLanches.API.Extensions;
 using TechLanches.Application;
 using TechLanches.Domain.Repositories;
 using TechLanches.Domain.Services;
@@ -13,17 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// mover para extensão
-builder.Services.AddDbContext<TechLanchesDbContext>(config => 
-    config.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-
-// mover para extensão
-builder.Services.AddScoped<IClienteService, ClienteService>();
-builder.Services.AddScoped<IClienteRepository, ClienteRepository>();
-builder.Services.AddScoped<IProdutoService, ProdutoService>();
-builder.Services.AddScoped<IProdutoRepository, ProdutoRepository>();
-builder.Services.AddScoped<IProdutoService, ProdutoService>();
+builder.Services.AddDbContexts(builder.Configuration);
+builder.Services.AddIntegrationServices();
+builder.Services.AddIntegrationRepository();
+builder.Services.RegisterMaps();
 
 
 var app = builder.Build();

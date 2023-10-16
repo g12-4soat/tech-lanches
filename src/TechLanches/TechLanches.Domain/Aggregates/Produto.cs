@@ -40,6 +40,10 @@ namespace TechLanches.Domain.Aggregates
         private void Validar()
         {
             ArgumentNullException.ThrowIfNull(Nome);
+
+            if(Nome == string.Empty)
+                throw new DomainException("O nome não pode ser nulo.");
+
             if (Nome.Length > 100)
                 throw new DomainException("Nome deve possuir no máximo 100 caracteres.");
 

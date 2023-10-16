@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Mapster;
+using Microsoft.AspNetCore.Mvc;
 using TechLanches.Application.DTOs;
 using TechLanches.Domain.Services;
 using TechLanches.Domain.ValueObjects;
@@ -16,8 +17,6 @@ namespace TechLanches.API.Endpoints
             app.MapPut("api/produtos", AtualizarProduto);
             app.MapDelete("api/produtos/{id}", DeletarProduto);
         }
-
-
 
         private static async Task<IResult> CadastrarProduto(
            string nome,
@@ -49,7 +48,7 @@ namespace TechLanches.API.Endpoints
 
         private static async Task<IResult> DeletarProduto(
           [FromQuery] int id,
-            [FromServices] IProdutoService produtoService)
+          [FromServices] IProdutoService produtoService)
         {
             await produtoService.Deletar(id);
             return Results.Ok();
@@ -59,7 +58,11 @@ namespace TechLanches.API.Endpoints
            [FromServices] IProdutoService produtoService)
         {
             var produtos = await produtoService.BuscarTodos();
-            return Results.Ok(produtos);
+
+            if (produtos is null)
+                return Results.NotFound(new { error = "Nenhum produto não encontrado" });
+
+            return Results.Ok(produtos.Adapt<List<ProdutoResponseDTO>>());
         }
 
         private static async Task<IResult> BuscarProdutoPorId(
@@ -67,18 +70,11 @@ namespace TechLanches.API.Endpoints
            [FromServices] IProdutoService produtoService)
         {
             var produto = await produtoService.BuscarPorId(id);
+
             if(produto is null)
                 return Results.NotFound(new { id, error = "Produto não encontrado" });
 
-            var produtoDTO = new ProdutoResponseDTO();
-
-            produtoDTO.Id = produto.Id;
-            produtoDTO.Preco = produto.Preco;
-            produtoDTO.Descricao = produto.Descricao;
-            produtoDTO.Nome = produto.Nome;
-            produtoDTO.Categoria = CategoriaProduto.From(produto.Categoria.Id).Nome;
-
-            return Results.Ok(produtoDTO);
+            return Results.Ok(produto.Adapt<ProdutoResponseDTO>());
         }
 
         private static async Task<IResult> BuscarProdutosPorCategoria(
@@ -86,7 +82,11 @@ namespace TechLanches.API.Endpoints
            [FromServices] IProdutoService produtoService)
         {
             var produtos = await produtoService.BuscarPorCategoria(categoriaId);
-            return Results.Ok(produtos);
+
+            if (produtos is null)
+                return Results.NotFound(new { error = "Nenhum produto encontrado" });
+
+            return Results.Ok(produtos.Adapt<List<ProdutoResponseDTO>>());
         }
     }
 }
