@@ -58,12 +58,12 @@ namespace TechLanches.Infrastructure
         {
             if (!context.Pedidos.Any())
             {
-                var countries = new List<Pedido>
+                var pedidos = new List<Pedido>
                 {
                     new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1, 1), new ItemPedido(2, 2, 2, 2) })
                 };
 
-                context.AddRange(countries);
+                context.AddRange(pedidos);
                 context.SaveChanges();
             }
         }

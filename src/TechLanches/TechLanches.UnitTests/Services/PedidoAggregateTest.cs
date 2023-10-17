@@ -74,10 +74,12 @@ namespace TechLanches.UnitTests.Services
             var pedidoService = new PedidoService(pedidoRepository);
 
             //Act 
-            //var pedido = await pedidoService.Cadastrar(); Implementar
+            var pedido = await pedidoService.CadastrarPedido(1, new List<ItemPedido>());
 
             //Assert
-            //Assert.NotNull(pedido);
+            await pedidoService.Received().CadastrarPedido(1, new List<ItemPedido>());
+            Assert.NotNull(pedido);
+            Assert.Equal(1, pedido.ClienteId);
         }
     }
 }

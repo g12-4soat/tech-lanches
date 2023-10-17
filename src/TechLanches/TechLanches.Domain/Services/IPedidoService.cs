@@ -1,5 +1,4 @@
 ﻿using TechLanches.Domain.Aggregates;
-using TechLanches.Domain.Entities;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Domain.Services
@@ -9,5 +8,6 @@ namespace TechLanches.Domain.Services
         Task<List<Pedido>> BuscarTodosPedidos();
         Task<Pedido> BuscarPedidoPorId(int idPedido);
         Task<List<Pedido>> BuscarPedidosPorStatus(StatusPedido statusPedido);
+        Task<Pedido> CadastrarPedido(int clienteId, List<ItemPedido> itemPedidos);
     }
 }

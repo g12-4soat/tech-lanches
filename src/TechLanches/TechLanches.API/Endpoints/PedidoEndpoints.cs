@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using TechLanches.Application.DTOs;
 using TechLanches.Domain.Services;
 using TechLanches.Domain.ValueObjects;
+
 
 namespace TechLanches.API.Endpoints;
 
@@ -11,6 +14,7 @@ public static class PedidoEndpoints
         app.MapGet("api/pedidos", BuscarPedidos).WithTags("Pedidos");
         app.MapGet("api/pedidos/{idPedido}", BuscarPedidoPorId).WithTags("Pedidos");
         app.MapGet("api/pedidos/BuscarPedidosPorStatus/{statusPedidoId}", BuscarPedidosPorStatus).WithTags("Pedidos");
+        app.MapPost("api/pedidos", CadastrarPedido).WithTags("Pedidos");
     }
 
     private static async Task<IResult> BuscarPedidos(
@@ -42,6 +46,22 @@ public static class PedidoEndpoints
 
         return pedidos is not null
             ? Results.Ok(pedidos)
+            : Results.BadRequest();
+    }
+
+    private static async Task<IResult> CadastrarPedido(
+        [FromBody] PedidoDTO pedidoDto,
+        [FromServices] IPedidoService pedidoService)
+    {
+        var pedido = await pedidoService.CadastrarPedido(pedidoDto.ClienteId, pedidoDto.ItensPedido);
+
+        string json = JsonConvert.SerializeObject(pedido.Id, Formatting.Indented, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+        });
+
+        return pedido is not null
+            ? Results.Ok(json)
             : Results.BadRequest();
     }
 }

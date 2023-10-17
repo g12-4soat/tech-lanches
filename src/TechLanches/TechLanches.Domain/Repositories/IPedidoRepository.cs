@@ -8,6 +8,6 @@ namespace TechLanches.Domain.Repositories
         Task<List<Pedido>> BuscarTodosPedidos();
         Task<List<Pedido>> BuscarPedidosPorStatus(StatusPedido statusPedido);
         Task<Pedido> BuscarPedidoPorId(int idPedido);
-        Task<Pedido> Cadastrar(Pedido pedido);
+        Task<Pedido> CadastrarPedido(Pedido pedido);
     }
 }
