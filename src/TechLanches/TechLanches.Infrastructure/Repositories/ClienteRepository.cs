@@ -2,6 +2,7 @@
 using TechLanches.Core;
 using TechLanches.Domain.Entities;
 using TechLanches.Domain.Repositories;
+using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Infrastructure.Repositories;
 
@@ -16,11 +17,9 @@ public class ClienteRepository : IClienteRepository
         _context = context ?? throw new ArgumentNullException(nameof(context)); 
     }
 
-    public async Task<Cliente> BuscarPorCpf(string cpf)
+    public async Task<Cliente> BuscarPorCpf(Cpf cpf)
     {
-        var clientes = await _context.Clientes.ToListAsync();
-
-        return clientes.SingleOrDefault(x => x.CPF.Numero == cpf);
+        return await _context.Clientes.SingleOrDefaultAsync(x => x.CPF.Numero == cpf.Numero);
     }
 
     public async Task<Cliente> Cadastrar(Cliente cliente)
