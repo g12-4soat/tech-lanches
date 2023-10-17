@@ -1,5 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -23,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+
     <ProjectReference Include="..\TechLanches.Application\TechLanches.Application.csproj" />
     <ProjectReference Include="..\TechLanches.Core\TechLanches.Core.csproj" />
     <ProjectReference Include="..\TechLanches.Domain\TechLanches.Domain.csproj" />

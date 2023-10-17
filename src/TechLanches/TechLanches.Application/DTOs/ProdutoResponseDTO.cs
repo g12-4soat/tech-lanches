@@ -1,6 +1,4 @@
-﻿using TechLanches.Domain.ValueObjects;
-
-namespace TechLanches.Application.DTOs
+﻿namespace TechLanches.Application.DTOs
 {
     public class ProdutoResponseDTO
     {

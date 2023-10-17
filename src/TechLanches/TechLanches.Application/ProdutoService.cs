@@ -14,7 +14,7 @@ namespace TechLanches.Application
             _produtoRepository = produtoRepository;
         }
 
-        public async Task Atualizar(int produtoId, string nome, string descricao, double preco, int categoriaId)
+        public async Task Atualizar(int produtoId, string nome, string descricao, decimal preco, int categoriaId)
         {
             var produto = new Produto(produtoId, nome, descricao, preco, categoriaId);
             _produtoRepository.Atualizar(produto);
@@ -30,6 +30,10 @@ namespace TechLanches.Application
         public async Task<Produto> BuscarPorId(int produtoId)
         {
             var produto = await _produtoRepository.BuscarPorId(produtoId);// se for nulo, lançaremos exception?
+
+            if (produto is null)
+                throw new Exception($"Produto não encontrado para o id: {produtoId}."); // criar exception customizada?
+
             return produto;
         }
 
@@ -38,7 +42,7 @@ namespace TechLanches.Application
             return await _produtoRepository.BuscarTodos();
         }
 
-        public async Task<Produto> Cadastrar(string nome, string descricao, double preco, int categoriaId)
+        public async Task<Produto> Cadastrar(string nome, string descricao, decimal preco, int categoriaId)
         {
             var produto = new Produto(nome, descricao, preco, categoriaId);
 
@@ -49,10 +53,7 @@ namespace TechLanches.Application
         }
         public async Task Deletar(int produtoId)
         {
-            var produto = await BuscarPorId(produtoId);
-
-            if (produto is null)
-                throw new Exception($"Produto não encontrado para o id: {produtoId}."); // criar exception customizada?
+            var produto = await BuscarPorId(produtoId);            
 
             _produtoRepository.Deletar(produto);
             await _produtoRepository.UnitOfWork.Commit();
