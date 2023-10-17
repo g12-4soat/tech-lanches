@@ -32,7 +32,7 @@ public class PedidoRepository : IPedidoRepository
         return await _context.Pedidos.AsNoTracking().Where(x => x.StatusPedido.Id == statusPedido.Id).ToListAsync();
     }
 
-    public async Task<Pedido> Cadastrar(Pedido pedido)
+    public async Task<Pedido> CadastrarPedido(Pedido pedido)
     {
         return (await _context.AddAsync(pedido)).Entity;
     }
