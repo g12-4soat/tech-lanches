@@ -20,7 +20,7 @@ namespace TechLanches.API.Endpoints
         private static async Task<IResult> CadastrarProduto(
            string nome,
            string descricao,
-           double preco,
+           decimal preco,
            int categoriaId,
             [FromServices] IProdutoService produtoService)
         {
@@ -36,7 +36,7 @@ namespace TechLanches.API.Endpoints
            int id,
            string nome,
            string descricao,
-           double preco,
+           decimal preco,
            int categoriaId,
             [FromServices] IProdutoService produtoService)
         {
@@ -69,9 +69,6 @@ namespace TechLanches.API.Endpoints
            [FromServices] IProdutoService produtoService)
         {
             var produto = await produtoService.BuscarPorId(id);
-
-            if(produto is null)
-                return Results.NotFound(new { id, error = "Produto não encontrado" });
 
             return Results.Ok(produto.Adapt<ProdutoResponseDTO>());
         }

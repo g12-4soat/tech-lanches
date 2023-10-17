@@ -7,7 +7,7 @@ namespace TechLanches.Domain.Aggregates
     {
         protected Produto() { }
 
-        public Produto(string nome, string descricao, double preco, int categoriaId)
+        public Produto(string nome, string descricao, decimal preco, int categoriaId)
         {
             Nome = nome;
             Descricao = descricao;
@@ -17,7 +17,7 @@ namespace TechLanches.Domain.Aggregates
             Validar();
         }
 
-        public Produto(int produtoId, string nome, string descricao, double preco, int categoriaId):base(produtoId)
+        public Produto(int produtoId, string nome, string descricao, decimal preco, int categoriaId):base(produtoId)
         {
             Nome = nome;
             Descricao = descricao;
@@ -29,7 +29,7 @@ namespace TechLanches.Domain.Aggregates
 
         public string Nome { get; private set; }
         public string Descricao { get; private set; }
-        public double Preco { get; private set; }
+        public decimal Preco { get; private set; }
         public CategoriaProduto Categoria { get; private set; }
 
         private void Validar()
