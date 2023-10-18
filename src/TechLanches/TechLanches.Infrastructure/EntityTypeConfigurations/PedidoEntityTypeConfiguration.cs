@@ -28,7 +28,8 @@ namespace TechLanches.Infrastructure.EntityTypeConfigurations
 
             builder.HasOne(x => x.Cliente)
                 .WithMany(c => c.Pedidos)
-                .HasForeignKey(x => x.ClienteId);
+                .HasForeignKey(x => x.ClienteId)
+                .IsRequired(false);
 
             builder.Ignore(x => x.DomainEvents);
 

@@ -10,7 +10,7 @@ namespace TechLanches.Domain.Aggregates
     {
         private Pedido() { }
 
-        public Pedido(int clienteId, List<ItemPedido> itensPedido)
+        public Pedido(int? clienteId, List<ItemPedido> itensPedido)
         {
             ClienteId = clienteId;
             StatusPedido = StatusPedido.PedidoCriado;
@@ -21,10 +21,11 @@ namespace TechLanches.Domain.Aggregates
 
         private readonly List<ItemPedido> _itensPedido;
         public IReadOnlyCollection<ItemPedido> ItensPedido => _itensPedido;
-        public int ClienteId { get; private set; }
+        public int? ClienteId { get; private set; }
         public decimal Valor { get; private set; }
         public StatusPedido StatusPedido { get; private set; }
         public Cliente Cliente { get; private set; }
+        public bool ClienteIdentificado => ClienteId.HasValue;
 
         private void AdicionarItensPedidos(List<ItemPedido> itensPedido)
         {
@@ -62,12 +63,10 @@ namespace TechLanches.Domain.Aggregates
 
         private void Validar()
         {
-            ArgumentNullException.ThrowIfNull(ClienteId);
             ArgumentNullException.ThrowIfNull(_itensPedido);
             if (!_itensPedido.Any())
                 throw new DomainException("O pedido deve possuir pelo menos um item.");
 
-            ArgumentNullException.ThrowIfNull(Valor);
             if (Valor <= 0)
                 throw new DomainException("Valor deve ser maior que zero.");
         }
