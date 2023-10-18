@@ -1,4 +1,6 @@
-﻿using TechLanches.Domain.Entities;
+﻿using TechLanches.Domain.Aggregates;
+using TechLanches.Domain.Entities;
+using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Infrastructure
 {
@@ -7,6 +9,7 @@ namespace TechLanches.Infrastructure
         public static void Seed(TechLanchesDbContext context)
         {
             ClientesSeed(context);
+            PedidosSeed(context);
         }
 
         private static void ClientesSeed(TechLanchesDbContext context)
@@ -21,6 +24,20 @@ namespace TechLanches.Infrastructure
                 };
 
                 context.AddRange(countries);
+                context.SaveChanges();
+            }
+        }
+
+        private static void PedidosSeed(TechLanchesDbContext context)
+        {
+            if (!context.Pedidos.Any())
+            {
+                var pedidos = new List<Pedido>
+                {
+                    new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1, 1), new ItemPedido(2, 2, 2, 2) })
+                };
+
+                context.AddRange(pedidos);
                 context.SaveChanges();
             }
         }
