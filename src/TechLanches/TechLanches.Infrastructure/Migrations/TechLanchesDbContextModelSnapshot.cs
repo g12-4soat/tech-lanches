@@ -51,25 +51,65 @@ namespace TechLanches.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("CPF")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)")
-                        .HasColumnName("Cpf");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Email");
-
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CPF");
-
                     b.ToTable("Clientes", (string)null);
+                });
+
+            modelBuilder.Entity("TechLanches.Domain.Entities.Cliente", b =>
+                {
+                    b.OwnsOne("TechLanches.Domain.ValueObjects.Cpf", "CPF", b1 =>
+                        {
+                            b1.Property<int>("ClienteId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Numero")
+                                .IsRequired()
+                                .HasMaxLength(11)
+                                .HasColumnType("nvarchar(11)")
+                                .HasColumnName("Cpf");
+
+                            b1.HasKey("ClienteId");
+
+                            b1.HasIndex("Numero")
+                                .IsUnique();
+
+                            b1.ToTable("Clientes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ClienteId");
+                        });
+
+                    b.OwnsOne("TechLanches.Domain.ValueObjects.Email", "Email", b1 =>
+                        {
+                            b1.Property<int>("ClienteId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("EnderecoEmail")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(450)")
+                                .HasColumnName("Email");
+
+                            b1.HasKey("ClienteId");
+
+                            b1.HasIndex("EnderecoEmail");
+
+                            b1.ToTable("Clientes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ClienteId");
+                        });
+
+                    b.Navigation("CPF")
+                        .IsRequired();
+
+                    b.Navigation("Email")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("TechLanches.Domain.ValueObjects.ItemPedido", b =>
