@@ -42,9 +42,15 @@ namespace TechLanches.Domain.Aggregates
             if (Nome.Length > 100)
                 throw new DomainException("Nome deve possuir no máximo 100 caracteres.");
 
+            if (Nome.Length < 3)
+                throw new DomainException("Nome deve possuir no mínimo 3 caracteres.");
+
             ArgumentNullException.ThrowIfNull(Descricao);
             if (Descricao.Length > 300)
                 throw new DomainException("Descrição deve possuir no máximo 300 caracteres.");
+
+            if (Descricao.Length < 10)
+                throw new DomainException("Descrição deve possuir no mínimo 10 caracteres.");
 
             ArgumentNullException.ThrowIfNull(Preco);
             if (Preco <= 0)

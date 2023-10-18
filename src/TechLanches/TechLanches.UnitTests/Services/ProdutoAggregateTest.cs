@@ -13,7 +13,7 @@ namespace TechLanches.UnitTests.Services
         public async Task Cadastrar_Com_Sucesso()
         {
             string nome = "Nome";
-            string descricao = "Descrição";
+            string descricao = "Descrição do produto";
             decimal preco = 10;
             int categoriaId = 1;
 
@@ -61,7 +61,7 @@ namespace TechLanches.UnitTests.Services
             var produtoRepository = Substitute.For<IProdutoRepository>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             produtoRepository.UnitOfWork.Returns(unitOfWork);
-            produtoRepository.BuscarPorCategoria(new CategoriaProduto(1,"teste")).Returns(new List<Produto> { new Produto("Nome", "Descrição", 20.0m, 2) });
+            produtoRepository.BuscarPorCategoria(new CategoriaProduto(1,"teste")).Returns(new List<Produto> { new Produto("Nome", "Descrição do produto", 20.0m, 2) });
 
             var produtoService = new ProdutoService(produtoRepository);
 
@@ -80,7 +80,7 @@ namespace TechLanches.UnitTests.Services
             var produtoRepository = Substitute.For<IProdutoRepository>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             produtoRepository.UnitOfWork.Returns(unitOfWork);
-            produtoRepository.BuscarPorId(1).Returns( new Produto("Nome", "Descrição", 20, 2));
+            produtoRepository.BuscarPorId(1).Returns( new Produto("Nome", "Descrição do produto", 20, 2));
 
             var produtoService = new ProdutoService(produtoRepository);
 
@@ -100,7 +100,7 @@ namespace TechLanches.UnitTests.Services
             var produtoRepository = Substitute.For<IProdutoRepository>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             produtoRepository.UnitOfWork.Returns(unitOfWork);
-            produtoRepository.BuscarTodos().Returns(new List<Produto> { new Produto("Nome", "Descrição", 20, 2) });
+            produtoRepository.BuscarTodos().Returns(new List<Produto> { new Produto("Nome", "Descrição do produto", 20, 2) });
 
 
             var produtoService = new ProdutoService(produtoRepository);
@@ -120,12 +120,12 @@ namespace TechLanches.UnitTests.Services
             var produtoRepository = Substitute.For<IProdutoRepository>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             produtoRepository.UnitOfWork.Returns(unitOfWork);
-            produtoRepository.BuscarPorId(1).Returns(new Produto("Nome", "Descrição", 20, 2)); // Produto encontrado
+            produtoRepository.BuscarPorId(1).Returns(new Produto("Nome", "Descrição do produto", 20, 2)); // Produto encontrado
 
             var produtoService = new ProdutoService(produtoRepository);
-
+            var produto = await produtoService.BuscarPorId(1);
             // Act
-            await produtoService.Deletar(1);
+            await produtoService.Deletar(produto);
 
             // Assert
             produtoRepository.Received(1).Deletar(Arg.Any<Produto>());
@@ -133,7 +133,7 @@ namespace TechLanches.UnitTests.Services
         }
 
         [Fact]
-        public async Task Deletar_ProdutoNaoEncontrado_DeveLancarException()
+        public async Task Deletar_ProdutoNaoEncontrado_Deve_Retornar_Nulo()
         {
             // Arrange
             var produtoRepository = Substitute.For<IProdutoRepository>();
@@ -142,9 +142,10 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.BuscarPorId(1).Returns(Task.FromResult<Produto>(null)); // Produto não encontrado
 
             var produtoService = new ProdutoService(produtoRepository);
+            var produto = await produtoService.BuscarPorId(1);
 
             // Act & Assert
-            await Assert.ThrowsAsync<Exception>(() => produtoService.Deletar(1));
+            Assert.Null(produto);
         }
     }
 }

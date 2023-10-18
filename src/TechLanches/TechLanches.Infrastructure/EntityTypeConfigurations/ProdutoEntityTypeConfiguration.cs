@@ -14,9 +14,11 @@ namespace TechLanches.Infrastructure.EntityTypeConfigurations
             builder.Property(x => x.Id).ValueGeneratedOnAdd();
 
             builder.Property(x => x.Nome)
+                .HasMaxLength(100)
                 .IsRequired();
 
             builder.Property(x => x.Descricao)
+                .HasMaxLength(300)
                 .IsRequired();
 
             builder.Property(x => x.Preco)
@@ -27,8 +29,10 @@ namespace TechLanches.Infrastructure.EntityTypeConfigurations
                 {
                     navigationBuilder
                         .Property(categoria => categoria.Id)
-                        .HasColumnName("Categoria_Id")
+                        .HasColumnName("CategoriaId")
                         .IsRequired();
+
+                    navigationBuilder.HasIndex(categoria => categoria.Id);
 
                     navigationBuilder.Ignore(categoria => categoria.Nome);
                 });

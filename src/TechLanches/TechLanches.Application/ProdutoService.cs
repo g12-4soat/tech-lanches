@@ -46,10 +46,8 @@ namespace TechLanches.Application
 
             return novoProduto;
         }
-        public async Task Deletar(int produtoId)
+        public async Task Deletar(Produto produto)
         {
-            var produto = await BuscarPorId(produtoId);            
-
             _produtoRepository.Deletar(produto);
             await _produtoRepository.UnitOfWork.Commit();
         }

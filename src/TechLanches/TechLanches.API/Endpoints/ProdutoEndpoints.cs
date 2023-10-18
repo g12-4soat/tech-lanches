@@ -49,7 +49,11 @@ namespace TechLanches.API.Endpoints
           [FromQuery] int id,
           [FromServices] IProdutoService produtoService)
         {
-            await produtoService.Deletar(id);
+            var produto = await produtoService.BuscarPorId(id);
+            if (produto is null)
+                return Results.NotFound(new { error = $"Nenhum produto encontrado para o id: {id}." });
+
+            await produtoService.Deletar(produto);
             return Results.Ok();
         }
 
