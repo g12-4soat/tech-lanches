@@ -1,4 +1,5 @@
-﻿using TechLanches.Domain.Aggregates;
+﻿using TechLanches.Core;
+using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
 using TechLanches.Domain.Repositories;
 using TechLanches.Domain.Services;
@@ -15,20 +16,30 @@ namespace TechLanches.Application
             _pedidoRepository = pedidoRepository;
         }
 
-        public async Task<List<Pedido>> BuscarTodosPedidos()
-            => await _pedidoRepository.BuscarTodosPedidos();
+        public async Task<List<Pedido>> BuscarTodos()
+            => await _pedidoRepository.BuscarTodos();
 
-        public async Task<Pedido> BuscarPedidoPorId(int idPedido)
-            => await _pedidoRepository.BuscarPedidoPorId(idPedido);
+        public async Task<Pedido> BuscarPorId(int idPedido)
+            => await _pedidoRepository.BuscarPorId(idPedido);
 
-        public async Task<List<Pedido>> BuscarPedidosPorStatus(StatusPedido statusPedido)
-            => await _pedidoRepository.BuscarPedidosPorStatus(statusPedido);
+        public async Task<List<Pedido>> BuscarPorStatus(StatusPedido statusPedido)
+            => await _pedidoRepository.BuscarPorStatus(statusPedido);
 
-        public async Task<Pedido> CadastrarPedido(int clienteId, List<ItemPedido> itemPedidos)
+        public async Task<Pedido> Cadastrar(int clienteId, List<ItemPedido> itemPedidos)
         {
             var pedido = new Pedido(clienteId, itemPedidos ?? new List<ItemPedido>());
 
-            return await _pedidoRepository.CadastrarPedido(pedido);
+            return await _pedidoRepository.Cadastrar(pedido);
+        }
+
+        public async Task<Pedido> TrocarStatus(int pedidoId, StatusPedido statusPedido)
+        {
+            var pedido = await _pedidoRepository.BuscarPorId(pedidoId) 
+                ?? throw new DomainException("Não foi encontrado nenhum pedido com id informado.");
+            pedido.TrocarStatus(statusPedido);
+            _pedidoRepository.Atualizar(pedido);
+            await _pedidoRepository.UnitOfWork.Commit();
+            return pedido;
         }
     }
 }

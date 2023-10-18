@@ -6,9 +6,10 @@ namespace TechLanches.Domain.Services
 {
     public interface IPedidoService
     {
-        Task<List<Pedido>> BuscarTodosPedidos();
-        Task<Pedido> BuscarPedidoPorId(int idPedido);
-        Task<List<Pedido>> BuscarPedidosPorStatus(StatusPedido statusPedido);
-        Task<Pedido> CadastrarPedido(int clienteId, List<ItemPedido> itemPedidos);
+        Task<List<Pedido>> BuscarTodos();
+        Task<Pedido> BuscarPorId(int idPedido);
+        Task<List<Pedido>> BuscarPorStatus(StatusPedido statusPedido);
+        Task<Pedido> Cadastrar(int clienteId, List<ItemPedido> itemPedidos);
+        Task<Pedido> TrocarStatus(int pedidoId, StatusPedido statusPedido);
     }
 }

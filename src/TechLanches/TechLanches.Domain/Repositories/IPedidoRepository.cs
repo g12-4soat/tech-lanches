@@ -5,9 +5,10 @@ namespace TechLanches.Domain.Repositories
 {
     public interface IPedidoRepository : IRepository<Pedido>
     {
-        Task<List<Pedido>> BuscarTodosPedidos();
-        Task<List<Pedido>> BuscarPedidosPorStatus(StatusPedido statusPedido);
-        Task<Pedido> BuscarPedidoPorId(int idPedido);
-        Task<Pedido> CadastrarPedido(Pedido pedido);
+        Task<List<Pedido>> BuscarTodos();
+        Task<List<Pedido>> BuscarPorStatus(StatusPedido statusPedido);
+        Task<Pedido> BuscarPorId(int idPedido);
+        Task<Pedido> Cadastrar(Pedido pedido);
+        void Atualizar(Pedido pedido);
     }
 }

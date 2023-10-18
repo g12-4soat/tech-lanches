@@ -4,7 +4,6 @@ using TechLanches.Application.DTOs;
 using TechLanches.Domain.Enums;
 using TechLanches.Domain.Services;
 
-
 namespace TechLanches.API.Endpoints;
 
 public static class PedidoEndpoints
@@ -13,14 +12,15 @@ public static class PedidoEndpoints
     {
         app.MapGet("api/pedidos", BuscarPedidos).WithTags("Pedidos");
         app.MapGet("api/pedidos/{idPedido}", BuscarPedidoPorId).WithTags("Pedidos");
-        app.MapGet("api/pedidos/BuscarPedidosPorStatus/{statusPedidoId}", BuscarPedidosPorStatus).WithTags("Pedidos");
+        app.MapGet("api/pedidos/BuscarPedidosPorStatus/{statusPedido}", BuscarPedidosPorStatus).WithTags("Pedidos");
         app.MapPost("api/pedidos", CadastrarPedido).WithTags("Pedidos");
+        app.MapPut("api/pedidos/{idPedido}", TrocarStatus).WithTags("Pedidos");
     }
 
     private static async Task<IResult> BuscarPedidos(
         [FromServices] IPedidoService pedidoService)
     {
-        var pedidos = await pedidoService.BuscarTodosPedidos();
+        var pedidos = await pedidoService.BuscarTodos();
 
         return pedidos is not null
             ? Results.Ok(pedidos)
@@ -31,7 +31,7 @@ public static class PedidoEndpoints
         [FromQuery] int idPedido,
         [FromServices] IPedidoService pedidoService)
     {
-        var pedido = await pedidoService.BuscarPedidoPorId(idPedido);
+        var pedido = await pedidoService.BuscarPorId(idPedido);
 
         return pedido is not null
             ? Results.Ok(pedido)
@@ -42,7 +42,7 @@ public static class PedidoEndpoints
         [FromQuery] StatusPedido statusPedido,
         [FromServices] IPedidoService pedidoService)
     {
-        var pedidos = await pedidoService.BuscarPedidosPorStatus(statusPedido);
+        var pedidos = await pedidoService.BuscarPorStatus(statusPedido);
 
         return pedidos is not null
             ? Results.Ok(pedidos)
@@ -53,7 +53,24 @@ public static class PedidoEndpoints
         [FromBody] PedidoDTO pedidoDto,
         [FromServices] IPedidoService pedidoService)
     {
-        var pedido = await pedidoService.CadastrarPedido(pedidoDto.ClienteId, pedidoDto.ItensPedido);
+        var pedido = await pedidoService.Cadastrar(pedidoDto.ClienteId, pedidoDto.ItensPedido);
+
+        string json = JsonConvert.SerializeObject(pedido.Id, Formatting.Indented, new JsonSerializerSettings
+        {
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+        });
+
+        return pedido is not null
+            ? Results.Ok(json)
+            : Results.BadRequest();
+    }
+
+    private static async Task<IResult> TrocarStatus(
+        [FromBody] StatusPedido statusPedido,
+        [FromQuery] int idPedido,
+        [FromServices] IPedidoService pedidoService)
+    {
+        var pedido = await pedidoService.TrocarStatus(idPedido, statusPedido);
 
         string json = JsonConvert.SerializeObject(pedido.Id, Formatting.Indented, new JsonSerializerSettings
         {
