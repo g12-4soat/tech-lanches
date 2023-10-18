@@ -1,19 +1,29 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.2.32516.85
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31515.178
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.API", "TechLanches.API\TechLanches.API.csproj", "{C7300449-6F88-44D3-8357-3F4629E038AA}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Adapter", "Adapter", "{11B5C138-1FC0-46D3-B46E-0CB633ECF1EE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Core", "TechLanches.Core\TechLanches.Core.csproj", "{B7297942-27B8-48F9-B1B6-F8D061E33066}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{5363EEF3-BFBA-4778-B94F-74B994687560}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Domain", "TechLanches.Domain\TechLanches.Domain.csproj", "{BD41D228-8AAE-4001-A6AF-71818C415B79}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Driven", "Driven", "{6E7D4CC5-6E8F-4083-8C90-154A5EB20622}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Application", "TechLanches.Application\TechLanches.Application.csproj", "{08FC5690-B17E-43C3-9B8A-DFA7AA00B318}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Driver", "Driver", "{2CF4C9F4-510E-438F-92C3-D79C32864CEC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Infrastructure", "TechLanches.Infrastructure\TechLanches.Infrastructure.csproj", "{275F3B23-A3DA-451E-BE51-04B478462252}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DC168DB4-3498-48EA-BA73-E09EE2366644}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechLanches.UnitTests", "TechLanches.UnitTests\TechLanches.UnitTests.csproj", "{788DDA7D-BC8E-4E5D-9C97-D89AD60479CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Infrastructure", "Adapter\Driven\TechLanches.Infrastructure\TechLanches.Infrastructure.csproj", "{3E40B044-FD68-4DFC-9270-F7D23C5F663E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.API", "Adapter\Driver\TechLanches.API\TechLanches.API.csproj", "{A361B25B-240B-4F8A-A0D4-3B9BAFCB8E26}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Application", "Core\TechLanches.Application\TechLanches.Application.csproj", "{62597D08-3681-418A-8FBD-AED27B07CFBF}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Core", "Core\TechLanches.Core\TechLanches.Core.csproj", "{8D2DE8D5-B3BE-4C65-AAE0-CE5D93A55090}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Domain", "Core\TechLanches.Domain\TechLanches.Domain.csproj", "{D6A314A0-C9C5-4B02-99C4-183BF58225BA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.UnitTests", "Tests\TechLanches.UnitTests\TechLanches.UnitTests.csproj", "{E070F017-8974-40B1-8088-D6076E7952B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,33 +31,43 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{C7300449-6F88-44D3-8357-3F4629E038AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C7300449-6F88-44D3-8357-3F4629E038AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C7300449-6F88-44D3-8357-3F4629E038AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C7300449-6F88-44D3-8357-3F4629E038AA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B7297942-27B8-48F9-B1B6-F8D061E33066}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B7297942-27B8-48F9-B1B6-F8D061E33066}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B7297942-27B8-48F9-B1B6-F8D061E33066}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B7297942-27B8-48F9-B1B6-F8D061E33066}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BD41D228-8AAE-4001-A6AF-71818C415B79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BD41D228-8AAE-4001-A6AF-71818C415B79}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD41D228-8AAE-4001-A6AF-71818C415B79}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BD41D228-8AAE-4001-A6AF-71818C415B79}.Release|Any CPU.Build.0 = Release|Any CPU
-		{08FC5690-B17E-43C3-9B8A-DFA7AA00B318}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{08FC5690-B17E-43C3-9B8A-DFA7AA00B318}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{08FC5690-B17E-43C3-9B8A-DFA7AA00B318}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{08FC5690-B17E-43C3-9B8A-DFA7AA00B318}.Release|Any CPU.Build.0 = Release|Any CPU
-		{275F3B23-A3DA-451E-BE51-04B478462252}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{275F3B23-A3DA-451E-BE51-04B478462252}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{275F3B23-A3DA-451E-BE51-04B478462252}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{275F3B23-A3DA-451E-BE51-04B478462252}.Release|Any CPU.Build.0 = Release|Any CPU
-		{788DDA7D-BC8E-4E5D-9C97-D89AD60479CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{788DDA7D-BC8E-4E5D-9C97-D89AD60479CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{788DDA7D-BC8E-4E5D-9C97-D89AD60479CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{788DDA7D-BC8E-4E5D-9C97-D89AD60479CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3E40B044-FD68-4DFC-9270-F7D23C5F663E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3E40B044-FD68-4DFC-9270-F7D23C5F663E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3E40B044-FD68-4DFC-9270-F7D23C5F663E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3E40B044-FD68-4DFC-9270-F7D23C5F663E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A361B25B-240B-4F8A-A0D4-3B9BAFCB8E26}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A361B25B-240B-4F8A-A0D4-3B9BAFCB8E26}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A361B25B-240B-4F8A-A0D4-3B9BAFCB8E26}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A361B25B-240B-4F8A-A0D4-3B9BAFCB8E26}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62597D08-3681-418A-8FBD-AED27B07CFBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62597D08-3681-418A-8FBD-AED27B07CFBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62597D08-3681-418A-8FBD-AED27B07CFBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62597D08-3681-418A-8FBD-AED27B07CFBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D2DE8D5-B3BE-4C65-AAE0-CE5D93A55090}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D2DE8D5-B3BE-4C65-AAE0-CE5D93A55090}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D2DE8D5-B3BE-4C65-AAE0-CE5D93A55090}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D2DE8D5-B3BE-4C65-AAE0-CE5D93A55090}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D6A314A0-C9C5-4B02-99C4-183BF58225BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D6A314A0-C9C5-4B02-99C4-183BF58225BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D6A314A0-C9C5-4B02-99C4-183BF58225BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D6A314A0-C9C5-4B02-99C4-183BF58225BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E070F017-8974-40B1-8088-D6076E7952B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E070F017-8974-40B1-8088-D6076E7952B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E070F017-8974-40B1-8088-D6076E7952B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E070F017-8974-40B1-8088-D6076E7952B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6E7D4CC5-6E8F-4083-8C90-154A5EB20622} = {11B5C138-1FC0-46D3-B46E-0CB633ECF1EE}
+		{2CF4C9F4-510E-438F-92C3-D79C32864CEC} = {11B5C138-1FC0-46D3-B46E-0CB633ECF1EE}
+		{3E40B044-FD68-4DFC-9270-F7D23C5F663E} = {6E7D4CC5-6E8F-4083-8C90-154A5EB20622}
+		{A361B25B-240B-4F8A-A0D4-3B9BAFCB8E26} = {2CF4C9F4-510E-438F-92C3-D79C32864CEC}
+		{62597D08-3681-418A-8FBD-AED27B07CFBF} = {5363EEF3-BFBA-4778-B94F-74B994687560}
+		{8D2DE8D5-B3BE-4C65-AAE0-CE5D93A55090} = {5363EEF3-BFBA-4778-B94F-74B994687560}
+		{D6A314A0-C9C5-4B02-99C4-183BF58225BA} = {5363EEF3-BFBA-4778-B94F-74B994687560}
+		{E070F017-8974-40B1-8088-D6076E7952B9} = {DC168DB4-3498-48EA-BA73-E09EE2366644}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90375589-63E6-4F0F-8F51-A7B40E657961}
