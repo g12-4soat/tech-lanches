@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
+using TechLanches.Domain.Enums;
 using TechLanches.Domain.Repositories;
-using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Infrastructure.Repositories;
 
@@ -29,7 +29,7 @@ public class PedidoRepository : IPedidoRepository
 
     public async Task<List<Pedido>> BuscarPedidosPorStatus(StatusPedido statusPedido)
     {
-        return await _context.Pedidos.AsNoTracking().Where(x => x.StatusPedido.Id == statusPedido.Id).ToListAsync();
+        return await _context.Pedidos.AsNoTracking().Where(x => x.StatusPedido == statusPedido).ToListAsync();
     }
 
     public async Task<Pedido> CadastrarPedido(Pedido pedido)

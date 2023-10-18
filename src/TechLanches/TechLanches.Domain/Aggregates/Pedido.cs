@@ -1,5 +1,6 @@
 ﻿using TechLanches.Core;
 using TechLanches.Domain.Entities;
+using TechLanches.Domain.Enums;
 using TechLanches.Domain.Validations;
 using TechLanches.Domain.ValueObjects;
 

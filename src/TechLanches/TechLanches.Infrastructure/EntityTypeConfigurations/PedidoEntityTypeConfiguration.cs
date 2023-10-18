@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechLanches.Domain.Aggregates;
+using TechLanches.Domain.Enums;
 
 namespace TechLanches.Infrastructure.EntityTypeConfigurations
 {
@@ -17,16 +19,12 @@ namespace TechLanches.Infrastructure.EntityTypeConfigurations
                    .HasColumnName("Valor")
                    .IsRequired();
 
-            builder.OwnsOne(x => x.StatusPedido,
-                  navigationBuilder =>
-                  {
-                      navigationBuilder
-                          .Property(s => s.Id)
-                          .HasColumnName("StatusPedido")
-                          .IsRequired();
-
-                      navigationBuilder.Ignore(s => s.Nome);
-                  });
+            builder.Property(x => x.StatusPedido)
+                  .HasColumnName("StatusPedido")
+                  .HasConversion(
+                    v => v.ToString(),
+                    v => (StatusPedido)Enum.Parse(typeof(StatusPedido), v))
+                  .IsRequired();
 
             builder.HasOne(x => x.Cliente)
                 .WithMany(c => c.Pedidos)

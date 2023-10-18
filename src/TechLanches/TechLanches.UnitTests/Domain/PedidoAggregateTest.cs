@@ -1,5 +1,6 @@
 ﻿using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
+using TechLanches.Domain.Enums;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.UnitTests.Domain

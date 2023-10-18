@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using TechLanches.Application.DTOs;
+using TechLanches.Domain.Enums;
 using TechLanches.Domain.Services;
-using TechLanches.Domain.ValueObjects;
 
 
 namespace TechLanches.API.Endpoints;
@@ -39,10 +39,10 @@ public static class PedidoEndpoints
     }
 
     private static async Task<IResult> BuscarPedidosPorStatus(
-        [FromQuery] int statusPedidoId,
+        [FromQuery] StatusPedido statusPedido,
         [FromServices] IPedidoService pedidoService)
     {
-        var pedidos = await pedidoService.BuscarPedidosPorStatus(StatusPedido.From(statusPedidoId));
+        var pedidos = await pedidoService.BuscarPedidosPorStatus(statusPedido);
 
         return pedidos is not null
             ? Results.Ok(pedidos)

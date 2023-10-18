@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechLanches.Infrastructure;
 
@@ -10,9 +11,10 @@ using TechLanches.Infrastructure;
 namespace TechLanches.Infrastructure.Migrations
 {
     [DbContext(typeof(TechLanchesDbContext))]
-    partial class TechLanchesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231018223512_StatusPedidoEmString")]
+    partial class StatusPedidoEmString
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

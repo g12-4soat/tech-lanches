@@ -1,4 +1,4 @@
-﻿using TechLanches.Domain.ValueObjects;
+﻿using TechLanches.Domain.Enums;
 
 namespace TechLanches.Domain.Validations
 {
