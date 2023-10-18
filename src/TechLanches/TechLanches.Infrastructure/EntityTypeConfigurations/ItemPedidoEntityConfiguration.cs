@@ -12,6 +12,8 @@ namespace TechLanches.Infrastructure.EntityTypeConfigurations
 
             builder.HasKey(x => new { x.ProdutoId, x.PedidoId });
 
+            builder.HasIndex(x => new { x.ProdutoId, x.PedidoId }).IsUnique();
+
             builder.Property(x => x.Quantidade)
                    .HasColumnName("Quantidade")
                    .IsRequired();
