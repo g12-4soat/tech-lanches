@@ -29,12 +29,7 @@ namespace TechLanches.Application
 
         public async Task<Produto> BuscarPorId(int produtoId)
         {
-            var produto = await _produtoRepository.BuscarPorId(produtoId);// se for nulo, lançaremos exception?
-
-            if (produto is null)
-                throw new Exception($"Produto não encontrado para o id: {produtoId}."); // criar exception customizada?
-
-            return produto;
+            return await _produtoRepository.BuscarPorId(produtoId);
         }
 
         public async Task<List<Produto>> BuscarTodos()

@@ -59,7 +59,7 @@ namespace TechLanches.API.Endpoints
             var produtos = await produtoService.BuscarTodos();
 
             if (produtos is null)
-                return Results.NotFound(new { error = "Nenhum produto não encontrado" });
+                return Results.NotFound(new { error = "Nenhum produto encontrado." });
 
             return Results.Ok(produtos.Adapt<List<ProdutoResponseDTO>>());
         }
@@ -69,6 +69,8 @@ namespace TechLanches.API.Endpoints
            [FromServices] IProdutoService produtoService)
         {
             var produto = await produtoService.BuscarPorId(id);
+            if(produto is null)
+                return Results.NotFound(new { error = $"Nenhum produto encontrado para o id: {id}." });
 
             return Results.Ok(produto.Adapt<ProdutoResponseDTO>());
         }
