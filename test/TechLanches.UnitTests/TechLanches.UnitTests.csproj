@@ -24,12 +24,9 @@
   </ItemGroup>
 
   <ItemGroup>
-
-    <ProjectReference Include="..\..\Core\TechLanches.Application\TechLanches.Application.csproj" />
-
-    <ProjectReference Include="..\..\Core\TechLanches.Core\TechLanches.Core.csproj" />
-
-    <ProjectReference Include="..\..\Core\TechLanches.Domain\TechLanches.Domain.csproj" />
+    <ProjectReference Include="..\..\src\TechLanches\Core\TechLanches.Application\TechLanches.Application.csproj" />
+    <ProjectReference Include="..\..\src\TechLanches\Core\TechLanches.Core\TechLanches.Core.csproj" />
+    <ProjectReference Include="..\..\src\TechLanches\Core\TechLanches.Domain\TechLanches.Domain.csproj" />
   </ItemGroup>
 
 </Project>
