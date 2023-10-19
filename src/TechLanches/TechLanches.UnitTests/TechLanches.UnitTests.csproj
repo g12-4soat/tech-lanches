@@ -4,7 +4,6 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
   </PropertyGroup>
@@ -25,6 +24,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TechLanches.Application\TechLanches.Application.csproj" />
+    <ProjectReference Include="..\TechLanches.Core\TechLanches.Core.csproj" />
     <ProjectReference Include="..\TechLanches.Domain\TechLanches.Domain.csproj" />
   </ItemGroup>
 

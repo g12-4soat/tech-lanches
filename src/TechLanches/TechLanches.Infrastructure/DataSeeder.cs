@@ -10,6 +10,7 @@ namespace TechLanches.Infrastructure
         {
             ClientesSeed(context);
             PedidosSeed(context);
+            ProdutosSeed(context);
         }
 
         private static void ClientesSeed(TechLanchesDbContext context)
@@ -28,6 +29,7 @@ namespace TechLanches.Infrastructure
             }
         }
 
+
         private static void PedidosSeed(TechLanchesDbContext context)
         {
             if (!context.Pedidos.Any())
@@ -38,6 +40,23 @@ namespace TechLanches.Infrastructure
                 };
 
                 context.AddRange(pedidos);
+                context.SaveChanges();
+            }
+        }
+
+        private static void ProdutosSeed(TechLanchesDbContext context)
+        {
+            if (!context.Produtos.Any())
+            {
+                var produtos = new List<Produto>
+                {
+                    new Produto("X-Burguer", "Lanche com pão carne e queijo", 30, 1),
+                    new Produto("Batata Frita", "Fritas comum", 8, 2),
+                    new Produto("Suco de Laranja", "Suco natural de laranjas", 10, 3),
+                    new Produto("Sorvete", "Casquinha sabor chocolate ou baunilha", 3, 4),
+                };
+
+                context.AddRange(produtos);
                 context.SaveChanges();
             }
         }

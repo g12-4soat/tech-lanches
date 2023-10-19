@@ -13,9 +13,11 @@ namespace TechLanches.API.Configuration
 
             services.AddScoped<IClienteService, ClienteService>();
             services.AddScoped<IPedidoService, PedidoService>();
+            services.AddScoped<IProdutoService, ProdutoService>();
 
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();
+            services.AddScoped<IProdutoRepository, ProdutoRepository>();
         }
     }
 }

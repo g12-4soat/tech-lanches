@@ -22,6 +22,9 @@ builder.Services.AddDependencyInjectionConfiguration();
 //Setting DBContext
 builder.Services.AddDatabaseConfiguration(builder.Configuration);
 
+//Setting mapster
+builder.Services.RegisterMaps();
+
 var app = builder.Build();
 
 app.UseDatabaseConfiguration();

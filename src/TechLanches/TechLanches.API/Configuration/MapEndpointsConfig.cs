@@ -9,6 +9,7 @@ namespace TechLanches.API.Configuration
         {
             endpoints.MapClienteEndpoints();
             endpoints.MapPedidoEndpoints();
+            endpoints.MapProdutoEndpoints();
         }
     }
 }
