@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechLanches.Infrastructure;
 
@@ -10,9 +11,10 @@ using TechLanches.Infrastructure;
 namespace TechLanches.Infrastructure.Migrations
 {
     [DbContext(typeof(TechLanchesDbContext))]
-    partial class TechLanchesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231017012851_produto-prop-preco")]
+    partial class produtoproppreco
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,13 +33,11 @@ namespace TechLanches.Infrastructure.Migrations
 
                     b.Property<string>("Descricao")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("Preco")
                         .HasColumnType("decimal(18,2)");
@@ -55,12 +55,23 @@ namespace TechLanches.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("CPF")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)")
+                        .HasColumnName("Cpf");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("Email");
+
                     b.Property<string>("Nome")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CPF");
 
                     b.ToTable("Clientes", (string)null);
                 });
@@ -74,11 +85,9 @@ namespace TechLanches.Infrastructure.Migrations
 
                             b1.Property<int>("Id")
                                 .HasColumnType("int")
-                                .HasColumnName("CategoriaId");
+                                .HasColumnName("Categoria_Id");
 
                             b1.HasKey("ProdutoId");
-
-                            b1.HasIndex("Id");
 
                             b1.ToTable("Produtos");
 
@@ -87,57 +96,6 @@ namespace TechLanches.Infrastructure.Migrations
                         });
 
                     b.Navigation("Categoria")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("TechLanches.Domain.Entities.Cliente", b =>
-                {
-                    b.OwnsOne("TechLanches.Domain.ValueObjects.Cpf", "CPF", b1 =>
-                        {
-                            b1.Property<int>("ClienteId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("Numero")
-                                .IsRequired()
-                                .HasMaxLength(11)
-                                .HasColumnType("nvarchar(11)")
-                                .HasColumnName("Cpf");
-
-                            b1.HasKey("ClienteId");
-
-                            b1.HasIndex("Numero")
-                                .IsUnique();
-
-                            b1.ToTable("Clientes");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ClienteId");
-                        });
-
-                    b.OwnsOne("TechLanches.Domain.ValueObjects.Email", "Email", b1 =>
-                        {
-                            b1.Property<int>("ClienteId")
-                                .HasColumnType("int");
-
-                            b1.Property<string>("EnderecoEmail")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(450)")
-                                .HasColumnName("Email");
-
-                            b1.HasKey("ClienteId");
-
-                            b1.HasIndex("EnderecoEmail");
-
-                            b1.ToTable("Clientes");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ClienteId");
-                        });
-
-                    b.Navigation("CPF")
-                        .IsRequired();
-
-                    b.Navigation("Email")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618
