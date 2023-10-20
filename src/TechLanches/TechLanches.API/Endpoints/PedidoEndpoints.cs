@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Mapster;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using TechLanches.Application.DTOs;
+using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
 using TechLanches.Domain.Services;
+using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.API.Endpoints;
 
@@ -23,62 +26,76 @@ public static class PedidoEndpoints
         var pedidos = await pedidoService.BuscarTodos();
 
         return pedidos is not null
-            ? Results.Ok(pedidos)
+            ? Results.Ok(pedidos.Adapt<List<PedidoResponseDTO>>())
             : Results.BadRequest();
     }
 
     private static async Task<IResult> BuscarPedidoPorId(
-        [FromQuery] int idPedido,
+        int idPedido,
         [FromServices] IPedidoService pedidoService)
     {
         var pedido = await pedidoService.BuscarPorId(idPedido);
 
         return pedido is not null
-            ? Results.Ok(pedido)
+            ? Results.Ok(pedido.Adapt<PedidoResponseDTO>())
             : Results.NotFound(idPedido);
     }
 
     private static async Task<IResult> BuscarPedidosPorStatus(
-        [FromQuery] StatusPedido statusPedido,
+        StatusPedido statusPedido,
         [FromServices] IPedidoService pedidoService)
     {
         var pedidos = await pedidoService.BuscarPorStatus(statusPedido);
 
         return pedidos is not null
-            ? Results.Ok(pedidos)
+            ? Results.Ok(pedidos.Adapt<List<PedidoResponseDTO>>())
             : Results.BadRequest();
     }
 
     private static async Task<IResult> CadastrarPedido(
-        [FromBody] PedidoDTO pedidoDto,
-        [FromServices] IPedidoService pedidoService)
+        [FromBody] PedidoRequestDTO pedidoDto,
+        [FromServices] IPedidoService pedidoService, IClienteService clienteService, IProdutoService produtoService)
     {
-        var pedido = await pedidoService.Cadastrar(pedidoDto.ClienteId, pedidoDto.ItensPedido);
+        if (!pedidoDto.ItensPedido.Any())
+            return Results.BadRequest("É necessário pelo menos 1 item para o pedido");
 
-        string json = JsonConvert.SerializeObject(pedido.Id, Formatting.Indented, new JsonSerializerSettings
+        int? clienteId = null;
+
+        if(pedidoDto.Cpf is not null)
         {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-        });
+            var clienteExistente = await clienteService.BuscarPorCpf(pedidoDto.Cpf);
 
-        return pedido is not null
-            ? Results.Ok(json)
+            if(clienteExistente is null) return Results.BadRequest("Cliente não cadastrado!");
+
+            clienteId = clienteExistente.Id;
+        }
+
+        var itensPedido = new List<ItemPedido>();
+
+        foreach (var itemPedido in pedidoDto.ItensPedido)
+        {
+            var dadosProduto = await produtoService.BuscarPorId(itemPedido.IdProduto);
+            var itemPedidoCompleto = new ItemPedido(dadosProduto.Id, itemPedido.Quantidade, dadosProduto.Preco);
+
+            itensPedido.Add(itemPedidoCompleto);
+        }
+
+        var novoPedido = await pedidoService.Cadastrar(clienteId, itensPedido);
+
+        return novoPedido is not null
+            ? Results.Ok(novoPedido.Adapt<PedidoResponseDTO>())
             : Results.BadRequest();
     }
 
     private static async Task<IResult> TrocarStatus(
-        [FromBody] StatusPedido statusPedido,
-        [FromQuery] int idPedido,
+        int idPedido,
+        [FromQuery] int statusPedido,
         [FromServices] IPedidoService pedidoService)
     {
-        var pedido = await pedidoService.TrocarStatus(idPedido, statusPedido);
-
-        string json = JsonConvert.SerializeObject(pedido.Id, Formatting.Indented, new JsonSerializerSettings
-        {
-            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-        });
+        var pedido = await pedidoService.TrocarStatus(idPedido, (StatusPedido)statusPedido);
 
         return pedido is not null
-            ? Results.Ok(json)
+            ? Results.Ok(pedido.Adapt<PedidoResponseDTO>())
             : Results.BadRequest();
     }
 }

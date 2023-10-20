@@ -31,6 +31,9 @@ namespace TechLanches.Infrastructure.Repositories
             return await _context.Produtos.SingleOrDefaultAsync(x => x.Id == produtoId);
         }
 
+        public async Task<Produto> BuscarPorNome(string nomeProduto)
+            => await _context.Produtos.SingleOrDefaultAsync(x => x.Nome.ToLower().Trim() == nomeProduto.ToLower().Trim());
+
         public async Task<List<Produto>> BuscarTodos()
         {
             return await _context.Produtos.ToListAsync();

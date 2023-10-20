@@ -1,6 +1,7 @@
 ﻿using TechLanches.Application;
 using TechLanches.Domain.Repositories;
 using TechLanches.Domain.Services;
+using TechLanches.Infrastructure;
 using TechLanches.Infrastructure.Repositories;
 
 namespace TechLanches.API.Configuration
@@ -14,6 +15,7 @@ namespace TechLanches.API.Configuration
             services.AddScoped<IClienteService, ClienteService>();
             services.AddScoped<IPedidoService, PedidoService>();
             services.AddScoped<IProdutoService, ProdutoService>();
+            services.AddScoped<IPagamentoService, FakeCheckoutService>();
 
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();

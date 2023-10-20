@@ -1,4 +1,5 @@
-﻿using TechLanches.Core;
+﻿using TechLanches.Application.DTOs;
+using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
 using TechLanches.Domain.Repositories;
@@ -10,10 +11,14 @@ namespace TechLanches.Application
     public class PedidoService : IPedidoService
     {
         private readonly IPedidoRepository _pedidoRepository;
+        private readonly IPagamentoService _pagamentoService;
 
-        public PedidoService(IPedidoRepository pedidoRepository)
+        
+
+        public PedidoService(IPedidoRepository pedidoRepository, IPagamentoService pagamentoService)
         {
             _pedidoRepository = pedidoRepository;
+            _pagamentoService = pagamentoService;
         }
 
         public async Task<List<Pedido>> BuscarTodos()
@@ -25,11 +30,18 @@ namespace TechLanches.Application
         public async Task<List<Pedido>> BuscarPorStatus(StatusPedido statusPedido)
             => await _pedidoRepository.BuscarPorStatus(statusPedido);
 
-        public async Task<Pedido> Cadastrar(int clienteId, List<ItemPedido> itemPedidos)
+        public async Task<Pedido> Cadastrar(int? clienteId, List<ItemPedido> itensPedido)
         {
-            var pedido = new Pedido(clienteId, itemPedidos ?? new List<ItemPedido>());
+            var pedido = new Pedido(clienteId, itensPedido);
 
-            return await _pedidoRepository.Cadastrar(pedido);
+            pedido = await _pedidoRepository.Cadastrar(pedido);
+            await _pedidoRepository.UnitOfWork.Commit();
+
+            var pagamento = await _pagamentoService.RealizarPagamento(pedido.Id, FormaPagamento.QrCodeMercadoPago, pedido.Valor);
+
+            if (pagamento) return pedido;
+
+            else throw new DomainException("Pagamento não autorizado!");
         }
 
         public async Task<Pedido> TrocarStatus(int pedidoId, StatusPedido statusPedido)
@@ -40,6 +52,14 @@ namespace TechLanches.Application
             _pedidoRepository.Atualizar(pedido);
             await _pedidoRepository.UnitOfWork.Commit();
             return pedido;
+        }
+
+        public async Task Atualizar(int pedidoId, int clienteId, List<ItemPedido> itensPedido)
+        {
+            var pedido = new Pedido(pedidoId, clienteId, itensPedido);
+
+            _pedidoRepository.Atualizar(pedido);
+            await _pedidoRepository.UnitOfWork.Commit();
         }
     }
 }

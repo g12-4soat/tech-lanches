@@ -19,7 +19,13 @@ public class PedidoRepository : IPedidoRepository
 
     public async Task<List<Pedido>> BuscarTodos()
     {
-        return await _context.Pedidos.AsNoTracking().ToListAsync();
+        var query  = (from p in _context.Pedidos
+                     join i in _context.ItemPedido
+                     on p.Id equals i.PedidoId
+                     orderby p.Id ascending
+                     select p).Distinct();
+
+        return await query.AsNoTracking().ToListAsync();
     }
 
     public async Task<Pedido> BuscarPorId(int idPedido)
@@ -39,6 +45,6 @@ public class PedidoRepository : IPedidoRepository
 
     public void Atualizar(Pedido pedido)
     {
-        _context.Update(pedido);
+        _context.Entry(pedido).State = EntityState.Modified;
     }
 }

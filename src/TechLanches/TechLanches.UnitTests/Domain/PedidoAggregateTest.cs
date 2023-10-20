@@ -13,12 +13,12 @@ namespace TechLanches.UnitTests.Domain
         {
             //Arrange    
             var produtoId = 1;
-            var pedidoId = 1;
+            //var pedidoId = 1;
             var quantidade = 1;
             var precoProduto = 11;
 
             //Act 
-            var itemPedido = new ItemPedido(produtoId, pedidoId, quantidade, precoProduto);
+            var itemPedido = new ItemPedido(produtoId, quantidade, precoProduto);
 
             //Assert
             Assert.NotNull(itemPedido);
@@ -29,12 +29,12 @@ namespace TechLanches.UnitTests.Domain
         {
             //Arrange    
             var produtoId = 1;
-            var pedidoId = 1;
+            //var pedidoId = 1;
             var quantidade = 0;
             var precoProduto = 11;
 
             //Act & Assert
-            Assert.Throws<DomainException>(() => new ItemPedido(produtoId, pedidoId, quantidade, precoProduto));
+            Assert.Throws<DomainException>(() => new ItemPedido(produtoId, quantidade, precoProduto));
         }
 
         [Fact(DisplayName = "Criar item do pedido com quantidade inválida")]
@@ -42,12 +42,12 @@ namespace TechLanches.UnitTests.Domain
         {
             //Arrange    
             var produtoId = 1;
-            var pedidoId = 1;
+            //var pedidoId = 1;
             var quantidade = 0;
             var precoProduto = 11;
 
             //Act
-            var exception = Assert.Throws<DomainException>(() => new ItemPedido(produtoId, pedidoId, quantidade, precoProduto));
+            var exception = Assert.Throws<DomainException>(() => new ItemPedido(produtoId, quantidade, precoProduto));
 
             //Assert
             Assert.NotNull(exception);
@@ -59,12 +59,12 @@ namespace TechLanches.UnitTests.Domain
         {
             //Arrange    
             var produtoId = 1;
-            var pedidoId = 1;
+            //var pedidoId = 1;
             var quantidade = 1;
             var precoProduto = 0;
 
             //Act
-            var exception = Assert.Throws<DomainException>(() => new ItemPedido(produtoId, pedidoId, quantidade, precoProduto));
+            var exception = Assert.Throws<DomainException>(() => new ItemPedido(produtoId, quantidade, precoProduto));
 
             //Assert
             Assert.NotNull(exception);
@@ -76,12 +76,12 @@ namespace TechLanches.UnitTests.Domain
         {
             //Arrange    
             var produtoId = 1;
-            var pedidoId = 1;
+            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
 
             //Act
-            var itemPedido = new ItemPedido(produtoId, pedidoId, quantidade, precoProduto);
+            var itemPedido = new ItemPedido(produtoId, quantidade, precoProduto);
 
             //Assert
             Assert.Equal(30, itemPedido.Valor);
@@ -93,10 +93,10 @@ namespace TechLanches.UnitTests.Domain
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            var pedidoId = 1;
+            //var pedidoId = 1;
             var quantidade = 1;
             var precoProduto = 1;
-            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
@@ -122,10 +122,10 @@ namespace TechLanches.UnitTests.Domain
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            var pedidoId = 1;
+            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
-            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
@@ -140,10 +140,10 @@ namespace TechLanches.UnitTests.Domain
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            var pedidoId = 1;
+            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
-            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
@@ -159,10 +159,10 @@ namespace TechLanches.UnitTests.Domain
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            var pedidoId = 1;
+            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
-            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
@@ -181,10 +181,10 @@ namespace TechLanches.UnitTests.Domain
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            var pedidoId = 1;
+            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
-            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
@@ -204,10 +204,10 @@ namespace TechLanches.UnitTests.Domain
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            var pedidoId = 1;
+            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
-            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
@@ -228,10 +228,10 @@ namespace TechLanches.UnitTests.Domain
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            var pedidoId = 1;
+            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
-            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
@@ -252,10 +252,10 @@ namespace TechLanches.UnitTests.Domain
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            var pedidoId = 1;
+            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
-            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
@@ -276,10 +276,10 @@ namespace TechLanches.UnitTests.Domain
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            var pedidoId = 1;
+            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
-            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, pedidoId, quantidade, precoProduto) };
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);

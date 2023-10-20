@@ -5,10 +5,10 @@ namespace TechLanches.Domain.ValueObjects
 {
     public class ItemPedido : ValueObject
     {
-        public ItemPedido(int produtoId, int pedidoId, int quantidade, decimal precoProduto)
+        public ItemPedido(int produtoId, int quantidade, decimal precoProduto)
         {
             ProdutoId = produtoId;
-            PedidoId = pedidoId;
+            //PedidoId = pedidoId;
             Quantidade = quantidade;
             PrecoProduto = precoProduto;
             CalcularValor();
@@ -30,7 +30,7 @@ namespace TechLanches.Domain.ValueObjects
         private void Validar()
         {
             ArgumentNullException.ThrowIfNull(ProdutoId);
-            ArgumentNullException.ThrowIfNull(PedidoId);
+            //ArgumentNullException.ThrowIfNull(PedidoId);
 
             ArgumentNullException.ThrowIfNull(Quantidade);
             if (Quantidade <= 0)
@@ -48,7 +48,7 @@ namespace TechLanches.Domain.ValueObjects
         protected override IEnumerable<object> RetornarPropriedadesDeEquidade()
         {
             yield return ProdutoId; 
-            yield return PedidoId; 
+            //yield return PedidoId; 
             yield return Quantidade;
             yield return PrecoProduto;
             yield return Valor;
