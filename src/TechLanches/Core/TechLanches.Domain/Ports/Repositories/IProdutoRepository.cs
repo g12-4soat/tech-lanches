@@ -1,7 +1,7 @@
 ﻿using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.ValueObjects;
 
-namespace TechLanches.Domain.Repositories
+namespace TechLanches.Domain.Ports.Repositories
 {
     public interface IProdutoRepository : IRepository<Produto>
     {

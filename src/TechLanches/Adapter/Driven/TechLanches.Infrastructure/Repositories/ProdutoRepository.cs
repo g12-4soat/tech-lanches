@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
-using TechLanches.Domain.Repositories;
+using TechLanches.Domain.Ports.Repositories;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Infrastructure.Repositories

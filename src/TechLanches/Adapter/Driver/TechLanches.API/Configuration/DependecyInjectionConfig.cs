@@ -1,6 +1,6 @@
 ﻿using TechLanches.Application;
-using TechLanches.Domain.Repositories;
-using TechLanches.Domain.Services;
+using TechLanches.Domain.Ports.Repositories;
+using TechLanches.Domain.Ports.Services;
 using TechLanches.Infrastructure.Repositories;
 
 namespace TechLanches.API.Configuration

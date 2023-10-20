@@ -1,6 +1,6 @@
 ﻿using TechLanches.Domain.Aggregates;
 
-namespace TechLanches.Domain.Services
+namespace TechLanches.Domain.Ports.Services
 {
     public interface IProdutoService
     {

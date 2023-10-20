@@ -2,7 +2,7 @@
 using TechLanches.Application;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
-using TechLanches.Domain.Repositories;
+using TechLanches.Domain.Ports.Repositories;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.UnitTests.Services

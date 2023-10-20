@@ -1,6 +1,6 @@
 ﻿using TechLanches.Domain.Entities;
 
-namespace TechLanches.Domain.Services
+namespace TechLanches.Domain.Ports.Services
 {
     public interface IClienteService
     {
