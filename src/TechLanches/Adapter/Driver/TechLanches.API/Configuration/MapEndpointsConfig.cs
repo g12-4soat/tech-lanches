@@ -1,4 +1,5 @@
-﻿using TechLanches.API.Endpoints;
+﻿using Microsoft.OpenApi.Models;
+using TechLanches.API.Endpoints;
 
 namespace TechLanches.API.Configuration
 {
@@ -7,7 +8,7 @@ namespace TechLanches.API.Configuration
         public static void UseMapEndpointsConfiguration(this IEndpointRouteBuilder endpoints)
         {
             endpoints.MapClienteEndpoints();
-
+            endpoints.MapPedidoEndpoints();
             endpoints.MapProdutoEndpoints();
         }
     }

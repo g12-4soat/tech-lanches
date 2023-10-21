@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechLanches.Adapter.SqlServer;
-using TechLanches.Infrastructure;
+using TechLanches.Adapter.SqlServer;
 
 #nullable disable
 
-namespace TechLanches.Infrastructure.Migrations
+namespace TechLanches.Adapter.SqlServer.Migrations
 {
     [DbContext(typeof(TechLanchesDbContext))]
     [Migration("20231012000206_MelhoriasClientes")]

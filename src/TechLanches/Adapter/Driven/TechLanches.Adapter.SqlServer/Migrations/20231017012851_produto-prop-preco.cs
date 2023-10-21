@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace TechLanches.Infrastructure.Migrations
+namespace TechLanches.Adapter.SqlServer.Migrations
 {
     public partial class produtoproppreco : Migration
     {

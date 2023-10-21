@@ -32,4 +32,6 @@ app.UseSwaggerConfiguration();
 
 app.UseMapEndpointsConfiguration();
 
+app.AddGlobalErrorHandler();
+
 app.Run();

@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TechLanches.Domain.Entities;
 
-namespace TechLanches.Infrastructure.EntityTypeConfigurations
+namespace TechLanches.Adapter.SqlServer.EntityTypeConfigurations
 {
     public class ClienteEntityTypeConfiguration : IEntityTypeConfiguration<Cliente>
     {

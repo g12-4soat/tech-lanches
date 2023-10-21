@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 using TechLanches.Domain.Aggregates;
 
-namespace TechLanches.Infrastructure.EntityTypeConfigurations
+namespace TechLanches.Adapter.SqlServer.EntityTypeConfigurations
 {
     public class ProdutoEntityTypeConfiguration : IEntityTypeConfiguration<Produto>
     {
@@ -16,6 +17,9 @@ namespace TechLanches.Infrastructure.EntityTypeConfigurations
             builder.Property(x => x.Nome)
                 .HasMaxLength(100)
                 .IsRequired();
+
+            builder.HasIndex(x=> x.Nome)
+                .IsUnique();
 
             builder.Property(x => x.Descricao)
                 .HasMaxLength(300)
@@ -38,6 +42,8 @@ namespace TechLanches.Infrastructure.EntityTypeConfigurations
                 });
 
             builder.Ignore(x => x.DomainEvents);
+
+            builder.HasQueryFilter(b => !b.Deletado);
         }
     }
 }

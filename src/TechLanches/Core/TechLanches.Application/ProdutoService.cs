@@ -1,4 +1,5 @@
-﻿using TechLanches.Application.Ports.Repositories;
+﻿using TechLanches.Core;
+using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.ValueObjects;
@@ -16,6 +17,11 @@ namespace TechLanches.Application
 
         public async Task Atualizar(int produtoId, string nome, string descricao, decimal preco, int categoriaId)
         {
+            var produtoExistente = await _produtoRepository.BuscarPorNome(nome);
+
+            if (produtoExistente is not null)
+                throw new DomainException($"Produto já cadastrado para o nome: {nome}");
+
             var produto = new Produto(produtoId, nome, descricao, preco, categoriaId);
             _produtoRepository.Atualizar(produto);
             await _produtoRepository.UnitOfWork.Commit();
@@ -39,6 +45,11 @@ namespace TechLanches.Application
 
         public async Task<Produto> Cadastrar(string nome, string descricao, decimal preco, int categoriaId)
         {
+            var produtoExistente = await _produtoRepository.BuscarPorNome(nome);
+
+            if (produtoExistente is not null)
+                throw new DomainException($"Produto já cadastrado para o nome: {nome}");
+
             var produto = new Produto(nome, descricao, preco, categoriaId);
 
             var novoProduto = await _produtoRepository.Cadastrar(produto);
