@@ -3,6 +3,7 @@ using TechLanches.Adapter.FilaPedidos;
 using TechLanches.Adapter.SqlServer;
 using TechLanches.Adapter.SqlServer.Repositories;
 using TechLanches.Application;
+using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services;
 using TechLanches.Domain.Repositories;
 
@@ -15,18 +16,17 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
             .AddEnvironmentVariables()
             .Build();
 
-        services.AddDbContext<TechLanchesDbContext>(config =>
-        {
-            config.UseSqlServer(settingsConfig.GetConnectionString("DefaultConnection"));
-        }, 
-        ServiceLifetime.Singleton);
+        services.AddDatabaseConfiguration(settingsConfig, ServiceLifetime.Singleton);
 
         services.AddSingleton<IPedidoRepository, PedidoRepository>();
+        services.AddSingleton<IFilaPedidoRepository, FilaPedidoRepository>();
         services.AddSingleton<IFilaPedidoService, FilaPedidoService>();
         services.AddHostedService<FilaPedidosHostedService>();
     });
 
 
 var host = hostBuilder.Build();
+
+host.Services.UseDatabaseConfiguration();
 
 await host.RunAsync();

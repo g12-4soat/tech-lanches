@@ -5,7 +5,7 @@ namespace TechLanches.Application.Ports.Services
 {
     public interface IFilaPedidoService
     {
-        Task<Pedido> RetornarPrimeiroPedidoDaFila();
+        Task<Pedido?> RetornarPrimeiroPedidoDaFila();
         Task TrocarStatus(Pedido pedido, StatusPedido statusPedido);
     }
 }

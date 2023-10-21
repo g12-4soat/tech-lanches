@@ -20,25 +20,36 @@ namespace TechLanches.Adapter.FilaPedidos
         {
             while (!stoppingToken.IsCancellationRequested)
             {
-                _logger.LogInformation("FilaPedidosHostedService iniciado: {time}", DateTimeOffset.Now);
-
-                var proximoPedido = await _filaPedidoService.RetornarPrimeiroPedidoDaFila();
-
-                if (proximoPedido is not null)
+                try
                 {
-                    _logger.LogInformation($"Próximo pedido da fila: {proximoPedido.Id}");
+                    _logger.LogInformation("FilaPedidosHostedService iniciado: {time}", DateTimeOffset.Now);
 
-                    await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoEmPreparacao);
+                    var proximoPedido = await _filaPedidoService.RetornarPrimeiroPedidoDaFila();
 
-                    _logger.LogInformation($"Pedido {proximoPedido.Id} em preparação.");
+                    if (proximoPedido is not null)
+                    {
+                        _logger.LogInformation($"Próximo pedido da fila: {proximoPedido.Id}");
 
-                    await Task.Delay(1000 * 20);
+                        await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoEmPreparacao);
 
-                    _logger.LogInformation($"Pedido {proximoPedido.Id} preparação finalizada.");
+                        _logger.LogInformation($"Pedido {proximoPedido.Id} em preparação.");
 
-                    await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoPronto);
-                    
-                    _logger.LogInformation($"Pedido {proximoPedido.Id} pronto.");
+                        await Task.Delay(1000 * 20, stoppingToken);
+
+                        _logger.LogInformation($"Pedido {proximoPedido.Id} preparação finalizada.");
+
+                        await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoPronto);
+
+                        _logger.LogInformation($"Pedido {proximoPedido.Id} pronto.");
+                    }
+                    else
+                    {
+                        _logger.LogInformation($"Nenhum Pedido na fila. Verificando novamente em 5 segundos.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Erro ao processar fila de pedidos.");
                 }
 
                 await Task.Delay(5000, stoppingToken);
