@@ -10,10 +10,10 @@ namespace TechLanches.Infrastructure
         public DbSet<Cliente> Clientes { get; set; }
         public DbSet<Produto> Produtos { get; set; }
 
-        public TechLanchesDbContext(DbContextOptions options) : base (options)
+        public TechLanchesDbContext(DbContextOptions options) : base(options)
         {
             //mediatr para publicar eventos
-        }    
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -23,7 +23,7 @@ namespace TechLanches.Infrastructure
         public async Task Commit()
         {
             await base.SaveChangesAsync();
-            
+
             //publicar eventos
         }
     }
