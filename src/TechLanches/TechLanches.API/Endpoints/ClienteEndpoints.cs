@@ -7,8 +7,8 @@ public static class ClienteEndpoints
 {
     public static void MapClienteEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("api/clientes/{cpf}", BuscarClientePorCpf);
-        app.MapPost("api/clientes", CadastrarCliente);
+        app.MapGet("api/clientes/{cpf}", BuscarClientePorCpf).WithTags("Clientes");
+        app.MapPost("api/clientes", CadastrarCliente).WithTags("Clientes");
     }
 
     private static async Task<IResult> BuscarClientePorCpf(
