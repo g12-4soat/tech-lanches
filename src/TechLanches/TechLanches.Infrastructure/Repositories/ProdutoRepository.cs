@@ -3,6 +3,7 @@ using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Repositories;
 using TechLanches.Domain.ValueObjects;
+using TechLanches.Infrastructure.Migrations;
 
 namespace TechLanches.Infrastructure.Repositories
 {
@@ -46,7 +47,7 @@ namespace TechLanches.Infrastructure.Repositories
 
         public async void Deletar(Produto produto)
         {
-            _context.Remove(produto);
-        }
+            produto.Deletado = true;
+        }       
     }
 }
