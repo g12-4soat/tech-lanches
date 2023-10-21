@@ -18,33 +18,17 @@ public class PedidoRepository : IPedidoRepository
     }
 
     public async Task<List<Pedido>> BuscarTodos()
-    {
-        var query  = (from p in _context.Pedidos
-                     join i in _context.ItemPedido
-                     on p.Id equals i.PedidoId
-                     orderby p.Id ascending
-                     select p).Distinct();
-
-        return await query.AsNoTracking().ToListAsync();
-    }
+        => await _context.Pedidos.AsNoTracking().Include(x => x.ItensPedido).ToListAsync();
 
     public async Task<Pedido> BuscarPorId(int idPedido)
-    {
-        return await _context.Pedidos.AsNoTracking().SingleOrDefaultAsync(x => x.Id == idPedido);
-    }
+        => await _context.Pedidos.AsNoTracking().Include(x => x.ItensPedido).SingleOrDefaultAsync(x => x.Id == idPedido);
 
     public async Task<List<Pedido>> BuscarPorStatus(StatusPedido statusPedido)
-    {
-        return await _context.Pedidos.AsNoTracking().Where(x => x.StatusPedido == statusPedido).ToListAsync();
-    }
+        => await _context.Pedidos.AsNoTracking().Include(x => x.ItensPedido).Where(x => x.StatusPedido == statusPedido).ToListAsync();
 
     public async Task<Pedido> Cadastrar(Pedido pedido)
-    {
-        return (await _context.AddAsync(pedido)).Entity;
-    }
+        => (await _context.AddAsync(pedido)).Entity;
 
     public void Atualizar(Pedido pedido)
-    {
-        _context.Entry(pedido).State = EntityState.Modified;
-    }
+        => _context.Entry(pedido).State = EntityState.Modified;
 }

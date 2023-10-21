@@ -15,8 +15,8 @@ namespace TechLanches.Domain.ValueObjects
             Validar();
         }
 
-        public int ProdutoId { get; private set; }
         public int PedidoId { get; private set; }
+        public int ProdutoId { get; private set; }
         public int Quantidade { get; private set; }
         public decimal PrecoProduto { get; private set; }
         public decimal Valor { get; private set; }
