@@ -24,11 +24,22 @@ namespace TechLanches.Adapter.FilaPedidos
 
                 var proximoPedido = await _filaPedidoService.RetornarPrimeiroPedidoDaFila();
 
-                await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoEmPreparacao);
+                if (proximoPedido is not null)
+                {
+                    _logger.LogInformation($"Próximo pedido da fila: {proximoPedido.Id}");
 
-                await Task.Delay(1000 * 20);
+                    await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoEmPreparacao);
 
-                await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoPronto);
+                    _logger.LogInformation($"Pedido {proximoPedido.Id} em preparação.");
+
+                    await Task.Delay(1000 * 20);
+
+                    _logger.LogInformation($"Pedido {proximoPedido.Id} preparação finalizada.");
+
+                    await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoPronto);
+                    
+                    _logger.LogInformation($"Pedido {proximoPedido.Id} pronto.");
+                }
 
                 await Task.Delay(5000, stoppingToken);
             }
