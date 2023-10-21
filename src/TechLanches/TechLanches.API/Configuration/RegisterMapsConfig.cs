@@ -13,6 +13,9 @@ namespace TechLanches.API.Configuration
             TypeAdapterConfig<Produto, ProdutoResponseDTO>.NewConfig()
                 .Map(dest => dest.Categoria, src => CategoriaProduto.From(src.Categoria.Id));
 
+            TypeAdapterConfig<Pedido, PedidoResponseDTO>.NewConfig()
+                .Map(dest => dest, src => src);
+
             TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
         }
     }
