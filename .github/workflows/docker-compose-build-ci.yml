@@ -1,4 +1,4 @@
-name: Build Docker Image and Docker Compose
+name: Build Docker Compose
 
 on:
   push:
@@ -21,11 +21,6 @@ jobs:
 
     - name: Set up Docker
       uses: docker/setup-buildx-action@v1
-
-    - name: Build Docker Image
-      run: |
-        cd src/TechLanches
-        docker build -t techlanches-image:latest . --no-cache
 
     - name: Run Docker Compose Build
       run: docker-compose -f docker-compose.yml build --no-cache

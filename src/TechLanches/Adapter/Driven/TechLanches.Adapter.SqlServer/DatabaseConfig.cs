@@ -14,10 +14,10 @@ namespace TechLanches.Adapter.SqlServer
         {
             if (services is null) throw new ArgumentNullException(nameof(services));
 
-            services.AddDbContext<TechLanchesDbContext>(config => 
+            services.AddDbContext<TechLanchesDbContext>(config =>
             {
                 config.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
-            }, 
+            },
             serviceLifetime);
         }
 
@@ -25,36 +25,35 @@ namespace TechLanches.Adapter.SqlServer
         {
             if (app is null) throw new ArgumentNullException(nameof(app));
 
-            using var scope = app.ApplicationServices.CreateScope();
-            
-            var services = scope.ServiceProvider;
-
-            var context = services.GetRequiredService<TechLanchesDbContext>();
-
-            if (context.Database.GetPendingMigrations().Any())
-            {
-                context.Database.Migrate();
-            }
-
-            DataSeeder.Seed(context);
+            SetDatabaseDefaults(app.ApplicationServices);
         }
 
         public static void UseDatabaseConfiguration(this IServiceProvider serviceProvider)
         {
             if (serviceProvider is null) throw new ArgumentNullException(nameof(serviceProvider));
 
-            using var scope = serviceProvider.CreateScope();
-            
-            var services = scope.ServiceProvider;
+            SetDatabaseDefaults(serviceProvider);
+        }
 
-            var context = services.GetRequiredService<TechLanchesDbContext>();
+        private static void SetDatabaseDefaults(IServiceProvider serviceProvider)
+        {
+            object locker = new();
 
-            if (context.Database.GetPendingMigrations().Any())
+            lock (locker)
             {
-                context.Database.Migrate();
-            }
+                using var scope = serviceProvider.CreateScope();
 
-            DataSeeder.Seed(context);
+                var services = scope.ServiceProvider;
+
+                var context = services.GetRequiredService<TechLanchesDbContext>();
+
+                if (context.Database.GetPendingMigrations().Any())
+                {
+                    context.Database.Migrate();
+                }
+
+                DataSeeder.Seed(context);
+            }
         }
     }
 }
