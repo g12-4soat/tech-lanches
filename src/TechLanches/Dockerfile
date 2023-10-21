@@ -4,14 +4,14 @@ EXPOSE 80
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["TechLanches.API/TechLanches.API.csproj", "TechLanches.API/"]
-COPY ["TechLanches.Infrastructure/TechLanches.Infrastructure.csproj", "TechLanches.Infrastructure/"]
-COPY ["TechLanches.Domain/TechLanches.Domain.csproj", "TechLanches.Domain/"]
-COPY ["TechLanches.Core/TechLanches.Core.csproj", "TechLanches.Core/"]
-COPY ["TechLanches.Application/TechLanches.Application.csproj", "TechLanches.Application/"]
+COPY ["Adapter/Driver/TechLanches.API/TechLanches.API.csproj", "TechLanches.API/"]
+COPY ["Adapter/Driven/TechLanches.Adapter.SqlServer/TechLanches.Adapter.SqlServer.csproj", "TechLanches.Adapter.SqlServer/"]
+COPY ["Core/TechLanches.Domain/TechLanches.Domain.csproj", "TechLanches.Domain/"]
+COPY ["Core/TechLanches.Core/TechLanches.Core.csproj", "TechLanches.Core/"]
+COPY ["Core/TechLanches.Application/TechLanches.Application.csproj", "TechLanches.Application/"]
 RUN dotnet restore "TechLanches.API/TechLanches.API.csproj"
 COPY . .
-WORKDIR "/src/TechLanches.API"
+WORKDIR "/src/Adapter/Driver/TechLanches.API"
 RUN dotnet build "TechLanches.API.csproj" -c Release -o /app/build
 
 FROM build AS publish
