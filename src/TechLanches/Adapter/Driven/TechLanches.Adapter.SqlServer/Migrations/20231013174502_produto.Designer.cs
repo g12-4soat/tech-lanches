@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using TechLanches.Adapter.SqlServer;
 using TechLanches.Infrastructure;
 
 #nullable disable
@@ -11,8 +12,8 @@ using TechLanches.Infrastructure;
 namespace TechLanches.Infrastructure.Migrations
 {
     [DbContext(typeof(TechLanchesDbContext))]
-    [Migration("20231007023349_Cliente")]
-    partial class Cliente
+    [Migration("20231013174502_produto")]
+    partial class produto
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -22,6 +23,30 @@ namespace TechLanches.Infrastructure.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("TechLanches.Domain.Aggregates.Produto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Descricao")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nome")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Preco")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Produtos", (string)null);
+                });
 
             modelBuilder.Entity("TechLanches.Domain.Entities.Cliente", b =>
                 {
@@ -50,6 +75,29 @@ namespace TechLanches.Infrastructure.Migrations
                     b.HasIndex("CPF");
 
                     b.ToTable("Clientes", (string)null);
+                });
+
+            modelBuilder.Entity("TechLanches.Domain.Aggregates.Produto", b =>
+                {
+                    b.OwnsOne("TechLanches.Domain.ValueObjects.CategoriaProduto", "Categoria", b1 =>
+                        {
+                            b1.Property<int>("ProdutoId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("Id")
+                                .HasColumnType("int")
+                                .HasColumnName("Categoria_Id");
+
+                            b1.HasKey("ProdutoId");
+
+                            b1.ToTable("Produtos");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ProdutoId");
+                        });
+
+                    b.Navigation("Categoria")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

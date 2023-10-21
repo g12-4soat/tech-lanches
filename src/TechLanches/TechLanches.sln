@@ -13,7 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Driver", "Driver", "{2CF4C9
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{DC168DB4-3498-48EA-BA73-E09EE2366644}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Infrastructure", "Adapter\Driven\TechLanches.Infrastructure\TechLanches.Infrastructure.csproj", "{3E40B044-FD68-4DFC-9270-F7D23C5F663E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Adapter.SqlServer", "Adapter\Driven\TechLanches.Adapter.SqlServer\TechLanches.Adapter.SqlServer.csproj", "{3E40B044-FD68-4DFC-9270-F7D23C5F663E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.API", "Adapter\Driver\TechLanches.API\TechLanches.API.csproj", "{A361B25B-240B-4F8A-A0D4-3B9BAFCB8E26}"
 EndProject

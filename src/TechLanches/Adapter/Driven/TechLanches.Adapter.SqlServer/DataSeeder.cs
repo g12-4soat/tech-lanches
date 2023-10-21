@@ -1,7 +1,7 @@
 ﻿using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Entities;
 
-namespace TechLanches.Infrastructure
+namespace TechLanches.Adapter.SqlServer
 {
     public static class DataSeeder
     {

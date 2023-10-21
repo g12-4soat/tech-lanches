@@ -1,8 +1,8 @@
 ﻿using NSubstitute;
 using TechLanches.Application;
+using TechLanches.Application.Ports.Repositories;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
-using TechLanches.Domain.Ports.Repositories;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.UnitTests.Services

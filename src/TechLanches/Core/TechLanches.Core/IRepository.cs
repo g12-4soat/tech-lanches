@@ -1,6 +1,6 @@
 ﻿using TechLanches.Core;
 
-namespace TechLanches.Domain
+namespace TechLanches.Core
 {
     public interface IRepository<T>  where T : IAggregateRoot
     {

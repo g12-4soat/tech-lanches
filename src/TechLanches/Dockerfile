@@ -5,7 +5,7 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
 COPY ["Adapter/Driver/TechLanches.API/TechLanches.API.csproj", "TechLanches.API/"]
-COPY ["Adapter/Driven/TechLanches.Infrastructure/TechLanches.Infrastructure.csproj", "TechLanches.Infrastructure/"]
+COPY ["Adapter/Driven/TechLanches.Adapter.SqlServer/TechLanches.Adapter.SqlServer.csproj", "TechLanches.Adapter.SqlServer/"]
 COPY ["Core/TechLanches.Domain/TechLanches.Domain.csproj", "TechLanches.Domain/"]
 COPY ["Core/TechLanches.Core/TechLanches.Core.csproj", "TechLanches.Core/"]
 COPY ["Core/TechLanches.Application/TechLanches.Application.csproj", "TechLanches.Application/"]

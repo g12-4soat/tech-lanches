@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TechLanches.Adapter.SqlServer;
 using TechLanches.Infrastructure;
 
 namespace TechLanches.API.Configuration

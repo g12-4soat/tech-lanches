@@ -21,6 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Core\TechLanches.Application\TechLanches.Application.csproj" />
     <ProjectReference Include="..\..\..\Core\TechLanches.Core\TechLanches.Core.csproj" />
     <ProjectReference Include="..\..\..\Core\TechLanches.Domain\TechLanches.Domain.csproj" />
   </ItemGroup>

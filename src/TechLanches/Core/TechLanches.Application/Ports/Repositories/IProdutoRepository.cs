@@ -1,7 +1,8 @@
-﻿using TechLanches.Domain.Aggregates;
+﻿using TechLanches.Core;
+using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.ValueObjects;
 
-namespace TechLanches.Domain.Ports.Repositories
+namespace TechLanches.Application.Ports.Repositories
 {
     public interface IProdutoRepository : IRepository<Produto>
     {
@@ -11,6 +12,5 @@ namespace TechLanches.Domain.Ports.Repositories
         Task<Produto> Cadastrar(Produto produto);
         void Atualizar(Produto produto);
         void Deletar(Produto produto);
-
     }
 }

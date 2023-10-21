@@ -1,6 +1,6 @@
-﻿using TechLanches.Domain.Aggregates;
-using TechLanches.Domain.Ports.Repositories;
-using TechLanches.Domain.Ports.Services;
+﻿using TechLanches.Application.Ports.Repositories;
+using TechLanches.Application.Ports.Services;
+using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Application

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TechLanches.Domain.Ports.Services;
+using TechLanches.Application.Ports.Services;
 
 namespace TechLanches.API.Endpoints;
 

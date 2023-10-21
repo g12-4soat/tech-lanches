@@ -1,7 +1,7 @@
-﻿using TechLanches.Core;
+﻿using TechLanches.Application.Ports.Repositories;
+using TechLanches.Application.Ports.Services;
+using TechLanches.Core;
 using TechLanches.Domain.Entities;
-using TechLanches.Domain.Ports.Repositories;
-using TechLanches.Domain.Ports.Services;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Application

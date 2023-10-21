@@ -1,7 +1,7 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using TechLanches.Application.DTOs;
-using TechLanches.Domain.Ports.Services;
+using TechLanches.Application.Ports.Services;
 
 namespace TechLanches.API.Endpoints
 {

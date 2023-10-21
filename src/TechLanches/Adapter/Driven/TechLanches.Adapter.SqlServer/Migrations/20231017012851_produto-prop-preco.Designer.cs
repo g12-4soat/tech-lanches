@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using TechLanches.Adapter.SqlServer;
 using TechLanches.Infrastructure;
 
 #nullable disable
@@ -11,8 +12,8 @@ using TechLanches.Infrastructure;
 namespace TechLanches.Infrastructure.Migrations
 {
     [DbContext(typeof(TechLanchesDbContext))]
-    [Migration("20231013174502_produto")]
-    partial class produto
+    [Migration("20231017012851_produto-prop-preco")]
+    partial class produtoproppreco
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -39,8 +40,8 @@ namespace TechLanches.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double>("Preco")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Preco")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

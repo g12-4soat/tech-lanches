@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TechLanches.Application.Ports.Repositories;
 using TechLanches.Core;
 using TechLanches.Domain.Entities;
-using TechLanches.Domain.Ports.Repositories;
 using TechLanches.Domain.ValueObjects;
 
-namespace TechLanches.Infrastructure.Repositories;
+namespace TechLanches.Adapter.SqlServer.Repositories;
 
 public class ClienteRepository : IClienteRepository
 {

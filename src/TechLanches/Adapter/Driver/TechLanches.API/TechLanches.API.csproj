@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Core\TechLanches.Application\TechLanches.Application.csproj" />
-    <ProjectReference Include="..\..\Driven\TechLanches.Infrastructure\TechLanches.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Driven\TechLanches.Adapter.SqlServer\TechLanches.Adapter.SqlServer.csproj" />
   </ItemGroup>
 
 </Project>

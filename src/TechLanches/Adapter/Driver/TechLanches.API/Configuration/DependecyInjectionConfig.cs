@@ -1,7 +1,7 @@
-﻿using TechLanches.Application;
-using TechLanches.Domain.Ports.Repositories;
-using TechLanches.Domain.Ports.Services;
-using TechLanches.Infrastructure.Repositories;
+﻿using TechLanches.Adapter.SqlServer.Repositories;
+using TechLanches.Application;
+using TechLanches.Application.Ports.Repositories;
+using TechLanches.Application.Ports.Services;
 
 namespace TechLanches.API.Configuration
 {
