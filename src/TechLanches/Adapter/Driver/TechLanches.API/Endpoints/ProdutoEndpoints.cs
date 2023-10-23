@@ -18,31 +18,25 @@ namespace TechLanches.API.Endpoints
         }
 
         private static async Task<IResult> CadastrarProduto(
-           string nome,
-           string descricao,
-           decimal preco,
-           int categoriaId,
+            [FromBody] ProdutoRequestDTO produtoRequest,
             [FromServices] IProdutoService produtoService)
         {
-            var produto = await produtoService.Cadastrar(nome, descricao, preco, categoriaId);
+            var produto = await produtoService.Cadastrar(produtoRequest.Nome, produtoRequest.Descricao, produtoRequest.Preco, produtoRequest.CategoriaId);
 
             return produto is not null
-                ? Results.Ok(produto)
-                : Results.BadRequest(new { nome, descricao, preco, categoriaId });
+                ? Results.Ok(produto.Adapt<ProdutoResponseDTO>())
+                : Results.BadRequest(produtoRequest);
         }
 
 
         private static async Task<IResult> AtualizarProduto(
            int id,
-           string nome,
-           string descricao,
-           decimal preco,
-           int categoriaId,
-            [FromServices] IProdutoService produtoService)
+           [FromBody] ProdutoRequestDTO produtoRequest,
+           [FromServices] IProdutoService produtoService)
         {
-            await produtoService.Atualizar(id, nome, descricao, preco, categoriaId);
+            await produtoService.Atualizar(id, produtoRequest.Nome, produtoRequest.Descricao, produtoRequest.Preco, produtoRequest.CategoriaId);
 
-            return Results.Ok(new { nome, descricao, preco, categoriaId });
+            return Results.Ok(produtoRequest);
         }
 
         private static async Task<IResult> DeletarProduto(
@@ -69,7 +63,7 @@ namespace TechLanches.API.Endpoints
         }
 
         private static async Task<IResult> BuscarProdutoPorId(
-            [FromQuery] int id,
+           [FromQuery] int id,
            [FromServices] IProdutoService produtoService)
         {
             var produto = await produtoService.BuscarPorId(id);
