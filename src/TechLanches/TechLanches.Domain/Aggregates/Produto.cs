@@ -17,7 +17,7 @@ namespace TechLanches.Domain.Aggregates
             Validar();
         }
 
-        public Produto(int produtoId, string nome, string descricao, decimal preco, int categoriaId):base(produtoId)
+        public Produto(int produtoId, string nome, string descricao, decimal preco, int categoriaId) : base(produtoId)
         {
             Nome = nome;
             Descricao = descricao;
@@ -31,13 +31,13 @@ namespace TechLanches.Domain.Aggregates
         public string Descricao { get; private set; }
         public decimal Preco { get; private set; }
         public CategoriaProduto Categoria { get; private set; }
-        public bool Deletado { get; set; }
+        public bool Deletado { get; private set; }
 
         private void Validar()
         {
             ArgumentNullException.ThrowIfNull(Nome);
 
-            if(Nome == string.Empty)
+            if (Nome == string.Empty)
                 throw new DomainException("O nome não pode ser nulo.");
 
             if (Nome.Length > 100)
@@ -56,6 +56,11 @@ namespace TechLanches.Domain.Aggregates
             ArgumentNullException.ThrowIfNull(Preco);
             if (Preco <= 0)
                 throw new DomainException("Preço deve ser maior do que 0.");
+        }
+
+        public void ProdutoDeletado()
+        {
+            Deletado = true;
         }
     }
 }

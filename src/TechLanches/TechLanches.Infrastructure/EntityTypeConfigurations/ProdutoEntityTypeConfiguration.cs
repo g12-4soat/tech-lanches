@@ -18,8 +18,7 @@ namespace TechLanches.Infrastructure.EntityTypeConfigurations
                 .HasMaxLength(100)
                 .IsRequired();
 
-            builder.HasIndex(x=> x.Nome)
-                .IsUnique();
+            builder.HasIndex(x => x.Nome);
 
             builder.Property(x => x.Descricao)
                 .HasMaxLength(300)

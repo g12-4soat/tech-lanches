@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Repositories;
@@ -49,7 +50,7 @@ namespace TechLanches.Infrastructure.Repositories
 
         public async void Deletar(Produto produto)
         {
-            produto.Deletado = true;
+            produto.ProdutoDeletado();
         }       
     }
 }
