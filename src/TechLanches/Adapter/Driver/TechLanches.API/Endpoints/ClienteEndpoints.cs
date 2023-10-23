@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Mapster;
+using Microsoft.AspNetCore.Mvc;
+using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services;
 
 namespace TechLanches.API.Endpoints;
@@ -18,20 +20,18 @@ public static class ClienteEndpoints
         var cliente = await clienteService.BuscarPorCpf(cpf);
 
         return cliente is not null 
-            ? Results.Ok(cliente) 
+            ? Results.Ok(cliente.Adapt<ClienteResponseDTO>()) 
             : Results.NotFound(cpf);
     }
 
     private static async Task<IResult> CadastrarCliente(
-        string nome,
-        string email,
-        string cpf,
+        [FromBody] ClienteRequestDTO clienteRequest,
         [FromServices] IClienteService clienteService)
     {
-        var cliente = await clienteService.Cadastrar(nome, email, cpf);
+        var cliente = await clienteService.Cadastrar(clienteRequest.Nome, clienteRequest.Email, clienteRequest.CPF);
 
         return cliente is not null 
-            ? Results.Ok(cliente) 
-            : Results.BadRequest(new { nome, email, cpf });
+            ? Results.Ok(cliente.Adapt<ClienteResponseDTO>()) 
+            : Results.BadRequest(clienteRequest);
     }
 }

@@ -2,6 +2,7 @@
 using System.Reflection;
 using TechLanches.Application.DTOs;
 using TechLanches.Domain.Aggregates;
+using TechLanches.Domain.Entities;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.API.Configuration
@@ -15,6 +16,10 @@ namespace TechLanches.API.Configuration
 
             TypeAdapterConfig<Pedido, PedidoResponseDTO>.NewConfig()
                 .Map(dest => dest, src => src);
+
+            TypeAdapterConfig<Cliente, ClienteResponseDTO>.NewConfig()
+                .Map(dest => dest.Email, src => src.Email.EnderecoEmail)
+                .Map(dest => dest.CPF, src => src.CPF.Numero);
 
             TypeAdapterConfig.GlobalSettings.Scan(Assembly.GetExecutingAssembly());
         }
