@@ -7,6 +7,7 @@ using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.UnitTests.Services
 {
+    [Trait("Services", "ProdutoAggregate")]
     public class ProdutoAggregateTest
     {
         [Fact]

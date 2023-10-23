@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TechLanches.Core;
+﻿using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 
 namespace TechLanches.UnitTests.Domain
 {
+    [Trait("Domain", "ProdutoTest")]
     public class ProdutoTest
     {
         [Fact]
