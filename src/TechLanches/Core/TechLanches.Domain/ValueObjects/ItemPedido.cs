@@ -20,6 +20,7 @@ namespace TechLanches.Domain.ValueObjects
         public decimal PrecoProduto { get; private set; }
         public decimal Valor { get; private set; }
         public Pedido Pedido { get; private set; }
+        public Produto Produto { get; private set; }
 
         private void CalcularValor()
         {

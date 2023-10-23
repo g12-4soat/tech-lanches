@@ -15,7 +15,11 @@ namespace TechLanches.API.Configuration
                 .Map(dest => dest.Categoria, src => CategoriaProduto.From(src.Categoria.Id));
 
             TypeAdapterConfig<Pedido, PedidoResponseDTO>.NewConfig()
-                .Map(dest => dest, src => src);
+                .Map(dest => dest.StatusPedido, src => src.StatusPedido.ToString())
+                .Map(dest => dest.NomeCliente, src => src.Cliente.Nome ?? "Cliente não identificado");
+
+            TypeAdapterConfig<ItemPedido, ItemPedidoResponseDTO>.NewConfig()
+                .Map(dest => dest.NomeProduto, src => src.Produto.Nome);
 
             TypeAdapterConfig<Cliente, ClienteResponseDTO>.NewConfig()
                 .Map(dest => dest.Email, src => src.Email.EnderecoEmail)

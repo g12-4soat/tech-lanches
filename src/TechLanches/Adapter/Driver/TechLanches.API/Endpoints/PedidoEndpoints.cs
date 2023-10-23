@@ -1,9 +1,7 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services;
-using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
 using TechLanches.Domain.Services;
 using TechLanches.Domain.ValueObjects;

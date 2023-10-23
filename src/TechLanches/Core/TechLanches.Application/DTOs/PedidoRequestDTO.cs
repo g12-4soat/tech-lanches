@@ -1,7 +1,4 @@
-﻿using System.Text.Json.Serialization;
-using TechLanches.Domain.Enums;
-
-namespace TechLanches.Application.DTOs
+﻿namespace TechLanches.Application.DTOs
 {
     public class PedidoRequestDTO
     {
@@ -21,7 +18,9 @@ namespace TechLanches.Application.DTOs
 
         public int? ClienteId { get; set; }
 
-        public StatusPedido StatusPedido { get; set; }
+        public string NomeCliente { get; set; }
+
+        public string StatusPedido { get; set; }
 
         public decimal Valor { get; set; }
 
@@ -38,7 +37,6 @@ namespace TechLanches.Application.DTOs
 
         public decimal PrecoProduto { get; set; }
 
-        [JsonPropertyName("Valor")]
         public decimal Valor { get; set; }
     }
 }

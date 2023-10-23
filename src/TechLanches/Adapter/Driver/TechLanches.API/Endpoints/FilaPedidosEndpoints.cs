@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Mapster;
+using Microsoft.AspNetCore.Mvc;
+using TechLanches.Application.DTOs;
 using TechLanches.Domain.Enums;
 using TechLanches.Domain.Services;
 
@@ -14,7 +16,10 @@ namespace TechLanches.API.Endpoints
         private static async Task<IResult> RetornarFilaPedidos(
             [FromServices] IPedidoService pedidoService)
         {
-            return Results.Ok(await pedidoService.BuscarPorStatus(StatusPedido.PedidoEmPreparacao));
+            var pedidos = await pedidoService.BuscarPorStatus(StatusPedido.PedidoEmPreparacao);
+            return pedidos is not null
+                ? Results.Ok(pedidos.Adapt<List<PedidoResponseDTO>>())
+                : Results.BadRequest();
         }
     }
 }

@@ -29,6 +29,10 @@ namespace TechLanches.Adapter.SqlServer.EntityTypeConfigurations
             builder.HasOne(x => x.Pedido)
                 .WithMany(p => p.ItensPedido)
                 .HasForeignKey(x => x.PedidoId);
+
+            builder.HasOne(x => x.Produto)
+                .WithMany(p => p.ItensPedidos)
+                .HasForeignKey(x => x.ProdutoId);
         }
     }
 }
