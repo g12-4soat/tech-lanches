@@ -8,7 +8,6 @@ namespace TechLanches.Domain.ValueObjects
         public ItemPedido(int produtoId, int quantidade, decimal precoProduto)
         {
             ProdutoId = produtoId;
-            //PedidoId = pedidoId;
             Quantidade = quantidade;
             PrecoProduto = precoProduto;
             CalcularValor();
@@ -29,18 +28,12 @@ namespace TechLanches.Domain.ValueObjects
 
         private void Validar()
         {
-            ArgumentNullException.ThrowIfNull(ProdutoId);
-            //ArgumentNullException.ThrowIfNull(PedidoId);
-
-            ArgumentNullException.ThrowIfNull(Quantidade);
             if (Quantidade <= 0)
                 throw new DomainException("Quantidade deve ser maior que zero.");
 
-            ArgumentNullException.ThrowIfNull(PrecoProduto);
             if (PrecoProduto <= 0)
                 throw new DomainException("Preço Produto deve ser maior que zero.");
 
-            ArgumentNullException.ThrowIfNull(Valor);
             if (Valor <= 0)
                 throw new DomainException("Valor deve ser maior que zero.");
         }
@@ -48,7 +41,6 @@ namespace TechLanches.Domain.ValueObjects
         protected override IEnumerable<object> RetornarPropriedadesDeEquidade()
         {
             yield return ProdutoId; 
-            //yield return PedidoId; 
             yield return Quantidade;
             yield return PrecoProduto;
             yield return Valor;
