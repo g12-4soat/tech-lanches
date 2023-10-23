@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using TechLanches.API.Constantes;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services;
 using TechLanches.Domain.Enums;
@@ -12,11 +13,11 @@ public static class PedidoEndpoints
 {
     public static void MapPedidoEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("api/pedidos", BuscarPedidos).WithTags("Pedidos");
-        app.MapGet("api/pedidos/{idPedido}", BuscarPedidoPorId).WithTags("Pedidos");
-        app.MapGet("api/pedidos/BuscarPedidosPorStatus/{statusPedido}", BuscarPedidosPorStatus).WithTags("Pedidos");
-        app.MapPost("api/pedidos", CadastrarPedido).WithTags("Pedidos");
-        app.MapPut("api/pedidos/{idPedido}", TrocarStatus).WithTags("Pedidos");
+        app.MapGet("api/pedidos", BuscarPedidos).WithTags(EndpointTagConstantes.TAG_PEDIDO);
+        app.MapGet("api/pedidos/{idPedido}", BuscarPedidoPorId).WithTags(EndpointTagConstantes.TAG_PEDIDO);
+        app.MapGet("api/pedidos/BuscarPedidosPorStatus/{statusPedido}", BuscarPedidosPorStatus).WithTags(EndpointTagConstantes.TAG_PEDIDO);
+        app.MapPost("api/pedidos", CadastrarPedido).WithTags(EndpointTagConstantes.TAG_PEDIDO);
+        app.MapPut("api/pedidos/{idPedido}", TrocarStatus).WithTags(EndpointTagConstantes.TAG_PEDIDO);
     }
 
     private static async Task<IResult> BuscarPedidos(

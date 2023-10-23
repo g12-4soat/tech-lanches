@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using TechLanches.API.Constantes;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services;
 
@@ -9,8 +10,8 @@ public static class ClienteEndpoints
 {
     public static void MapClienteEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("api/clientes/{cpf}", BuscarClientePorCpf).WithTags("Clientes");
-        app.MapPost("api/clientes", CadastrarCliente).WithTags("Clientes");
+        app.MapGet("api/clientes/{cpf}", BuscarClientePorCpf).WithTags(EndpointTagConstantes.TAG_CLIENTE);
+        app.MapPost("api/clientes", CadastrarCliente).WithTags(EndpointTagConstantes.TAG_CLIENTE);
     }
 
     private static async Task<IResult> BuscarClientePorCpf(

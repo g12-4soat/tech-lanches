@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using TechLanches.API.Constantes;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services;
 
@@ -9,12 +10,12 @@ namespace TechLanches.API.Endpoints
     {
         public static void MapProdutoEndpoints(this IEndpointRouteBuilder app)
         {
-            app.MapGet("api/produtos", BuscarTodosProdutos);
-            app.MapGet("api/produtos/{id}", BuscarProdutoPorId);
-            app.MapGet("api/produtos/categoria/{categoriaId}", BuscarProdutosPorCategoria);
-            app.MapPost("api/produtos", CadastrarProduto);
-            app.MapPut("api/produtos", AtualizarProduto);
-            app.MapDelete("api/produtos/{id}", DeletarProduto);
+            app.MapGet("api/produtos", BuscarTodosProdutos).WithTags(EndpointTagConstantes.TAG_PRODUTO);
+            app.MapGet("api/produtos/{id}", BuscarProdutoPorId).WithTags(EndpointTagConstantes.TAG_PRODUTO);
+            app.MapGet("api/produtos/categoria/{categoriaId}", BuscarProdutosPorCategoria).WithTags(EndpointTagConstantes.TAG_PRODUTO);
+            app.MapPost("api/produtos", CadastrarProduto).WithTags(EndpointTagConstantes.TAG_PRODUTO);
+            app.MapPut("api/produtos", AtualizarProduto).WithTags(EndpointTagConstantes.TAG_PRODUTO);
+            app.MapDelete("api/produtos/{id}", DeletarProduto).WithTags(EndpointTagConstantes.TAG_PRODUTO);
         }
 
         private static async Task<IResult> CadastrarProduto(

@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using TechLanches.API.Constantes;
 using TechLanches.Application.DTOs;
 using TechLanches.Domain.Enums;
 using TechLanches.Domain.Services;
@@ -10,7 +11,7 @@ namespace TechLanches.API.Endpoints
     {
         public static void MapFilaPedidoEndpoints(this IEndpointRouteBuilder app)
         {
-            app.MapGet("api/filapedidos", RetornarFilaPedidos).WithTags("FilaPedidos");
+            app.MapGet("api/filapedidos", RetornarFilaPedidos).WithTags(EndpointTagConstantes.TAG_FILA_PEDIDO);
         }
 
         private static async Task<IResult> RetornarFilaPedidos(
