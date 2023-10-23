@@ -69,7 +69,8 @@ namespace TechLanches.UnitTests.Worker
             // Assert
             await mockFilaPedidoService.Received(1).RetornarPrimeiroPedidoDaFila();
             await mockFilaPedidoService.DidNotReceive().TrocarStatus(Arg.Any<Pedido>(), Arg.Any<StatusPedido>());
+            mockLogger.Received(1).Log(LogLevel.Error, Arg.Any<EventId>(), Arg.Any<object>(), Arg.Any<Exception>(),
+            Arg.Any<Func<object, Exception?, string>>());
         }
-
-    }
+    }   
 }
