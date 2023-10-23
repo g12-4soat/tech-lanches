@@ -2,7 +2,7 @@
 {
     public class WorkerOptions
     {
-        public int DelayPreparacaoPedido { get; set; }
-        public int DelayVerificacaoFila { get; set; }
+        public int DelayPreparacaoPedidoEmSegundos { get; set; }
+        public int DelayVerificacaoFilaEmSegundos { get; set; }
     }
 }

@@ -39,7 +39,7 @@ namespace TechLanches.Adapter.FilaPedidos
 
                         _logger.LogInformation($"Pedido {proximoPedido.Id} em preparação.");
 
-                        await Task.Delay(1000 * _workerOptions.DelayPreparacaoPedido, stoppingToken);
+                        await Task.Delay(1000 * _workerOptions.DelayPreparacaoPedidoEmSegundos, stoppingToken);
 
                         _logger.LogInformation($"Pedido {proximoPedido.Id} preparação finalizada.");
 
@@ -57,7 +57,7 @@ namespace TechLanches.Adapter.FilaPedidos
                     _logger.LogError(ex, "Erro ao processar fila de pedidos.");
                 }
 
-                await Task.Delay(_workerOptions.DelayVerificacaoFila * 1000, stoppingToken);
+                await Task.Delay(_workerOptions.DelayVerificacaoFilaEmSegundos * 1000, stoppingToken);
             }
         }
     }

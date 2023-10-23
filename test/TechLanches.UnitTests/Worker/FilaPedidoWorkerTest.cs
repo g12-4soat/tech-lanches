@@ -24,8 +24,8 @@ namespace TechLanches.UnitTests.Worker
             var mockOptions = Substitute.For<IOptions<WorkerOptions>>();
             var workerOptions = new WorkerOptions
             {
-                DelayPreparacaoPedido = 1,
-                DelayVerificacaoFila = 5
+                DelayPreparacaoPedidoEmSegundos = 1,
+                DelayVerificacaoFilaEmSegundos = 5
             };
 
             mockOptions.Value.Returns(workerOptions);
@@ -34,7 +34,7 @@ namespace TechLanches.UnitTests.Worker
 
             // Act
             await workerService.StartAsync(CancellationToken.None);
-            await Task.Delay(1000 * (workerOptions.DelayPreparacaoPedido + 1)); // Aguardando um período para permitir que o método ExecuteAsync seja executado
+            await Task.Delay(1000 * (workerOptions.DelayPreparacaoPedidoEmSegundos + 1)); // Aguardando um período para permitir que o método ExecuteAsync seja executado
 
             // Assert
             await mockFilaPedidoService.Received(1).RetornarPrimeiroPedidoDaFila();
@@ -54,8 +54,8 @@ namespace TechLanches.UnitTests.Worker
             var mockOptions = Substitute.For<IOptions<WorkerOptions>>();
             var workerOptions = new WorkerOptions
             {
-                DelayPreparacaoPedido = 1,
-                DelayVerificacaoFila = 1
+                DelayPreparacaoPedidoEmSegundos = 1,
+                DelayVerificacaoFilaEmSegundos = 1
             };
 
             mockOptions.Value.Returns(workerOptions);
@@ -82,8 +82,8 @@ namespace TechLanches.UnitTests.Worker
             var mockOptions = Substitute.For<IOptions<WorkerOptions>>();
             var workerOptions = new WorkerOptions
             {
-                DelayPreparacaoPedido = 1,
-                DelayVerificacaoFila = 1
+                DelayPreparacaoPedidoEmSegundos = 1,
+                DelayVerificacaoFilaEmSegundos = 1
             };
 
             mockOptions.Value.Returns(workerOptions);
