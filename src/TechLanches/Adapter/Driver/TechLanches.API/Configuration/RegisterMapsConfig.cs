@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using System.Reflection;
+using TechLanches.API.Constantes;
 using TechLanches.Application.DTOs;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Entities;
@@ -16,7 +17,7 @@ namespace TechLanches.API.Configuration
 
             TypeAdapterConfig<Pedido, PedidoResponseDTO>.NewConfig()
                 .Map(dest => dest.StatusPedido, src => src.StatusPedido.ToString())
-                .Map(dest => dest.NomeCliente, src => src.Cliente.Nome ?? "Cliente não identificado");
+                .Map(dest => dest.NomeCliente, src => src.Cliente.Nome ?? MensagensConstantes.CLIENTE_NAO_IDENTIFICADO);
 
             TypeAdapterConfig<ItemPedido, ItemPedidoResponseDTO>.NewConfig()
                 .Map(dest => dest.NomeProduto, src => src.Produto.Nome);

@@ -57,7 +57,7 @@ public static class PedidoEndpoints
         [FromServices] IPedidoService pedidoService, IClienteService clienteService, IProdutoService produtoService)
     {
         if (!pedidoDto.ItensPedido.Any())
-            return Results.BadRequest("É necessário pelo menos 1 item para o pedido");
+            return Results.BadRequest(MensagensConstantes.SEM_NENHUM_ITEM_PEDIDO);
 
         int? clienteId = null;
 
@@ -65,7 +65,7 @@ public static class PedidoEndpoints
         {
             var clienteExistente = await clienteService.BuscarPorCpf(pedidoDto.Cpf);
 
-            if(clienteExistente is null) return Results.BadRequest("Cliente não cadastrado!");
+            if(clienteExistente is null) return Results.BadRequest(MensagensConstantes.CLIENTE_NAO_CADASTRADO);
 
             clienteId = clienteExistente.Id;
         }
