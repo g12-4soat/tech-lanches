@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using TechLanches.Adapter.FilaPedidos;
+using TechLanches.Adapter.FilaPedidos.Options;
 using TechLanches.Adapter.SqlServer;
 using TechLanches.Adapter.SqlServer.Repositories;
 using TechLanches.Application;
@@ -17,6 +19,7 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
             .Build();
 
         services.AddDatabaseConfiguration(settingsConfig, ServiceLifetime.Singleton);
+        services.Configure<WorkerOptions>(settingsConfig.GetSection("Worker"));
 
         services.AddSingleton<IPedidoRepository, PedidoRepository>();
         services.AddSingleton<IFilaPedidoRepository, FilaPedidoRepository>();
