@@ -41,7 +41,7 @@ namespace TechLanches.API.Endpoints
         }
 
         private static async Task<IResult> DeletarProduto(
-          [FromQuery] int id,
+          [FromRoute] int id,
           [FromServices] IProdutoService produtoService)
         {
             var produto = await produtoService.BuscarPorId(id);
@@ -64,7 +64,7 @@ namespace TechLanches.API.Endpoints
         }
 
         private static async Task<IResult> BuscarProdutoPorId(
-           [FromQuery] int id,
+           [FromRoute] int id,
            [FromServices] IProdutoService produtoService)
         {
             var produto = await produtoService.BuscarPorId(id);
@@ -75,7 +75,7 @@ namespace TechLanches.API.Endpoints
         }
 
         private static async Task<IResult> BuscarProdutosPorCategoria(
-           [FromQuery] int categoriaId,
+           [FromRoute] int categoriaId,
            [FromServices] IProdutoService produtoService)
         {
             var produtos = await produtoService.BuscarPorCategoria(categoriaId);
