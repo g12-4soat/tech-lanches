@@ -15,7 +15,7 @@ public static class ClienteEndpoints
     }
 
     private static async Task<IResult> BuscarClientePorCpf(
-        [FromQuery] string cpf,
+        [FromRoute] string cpf,
         [FromServices] IClienteService clienteService)
     {
         var cliente = await clienteService.BuscarPorCpf(cpf);

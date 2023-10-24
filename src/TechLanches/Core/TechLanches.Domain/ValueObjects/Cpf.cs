@@ -3,7 +3,7 @@ using TechLanches.Core;
 
 namespace TechLanches.Domain.ValueObjects
 {
-    public class Cpf: ValueObject
+    public class Cpf : ValueObject
     {
         private Cpf()
         {
@@ -14,7 +14,7 @@ namespace TechLanches.Domain.ValueObjects
         {
             ArgumentNullException.ThrowIfNull(cpf);
 
-            Numero = Validar(cpf) ? cpf : throw new DomainException($"CPF inválido {cpf}");
+            Numero = Validar(cpf) ? LimparCpf(cpf) : throw new DomainException($"CPF inválido {cpf}");
         }
 
         public string Numero { get; private set; }
@@ -22,7 +22,7 @@ namespace TechLanches.Domain.ValueObjects
         public static bool Validar(string cpf)
         {
             // Remove caracteres não numéricos
-            string cleanCpf = Regex.Replace(cpf, @"[^\d]", "");
+            string cleanCpf = LimparCpf(cpf);
 
             // Verifica se o CPF tem 11 dígitos
             if (cleanCpf.Length != 11)
@@ -56,6 +56,11 @@ namespace TechLanches.Domain.ValueObjects
 
             // Verifica o segundo dígito verificador
             return int.Parse(cleanCpf[10].ToString()) == secondDigit;
+        }
+
+        private static string LimparCpf(string cpf)
+        {
+            return Regex.Replace(cpf, @"[^\d]", "");
         }
 
         protected override IEnumerable<object> RetornarPropriedadesDeEquidade()

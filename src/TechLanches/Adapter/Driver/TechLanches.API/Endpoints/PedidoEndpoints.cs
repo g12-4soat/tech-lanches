@@ -88,8 +88,8 @@ public static class PedidoEndpoints
     }
 
     private static async Task<IResult> TrocarStatus(
-        int idPedido,
-        [FromQuery] int statusPedido,
+        [FromRoute] int idPedido,
+        [FromBody] int statusPedido,
         [FromServices] IPedidoService pedidoService)
     {
         var pedido = await pedidoService.TrocarStatus(idPedido, (StatusPedido)statusPedido);
