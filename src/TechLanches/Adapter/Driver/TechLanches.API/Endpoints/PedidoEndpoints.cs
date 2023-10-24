@@ -1,9 +1,8 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
+using TechLanches.API.Constantes;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services;
-using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
 using TechLanches.Domain.Services;
 using TechLanches.Domain.ValueObjects;
@@ -14,11 +13,11 @@ public static class PedidoEndpoints
 {
     public static void MapPedidoEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("api/pedidos", BuscarPedidos).WithTags("Pedidos");
-        app.MapGet("api/pedidos/{idPedido}", BuscarPedidoPorId).WithTags("Pedidos");
-        app.MapGet("api/pedidos/BuscarPedidosPorStatus/{statusPedido}", BuscarPedidosPorStatus).WithTags("Pedidos");
-        app.MapPost("api/pedidos", CadastrarPedido).WithTags("Pedidos");
-        app.MapPut("api/pedidos/{idPedido}", TrocarStatus).WithTags("Pedidos");
+        app.MapGet("api/pedidos", BuscarPedidos).WithTags(EndpointTagConstantes.TAG_PEDIDO);
+        app.MapGet("api/pedidos/{idPedido}", BuscarPedidoPorId).WithTags(EndpointTagConstantes.TAG_PEDIDO);
+        app.MapGet("api/pedidos/BuscarPedidosPorStatus/{statusPedido}", BuscarPedidosPorStatus).WithTags(EndpointTagConstantes.TAG_PEDIDO);
+        app.MapPost("api/pedidos", CadastrarPedido).WithTags(EndpointTagConstantes.TAG_PEDIDO);
+        app.MapPut("api/pedidos/{idPedido}", TrocarStatus).WithTags(EndpointTagConstantes.TAG_PEDIDO);
     }
 
     private static async Task<IResult> BuscarPedidos(
@@ -58,7 +57,7 @@ public static class PedidoEndpoints
         [FromServices] IPedidoService pedidoService, IClienteService clienteService, IProdutoService produtoService)
     {
         if (!pedidoDto.ItensPedido.Any())
-            return Results.BadRequest("É necessário pelo menos 1 item para o pedido");
+            return Results.BadRequest(MensagensConstantes.SEM_NENHUM_ITEM_PEDIDO);
 
         int? clienteId = null;
 
@@ -66,7 +65,7 @@ public static class PedidoEndpoints
         {
             var clienteExistente = await clienteService.BuscarPorCpf(pedidoDto.Cpf);
 
-            if(clienteExistente is null) return Results.BadRequest("Cliente não cadastrado!");
+            if(clienteExistente is null) return Results.BadRequest(MensagensConstantes.CLIENTE_NAO_CADASTRADO);
 
             clienteId = clienteExistente.Id;
         }

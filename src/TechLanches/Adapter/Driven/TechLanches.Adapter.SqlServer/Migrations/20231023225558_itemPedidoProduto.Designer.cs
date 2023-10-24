@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TechLanches.Adapter.SqlServer;
 
@@ -11,9 +12,10 @@ using TechLanches.Adapter.SqlServer;
 namespace TechLanches.Adapter.SqlServer.Migrations
 {
     [DbContext(typeof(TechLanchesDbContext))]
-    partial class TechLanchesDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231023225558_itemPedidoProduto")]
+    partial class itemPedidoProduto
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -83,7 +85,8 @@ namespace TechLanches.Adapter.SqlServer.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Nome");
+                    b.HasIndex("Nome")
+                        .IsUnique();
 
                     b.ToTable("Produtos", (string)null);
                 });

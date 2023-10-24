@@ -32,6 +32,8 @@ namespace TechLanches.Domain.Aggregates
         public decimal Preco { get; private set; }
         public CategoriaProduto Categoria { get; private set; }
         public bool Deletado { get; private set; }
+        public IReadOnlyCollection<ItemPedido> ItensPedidos { get; private set; }
+
 
         private void Validar()
         {
