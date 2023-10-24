@@ -31,8 +31,9 @@ namespace TechLanches.Domain.Aggregates
         public string Descricao { get; private set; }
         public decimal Preco { get; private set; }
         public CategoriaProduto Categoria { get; private set; }
-        public bool Deletado { get; set; }
+        public bool Deletado { get; private set; }
         public IReadOnlyCollection<ItemPedido> ItensPedidos { get; private set; }
+
 
         private void Validar()
         {
@@ -57,6 +58,11 @@ namespace TechLanches.Domain.Aggregates
             ArgumentNullException.ThrowIfNull(Preco);
             if (Preco <= 0)
                 throw new DomainException("Preço deve ser maior do que 0.");
+        }
+
+        public void ProdutoDeletado()
+        {
+            Deletado = true;
         }
     }
 }
