@@ -23,6 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\src\TechLanches\Adapter\Driver\TechLanches.Adapter.FilaPedidos\TechLanches.Adapter.FilaPedidos.csproj" />
     <ProjectReference Include="..\..\src\TechLanches\Core\TechLanches.Application\TechLanches.Application.csproj" />
     <ProjectReference Include="..\..\src\TechLanches\Core\TechLanches.Core\TechLanches.Core.csproj" />
     <ProjectReference Include="..\..\src\TechLanches\Core\TechLanches.Domain\TechLanches.Domain.csproj" />

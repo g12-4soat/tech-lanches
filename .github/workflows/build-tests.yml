@@ -22,13 +22,13 @@ jobs:
     - name: Set up .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.x  # Change to the desired .NET version
+        dotnet-version: 6.x
 
     - name: Restore NuGet packages
-      run: dotnet restore test/**/*.csproj  # Adjust the path if necessary
+      run: dotnet restore test/**/*.csproj
 
     - name: Build
-      run: dotnet build test/**/*.csproj  # Adjust the path if necessary
+      run: dotnet build test/**/*.csproj
 
     - name: Test
-      run: dotnet test test/**/*.csproj  # Adjust the path if necessary
+      run: dotnet test test/**/*.csproj

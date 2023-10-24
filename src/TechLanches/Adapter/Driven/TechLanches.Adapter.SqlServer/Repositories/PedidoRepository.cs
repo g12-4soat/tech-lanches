@@ -19,13 +19,13 @@ public class PedidoRepository : IPedidoRepository
     }
 
     public async Task<List<Pedido>> BuscarTodos()
-        => await _context.Pedidos.AsNoTracking().Include(x => x.ItensPedido).ToListAsync();
+        => await _context.Pedidos.Include(x => x.ItensPedido).ToListAsync();
 
     public async Task<Pedido> BuscarPorId(int idPedido)
-        => await _context.Pedidos.AsNoTracking().Include(x => x.ItensPedido).SingleOrDefaultAsync(x => x.Id == idPedido);
+        => await _context.Pedidos.Include(x => x.ItensPedido).SingleOrDefaultAsync(x => x.Id == idPedido);
 
     public async Task<List<Pedido>> BuscarPorStatus(StatusPedido statusPedido)
-        => await _context.Pedidos.AsNoTracking().Include(x => x.ItensPedido).Where(x => x.StatusPedido == statusPedido).ToListAsync();
+        => await _context.Pedidos.Include(x => x.ItensPedido).Where(x => x.StatusPedido == statusPedido).ToListAsync();
 
     public async Task<Pedido> Cadastrar(Pedido pedido)
         => (await _context.AddAsync(pedido)).Entity;
