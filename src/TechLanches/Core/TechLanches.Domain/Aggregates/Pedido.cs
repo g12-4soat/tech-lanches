@@ -54,6 +54,9 @@ namespace TechLanches.Domain.Aggregates
 
         public void TrocarStatus(StatusPedido statusPedido)
         {
+            if (!Enum.IsDefined(typeof(StatusPedido), statusPedido))
+                throw new DomainException("Status inválido");
+
             ValidarStatus(statusPedido);
             StatusPedido = statusPedido;
         }
