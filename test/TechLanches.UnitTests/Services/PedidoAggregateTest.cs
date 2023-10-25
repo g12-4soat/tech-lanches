@@ -1,9 +1,10 @@
 ﻿using NSubstitute;
-using TechLanches.Application;
+using TechLanches.Application.Ports.Repositories;
+using TechLanches.Application.Ports.Services;
+using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
-using TechLanches.Domain.Repositories;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.UnitTests.Services
@@ -18,8 +19,8 @@ namespace TechLanches.UnitTests.Services
             var pedidoRepository = Substitute.For<IPedidoRepository>();
             var pagamentoService = Substitute.For<IPagamentoService>();
 
-            pedidoRepository.BuscarTodos().Returns(new List<Pedido> 
-            { 
+            pedidoRepository.BuscarTodos().Returns(new List<Pedido>
+            {
                 new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1) })
             });
             var pedidoService = new PedidoService(pedidoRepository, pagamentoService);

@@ -1,19 +1,18 @@
-﻿using TechLanches.Application.DTOs;
+﻿using TechLanches.Application.Ports.Repositories;
+using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
-using TechLanches.Domain.Repositories;
-using TechLanches.Domain.Services;
 using TechLanches.Domain.ValueObjects;
 
-namespace TechLanches.Application
+namespace TechLanches.Application.Ports.Services
 {
     public class PedidoService : IPedidoService
     {
         private readonly IPedidoRepository _pedidoRepository;
         private readonly IPagamentoService _pagamentoService;
 
-        
+
 
         public PedidoService(IPedidoRepository pedidoRepository, IPagamentoService pagamentoService)
         {
@@ -46,7 +45,7 @@ namespace TechLanches.Application
 
         public async Task<Pedido> TrocarStatus(int pedidoId, StatusPedido statusPedido)
         {
-            var pedido = await _pedidoRepository.BuscarPorId(pedidoId) 
+            var pedido = await _pedidoRepository.BuscarPorId(pedidoId)
                 ?? throw new DomainException("Não foi encontrado nenhum pedido com id informado.");
             pedido.TrocarStatus(statusPedido);
             _pedidoRepository.Atualizar(pedido);

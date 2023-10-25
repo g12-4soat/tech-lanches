@@ -2,7 +2,7 @@
 using TechLanches.Domain.Enums;
 using TechLanches.Domain.ValueObjects;
 
-namespace TechLanches.Domain.Services
+namespace TechLanches.Application.Ports.Services.Interfaces
 {
     public interface IPedidoService
     {

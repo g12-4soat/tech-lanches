@@ -1,10 +1,10 @@
 ﻿using TechLanches.Application.Ports.Repositories;
-using TechLanches.Application.Ports.Services;
+using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
 using TechLanches.Domain.Entities;
 using TechLanches.Domain.ValueObjects;
 
-namespace TechLanches.Application
+namespace TechLanches.Application.Ports.Services
 {
     public class ClienteService : IClienteService
     {

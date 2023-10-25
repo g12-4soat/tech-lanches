@@ -1,4 +1,4 @@
-﻿namespace TechLanches.Application;
+﻿namespace TechLanches.Application.Ports.Services.Interfaces;
 
 public interface IPagamentoService
 {

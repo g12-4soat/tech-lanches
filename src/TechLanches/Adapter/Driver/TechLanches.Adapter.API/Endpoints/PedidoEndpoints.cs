@@ -1,13 +1,12 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using TechLanches.API.Constantes;
+using TechLanches.Adapter.API.Constantes;
 using TechLanches.Application.DTOs;
-using TechLanches.Application.Ports.Services;
+using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Domain.Enums;
-using TechLanches.Domain.Services;
 using TechLanches.Domain.ValueObjects;
 
-namespace TechLanches.API.Endpoints;
+namespace TechLanches.Adapter.API.Endpoints;
 
 public static class PedidoEndpoints
 {
@@ -61,11 +60,11 @@ public static class PedidoEndpoints
 
         int? clienteId = null;
 
-        if(pedidoDto.Cpf is not null)
+        if (pedidoDto.Cpf is not null)
         {
             var clienteExistente = await clienteService.BuscarPorCpf(pedidoDto.Cpf);
 
-            if(clienteExistente is null) return Results.BadRequest(MensagensConstantes.CLIENTE_NAO_CADASTRADO);
+            if (clienteExistente is null) return Results.BadRequest(MensagensConstantes.CLIENTE_NAO_CADASTRADO);
 
             clienteId = clienteExistente.Id;
         }
@@ -92,7 +91,7 @@ public static class PedidoEndpoints
         [FromBody] int statusPedido,
         [FromServices] IPedidoService pedidoService)
     {
-        if(!Enum.IsDefined(typeof(StatusPedido), statusPedido))
+        if (!Enum.IsDefined(typeof(StatusPedido), statusPedido))
             return Results.BadRequest();
 
         var pedido = await pedidoService.TrocarStatus(idPedido, (StatusPedido)statusPedido);

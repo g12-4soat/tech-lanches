@@ -2,7 +2,7 @@
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
 
-namespace TechLanches.Domain.Repositories
+namespace TechLanches.Application.Ports.Repositories
 {
     public interface IPedidoRepository : IRepository<Pedido>
     {

@@ -1,7 +1,7 @@
 ﻿using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
 
-namespace TechLanches.Application.Ports.Services
+namespace TechLanches.Application.Ports.Services.Interfaces
 {
     public interface IFilaPedidoService
     {

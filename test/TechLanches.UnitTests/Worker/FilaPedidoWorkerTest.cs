@@ -4,7 +4,7 @@ using NSubstitute;
 using NSubstitute.ExceptionExtensions;
 using TechLanches.Adapter.FilaPedidos;
 using TechLanches.Adapter.FilaPedidos.Options;
-using TechLanches.Application.Ports.Services;
+using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
 using TechLanches.Domain.ValueObjects;
@@ -64,13 +64,13 @@ namespace TechLanches.UnitTests.Worker
 
             // Act
             await workerService.StartAsync(CancellationToken.None);
-            await Task.Delay(100); 
+            await Task.Delay(100);
 
             // Assert
             await mockFilaPedidoService.Received(1).RetornarPrimeiroPedidoDaFila();
             await mockFilaPedidoService.DidNotReceive().TrocarStatus(Arg.Any<Pedido>(), Arg.Any<StatusPedido>());
         }
-      
+
         [Fact]
         public async Task ExecuteAsync_ComExcecao_NoCatch_DeveLogarErro()
         {
@@ -99,5 +99,5 @@ namespace TechLanches.UnitTests.Worker
             mockLogger.Received(1).Log(LogLevel.Error, Arg.Any<EventId>(), Arg.Any<object>(), Arg.Any<Exception>(),
             Arg.Any<Func<object, Exception?, string>>());
         }
-    }   
+    }
 }

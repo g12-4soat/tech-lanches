@@ -3,7 +3,7 @@
     public class PedidoRequestDTO
     {
         public string? Cpf { get; set; }
-        public List<ItemPedidoDTO> ItensPedido { get; set; } 
+        public List<ItemPedidoDTO> ItensPedido { get; set; }
     }
 
     public class ItemPedidoDTO

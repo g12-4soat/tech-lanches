@@ -19,7 +19,7 @@ namespace TechLanches.Domain.Aggregates
             Validar();
         }
 
-        public Pedido(int pedidoId, int clienteId, List<ItemPedido> itensPedido) : base (pedidoId)
+        public Pedido(int pedidoId, int clienteId, List<ItemPedido> itensPedido) : base(pedidoId)
         {
             ClienteId = clienteId;
             _itensPedido = new List<ItemPedido>();
@@ -41,8 +41,8 @@ namespace TechLanches.Domain.Aggregates
                 AdicionarItemPedido(itemPedido);
         }
 
-        public void AdicionarItemPedido(ItemPedido itemPedido) 
-        { 
+        public void AdicionarItemPedido(ItemPedido itemPedido)
+        {
             _itensPedido.Add(itemPedido);
             CalcularValor();
         }

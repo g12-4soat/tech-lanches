@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TechLanches.Adapter.SqlServer;
+using TechLanches.Application.Ports.Repositories;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
-using TechLanches.Domain.Repositories;
 
 namespace TechLanches.Adapter.SqlServer.Repositories;
 

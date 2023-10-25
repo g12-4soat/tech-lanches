@@ -1,6 +1,7 @@
-﻿using TechLanches.Adapter.SqlServer.Middlewares;
+﻿
+using TechLanches.Adapter.API.Middlewares;
 
-namespace TechLanches.API.Configuration
+namespace TechLanches.Adapter.API.Configuration
 {
     public static class ApplicationBuilderConfig
     {

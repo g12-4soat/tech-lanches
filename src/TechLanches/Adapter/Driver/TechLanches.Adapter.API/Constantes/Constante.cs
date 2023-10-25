@@ -1,4 +1,4 @@
-﻿namespace TechLanches.API.Constantes
+﻿namespace TechLanches.Adapter.API.Constantes
 {
     public static class EndpointTagConstantes
     {
