@@ -9,7 +9,7 @@ namespace TechLanches.UnitTests.Domain
     public class PedidoAggregateTest
     {
         [Fact(DisplayName = "Criar item do pedido com sucesso")]
-        public void Criar_item_pedido_sucesso() 
+        public void Criar_item_pedido_sucesso()
         {
             //Arrange    
             var produtoId = 1;
@@ -25,7 +25,7 @@ namespace TechLanches.UnitTests.Domain
         }
 
         [Fact(DisplayName = "Criar item do pedido com falha")]
-        public void Criar_item_pedido_falha() 
+        public void Criar_item_pedido_falha()
         {
             //Arrange    
             var produtoId = 1;

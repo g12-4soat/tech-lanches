@@ -1,6 +1,6 @@
 ﻿using Microsoft.OpenApi.Models;
 
-namespace TechLanches.API.Configuration
+namespace TechLanches.Adapter.API.Configuration
 {
     public static class SwaggerConfig
     {

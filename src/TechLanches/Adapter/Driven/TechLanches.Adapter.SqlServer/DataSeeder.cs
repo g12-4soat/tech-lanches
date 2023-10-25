@@ -10,7 +10,7 @@ namespace TechLanches.Adapter.SqlServer
         {
             ClientesSeed(context);
             ProdutosSeed(context);
-            PedidosSeed(context);            
+            PedidosSeed(context);
         }
 
         private static void ClientesSeed(TechLanchesDbContext context)

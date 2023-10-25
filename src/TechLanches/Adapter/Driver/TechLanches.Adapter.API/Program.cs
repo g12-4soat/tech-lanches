@@ -1,4 +1,4 @@
-using TechLanches.API.Configuration;
+using TechLanches.Adapter.API.Configuration;
 using TechLanches.Adapter.SqlServer;
 
 var builder = WebApplication.CreateBuilder(args);

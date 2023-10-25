@@ -2,6 +2,6 @@
 {
     public class FilaPedido
     {
-        public int PedidoId { get; set; }
+        public int PedidoId { get; set; } 
     }
 }

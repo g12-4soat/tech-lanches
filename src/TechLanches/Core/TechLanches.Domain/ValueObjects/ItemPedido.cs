@@ -41,7 +41,7 @@ namespace TechLanches.Domain.ValueObjects
 
         protected override IEnumerable<object> RetornarPropriedadesDeEquidade()
         {
-            yield return ProdutoId; 
+            yield return ProdutoId;
             yield return Quantidade;
             yield return PrecoProduto;
             yield return Valor;

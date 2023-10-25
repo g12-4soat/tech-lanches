@@ -1,10 +1,10 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using TechLanches.API.Constantes;
+using TechLanches.Adapter.API.Constantes;
 using TechLanches.Application.DTOs;
-using TechLanches.Application.Ports.Services;
+using TechLanches.Application.Ports.Services.Interfaces;
 
-namespace TechLanches.API.Endpoints
+namespace TechLanches.Adapter.API.Endpoints
 {
     public static class ProdutoEndpoints
     {
@@ -68,7 +68,7 @@ namespace TechLanches.API.Endpoints
            [FromServices] IProdutoService produtoService)
         {
             var produto = await produtoService.BuscarPorId(id);
-            if(produto is null)
+            if (produto is null)
                 return Results.NotFound(new { error = $"Nenhum produto encontrado para o id: {id}." });
 
             return Results.Ok(produto.Adapt<ProdutoResponseDTO>());

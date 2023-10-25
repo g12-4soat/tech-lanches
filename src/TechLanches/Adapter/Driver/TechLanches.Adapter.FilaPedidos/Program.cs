@@ -1,13 +1,10 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using TechLanches.Adapter.FilaPedidos;
 using TechLanches.Adapter.FilaPedidos.Options;
 using TechLanches.Adapter.SqlServer;
 using TechLanches.Adapter.SqlServer.Repositories;
-using TechLanches.Application;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services;
-using TechLanches.Domain.Repositories;
+using TechLanches.Application.Ports.Services.Interfaces;
 
 var hostBuilder = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>

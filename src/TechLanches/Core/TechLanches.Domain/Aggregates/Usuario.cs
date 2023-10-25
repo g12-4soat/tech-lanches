@@ -11,7 +11,7 @@ namespace TechLanches.Domain.Aggregates
         {
             ArgumentNullException.ThrowIfNull(nome);
 
-            if (string.IsNullOrWhiteSpace(nome)) 
+            if (string.IsNullOrWhiteSpace(nome))
                 throw new DomainException($"Nome não pode ser nulo ou vazio");
 
             Nome = nome;
@@ -25,7 +25,7 @@ namespace TechLanches.Domain.Aggregates
 
         private void Validar()
         {
-            if(Nome.Length <= 1 || Nome.Length > 50)
+            if (Nome.Length <= 1 || Nome.Length > 50)
                 throw new DomainException($"Nome precisa ter entre 2 e 50 caracteres");
         }
     }
