@@ -1,3 +1,5 @@
+using Microsoft.Extensions.Options;
+using TechLanches.Adapter.FilaPedidos.Options;
 using TechLanches.Application.Ports.Services;
 using TechLanches.Domain.Enums;
 
@@ -7,13 +9,16 @@ namespace TechLanches.Adapter.FilaPedidos
     {
         private readonly IFilaPedidoService _filaPedidoService;
         private readonly ILogger<FilaPedidosHostedService> _logger;
+        private readonly WorkerOptions _workerOptions;
 
         public FilaPedidosHostedService(
             ILogger<FilaPedidosHostedService> logger,
-            IFilaPedidoService filaPedidoService)
+            IFilaPedidoService filaPedidoService,
+            IOptions<WorkerOptions> workerOptions)
         {
             _logger = logger;
             _filaPedidoService = filaPedidoService;
+            _workerOptions = workerOptions.Value;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -34,7 +39,7 @@ namespace TechLanches.Adapter.FilaPedidos
 
                         _logger.LogInformation($"Pedido {proximoPedido.Id} em preparação.");
 
-                        await Task.Delay(1000 * 20, stoppingToken);
+                        await Task.Delay(1000 * _workerOptions.DelayPreparacaoPedidoEmSegundos, stoppingToken);
 
                         _logger.LogInformation($"Pedido {proximoPedido.Id} preparação finalizada.");
 
@@ -52,7 +57,7 @@ namespace TechLanches.Adapter.FilaPedidos
                     _logger.LogError(ex, "Erro ao processar fila de pedidos.");
                 }
 
-                await Task.Delay(5000, stoppingToken);
+                await Task.Delay(_workerOptions.DelayVerificacaoFilaEmSegundos * 1000, stoppingToken);
             }
         }
     }

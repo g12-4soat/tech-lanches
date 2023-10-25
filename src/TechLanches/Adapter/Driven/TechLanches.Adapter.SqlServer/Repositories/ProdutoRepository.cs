@@ -47,7 +47,7 @@ namespace TechLanches.Adapter.SqlServer.Repositories
 
         public async void Deletar(Produto produto)
         {
-            produto.Deletado = true;
+            produto.ProdutoDeletado();
         }       
     }
 }

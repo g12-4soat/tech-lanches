@@ -15,7 +15,7 @@ namespace TechLanches.API.Configuration
                     Version = "v1",
                     Title = "Tech Lanches",
                     Description = "Tech Lanches API Swagger",
-                    Contact = new OpenApiContact { Name = "Tech Lanches", Email = "tech.lanches@gmail.com" }
+                    Contact = new OpenApiContact { Name = "Tech Lanches", Email = "g12.4soat.fiap@outlook.com" }
                 });
             });
         }
