@@ -58,19 +58,7 @@ public static class PedidoEndpoints
         if (!pedidoDto.ItensPedido.Any())
             return Results.BadRequest(MensagensConstantes.SEM_NENHUM_ITEM_PEDIDO);
 
-        int? clienteId = null;
-
-        if (pedidoDto.Cpf is not null)
-        {
-            var clienteExistente = await clienteService.BuscarPorCpf(pedidoDto.Cpf);
-
-            if (clienteExistente is null) return Results.BadRequest(MensagensConstantes.CLIENTE_NAO_CADASTRADO);
-
-            clienteId = clienteExistente.Id;
-        }
-
         var itensPedido = new List<ItemPedido>();
-
         foreach (var itemPedido in pedidoDto.ItensPedido)
         {
             var dadosProduto = await produtoService.BuscarPorId(itemPedido.IdProduto);
@@ -79,7 +67,7 @@ public static class PedidoEndpoints
             itensPedido.Add(itemPedidoCompleto);
         }
 
-        var novoPedido = await pedidoService.Cadastrar(clienteId, itensPedido);
+        var novoPedido = await pedidoService.Cadastrar(pedidoDto.Cpf, itensPedido);
 
         return novoPedido is not null
             ? Results.Ok(novoPedido.Adapt<PedidoResponseDTO>())

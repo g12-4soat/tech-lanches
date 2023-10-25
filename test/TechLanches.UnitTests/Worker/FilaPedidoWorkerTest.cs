@@ -11,6 +11,7 @@ using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.UnitTests.Worker
 {
+    [Trait("Worker", "FilaPedidoWorker")]
     public class FilaPedidoWorkerTest
     {
         [Fact]
