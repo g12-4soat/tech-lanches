@@ -18,7 +18,7 @@
 
         public int? ClienteId { get; set; }
 
-        public string NomeCliente { get; set; }
+        public string? NomeCliente { get; set; }
 
         public string StatusPedido { get; set; }
 

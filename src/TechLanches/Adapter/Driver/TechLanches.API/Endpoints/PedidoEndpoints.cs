@@ -92,6 +92,9 @@ public static class PedidoEndpoints
         [FromBody] int statusPedido,
         [FromServices] IPedidoService pedidoService)
     {
+        if(!Enum.IsDefined(typeof(StatusPedido), statusPedido))
+            return Results.BadRequest();
+
         var pedido = await pedidoService.TrocarStatus(idPedido, (StatusPedido)statusPedido);
 
         return pedido is not null

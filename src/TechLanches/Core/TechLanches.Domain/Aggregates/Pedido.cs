@@ -32,7 +32,7 @@ namespace TechLanches.Domain.Aggregates
         public int? ClienteId { get; private set; }
         public decimal Valor { get; private set; }
         public StatusPedido StatusPedido { get; private set; }
-        public Cliente Cliente { get; private set; }
+        public Cliente? Cliente { get; private set; }
         public bool ClienteIdentificado => ClienteId.HasValue;
 
         private void AdicionarItensPedidos(List<ItemPedido> itensPedido)
@@ -54,6 +54,9 @@ namespace TechLanches.Domain.Aggregates
 
         public void TrocarStatus(StatusPedido statusPedido)
         {
+            if (!Enum.IsDefined(typeof(StatusPedido), statusPedido))
+                throw new DomainException("Status inválido");
+
             ValidarStatus(statusPedido);
             StatusPedido = statusPedido;
         }
