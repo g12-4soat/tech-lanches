@@ -8,6 +8,7 @@ using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.UnitTests.Services
 {
+    [Trait("Services", "FilaPedidoAggregate")]
     public class FilaPedidoAggregateTest
     {
         [Fact]

@@ -11,7 +11,6 @@
     public static class MensagensConstantes
     {
         public const string CLIENTE_NAO_IDENTIFICADO = "Cliente não identificado";
-        public const string CLIENTE_NAO_CADASTRADO = "Cliente não cadastrado!";
         public const string SEM_NENHUM_ITEM_PEDIDO = "É necessário pelo menos 1 item para o pedido";
     }
 }
