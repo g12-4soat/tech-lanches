@@ -22,10 +22,10 @@ namespace TechLanches.Domain.ValueObjects
         public static bool Validar(string cpf)
         {
             // Remove caracteres não numéricos
-            string cleanCpf = LimparCpf(cpf);
+            string cpfLimpo = LimparCpf(cpf);
 
             // Verifica se o CPF tem 11 dígitos
-            if (cleanCpf.Length != 11)
+            if (cpfLimpo.Length != 11)
             {
                 return false;
             }
@@ -34,13 +34,13 @@ namespace TechLanches.Domain.ValueObjects
             int sum = 0;
             for (int i = 0; i < 9; i++)
             {
-                sum += int.Parse(cleanCpf[i].ToString()) * (10 - i);
+                sum += int.Parse(cpfLimpo[i].ToString()) * (10 - i);
             }
             int remainder = sum % 11;
             int firstDigit = (remainder < 2) ? 0 : 11 - remainder;
 
             // Verifica o primeiro dígito verificador
-            if (int.Parse(cleanCpf[9].ToString()) != firstDigit)
+            if (int.Parse(cpfLimpo[9].ToString()) != firstDigit)
             {
                 return false;
             }
@@ -49,13 +49,13 @@ namespace TechLanches.Domain.ValueObjects
             sum = 0;
             for (int i = 0; i < 10; i++)
             {
-                sum += int.Parse(cleanCpf[i].ToString()) * (11 - i);
+                sum += int.Parse(cpfLimpo[i].ToString()) * (11 - i);
             }
             remainder = sum % 11;
             int secondDigit = (remainder < 2) ? 0 : 11 - remainder;
 
             // Verifica o segundo dígito verificador
-            return int.Parse(cleanCpf[10].ToString()) == secondDigit;
+            return int.Parse(cpfLimpo[10].ToString()) == secondDigit;
         }
 
         private static string LimparCpf(string cpf)
