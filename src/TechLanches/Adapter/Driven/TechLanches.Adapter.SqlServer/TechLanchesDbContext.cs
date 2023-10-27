@@ -17,7 +17,7 @@ namespace TechLanches.Adapter.SqlServer
 
         public TechLanchesDbContext(DbContextOptions options) : base(options)
         {
-            //mediatr para publicar eventos
+
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -28,8 +28,6 @@ namespace TechLanches.Adapter.SqlServer
         public async Task Commit()
         {
             await base.SaveChangesAsync();
-
-            //publicar eventos
         }
     }
 }
