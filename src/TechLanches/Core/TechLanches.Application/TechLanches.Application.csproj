@@ -13,5 +13,8 @@
   <ItemGroup>
     <ProjectReference Include="..\TechLanches.Domain\TechLanches.Domain.csproj" />
   </ItemGroup>
+	<PropertyGroup>
+		<GenerateDocumentationFile>true</GenerateDocumentationFile>
+	</PropertyGroup>
 
 </Project>

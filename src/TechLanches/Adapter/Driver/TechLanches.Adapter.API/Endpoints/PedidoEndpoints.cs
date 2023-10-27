@@ -1,6 +1,7 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using TechLanches.Adapter.API.Constantes;
+using Swashbuckle.AspNetCore.Annotations;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Domain.Enums;
@@ -12,11 +13,45 @@ public static class PedidoEndpoints
 {
     public static void MapPedidoEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapGet("api/pedidos", BuscarPedidos).WithTags(EndpointTagConstantes.TAG_PEDIDO);
-        app.MapGet("api/pedidos/{idPedido}", BuscarPedidoPorId).WithTags(EndpointTagConstantes.TAG_PEDIDO);
-        app.MapGet("api/pedidos/BuscarPedidosPorStatus/{statusPedido}", BuscarPedidosPorStatus).WithTags(EndpointTagConstantes.TAG_PEDIDO);
-        app.MapPost("api/pedidos", CadastrarPedido).WithTags(EndpointTagConstantes.TAG_PEDIDO);
-        app.MapPut("api/pedidos/{idPedido}", TrocarStatus).WithTags(EndpointTagConstantes.TAG_PEDIDO);
+        app.MapGet("api/pedidos", BuscarPedidos)
+           .WithTags(EndpointTagConstantes.TAG_PEDIDO)
+           .WithMetadata(new SwaggerOperationAttribute(summary: "Obter todos os pedidos", description: "Retorna todos os pedidos cadastrados"))
+           .WithMetadata(new SwaggerResponseAttribute(200, type: typeof(PedidoResponseDTO), description: "Pedidos encontrados com sucesso"))
+           .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ProblemDetails), description: "Requisição inválida"))
+           .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ProblemDetails), description: "Pedidos não encontrados"))
+           .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ProblemDetails), description: "Erro no servidor interno"));
+
+        app.MapGet("api/pedidos/{idPedido}", BuscarPedidoPorId)
+           .WithTags(EndpointTagConstantes.TAG_PEDIDO)
+           .WithMetadata(new SwaggerOperationAttribute(summary: "Obter todos os pedidos por id", description: "Retorna o pedido cadastrado por id"))
+           .WithMetadata(new SwaggerResponseAttribute(200, type: typeof(PedidoResponseDTO), description: "Pedido encontrado com sucesso"))
+           .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ProblemDetails), description: "Requisição inválida"))
+           .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ProblemDetails), description: "Pedido não encontrado"))
+           .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ProblemDetails), description: "Erro no servidor interno"));
+
+        app.MapGet("api/pedidos/BuscarPedidosPorStatus/{statusPedido}", BuscarPedidosPorStatus)
+          .WithTags(EndpointTagConstantes.TAG_PEDIDO)
+          .WithMetadata(new SwaggerOperationAttribute(summary: "Obter todos os pedidos por status", description: "Retorna todos os pedidos contidos no status"))
+          .WithMetadata(new SwaggerResponseAttribute(200, type: typeof(PedidoResponseDTO), description: "Pedidos encontrados com sucesso"))
+          .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ProblemDetails), description: "Requisição inválida"))
+          .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ProblemDetails), description: "Pedidos não encontrados"))
+          .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ProblemDetails), description: "Erro no servidor interno"));
+
+        app.MapPost("api/pedidos", CadastrarPedido)
+           .WithTags(EndpointTagConstantes.TAG_PEDIDO)
+           .WithMetadata(new SwaggerOperationAttribute(summary: "Cadastrar pedido", description: "Efetua o cadastramento do pedido"))
+           .WithMetadata(new SwaggerResponseAttribute(200, type: typeof(PedidoResponseDTO), description: "Pedido cadastrado com sucesso"))
+           .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ProblemDetails), description: "Requisição inválida"))
+           .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ProblemDetails), description: "Pedido não cadastrado"))
+           .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ProblemDetails), description: "Erro no servidor interno"));
+
+        app.MapPut("api/pedidos/{idPedido}", TrocarStatus)
+           .WithTags(EndpointTagConstantes.TAG_PEDIDO)
+           .WithMetadata(new SwaggerOperationAttribute(summary: "Trocar status do pedido", description: "Efetua a troca de status do pedido"))
+           .WithMetadata(new SwaggerResponseAttribute(200, type: typeof(PedidoResponseDTO), description: "Status do pedido alterado com sucesso"))
+           .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ProblemDetails), description: "Requisição inválida"))
+           .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ProblemDetails), description: "Status do pedido não alterado"))
+           .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ProblemDetails), description: "Erro no servidor interno"));
     }
 
     private static async Task<IResult> BuscarPedidos(
@@ -26,7 +61,7 @@ public static class PedidoEndpoints
 
         return pedidos is not null
             ? Results.Ok(pedidos.Adapt<List<PedidoResponseDTO>>())
-            : Results.BadRequest();
+            : Results.NotFound();
     }
 
     private static async Task<IResult> BuscarPedidoPorId(
@@ -48,7 +83,7 @@ public static class PedidoEndpoints
 
         return pedidos is not null
             ? Results.Ok(pedidos.Adapt<List<PedidoResponseDTO>>())
-            : Results.BadRequest();
+            : Results.NotFound(statusPedido);
     }
 
     private static async Task<IResult> CadastrarPedido(
