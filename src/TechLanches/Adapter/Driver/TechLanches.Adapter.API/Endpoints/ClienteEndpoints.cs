@@ -22,7 +22,7 @@ public static class ClienteEndpoints
         app.MapPost("api/clientes", CadastrarCliente)
            .WithTags(EndpointTagConstantes.TAG_CLIENTE)
            .WithMetadata(new SwaggerOperationAttribute(summary: "Cadastrar cliente", "Efetua o cadastramento do cliente"))
-           .WithMetadata(new SwaggerResponseAttribute(200, type: typeof(ClienteResponseDTO), description: "Cliente cadastrado com sucesso"))
+           .WithMetadata(new SwaggerResponseAttribute(201, type: typeof(ClienteResponseDTO), description: "Cliente cadastrado com sucesso"))
            .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ProblemDetails), description: "Requisição inválida"))
            .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ProblemDetails), description: "Cliente não cadastrado"))
            .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ProblemDetails), description: "Erro no servidor interno"));
