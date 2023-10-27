@@ -139,7 +139,8 @@ namespace TechLanches.Adapter.API.Endpoints
 
             return produtos is not null
                 ? Results.Ok(produtos.Adapt<List<ProdutoResponseDTO>>())
-                : Results.NotFound(categoriaId);
+                : Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum produto encontrado para a categoria id: {categoriaId}", StatusCode = (int)HttpStatusCode.NotFound });
+
         }
 
         private static async Task<IResult> BuscarCategorias()
@@ -147,13 +148,11 @@ namespace TechLanches.Adapter.API.Endpoints
             var categorias = CategoriaProduto.List()
                 .Select(x => new CategoriaResponseDTO { Id = x.Id, Nome = x.Nome})
                 .ToList();
-            if (produtos is null)
-                return Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum produto encontrado para a categoria id: {categoriaId}", StatusCode = (int)HttpStatusCode.NotFound });
-
 
             return categorias is not null
                 ? Results.Ok(categorias)
-                : Results.NotFound();
+                : Results.NotFound(new ErrorResponseDTO { MensagemErro = "Nenhuma categoria encontrada.", StatusCode = (int)HttpStatusCode.NotFound });
+
         }
     }
 }

@@ -146,6 +146,7 @@ public static class PedidoEndpoints
             .ToList();
         return statusPedidos is not null
             ? Results.Ok(statusPedidos)
-            : Results.BadRequest();
+            :Results.NotFound(new ErrorResponseDTO { MensagemErro = "Nenhum status encontrado.", StatusCode = (int)HttpStatusCode.NotFound });
+
     }
 }
