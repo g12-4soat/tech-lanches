@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Net;
+﻿using System.Net;
 using System.Text.Json;
 using TechLanches.Core;
 
-namespace TechLanches.Adapter.SqlServer.Middlewares
+namespace TechLanches.Adapter.API.Middlewares
 {
     public class GlobalErrorHandlingMiddleware
     {

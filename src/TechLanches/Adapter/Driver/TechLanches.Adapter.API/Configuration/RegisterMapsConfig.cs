@@ -1,12 +1,12 @@
 ﻿using Mapster;
 using System.Reflection;
-using TechLanches.API.Constantes;
+using TechLanches.Adapter.API.Constantes;
 using TechLanches.Application.DTOs;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Entities;
 using TechLanches.Domain.ValueObjects;
 
-namespace TechLanches.API.Configuration
+namespace TechLanches.Adapter.API.Configuration
 {
     public static class RegisterMapsConfig
     {
@@ -17,7 +17,7 @@ namespace TechLanches.API.Configuration
 
             TypeAdapterConfig<Pedido, PedidoResponseDTO>.NewConfig()
                 .Map(dest => dest.StatusPedido, src => src.StatusPedido.ToString())
-                .Map(dest => dest.NomeCliente, src => src.Cliente.Nome ?? MensagensConstantes.CLIENTE_NAO_IDENTIFICADO);
+                .Map(dest => dest.NomeCliente, src => src.Cliente == null ? MensagensConstantes.CLIENTE_NAO_IDENTIFICADO : src.Cliente.Nome);
 
             TypeAdapterConfig<ItemPedido, ItemPedidoResponseDTO>.NewConfig()
                 .Map(dest => dest.NomeProduto, src => src.Produto.Nome);

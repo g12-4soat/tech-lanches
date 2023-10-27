@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Reflection.Emit;
 using TechLanches.Domain.Aggregates;
 
 namespace TechLanches.Adapter.SqlServer.EntityTypeConfigurations
@@ -18,7 +17,7 @@ namespace TechLanches.Adapter.SqlServer.EntityTypeConfigurations
                 .HasMaxLength(100)
                 .IsRequired();
 
-            builder.HasIndex(x=> x.Nome);
+            builder.HasIndex(x => x.Nome);
 
             builder.Property(x => x.Descricao)
                 .HasMaxLength(300)

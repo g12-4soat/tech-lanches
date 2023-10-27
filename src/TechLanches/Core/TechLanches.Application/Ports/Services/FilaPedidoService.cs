@@ -1,10 +1,9 @@
 ﻿using TechLanches.Application.Ports.Repositories;
-using TechLanches.Application.Ports.Services;
+using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
-using TechLanches.Domain.Repositories;
 
-namespace TechLanches.Application
+namespace TechLanches.Application.Ports.Services
 {
     public class FilaPedidoService : IFilaPedidoService
     {
@@ -24,7 +23,7 @@ namespace TechLanches.Application
             Pedido? pedido = null;
 
             var filaPedidos = await _filaPedidoRepository.RetornarFilaPedidos();
-            
+
             if (filaPedidos.Any())
             {
                 var primeiroPedidoId = filaPedidos.First();

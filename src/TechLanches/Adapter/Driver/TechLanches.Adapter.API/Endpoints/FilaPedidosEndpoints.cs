@@ -1,12 +1,12 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-using TechLanches.API.Constantes;
+using TechLanches.Adapter.API.Constantes;
 using TechLanches.Application.DTOs;
+using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Domain.Enums;
-using TechLanches.Domain.Services;
 
-namespace TechLanches.API.Endpoints
+namespace TechLanches.Adapter.API.Endpoints
 {
     public static class FilaPedidosEndpoints
     {

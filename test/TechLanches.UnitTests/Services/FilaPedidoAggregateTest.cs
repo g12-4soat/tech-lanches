@@ -1,19 +1,14 @@
 ﻿using NSubstitute;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Repositories;
-using TechLanches.Application;
-using TechLanches.Domain.Enums;
-using TechLanches.Domain.Repositories;
+using TechLanches.Application.Ports.Services;
 using TechLanches.Domain.Aggregates;
+using TechLanches.Domain.Enums;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.UnitTests.Services
 {
+    [Trait("Services", "FilaPedidoAggregate")]
     public class FilaPedidoAggregateTest
     {
         [Fact]

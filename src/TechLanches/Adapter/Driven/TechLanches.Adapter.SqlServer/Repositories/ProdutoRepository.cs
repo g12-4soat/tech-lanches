@@ -3,7 +3,6 @@ using TechLanches.Application.Ports.Repositories;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.ValueObjects;
-using TechLanches.Adapter.SqlServer.Migrations;
 
 namespace TechLanches.Adapter.SqlServer.Repositories
 {
@@ -48,6 +47,6 @@ namespace TechLanches.Adapter.SqlServer.Repositories
         public async void Deletar(Produto produto)
         {
             produto.ProdutoDeletado();
-        }       
+        }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.OpenApi.Models;
 using System.Reflection;
 
-namespace TechLanches.API.Configuration
+namespace TechLanches.Adapter.API.Configuration
 {
     public static class SwaggerConfig
     {

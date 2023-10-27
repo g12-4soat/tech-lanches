@@ -1,9 +1,11 @@
 ﻿using NSubstitute;
-using TechLanches.Application;
+using TechLanches.Application.Ports.Repositories;
+using TechLanches.Application.Ports.Services;
+using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
+using TechLanches.Domain.Entities;
 using TechLanches.Domain.Enums;
-using TechLanches.Domain.Repositories;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.UnitTests.Services
@@ -17,12 +19,13 @@ namespace TechLanches.UnitTests.Services
             //Arrange    
             var pedidoRepository = Substitute.For<IPedidoRepository>();
             var pagamentoService = Substitute.For<IPagamentoService>();
+            var clienteService = Substitute.For<IClienteService>();
 
-            pedidoRepository.BuscarTodos().Returns(new List<Pedido> 
-            { 
+            pedidoRepository.BuscarTodos().Returns(new List<Pedido>
+            {
                 new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1) })
             });
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService);
+            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
 
             //Act 
             var pedidos = await pedidoService.BuscarTodos();
@@ -39,9 +42,10 @@ namespace TechLanches.UnitTests.Services
             //Arrange    
             var pedidoRepository = Substitute.For<IPedidoRepository>();
             var pagamentoService = Substitute.For<IPagamentoService>();
+            var clienteService = Substitute.For<IClienteService>();
 
             pedidoRepository.BuscarPorId(1).Returns(new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1) }));
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService);
+            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
 
             //Act 
             var pedido = await pedidoService.BuscarPorId(1);
@@ -58,12 +62,13 @@ namespace TechLanches.UnitTests.Services
             //Arrange    
             var pedidoRepository = Substitute.For<IPedidoRepository>();
             var pagamentoService = Substitute.For<IPagamentoService>();
+            var clienteService = Substitute.For<IClienteService>();
 
             pedidoRepository.BuscarPorStatus(StatusPedido.PedidoEmPreparacao).Returns(new List<Pedido>
             {
                 new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1) })
             });
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService);
+            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
 
             //Act 
             var pedidos = await pedidoService.BuscarPorStatus(StatusPedido.PedidoEmPreparacao);
@@ -81,10 +86,11 @@ namespace TechLanches.UnitTests.Services
             const int PEDIDO_ID = 1;
             var pedidoRepository = Substitute.For<IPedidoRepository>();
             var pagamentoService = Substitute.For<IPagamentoService>();
+            var clienteService = Substitute.For<IClienteService>();
             var pedidoEditar = new Pedido(null, new List<ItemPedido>() { new ItemPedido(1, 1, 1) });
 
             pedidoRepository.BuscarPorId(PEDIDO_ID).Returns(pedidoEditar);
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService);
+            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
 
             //Act 
             var pedido = await pedidoService.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoEmPreparacao);
@@ -102,8 +108,9 @@ namespace TechLanches.UnitTests.Services
             const int PEDIDO_ID = 1;
             var pedidoRepository = Substitute.For<IPedidoRepository>();
             var pagamentoService = Substitute.For<IPagamentoService>();
+            var clienteService = Substitute.For<IClienteService>();
 
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService);
+            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
 
             //Act 
             var exception = await Assert.ThrowsAsync<DomainException>(async () => await pedidoService.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoEmPreparacao));
@@ -120,10 +127,11 @@ namespace TechLanches.UnitTests.Services
             const int PEDIDO_ID = 1;
             var pedidoRepository = Substitute.For<IPedidoRepository>();
             var pagamentoService = Substitute.For<IPagamentoService>();
+            var clienteService = Substitute.For<IClienteService>();
             var pedidoEditar = new Pedido(null, new List<ItemPedido>() { new ItemPedido(1, 1, 1) });
 
             pedidoRepository.BuscarPorId(PEDIDO_ID).Returns(pedidoEditar);
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService);
+            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
 
             //Act 
             var exception = await Assert.ThrowsAsync<DomainException>(async () => await pedidoService.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoCancelado));
@@ -136,17 +144,20 @@ namespace TechLanches.UnitTests.Services
         [Fact(DisplayName = "Deve cadastrar pedido com sucesso")]
         public async Task Cadastra_pedido_com_sucesso()
         {
-            //Arrange    
+            //Arrange
+            const string CPF = "046.047.173-20";
             var itensPedidos = new List<ItemPedido>() { new ItemPedido(1, 1, 1) };
             var pedidoReturn = new Pedido(1, itensPedidos);
             var pedidoRepository = Substitute.For<IPedidoRepository>();
             var pagamentoService = Substitute.For<IPagamentoService>();
+            var clienteService = Substitute.For<IClienteService>();
+            clienteService.BuscarPorCpf(CPF).Returns(new Cliente("Joao", "joao@gmail.com", CPF));
             pagamentoService.RealizarPagamento(Arg.Any<int>(), FormaPagamento.QrCodeMercadoPago, pedidoReturn.Valor).Returns(true);
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService);
+            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
 
             pedidoRepository.Cadastrar(pedidoReturn).Returns(pedidoReturn);
             //Act 
-            var pedido = await pedidoService.Cadastrar(1, itensPedidos);
+            var pedido = await pedidoService.Cadastrar(CPF, itensPedidos);
 
             //Assert
             await pedidoRepository.Received().Cadastrar(pedido);
@@ -160,10 +171,11 @@ namespace TechLanches.UnitTests.Services
             //Arrange    
             var pedidoRepository = Substitute.For<IPedidoRepository>();
             var pagamentoService = Substitute.For<IPagamentoService>();
+            var clienteService = Substitute.For<IClienteService>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             pedidoRepository.UnitOfWork.Returns(unitOfWork);
 
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService);
+            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
             var itensPedidos = new List<ItemPedido>() { new ItemPedido(1, 1, 1) };
 
             //Act 

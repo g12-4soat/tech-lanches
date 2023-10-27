@@ -1,11 +1,11 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using TechLanches.Adapter.API.Constantes;
 using Swashbuckle.AspNetCore.Annotations;
-using TechLanches.API.Constantes;
 using TechLanches.Application.DTOs;
-using TechLanches.Application.Ports.Services;
+using TechLanches.Application.Ports.Services.Interfaces;
 
-namespace TechLanches.API.Endpoints
+namespace TechLanches.Adapter.API.Endpoints
 {
     public static class ProdutoEndpoints
     {

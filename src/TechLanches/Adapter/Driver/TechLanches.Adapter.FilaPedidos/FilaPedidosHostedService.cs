@@ -1,6 +1,6 @@
 using Microsoft.Extensions.Options;
 using TechLanches.Adapter.FilaPedidos.Options;
-using TechLanches.Application.Ports.Services;
+using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Domain.Enums;
 
 namespace TechLanches.Adapter.FilaPedidos

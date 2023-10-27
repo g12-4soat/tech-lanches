@@ -14,7 +14,7 @@ public class ClienteRepository : IClienteRepository
 
     public ClienteRepository(TechLanchesDbContext context)
     {
-        _context = context ?? throw new ArgumentNullException(nameof(context)); 
+        _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
     public async Task<Cliente> BuscarPorCpf(Cpf cpf)

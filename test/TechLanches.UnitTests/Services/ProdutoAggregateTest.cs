@@ -1,6 +1,6 @@
 ﻿using NSubstitute;
-using TechLanches.Application;
 using TechLanches.Application.Ports.Repositories;
+using TechLanches.Application.Ports.Services;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.ValueObjects;
@@ -23,7 +23,7 @@ namespace TechLanches.UnitTests.Services
             var produtoRepository = Substitute.For<IProdutoRepository>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             produtoRepository.UnitOfWork.Returns(unitOfWork);
-            produtoRepository.Cadastrar(produto).Returns(new Produto(nome, descricao,preco, categoriaId));
+            produtoRepository.Cadastrar(produto).Returns(new Produto(nome, descricao, preco, categoriaId));
 
             var produtoService = new ProdutoService(produtoRepository);
 
@@ -62,7 +62,7 @@ namespace TechLanches.UnitTests.Services
             var produtoRepository = Substitute.For<IProdutoRepository>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             produtoRepository.UnitOfWork.Returns(unitOfWork);
-            produtoRepository.BuscarPorCategoria(new CategoriaProduto(1,"teste")).Returns(new List<Produto> { new Produto("Nome", "Descrição do produto", 20.0m, 2) });
+            produtoRepository.BuscarPorCategoria(new CategoriaProduto(1, "teste")).Returns(new List<Produto> { new Produto("Nome", "Descrição do produto", 20.0m, 2) });
 
             var produtoService = new ProdutoService(produtoRepository);
 
@@ -81,7 +81,7 @@ namespace TechLanches.UnitTests.Services
             var produtoRepository = Substitute.For<IProdutoRepository>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             produtoRepository.UnitOfWork.Returns(unitOfWork);
-            produtoRepository.BuscarPorId(1).Returns( new Produto("Nome", "Descrição do produto", 20, 2));
+            produtoRepository.BuscarPorId(1).Returns(new Produto("Nome", "Descrição do produto", 20, 2));
 
             var produtoService = new ProdutoService(produtoRepository);
 

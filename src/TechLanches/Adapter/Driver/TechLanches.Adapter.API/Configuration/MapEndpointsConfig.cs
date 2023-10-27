@@ -1,7 +1,6 @@
-﻿using Microsoft.OpenApi.Models;
-using TechLanches.API.Endpoints;
+﻿using TechLanches.Adapter.API.Endpoints;
 
-namespace TechLanches.API.Configuration
+namespace TechLanches.Adapter.API.Configuration
 {
     public static class MapEndpointsConfig
     {

@@ -17,7 +17,7 @@ namespace TechLanches.Domain.Aggregates
             Validar();
         }
 
-        public Produto(int produtoId, string nome, string descricao, decimal preco, int categoriaId):base(produtoId)
+        public Produto(int produtoId, string nome, string descricao, decimal preco, int categoriaId) : base(produtoId)
         {
             Nome = nome;
             Descricao = descricao;
@@ -39,7 +39,7 @@ namespace TechLanches.Domain.Aggregates
         {
             ArgumentNullException.ThrowIfNull(Nome);
 
-            if(Nome == string.Empty)
+            if (Nome == string.Empty)
                 throw new DomainException("O nome não pode ser nulo.");
 
             if (Nome.Length > 100)

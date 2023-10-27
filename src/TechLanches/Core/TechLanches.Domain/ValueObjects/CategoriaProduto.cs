@@ -2,7 +2,7 @@
 
 namespace TechLanches.Domain.ValueObjects
 {
-    public class CategoriaProduto:Enumeration
+    public class CategoriaProduto : Enumeration
     {
         public static CategoriaProduto Lanche = new(1, nameof(Lanche));
         public static CategoriaProduto Acompanhamento = new(2, nameof(Acompanhamento));
