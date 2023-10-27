@@ -34,6 +34,7 @@ namespace TechLanches.Adapter.SqlServer.EntityTypeConfigurations
                     navigationBuilder
                         .Property(email => email.EnderecoEmail)
                         .HasColumnName("Email")
+                        .HasMaxLength(100)
                         .IsRequired();
 
                     navigationBuilder
