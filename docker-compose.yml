@@ -3,11 +3,24 @@
 services:
   webapi:
     build:
-        context: ./src/TechLanches/TechLanches.API/
-        dockerfile: Dockerfile
+        context: ./src/TechLanches/
+        dockerfile: Dockerfile.API
     container_name: api-dotnet6
     ports:
       - "5050:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=db;Database=techlanches;User=sa;Password=Qwert@12345
+    networks:
+      - techlanches-network
+    depends_on:
+      - db
+
+  worker:
+    build:
+        context: ./src/TechLanches/
+        dockerfile: Dockerfile.Worker
+    container_name: worker-dotnet6
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Server=db;Database=techlanches;User=sa;Password=Qwert@12345

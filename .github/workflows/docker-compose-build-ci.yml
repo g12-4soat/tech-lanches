@@ -1,0 +1,29 @@
+name: Build Docker Compose
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Docker
+      uses: docker/setup-buildx-action@v1
+
+    - name: Run Docker Compose Build
+      run: docker-compose -f docker-compose.yml build --no-cache
+
+    - name: Clean up
+      run: docker system prune -af
