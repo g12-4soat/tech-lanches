@@ -38,7 +38,7 @@ namespace TechLanches.Adapter.API.Endpoints
             app.MapPost("api/produtos", CadastrarProduto)
                .WithTags(EndpointTagConstantes.TAG_PRODUTO)
                .WithMetadata(new SwaggerOperationAttribute(summary: "Cadastrar produto", description: "Efetua o cadastramento do produto"))
-               .WithMetadata(new SwaggerResponseAttribute(200, type: typeof(ProdutoResponseDTO), description: "Produto cadastrado com sucesso"))
+               .WithMetadata(new SwaggerResponseAttribute(201, type: typeof(ProdutoResponseDTO), description: "Produto cadastrado com sucesso"))
                .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ProblemDetails), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ProblemDetails), description: "Produto não cadastrado"))
                .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ProblemDetails), description: "Erro no servidor interno"));

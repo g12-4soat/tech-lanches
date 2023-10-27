@@ -29,7 +29,7 @@ public static class PedidoEndpoints
            .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ProblemDetails), description: "Pedido não encontrado"))
            .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ProblemDetails), description: "Erro no servidor interno"));
 
-        app.MapGet("api/pedidos/BuscarPedidosPorStatus/{statusPedido}", BuscarPedidosPorStatus)
+        app.MapGet("api/pedidos/buscarpedidosporstatus/{statusPedido}", BuscarPedidosPorStatus)
           .WithTags(EndpointTagConstantes.TAG_PEDIDO)
           .WithMetadata(new SwaggerOperationAttribute(summary: "Obter todos os pedidos por status", description: "Retorna todos os pedidos contidos no status"))
           .WithMetadata(new SwaggerResponseAttribute(200, type: typeof(PedidoResponseDTO), description: "Pedidos encontrados com sucesso"))
@@ -40,12 +40,12 @@ public static class PedidoEndpoints
         app.MapPost("api/pedidos", CadastrarPedido)
            .WithTags(EndpointTagConstantes.TAG_PEDIDO)
            .WithMetadata(new SwaggerOperationAttribute(summary: "Cadastrar pedido", description: "Efetua o cadastramento do pedido"))
-           .WithMetadata(new SwaggerResponseAttribute(200, type: typeof(PedidoResponseDTO), description: "Pedido cadastrado com sucesso"))
+           .WithMetadata(new SwaggerResponseAttribute(201, type: typeof(PedidoResponseDTO), description: "Pedido cadastrado com sucesso"))
            .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ProblemDetails), description: "Requisição inválida"))
            .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ProblemDetails), description: "Pedido não cadastrado"))
            .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ProblemDetails), description: "Erro no servidor interno"));
 
-        app.MapPut("api/pedidos/{idPedido}", TrocarStatus)
+        app.MapPut("api/pedidos/{idPedido}/trocarstatus", TrocarStatus)
            .WithTags(EndpointTagConstantes.TAG_PEDIDO)
            .WithMetadata(new SwaggerOperationAttribute(summary: "Trocar status do pedido", description: "Efetua a troca de status do pedido"))
            .WithMetadata(new SwaggerResponseAttribute(200, type: typeof(PedidoResponseDTO), description: "Status do pedido alterado com sucesso"))
