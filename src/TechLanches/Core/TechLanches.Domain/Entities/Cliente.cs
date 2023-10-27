@@ -16,9 +16,6 @@ namespace TechLanches.Domain.Entities
             string cpf) : base(nome, email)
         {
             CPF = new Cpf(cpf);
-
-            // add Evento ClienteCadastrado
-            //AdicionarEventoDominio(new ClienteCadastrado());
         }
 
         public Cpf CPF { get; private set; }
