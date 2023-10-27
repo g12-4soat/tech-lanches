@@ -48,6 +48,12 @@ namespace TechLanches.Adapter.API.Configuration
                 c.DocumentTitle = "Tech Lanches";
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
             });
+
+            app.UseReDoc(c =>
+            {
+                c.DocumentTitle = "Tech Lanches";
+                c.SpecUrl = "/swagger/v1/swagger.json";
+            });
         }
     }
 }

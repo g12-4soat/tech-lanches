@@ -12,8 +12,8 @@ using TechLanches.Adapter.SqlServer;
 namespace TechLanches.Adapter.SqlServer.Migrations
 {
     [DbContext(typeof(TechLanchesDbContext))]
-    [Migration("20231023005416_nome-produto")]
-    partial class nomeproduto
+    [Migration("20231027020732_up-database")]
+    partial class updatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,14 @@ namespace TechLanches.Adapter.SqlServer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("TechLanches.Application.DTOs.FilaPedido", b =>
+                {
+                    b.Property<int>("PedidoId")
+                        .HasColumnType("int");
+
+                    b.ToTable("FilaPedidos");
+                });
 
             modelBuilder.Entity("TechLanches.Domain.Aggregates.Pedido", b =>
                 {
@@ -195,7 +203,8 @@ namespace TechLanches.Adapter.SqlServer.Migrations
 
                             b1.Property<string>("EnderecoEmail")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(450)")
+                                .HasMaxLength(100)
+                                .HasColumnType("nvarchar(100)")
                                 .HasColumnName("Email");
 
                             b1.HasKey("ClienteId");
@@ -223,12 +232,25 @@ namespace TechLanches.Adapter.SqlServer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("TechLanches.Domain.Aggregates.Produto", "Produto")
+                        .WithMany("ItensPedidos")
+                        .HasForeignKey("ProdutoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Pedido");
+
+                    b.Navigation("Produto");
                 });
 
             modelBuilder.Entity("TechLanches.Domain.Aggregates.Pedido", b =>
                 {
                     b.Navigation("ItensPedido");
+                });
+
+            modelBuilder.Entity("TechLanches.Domain.Aggregates.Produto", b =>
+                {
+                    b.Navigation("ItensPedidos");
                 });
 
             modelBuilder.Entity("TechLanches.Domain.Entities.Cliente", b =>
