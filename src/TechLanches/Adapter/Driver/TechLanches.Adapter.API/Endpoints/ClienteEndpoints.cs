@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using TechLanches.Adapter.API.Constantes;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services.Interfaces;
@@ -22,7 +23,7 @@ public static class ClienteEndpoints
 
         return cliente is not null
             ? Results.Ok(cliente.Adapt<ClienteResponseDTO>())
-            : Results.NotFound(cpf);
+            : Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Cliente não encontrado para o CPF: {cpf}.", StatusCode = (int)HttpStatusCode.NotFound} );
     }
 
     private static async Task<IResult> CadastrarCliente(
@@ -33,6 +34,6 @@ public static class ClienteEndpoints
 
         return cliente is not null
             ? Results.Ok(cliente.Adapt<ClienteResponseDTO>())
-            : Results.BadRequest(clienteRequest);
+            : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Cliente inválido.", StatusCode = (int)HttpStatusCode.BadRequest });
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Text.Json;
+using TechLanches.Application.DTOs;
 using TechLanches.Core;
 
 namespace TechLanches.Adapter.API.Middlewares
@@ -44,12 +45,13 @@ namespace TechLanches.Adapter.API.Middlewares
 
                 default:
                     status = HttpStatusCode.InternalServerError;
+                    message = "Erro interno. Contate um administrador do sistema.";
                     break;
             }
 
             message = exception.Message;
 
-            var exceptionResult = JsonSerializer.Serialize(new { error = message });
+            var exceptionResult = JsonSerializer.Serialize(new ErrorResponseDTO { MensagemErro = message, StatusCode = (int) status});
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)status;
 

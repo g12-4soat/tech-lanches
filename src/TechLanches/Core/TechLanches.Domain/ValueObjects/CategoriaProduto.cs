@@ -24,7 +24,7 @@ namespace TechLanches.Domain.ValueObjects
 
             if (categoria == null)
             {
-                throw new DomainException($"Possiveis valores para categoria: {string.Join(",", List().Select(s => $"{s.Id}-{s.Nome}"))}");
+                throw new DomainException($"Possiveis valores para categoria: {string.Join(",", List().Select(s => $" {s.Id}-{s.Nome}"))}");
             }
 
             return categoria;

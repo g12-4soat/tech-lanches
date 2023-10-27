@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using TechLanches.Adapter.API.Constantes;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services.Interfaces;
@@ -20,7 +21,8 @@ namespace TechLanches.Adapter.API.Endpoints
             var pedidos = await pedidoService.BuscarPorStatus(StatusPedido.PedidoEmPreparacao);
             return pedidos is not null
                 ? Results.Ok(pedidos.Adapt<List<PedidoResponseDTO>>())
-                : Results.BadRequest();
+                : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao retornar fila pedido.", StatusCode = (int)HttpStatusCode.BadRequest });
+            ;
         }
     }
 }

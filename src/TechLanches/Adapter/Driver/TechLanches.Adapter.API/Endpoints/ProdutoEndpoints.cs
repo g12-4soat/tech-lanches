@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using TechLanches.Adapter.API.Constantes;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services.Interfaces;
@@ -26,7 +27,8 @@ namespace TechLanches.Adapter.API.Endpoints
 
             return produto is not null
                 ? Results.Ok(produto.Adapt<ProdutoResponseDTO>())
-                : Results.BadRequest(produtoRequest);
+            : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao cadastrar produto.", StatusCode = (int)HttpStatusCode.BadRequest});
+
         }
 
 
@@ -46,7 +48,7 @@ namespace TechLanches.Adapter.API.Endpoints
         {
             var produto = await produtoService.BuscarPorId(id);
             if (produto is null)
-                return Results.NotFound(new { error = $"Nenhum produto encontrado para o id: {id}." });
+                return Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum produto encontrado para o id: {id}", StatusCode = (int)HttpStatusCode.NotFound });
 
             await produtoService.Deletar(produto);
             return Results.Ok();
@@ -58,7 +60,8 @@ namespace TechLanches.Adapter.API.Endpoints
             var produtos = await produtoService.BuscarTodos();
 
             if (produtos is null)
-                return Results.NotFound(new { error = "Nenhum produto encontrado." });
+                return Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum produto encontrado", StatusCode = (int)HttpStatusCode.NotFound });
+
 
             return Results.Ok(produtos.Adapt<List<ProdutoResponseDTO>>());
         }
@@ -69,7 +72,7 @@ namespace TechLanches.Adapter.API.Endpoints
         {
             var produto = await produtoService.BuscarPorId(id);
             if (produto is null)
-                return Results.NotFound(new { error = $"Nenhum produto encontrado para o id: {id}." });
+                return Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum produto encontrado para o id: {id}", StatusCode = (int)HttpStatusCode.NotFound });
 
             return Results.Ok(produto.Adapt<ProdutoResponseDTO>());
         }
@@ -81,7 +84,8 @@ namespace TechLanches.Adapter.API.Endpoints
             var produtos = await produtoService.BuscarPorCategoria(categoriaId);
 
             if (produtos is null)
-                return Results.NotFound(new { error = "Nenhum produto encontrado" });
+                return Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum produto encontrado para a categoria id: {categoriaId}", StatusCode = (int)HttpStatusCode.NotFound });
+
 
             return Results.Ok(produtos.Adapt<List<ProdutoResponseDTO>>());
         }

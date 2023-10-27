@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using TechLanches.Adapter.API.Constantes;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services.Interfaces;
@@ -26,7 +27,8 @@ public static class PedidoEndpoints
 
         return pedidos is not null
             ? Results.Ok(pedidos.Adapt<List<PedidoResponseDTO>>())
-            : Results.BadRequest();
+            : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao buscar pedidos.", StatusCode = (int)HttpStatusCode.BadRequest});
+
     }
 
     private static async Task<IResult> BuscarPedidoPorId(
@@ -37,7 +39,8 @@ public static class PedidoEndpoints
 
         return pedido is not null
             ? Results.Ok(pedido.Adapt<PedidoResponseDTO>())
-            : Results.NotFound(idPedido);
+            : Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Pedido não encontrado para o id: {idPedido}.", StatusCode = (int)HttpStatusCode.NotFound });
+
     }
 
     private static async Task<IResult> BuscarPedidosPorStatus(
@@ -48,7 +51,8 @@ public static class PedidoEndpoints
 
         return pedidos is not null
             ? Results.Ok(pedidos.Adapt<List<PedidoResponseDTO>>())
-            : Results.BadRequest();
+            : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao buscar pedidos por status.", StatusCode = (int)HttpStatusCode.BadRequest });
+
     }
 
     private static async Task<IResult> CadastrarPedido(
@@ -71,7 +75,8 @@ public static class PedidoEndpoints
 
         return novoPedido is not null
             ? Results.Ok(novoPedido.Adapt<PedidoResponseDTO>())
-            : Results.BadRequest();
+            : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao cadastrar pedido.", StatusCode = (int)HttpStatusCode.BadRequest });
+
     }
 
     private static async Task<IResult> TrocarStatus(
@@ -86,6 +91,7 @@ public static class PedidoEndpoints
 
         return pedido is not null
             ? Results.Ok(pedido.Adapt<PedidoResponseDTO>())
-            : Results.BadRequest();
+            : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao trocar status.", StatusCode = (int)HttpStatusCode.BadRequest });
+
     }
 }
