@@ -52,6 +52,14 @@ public static class PedidoEndpoints
            .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ProblemDetails), description: "Requisição inválida"))
            .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ProblemDetails), description: "Status do pedido não alterado"))
            .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ProblemDetails), description: "Erro no servidor interno"));
+
+        app.MapGet("api/pedidos/statuspedidos", BuscarStatusPedidos)
+           .WithTags(EndpointTagConstantes.TAG_PEDIDO)
+           .WithMetadata(new SwaggerOperationAttribute(summary: "Buscar status pedidos", description: "Retorna todos os status de pedidos"))
+           .WithMetadata(new SwaggerResponseAttribute(200, type: typeof(StatusPedidoResponseDTO), description: "Status do pedido encontrado com sucesso"))
+           .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ProblemDetails), description: "Requisição inválida"))
+           .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ProblemDetails), description: "Status do pedido não encontrado"))
+           .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ProblemDetails), description: "Erro no servidor interno"));
     }
 
     private static async Task<IResult> BuscarPedidos(
@@ -121,6 +129,17 @@ public static class PedidoEndpoints
 
         return pedido is not null
             ? Results.Ok(pedido.Adapt<PedidoResponseDTO>())
+            : Results.BadRequest();
+    }
+
+    private static async Task<IResult> BuscarStatusPedidos()
+    {
+        var statusPedidos = Enum.GetValues(typeof(StatusPedido))
+            .Cast<StatusPedido>()
+            .Select(x => new StatusPedidoResponseDTO { Id = (int)x, Nome = x.ToString() })
+            .ToList();
+        return statusPedidos is not null
+            ? Results.Ok(statusPedidos)
             : Results.BadRequest();
     }
 }
