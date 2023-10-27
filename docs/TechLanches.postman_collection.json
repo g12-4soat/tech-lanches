@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "cdecf037-7a8d-46a3-b7e8-5178c1fef567",
+		"_postman_id": "ed52c85d-84a4-4520-93a4-bf6ab3fbfc90",
 		"name": "Tech Lanches",
 		"description": "Tech Lanches API Swagger\n\nContact Support:\n Name: Tech Lanches\n Email: g12.4soat.fiap@outlook.com",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "24235764"
+		"_exporter_id": "30725918"
 	},
 	"item": [
 		{
@@ -17,10 +17,15 @@
 							"name": "{cpf}",
 							"item": [
 								{
-									"name": "/api/clientes/:cpf",
+									"name": "Obter cliente por CPF",
 									"request": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
 										"url": {
 											"raw": "{{baseUrl}}/api/clientes/:cpf",
 											"host": [
@@ -38,14 +43,20 @@
 													"description": "(Required) "
 												}
 											]
-										}
+										},
+										"description": "Retorna o cliente proprietário do CPF"
 									},
 									"response": [
 										{
-											"name": "Success",
+											"name": "Cliente encontrado com sucesso",
 											"originalRequest": {
 												"method": "GET",
-												"header": [],
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
 												"url": {
 													"raw": "{{baseUrl}}/api/clientes/:cpf",
 													"host": [
@@ -65,22 +76,148 @@
 											},
 											"status": "OK",
 											"code": 200,
-											"_postman_previewlanguage": "text",
-											"header": [],
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\",\n  \"cpf\": \"<string>\"\n}"
+										},
+										{
+											"name": "Requisição inválida",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/clientes/:cpf",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"clientes",
+														":cpf"
+													],
+													"variable": [
+														{
+															"key": "cpf"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+										},
+										{
+											"name": "Cliente não encontrado",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/clientes/:cpf",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"clientes",
+														":cpf"
+													],
+													"variable": [
+														{
+															"key": "cpf"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+										},
+										{
+											"name": "Erro no servidor interno",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/clientes/:cpf",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"clientes",
+														":cpf"
+													],
+													"variable": [
+														{
+															"key": "cpf"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
 										}
 									]
 								}
 							]
 						},
 						{
-							"name": "/api/clientes",
+							"name": "Cadastrar cliente",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
 										"value": "application/json"
 									}
 								],
@@ -103,16 +240,21 @@
 										"api",
 										"clientes"
 									]
-								}
+								},
+								"description": "Efetua o cadastramento do cliente"
 							},
 							"response": [
 								{
-									"name": "Success",
+									"name": "Cliente cadastrado com sucesso",
 									"originalRequest": {
 										"method": "POST",
 										"header": [
 											{
 												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
 												"value": "application/json"
 											}
 										],
@@ -137,12 +279,158 @@
 											]
 										}
 									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "text",
-									"header": [],
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
 									"cookie": [],
-									"body": ""
+									"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\",\n  \"cpf\": \"<string>\"\n}"
+								},
+								{
+									"name": "Requisição inválida",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\",\n  \"cpf\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/clientes",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"clientes"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+								},
+								{
+									"name": "Cliente não cadastrado",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\",\n  \"cpf\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/clientes",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"clientes"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+								},
+								{
+									"name": "Erro no servidor interno",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\",\n  \"cpf\": \"<string>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/clientes",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"clientes"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
 								}
 							]
 						}
@@ -152,10 +440,15 @@
 					"name": "filapedidos",
 					"item": [
 						{
-							"name": "/api/filapedidos",
+							"name": "Obter todos os pedidos da fila",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
 								"url": {
 									"raw": "{{baseUrl}}/api/filapedidos",
 									"host": [
@@ -165,14 +458,20 @@
 										"api",
 										"filapedidos"
 									]
-								}
+								},
+								"description": "Retorna todos os pedidos contidos na fila"
 							},
 							"response": [
 								{
-									"name": "Success",
+									"name": "Pedidos da fila encontrados com sucesso",
 									"originalRequest": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
 										"url": {
 											"raw": "{{baseUrl}}/api/filapedidos",
 											"host": [
@@ -186,10 +485,114 @@
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "text",
-									"header": [],
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
 									"cookie": [],
-									"body": ""
+									"body": "{\n  \"id\": \"<integer>\",\n  \"clienteId\": \"<integer>\",\n  \"nomeCliente\": \"<string>\",\n  \"statusPedido\": \"<string>\",\n  \"valor\": \"<double>\",\n  \"itensPedido\": [\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    },\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    }\n  ]\n}"
+								},
+								{
+									"name": "Requisição inválida",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/filapedidos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"filapedidos"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+								},
+								{
+									"name": "Pedidos da fila não encontrados",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/filapedidos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"filapedidos"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+								},
+								{
+									"name": "Erro no servidor interno",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/filapedidos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"filapedidos"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
 								}
 							]
 						}
@@ -202,108 +605,19 @@
 							"name": "{idPedido}",
 							"item": [
 								{
-									"name": "/api/pedidos/:idPedido",
-									"request": {
-										"method": "GET",
-										"header": [],
-										"url": {
-											"raw": "{{baseUrl}}/api/pedidos/:idPedido",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"pedidos",
-												":idPedido"
-											],
-											"variable": [
-												{
-													"key": "idPedido",
-													"value": "<integer>",
-													"description": "(Required) "
-												}
-											]
-										}
-									},
-									"response": [
+									"name": "trocarstatus",
+									"item": [
 										{
-											"name": "Success",
-											"originalRequest": {
-												"method": "GET",
-												"header": [],
-												"url": {
-													"raw": "{{baseUrl}}/api/pedidos/:idPedido",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"pedidos",
-														":idPedido"
-													],
-													"variable": [
-														{
-															"key": "idPedido"
-														}
-													]
-												}
-											},
-											"status": "OK",
-											"code": 200,
-											"_postman_previewlanguage": "text",
-											"header": [],
-											"cookie": [],
-											"body": ""
-										}
-									]
-								},
-								{
-									"name": "/api/pedidos/:idPedido",
-									"request": {
-										"method": "PUT",
-										"header": [
-											{
-												"key": "Content-Type",
-												"value": "application/json"
-											}
-										],
-										"body": {
-											"mode": "raw",
-											"raw": "<integer>",
-											"options": {
-												"raw": {
-													"headerFamily": "json",
-													"language": "json"
-												}
-											}
-										},
-										"url": {
-											"raw": "{{baseUrl}}/api/pedidos/:idPedido",
-											"host": [
-												"{{baseUrl}}"
-											],
-											"path": [
-												"api",
-												"pedidos",
-												":idPedido"
-											],
-											"variable": [
-												{
-													"key": "idPedido",
-													"value": "<integer>",
-													"description": "(Required) "
-												}
-											]
-										}
-									},
-									"response": [
-										{
-											"name": "Success",
-											"originalRequest": {
+											"name": "Trocar status do pedido",
+											"request": {
 												"method": "PUT",
 												"header": [
 													{
 														"key": "Content-Type",
+														"value": "application/json"
+													},
+													{
+														"key": "Accept",
 														"value": "application/json"
 													}
 												],
@@ -318,6 +632,289 @@
 													}
 												},
 												"url": {
+													"raw": "{{baseUrl}}/api/pedidos/:idPedido/trocarstatus",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pedidos",
+														":idPedido",
+														"trocarstatus"
+													],
+													"variable": [
+														{
+															"key": "idPedido",
+															"value": "<integer>",
+															"description": "(Required) "
+														}
+													]
+												},
+												"description": "Efetua a troca de status do pedido"
+											},
+											"response": [
+												{
+													"name": "Status do pedido alterado com sucesso",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "<integer>",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/pedidos/:idPedido/trocarstatus",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"pedidos",
+																":idPedido",
+																"trocarstatus"
+															],
+															"variable": [
+																{
+																	"key": "idPedido"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"id\": \"<integer>\",\n  \"clienteId\": \"<integer>\",\n  \"nomeCliente\": \"<string>\",\n  \"statusPedido\": \"<string>\",\n  \"valor\": \"<double>\",\n  \"itensPedido\": [\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    },\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    }\n  ]\n}"
+												},
+												{
+													"name": "Requisição inválida",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "<integer>",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/pedidos/:idPedido/trocarstatus",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"pedidos",
+																":idPedido",
+																"trocarstatus"
+															],
+															"variable": [
+																{
+																	"key": "idPedido"
+																}
+															]
+														}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+												},
+												{
+													"name": "Status do pedido não alterado",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "<integer>",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/pedidos/:idPedido/trocarstatus",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"pedidos",
+																":idPedido",
+																"trocarstatus"
+															],
+															"variable": [
+																{
+																	"key": "idPedido"
+																}
+															]
+														}
+													},
+													"status": "Not Found",
+													"code": 404,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+												},
+												{
+													"name": "Erro no servidor interno",
+													"originalRequest": {
+														"method": "PUT",
+														"header": [
+															{
+																"key": "Content-Type",
+																"value": "application/json"
+															},
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"body": {
+															"mode": "raw",
+															"raw": "<integer>",
+															"options": {
+																"raw": {
+																	"headerFamily": "json",
+																	"language": "json"
+																}
+															}
+														},
+														"url": {
+															"raw": "{{baseUrl}}/api/pedidos/:idPedido/trocarstatus",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"pedidos",
+																":idPedido",
+																"trocarstatus"
+															],
+															"variable": [
+																{
+																	"key": "idPedido"
+																}
+															]
+														}
+													},
+													"status": "Internal Server Error",
+													"code": 500,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+												}
+											]
+										}
+									]
+								},
+								{
+									"name": "Obter todos os pedidos por id",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/pedidos/:idPedido",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pedidos",
+												":idPedido"
+											],
+											"variable": [
+												{
+													"key": "idPedido",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										},
+										"description": "Retorna o pedido cadastrado por id"
+									},
+									"response": [
+										{
+											"name": "Pedido encontrado com sucesso",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
 													"raw": "{{baseUrl}}/api/pedidos/:idPedido",
 													"host": [
 														"{{baseUrl}}"
@@ -336,35 +933,162 @@
 											},
 											"status": "OK",
 											"code": 200,
-											"_postman_previewlanguage": "text",
-											"header": [],
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
 											"cookie": [],
-											"body": ""
-										}
-									]
-								}
-							]
-						},
-						{
-							"name": "BuscarPedidosPorStatus",
-							"item": [
-								{
-									"name": "{statusPedido}",
-									"item": [
+											"body": "{\n  \"id\": \"<integer>\",\n  \"clienteId\": \"<integer>\",\n  \"nomeCliente\": \"<string>\",\n  \"statusPedido\": \"<string>\",\n  \"valor\": \"<double>\",\n  \"itensPedido\": [\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    },\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    }\n  ]\n}"
+										},
 										{
-											"name": "/api/pedidos/BuscarPedidosPorStatus/:statusPedido",
-											"request": {
+											"name": "Requisição inválida",
+											"originalRequest": {
 												"method": "GET",
-												"header": [],
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
 												"url": {
-													"raw": "{{baseUrl}}/api/pedidos/BuscarPedidosPorStatus/:statusPedido",
+													"raw": "{{baseUrl}}/api/pedidos/:idPedido",
 													"host": [
 														"{{baseUrl}}"
 													],
 													"path": [
 														"api",
 														"pedidos",
-														"BuscarPedidosPorStatus",
+														":idPedido"
+													],
+													"variable": [
+														{
+															"key": "idPedido"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+										},
+										{
+											"name": "Pedido não encontrado",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/pedidos/:idPedido",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pedidos",
+														":idPedido"
+													],
+													"variable": [
+														{
+															"key": "idPedido"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+										},
+										{
+											"name": "Erro no servidor interno",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/pedidos/:idPedido",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pedidos",
+														":idPedido"
+													],
+													"variable": [
+														{
+															"key": "idPedido"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "buscarpedidosporstatus",
+							"item": [
+								{
+									"name": "{statusPedido}",
+									"item": [
+										{
+											"name": "Obter todos os pedidos por status",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/pedidos/buscarpedidosporstatus/:statusPedido",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pedidos",
+														"buscarpedidosporstatus",
 														":statusPedido"
 													],
 													"variable": [
@@ -374,23 +1098,29 @@
 															"description": "(Required) "
 														}
 													]
-												}
+												},
+												"description": "Retorna todos os pedidos contidos no status"
 											},
 											"response": [
 												{
-													"name": "Success",
+													"name": "Pedidos encontrados com sucesso",
 													"originalRequest": {
 														"method": "GET",
-														"header": [],
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
 														"url": {
-															"raw": "{{baseUrl}}/api/pedidos/BuscarPedidosPorStatus/:statusPedido",
+															"raw": "{{baseUrl}}/api/pedidos/buscarpedidosporstatus/:statusPedido",
 															"host": [
 																"{{baseUrl}}"
 															],
 															"path": [
 																"api",
 																"pedidos",
-																"BuscarPedidosPorStatus",
+																"buscarpedidosporstatus",
 																":statusPedido"
 															],
 															"variable": [
@@ -402,10 +1132,135 @@
 													},
 													"status": "OK",
 													"code": 200,
-													"_postman_previewlanguage": "text",
-													"header": [],
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n  \"id\": \"<integer>\",\n  \"clienteId\": \"<integer>\",\n  \"nomeCliente\": \"<string>\",\n  \"statusPedido\": \"<string>\",\n  \"valor\": \"<double>\",\n  \"itensPedido\": [\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    },\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    }\n  ]\n}"
+												},
+												{
+													"name": "Requisição inválida",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/pedidos/buscarpedidosporstatus/:statusPedido",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"pedidos",
+																"buscarpedidosporstatus",
+																":statusPedido"
+															],
+															"variable": [
+																{
+																	"key": "statusPedido"
+																}
+															]
+														}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+												},
+												{
+													"name": "Pedidos não encontrados",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/pedidos/buscarpedidosporstatus/:statusPedido",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"pedidos",
+																"buscarpedidosporstatus",
+																":statusPedido"
+															],
+															"variable": [
+																{
+																	"key": "statusPedido"
+																}
+															]
+														}
+													},
+													"status": "Not Found",
+													"code": 404,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+												},
+												{
+													"name": "Erro no servidor interno",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/pedidos/buscarpedidosporstatus/:statusPedido",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"pedidos",
+																"buscarpedidosporstatus",
+																":statusPedido"
+															],
+															"variable": [
+																{
+																	"key": "statusPedido"
+																}
+															]
+														}
+													},
+													"status": "Internal Server Error",
+													"code": 500,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
 												}
 											]
 										}
@@ -414,10 +1269,182 @@
 							]
 						},
 						{
-							"name": "/api/pedidos",
+							"name": "statuspedidos",
+							"item": [
+								{
+									"name": "Buscar status pedidos",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/pedidos/statuspedidos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pedidos",
+												"statuspedidos"
+											]
+										},
+										"description": "Retorna todos os status de pedidos"
+									},
+									"response": [
+										{
+											"name": "Status do pedido encontrado com sucesso",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/pedidos/statuspedidos",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pedidos",
+														"statuspedidos"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\"\n}"
+										},
+										{
+											"name": "Requisição inválida",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/pedidos/statuspedidos",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pedidos",
+														"statuspedidos"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+										},
+										{
+											"name": "Status do pedido não encontrado",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/pedidos/statuspedidos",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pedidos",
+														"statuspedidos"
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+										},
+										{
+											"name": "Erro no servidor interno",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/pedidos/statuspedidos",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pedidos",
+														"statuspedidos"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Obter todos os pedidos",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
 								"url": {
 									"raw": "{{baseUrl}}/api/pedidos",
 									"host": [
@@ -427,14 +1454,20 @@
 										"api",
 										"pedidos"
 									]
-								}
+								},
+								"description": "Retorna todos os pedidos cadastrados"
 							},
 							"response": [
 								{
-									"name": "Success",
+									"name": "Pedidos encontrados com sucesso",
 									"originalRequest": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
 										"url": {
 											"raw": "{{baseUrl}}/api/pedidos",
 											"host": [
@@ -448,20 +1481,128 @@
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "text",
-									"header": [],
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
 									"cookie": [],
-									"body": ""
+									"body": "{\n  \"id\": \"<integer>\",\n  \"clienteId\": \"<integer>\",\n  \"nomeCliente\": \"<string>\",\n  \"statusPedido\": \"<string>\",\n  \"valor\": \"<double>\",\n  \"itensPedido\": [\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    },\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    }\n  ]\n}"
+								},
+								{
+									"name": "Requisição inválida",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/pedidos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pedidos"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+								},
+								{
+									"name": "Pedidos não encontrados",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/pedidos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pedidos"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+								},
+								{
+									"name": "Erro no servidor interno",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/pedidos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pedidos"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
 								}
 							]
 						},
 						{
-							"name": "/api/pedidos",
+							"name": "Cadastrar pedido",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
 										"value": "application/json"
 									}
 								],
@@ -484,16 +1625,21 @@
 										"api",
 										"pedidos"
 									]
-								}
+								},
+								"description": "Efetua o cadastramento do pedido"
 							},
 							"response": [
 								{
-									"name": "Success",
+									"name": "Pedido cadastrado com sucesso",
 									"originalRequest": {
 										"method": "POST",
 										"header": [
 											{
 												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
 												"value": "application/json"
 											}
 										],
@@ -518,12 +1664,158 @@
 											]
 										}
 									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "text",
-									"header": [],
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
 									"cookie": [],
-									"body": ""
+									"body": "{\n  \"id\": \"<integer>\",\n  \"clienteId\": \"<integer>\",\n  \"nomeCliente\": \"<string>\",\n  \"statusPedido\": \"<string>\",\n  \"valor\": \"<double>\",\n  \"itensPedido\": [\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    },\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    }\n  ]\n}"
+								},
+								{
+									"name": "Requisição inválida",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"cpf\": \"<string>\",\n  \"itensPedido\": [\n    {\n      \"idProduto\": \"<integer>\",\n      \"quantidade\": \"<integer>\"\n    },\n    {\n      \"idProduto\": \"<integer>\",\n      \"quantidade\": \"<integer>\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/pedidos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pedidos"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+								},
+								{
+									"name": "Pedido não cadastrado",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"cpf\": \"<string>\",\n  \"itensPedido\": [\n    {\n      \"idProduto\": \"<integer>\",\n      \"quantidade\": \"<integer>\"\n    },\n    {\n      \"idProduto\": \"<integer>\",\n      \"quantidade\": \"<integer>\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/pedidos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pedidos"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+								},
+								{
+									"name": "Erro no servidor interno",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"cpf\": \"<string>\",\n  \"itensPedido\": [\n    {\n      \"idProduto\": \"<integer>\",\n      \"quantidade\": \"<integer>\"\n    },\n    {\n      \"idProduto\": \"<integer>\",\n      \"quantidade\": \"<integer>\"\n    }\n  ]\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/pedidos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"pedidos"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
 								}
 							]
 						}
@@ -536,10 +1828,15 @@
 							"name": "{id}",
 							"item": [
 								{
-									"name": "/api/produtos/:id",
+									"name": "Obter todos os produtos por id",
 									"request": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
 										"url": {
 											"raw": "{{baseUrl}}/api/produtos/:id",
 											"host": [
@@ -557,14 +1854,20 @@
 													"description": "(Required) "
 												}
 											]
-										}
+										},
+										"description": "Retorna o produto cadastrado por id"
 									},
 									"response": [
 										{
-											"name": "Success",
+											"name": "Produto encontrado com sucesso",
 											"originalRequest": {
 												"method": "GET",
-												"header": [],
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
 												"url": {
 													"raw": "{{baseUrl}}/api/produtos/:id",
 													"host": [
@@ -584,18 +1887,145 @@
 											},
 											"status": "OK",
 											"code": 200,
-											"_postman_previewlanguage": "text",
-											"header": [],
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\"\n}"
+										},
+										{
+											"name": "Requisição inválida",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/produtos/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"produtos",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+										},
+										{
+											"name": "Produto não encontrado",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/produtos/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"produtos",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+										},
+										{
+											"name": "Erro no servidor interno",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/produtos/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"produtos",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
 										}
 									]
 								},
 								{
-									"name": "/api/produtos/:id",
+									"name": "Remover produto",
 									"request": {
 										"method": "DELETE",
-										"header": [],
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
 										"url": {
 											"raw": "{{baseUrl}}/api/produtos/:id",
 											"host": [
@@ -613,14 +2043,20 @@
 													"description": "(Required) "
 												}
 											]
-										}
+										},
+										"description": "Efetua a remoção do produto"
 									},
 									"response": [
 										{
-											"name": "Success",
+											"name": "Produto removido com sucesso",
 											"originalRequest": {
 												"method": "DELETE",
-												"header": [],
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
 												"url": {
 													"raw": "{{baseUrl}}/api/produtos/:id",
 													"host": [
@@ -640,10 +2076,132 @@
 											},
 											"status": "OK",
 											"code": 200,
-											"_postman_previewlanguage": "text",
-											"header": [],
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
 											"cookie": [],
-											"body": ""
+											"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\"\n}"
+										},
+										{
+											"name": "Requisição inválida",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/produtos/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"produtos",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+										},
+										{
+											"name": "Produto não removido",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/produtos/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"produtos",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+										},
+										{
+											"name": "Erro no servidor interno",
+											"originalRequest": {
+												"method": "DELETE",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/produtos/:id",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"produtos",
+														":id"
+													],
+													"variable": [
+														{
+															"key": "id"
+														}
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
 										}
 									]
 								}
@@ -656,10 +2214,15 @@
 									"name": "{categoriaId}",
 									"item": [
 										{
-											"name": "/api/produtos/categoria/:categoriaId",
+											"name": "Obter todos os produtos por id da categoria",
 											"request": {
 												"method": "GET",
-												"header": [],
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
 												"url": {
 													"raw": "{{baseUrl}}/api/produtos/categoria/:categoriaId",
 													"host": [
@@ -678,14 +2241,20 @@
 															"description": "(Required) "
 														}
 													]
-												}
+												},
+												"description": "Retorna os produtos cadastrados por id da categoria"
 											},
 											"response": [
 												{
-													"name": "Success",
+													"name": "Produtos encontrados com sucesso",
 													"originalRequest": {
 														"method": "GET",
-														"header": [],
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
 														"url": {
 															"raw": "{{baseUrl}}/api/produtos/categoria/:categoriaId",
 															"host": [
@@ -706,10 +2275,135 @@
 													},
 													"status": "OK",
 													"code": 200,
-													"_postman_previewlanguage": "text",
-													"header": [],
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
 													"cookie": [],
-													"body": ""
+													"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\"\n}"
+												},
+												{
+													"name": "Requisição inválida",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/produtos/categoria/:categoriaId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"produtos",
+																"categoria",
+																":categoriaId"
+															],
+															"variable": [
+																{
+																	"key": "categoriaId"
+																}
+															]
+														}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+												},
+												{
+													"name": "Produtos não encontrados",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/produtos/categoria/:categoriaId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"produtos",
+																"categoria",
+																":categoriaId"
+															],
+															"variable": [
+																{
+																	"key": "categoriaId"
+																}
+															]
+														}
+													},
+													"status": "Not Found",
+													"code": 404,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+												},
+												{
+													"name": "Erro no servidor interno",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/produtos/categoria/:categoriaId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"produtos",
+																"categoria",
+																":categoriaId"
+															],
+															"variable": [
+																{
+																	"key": "categoriaId"
+																}
+															]
+														}
+													},
+													"status": "Internal Server Error",
+													"code": 500,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
 												}
 											]
 										}
@@ -718,10 +2412,182 @@
 							]
 						},
 						{
-							"name": "/api/produtos",
+							"name": "categorias",
+							"item": [
+								{
+									"name": "Buscar categorias",
+									"request": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/produtos/categorias",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"produtos",
+												"categorias"
+											]
+										},
+										"description": "Buscar todas as categorias do produto"
+									},
+									"response": [
+										{
+											"name": "Categorias encontradas",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/produtos/categorias",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"produtos",
+														"categorias"
+													]
+												}
+											},
+											"status": "OK",
+											"code": 200,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\"\n}"
+										},
+										{
+											"name": "Requisição inválida",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/produtos/categorias",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"produtos",
+														"categorias"
+													]
+												}
+											},
+											"status": "Bad Request",
+											"code": 400,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+										},
+										{
+											"name": "Categorias não encontradas",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/produtos/categorias",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"produtos",
+														"categorias"
+													]
+												}
+											},
+											"status": "Not Found",
+											"code": 404,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+										},
+										{
+											"name": "Erro no servidor interno",
+											"originalRequest": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/produtos/categorias",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"produtos",
+														"categorias"
+													]
+												}
+											},
+											"status": "Internal Server Error",
+											"code": 500,
+											"_postman_previewlanguage": "json",
+											"header": [
+												{
+													"key": "Content-Type",
+													"value": "application/json"
+												}
+											],
+											"cookie": [],
+											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "Obter todos os produtos",
 							"request": {
 								"method": "GET",
-								"header": [],
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
 								"url": {
 									"raw": "{{baseUrl}}/api/produtos",
 									"host": [
@@ -731,14 +2597,20 @@
 										"api",
 										"produtos"
 									]
-								}
+								},
+								"description": "Retorna todos os produtos cadastrados"
 							},
 							"response": [
 								{
-									"name": "Success",
+									"name": "Produtos encontrados com sucesso",
 									"originalRequest": {
 										"method": "GET",
-										"header": [],
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
 										"url": {
 											"raw": "{{baseUrl}}/api/produtos",
 											"host": [
@@ -752,20 +2624,128 @@
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "text",
-									"header": [],
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
 									"cookie": [],
-									"body": ""
+									"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\"\n}"
+								},
+								{
+									"name": "Requisição inválida",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/produtos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"produtos"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+								},
+								{
+									"name": "Produtos não encontrados",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/produtos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"produtos"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+								},
+								{
+									"name": "Erro no servidor interno",
+									"originalRequest": {
+										"method": "GET",
+										"header": [
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"url": {
+											"raw": "{{baseUrl}}/api/produtos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"produtos"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
 								}
 							]
 						},
 						{
-							"name": "/api/produtos",
+							"name": "Cadastrar produto",
 							"request": {
 								"method": "POST",
 								"header": [
 									{
 										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
 										"value": "application/json"
 									}
 								],
@@ -788,16 +2768,21 @@
 										"api",
 										"produtos"
 									]
-								}
+								},
+								"description": "Efetua o cadastramento do produto"
 							},
 							"response": [
 								{
-									"name": "Success",
+									"name": "Produto cadastrado com sucesso",
 									"originalRequest": {
 										"method": "POST",
 										"header": [
 											{
 												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
 												"value": "application/json"
 											}
 										],
@@ -822,22 +2807,172 @@
 											]
 										}
 									},
-									"status": "OK",
-									"code": 200,
-									"_postman_previewlanguage": "text",
-									"header": [],
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
 									"cookie": [],
-									"body": ""
+									"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\"\n}"
+								},
+								{
+									"name": "Requisição inválida",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoriaId\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/produtos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"produtos"
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+								},
+								{
+									"name": "Produto não cadastrado",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoriaId\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/produtos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"produtos"
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+								},
+								{
+									"name": "Erro no servidor interno",
+									"originalRequest": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoriaId\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/produtos",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"produtos"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
 								}
 							]
 						},
 						{
-							"name": "/api/produtos",
+							"name": "Atualizar produto",
 							"request": {
 								"method": "PUT",
 								"header": [
 									{
 										"key": "Content-Type",
+										"value": "application/json"
+									},
+									{
+										"key": "Accept",
 										"value": "application/json"
 									}
 								],
@@ -867,16 +3002,21 @@
 											"description": "(Required) "
 										}
 									]
-								}
+								},
+								"description": "Efetua a atualização do produto"
 							},
 							"response": [
 								{
-									"name": "Success",
+									"name": "Produto atualizado com sucesso",
 									"originalRequest": {
 										"method": "PUT",
 										"header": [
 											{
 												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
 												"value": "application/json"
 											}
 										],
@@ -910,10 +3050,177 @@
 									},
 									"status": "OK",
 									"code": 200,
-									"_postman_previewlanguage": "text",
-									"header": [],
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
 									"cookie": [],
-									"body": ""
+									"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\"\n}"
+								},
+								{
+									"name": "Requisição inválida",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoriaId\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/produtos?id=<integer>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"produtos"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+								},
+								{
+									"name": "Produto não atualizado",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoriaId\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/produtos?id=<integer>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"produtos"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+								},
+								{
+									"name": "Erro no servidor interno",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [
+											{
+												"key": "Content-Type",
+												"value": "application/json"
+											},
+											{
+												"key": "Accept",
+												"value": "application/json"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoriaId\": \"<integer>\"\n}",
+											"options": {
+												"raw": {
+													"headerFamily": "json",
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/api/produtos?id=<integer>",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"api",
+												"produtos"
+											],
+											"query": [
+												{
+													"key": "id",
+													"value": "<integer>",
+													"description": "(Required) "
+												}
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
 								}
 							]
 						}

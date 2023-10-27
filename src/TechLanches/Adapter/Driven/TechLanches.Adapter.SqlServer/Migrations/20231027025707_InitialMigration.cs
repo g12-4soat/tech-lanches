@@ -4,7 +4,7 @@
 
 namespace TechLanches.Adapter.SqlServer.Migrations
 {
-    public partial class updatabase : Migration
+    public partial class InitialMigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,16 +21,6 @@ namespace TechLanches.Adapter.SqlServer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Clientes", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "FilaPedidos",
-                columns: table => new
-                {
-                    PedidoId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
                 });
 
             migrationBuilder.CreateTable(
@@ -137,9 +127,6 @@ namespace TechLanches.Adapter.SqlServer.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "FilaPedidos");
-
             migrationBuilder.DropTable(
                 name: "ItemPedido");
 

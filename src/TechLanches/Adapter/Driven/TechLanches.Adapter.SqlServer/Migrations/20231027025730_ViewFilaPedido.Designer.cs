@@ -12,8 +12,8 @@ using TechLanches.Adapter.SqlServer;
 namespace TechLanches.Adapter.SqlServer.Migrations
 {
     [DbContext(typeof(TechLanchesDbContext))]
-    [Migration("20231027020732_up-database")]
-    partial class updatabase
+    [Migration("20231027025730_ViewFilaPedido")]
+    partial class ViewFilaPedido
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,14 +23,6 @@ namespace TechLanches.Adapter.SqlServer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("TechLanches.Application.DTOs.FilaPedido", b =>
-                {
-                    b.Property<int>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.ToTable("FilaPedidos");
-                });
 
             modelBuilder.Entity("TechLanches.Domain.Aggregates.Pedido", b =>
                 {
