@@ -46,7 +46,11 @@ namespace TechLanches.Adapter.API.Configuration
             app.UseSwaggerUI(c =>
             {
                 c.DocumentTitle = "Tech Lanches";
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+                c.RoutePrefix = "swagger";
+                c.ConfigObject.AdditionalItems.Add("syntaxHighlight", false);
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1");
+                c.InjectJavascript("/SwaggerUI/js/swagger-ui.js");
+                c.InjectStylesheet("/SwaggerUI/css/swagger-ui.css");
             });
 
             app.UseReDoc(c =>
