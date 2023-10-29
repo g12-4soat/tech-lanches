@@ -1,0 +1,48 @@
+﻿body {
+    background-color: white !important;
+}
+
+img[alt="Swagger UI"] {
+    display: none;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    content: url('../images/apple-touch-icon.png');
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.swagger-section #header {
+    background-color: #181816 !important;
+    border-bottom: 10px solid #F1C40F;
+}
+
+.swagger-ui .topbar {
+    padding: 10px 0;
+    background-color: #181816 !important;
+    border-bottom: 10px solid #F1C40F;
+}
+
+.swagger-ui .link:focus {
+     outline: none; 
+}
+
+.swagger-ui .topbar .download-url-wrapper .select-label {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    max-width: 600px;
+    margin: 0;
+    color: #fff !important;
+}
+
+    .swagger-ui .topbar .download-url-wrapper .select-label select {
+        border: 2px solid #F1C40F;
+        box-shadow: none;
+        flex: 2;
+        outline: none;
+        width: 100%;
+    }
+
+.link img {
+    height: 60px !important;
+}

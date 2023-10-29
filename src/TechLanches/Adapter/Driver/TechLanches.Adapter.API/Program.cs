@@ -35,4 +35,6 @@ app.UseMapEndpointsConfiguration();
 
 app.AddGlobalErrorHandler();
 
+app.UseStaticFiles();
+
 app.Run();
