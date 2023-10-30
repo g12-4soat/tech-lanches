@@ -2,6 +2,7 @@
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Core;
+using TechLanches.Domain.Enums;
 
 namespace TechLanches.Adapter.SqlServer.Repositories
 {
@@ -18,8 +19,12 @@ namespace TechLanches.Adapter.SqlServer.Repositories
 
         public async Task<List<FilaPedido>> RetornarFilaPedidos()
         {
-            return await _context.FilaPedidos
-                .OrderBy(x => x.PedidoId)
+            return await _context.Pedidos
+                .Where(x => 
+                    x.StatusPedido == StatusPedido.PedidoCriado 
+                    || x.StatusPedido == StatusPedido.PedidoEmPreparacao)
+                .OrderBy(x => x.Id)
+                .Select(x => new FilaPedido { PedidoId = x.Id })
                 .ToListAsync();
         }
     }
