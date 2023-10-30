@@ -28,32 +28,17 @@ namespace TechLanches.Adapter.SqlServer
             SetDatabaseDefaults(app.ApplicationServices);
         }
 
-        public static void UseDatabaseConfiguration(this IServiceProvider serviceProvider)
-        {
-            if (serviceProvider is null) throw new ArgumentNullException(nameof(serviceProvider));
-
-            SetDatabaseDefaults(serviceProvider);
-        }
-
         private static void SetDatabaseDefaults(IServiceProvider serviceProvider)
         {
-            object locker = new();
+            using var scope = serviceProvider.CreateScope();
 
-            lock (locker)
-            {
-                using var scope = serviceProvider.CreateScope();
+            var services = scope.ServiceProvider;
 
-                var services = scope.ServiceProvider;
+            var context = services.GetRequiredService<TechLanchesDbContext>();
 
-                var context = services.GetRequiredService<TechLanchesDbContext>();
+            context.Database.EnsureCreated();
 
-                if (context.Database.GetPendingMigrations().Any())
-                {
-                    context.Database.Migrate();
-                }
-
-                DataSeeder.Seed(context);
-            }
+            DataSeeder.Seed(context);
         }
     }
 }

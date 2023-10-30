@@ -27,7 +27,7 @@ services:
     networks:
       - techlanches-network
     depends_on:
-      - db
+      - webapi
 
   db:
     image: mcr.microsoft.com/mssql/server:2019-latest

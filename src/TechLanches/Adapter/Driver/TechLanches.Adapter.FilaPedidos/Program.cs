@@ -27,6 +27,4 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
 
 var host = hostBuilder.Build();
 
-host.Services.UseDatabaseConfiguration();
-
 await host.RunAsync();
