@@ -21,7 +21,11 @@ Com o projeto inicializado, você terá acesso aos links abaixo e poderá abri-l
 
 - Swagger: [http://localhost:5050/swagger/index.html](http://localhost:5050/swagger/index.html)
 - Swagger Json: [http://localhost:5050/swagger/v1/swagger.json](http://localhost:5050/swagger/v1/swagger.json)  
-- Redoc: [http://localhost:5050/api-docs/index.html](http://localhost:5050/api-docs/index.html) 
+- Redoc: [http://localhost:5050/api-docs/index.html](http://localhost:5050/api-docs/index.html)
+
+Para importar as collections do postman, basta acessar os links a seguir:
+- Collection: https://github.com/g12-4soat/tech-lanches/blob/main/docs/TechLanches.postman_collection.json
+- Local Environment: https://github.com/g12-4soat/tech-lanches/blob/main/docs/TechLanches-Local.postman_environment.json
 
 > Por padrão, a API está configurada para ser executada na porta 5050, como definido no [docker-compose.yml](https://github.com/g12-4soat/tech-lanches/blob/main/docker-compose.yml). Caso tenha problemas de inicialização, verifique se a porta já está sendo utilizada.
 
