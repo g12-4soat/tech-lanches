@@ -70,6 +70,7 @@ namespace TechLanches.Domain.Aggregates
             new StatusPedidoValidacao(new StatusPedidoDescartadoValidacao()).Validar(StatusPedido, statusPedidoNovo);
             new StatusPedidoValidacao(new StatusPedidoCanceladoValidacao()).Validar(StatusPedido, statusPedidoNovo);
             new StatusPedidoValidacao(new StatusPedidoFinalizadoValidacao()).Validar(StatusPedido, statusPedidoNovo);
+            new StatusPedidoValidacao(new StatusPedidoRecebidoValidacao()).Validar(StatusPedido, statusPedidoNovo);
         }
 
         private void Validar()

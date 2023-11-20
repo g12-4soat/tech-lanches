@@ -292,5 +292,28 @@ namespace TechLanches.UnitTests.Domain
             Assert.NotNull(exception);
             Assert.Equal("O status selecionado não é válido", exception.Message);
         }
+
+        [Fact(DisplayName = "Trocar o status do pedido para recebido com falha")]
+        public void Trocar_status_pedido_para_recebido_com_falha()
+        {
+            //Arrange    
+            var clienteId = 1;
+            var produtoId = 1;
+            //var pedidoId = 1;
+            var quantidade = 3;
+            var precoProduto = 10;
+            var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
+
+            //Act
+            var pedido = new Pedido(clienteId, itensPedido);
+            pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
+            pedido.TrocarStatus(StatusPedido.PedidoPronto);
+            pedido.TrocarStatus(StatusPedido.PedidoCancelado);
+            var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(StatusPedido.PedidoRecebido));
+
+            //Assert
+            Assert.NotNull(exception);
+            Assert.Equal("O status selecionado não é válido", exception.Message);
+        }
     }
 }

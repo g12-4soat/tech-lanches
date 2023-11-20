@@ -22,7 +22,7 @@ namespace TechLanches.Adapter.SqlServer.Repositories
             return await _context.Pedidos
                 .Where(x => 
                     x.StatusPedido == StatusPedido.PedidoCriado 
-                    || x.StatusPedido == StatusPedido.PedidoEmPreparacao)
+                    || x.StatusPedido == StatusPedido.PedidoRecebido)
                 .OrderBy(x => x.Id)
                 .Select(x => new FilaPedido { PedidoId = x.Id })
                 .ToListAsync();
