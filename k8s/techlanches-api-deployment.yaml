@@ -1,0 +1,21 @@
+# techlanches-api-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: techlanches-api
+  namespace: techlanches
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: techlanches-api
+  template:
+    metadata:
+      labels:
+        app: techlanches-api
+    spec:
+      containers:
+        - name: techlanches-api
+          image: g12-4soat/techlanches-api:latest
+          ports:
+            - containerPort: 5050

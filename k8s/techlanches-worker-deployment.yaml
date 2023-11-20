@@ -1,0 +1,21 @@
+# techlanches-worker-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: techlanches-worker
+  namespace: techlanches
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: techlanches-worker
+  template:
+    metadata:
+      labels:
+        app: techlanches-worker
+    spec:
+      containers:
+        - name: techlanches-worker
+          image: g12-4soat/techlanches-worker:latest
+          ports:
+            - containerPort: 5060
