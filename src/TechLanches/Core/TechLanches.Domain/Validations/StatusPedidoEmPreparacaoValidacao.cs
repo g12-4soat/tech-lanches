@@ -8,7 +8,7 @@ namespace TechLanches.Domain.Validations
         public void Validar(StatusPedido statusPedidoAtual, StatusPedido statusPedidoNovo)
         {
             if (statusPedidoNovo == StatusPedido.PedidoEmPreparacao
-                && (statusPedidoAtual != StatusPedido.PedidoCriado
+                && (statusPedidoAtual != StatusPedido.PedidoRecebido
                     && statusPedidoAtual != StatusPedido.PedidoEmPreparacao))
             {
                 throw new DomainException("O status selecionado não é válido");
