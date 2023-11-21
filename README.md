@@ -2,6 +2,13 @@
 
 Repositório dedicado ao projeto TechChallenge da FIAP - Turma 4SOAT
 
+| CI/CD | Status |
+| --- | --- | 
+| Build & Unit Tests | [![.NET Build and Test](https://github.com/g12-4soat/tech-lanches/actions/workflows/build-tests.yml/badge.svg)](https://github.com/g12-4soat/tech-lanches/actions/workflows/build-tests.yml)
+| TechLanches API | [![Build API Docker Image](https://github.com/g12-4soat/tech-lanches/actions/workflows/dockerfile-api-build-ci.yml/badge.svg)](https://github.com/g12-4soat/tech-lanches/actions/workflows/dockerfile-api-build-ci.yml)
+| TechLanches Worker FilaPedidos | [![Build Worker Docker Image](https://github.com/g12-4soat/tech-lanches/actions/workflows/dockerfile-worker-build-ci.yml/badge.svg)](https://github.com/g12-4soat/tech-lanches/actions/workflows/dockerfile-worker-build-ci.yml)
+| Docker Compose | [![Build Docker Compose](https://github.com/g12-4soat/tech-lanches/actions/workflows/docker-compose-build-ci.yml/badge.svg)](https://github.com/g12-4soat/tech-lanches/actions/workflows/docker-compose-build-ci.yml)
+
 # Dependências
 - [Docker](https://docs.docker.com/desktop/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
