@@ -1,4 +1,6 @@
-﻿using TechLanches.Adapter.SqlServer.Repositories;
+﻿using TechLanches.Adapter.ACL.Pagamento.QrCode;
+using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
+using TechLanches.Adapter.SqlServer.Repositories;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services;
 using TechLanches.Application.Ports.Services.Interfaces;
@@ -15,6 +17,7 @@ namespace TechLanches.Adapter.API.Configuration
             services.AddScoped<IPedidoService, PedidoService>();
             services.AddScoped<IProdutoService, ProdutoService>();
             services.AddScoped<IPagamentoService, FakeCheckoutService>();
+            services.AddScoped<IPagamentoQrCodeACLService, MercadoPagoMocadoService>();
 
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();

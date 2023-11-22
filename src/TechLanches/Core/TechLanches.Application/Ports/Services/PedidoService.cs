@@ -1,4 +1,7 @@
-﻿using TechLanches.Application.Ports.Repositories;
+﻿using Mapster;
+using TechLanches.Adapter.ACL.Pagamento.QrCode;
+using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
+using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
@@ -13,12 +16,15 @@ namespace TechLanches.Application.Ports.Services
         private readonly IPedidoRepository _pedidoRepository;
         private readonly IPagamentoService _pagamentoService;
         private readonly IClienteService _clienteService;
+        private readonly IPagamentoQrCodeACLService _pagamentoACLService;
 
-        public PedidoService(IPedidoRepository pedidoRepository, IPagamentoService pagamentoService, IClienteService clienteService)
+        public PedidoService(IPedidoRepository pedidoRepository, IPagamentoService pagamentoService, IClienteService clienteService,
+            IPagamentoQrCodeACLService pagamentoACLService)
         {
             _pedidoRepository = pedidoRepository;
             _pagamentoService = pagamentoService;
             _clienteService = clienteService;
+            _pagamentoACLService = pagamentoACLService;
         }
 
         public async Task<List<Pedido>> BuscarTodos()
@@ -38,6 +44,7 @@ namespace TechLanches.Application.Ports.Services
             pedido = await _pedidoRepository.Cadastrar(pedido);
             await _pedidoRepository.UnitOfWork.Commit();
 
+            var qrCode = await _pagamentoACLService.GerarQrCode(pedido.Adapt<PedidoACLDTO>());
             var pagamento = await _pagamentoService.RealizarPagamento(pedido.Id, FormaPagamento.QrCodeMercadoPago, pedido.Valor);
 
             if (pagamento) return pedido;
