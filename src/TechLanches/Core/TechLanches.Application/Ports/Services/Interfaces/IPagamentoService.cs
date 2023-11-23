@@ -1,4 +1,6 @@
-﻿namespace TechLanches.Application.Ports.Services.Interfaces;
+﻿using TechLanches.Domain.Enums;
+
+namespace TechLanches.Application.Ports.Services.Interfaces;
 
 public interface IPagamentoService
 {
@@ -12,9 +14,4 @@ public class FakeCheckoutService : IPagamentoService
         //salvar informação de pagamento
         return Task.FromResult(true);
     }
-}
-
-public enum FormaPagamento
-{
-    QrCodeMercadoPago
 }

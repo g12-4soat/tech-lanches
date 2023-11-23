@@ -35,7 +35,6 @@ namespace TechLanches.Domain.Aggregates
         public Cliente? Cliente { get; private set; }
         public bool ClienteIdentificado => ClienteId.HasValue;
 
-        // Revisar regra se essa relação deve ser 1 -> N
         public IReadOnlyCollection<Pagamento> Pagamentos { get; private set; }
 
         private void AdicionarItensPedidos(List<ItemPedido> itensPedido)

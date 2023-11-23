@@ -1,5 +1,6 @@
 ﻿using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
+using TechLanches.Domain.Enums;
 
 namespace TechLanches.UnitTests.Domain
 {
@@ -14,7 +15,7 @@ namespace TechLanches.UnitTests.Domain
             var valor = 100;
 
             //Act 
-            var pagamento = new Pagamento(pedidoId, valor);
+            var pagamento = new Pagamento(pedidoId, valor, FormaPagamento.QrCodeMercadoPago);
 
             //Assert
             Assert.NotNull(pagamento);
@@ -28,7 +29,7 @@ namespace TechLanches.UnitTests.Domain
             var valor = 100;
 
             //Act & Assert
-            Assert.Throws<DomainException>(() => new Pagamento(pedidoId, valor));
+            Assert.Throws<DomainException>(() => new Pagamento(pedidoId, valor, FormaPagamento.QrCodeMercadoPago));
         }
 
         [Fact(DisplayName = "Criar pagamento com valor inválido")]
@@ -39,7 +40,7 @@ namespace TechLanches.UnitTests.Domain
             var valor = 0;
 
             //Act
-            var exception = Assert.Throws<DomainException>(() => new Pagamento(pedidoId, valor));
+            var exception = Assert.Throws<DomainException>(() => new Pagamento(pedidoId, valor, FormaPagamento.QrCodeMercadoPago));
 
             //Assert
             Assert.NotNull(exception);
