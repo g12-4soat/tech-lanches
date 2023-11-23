@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TechLanches.Application.DTOs;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Entities;
