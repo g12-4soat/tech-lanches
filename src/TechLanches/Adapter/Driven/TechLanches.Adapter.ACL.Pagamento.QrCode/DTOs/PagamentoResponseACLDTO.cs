@@ -1,6 +1,6 @@
 ﻿namespace TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs
 {
-    public class PagamentoResponseACLDTO
+    public record PagamentoResponseACLDTO
     {
         public StatusPagamentoEnum StatusPagamento { get; set;}
         public int PedidoId { get; set; }

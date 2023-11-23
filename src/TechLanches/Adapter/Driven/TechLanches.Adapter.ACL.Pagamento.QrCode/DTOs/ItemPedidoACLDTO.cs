@@ -1,6 +1,6 @@
 ﻿namespace TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs
 {
-    public class ItemPedidoACLDTO
+    public record ItemPedidoACLDTO
     {
         public int Quantidade { get; set; }
         public decimal PrecoProduto { get; set; }

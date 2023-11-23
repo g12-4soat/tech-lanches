@@ -5,6 +5,6 @@ namespace TechLanches.Adapter.ACL.Pagamento.QrCode
     public interface IPagamentoQrCodeACLService
     {
         Task<string> GerarQrCode(PedidoACLDTO Pedido);
-        Task<PagamentoResponseACLDTO> ConsultarPagamento(int mercadoPagoVendaId);
+        Task<PagamentoResponseACLDTO> ConsultarPagamento(int ProvedorVendaId);
     }
 }
