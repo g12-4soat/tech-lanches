@@ -21,7 +21,7 @@ namespace TechLanches.Adapter.SqlServer.Repositories
         {
             return await _context.Pedidos
                 .Where(x => 
-                    x.StatusPedido == StatusPedido.PedidoCriado 
+                    x.StatusPedido == StatusPedido.PedidoRecebido
                     || x.StatusPedido == StatusPedido.PedidoEmPreparacao)
                 .OrderBy(x => x.Id)
                 .Select(x => new FilaPedido { PedidoId = x.Id })
