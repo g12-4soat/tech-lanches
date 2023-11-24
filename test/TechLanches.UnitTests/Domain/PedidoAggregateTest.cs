@@ -147,10 +147,10 @@ namespace TechLanches.UnitTests.Domain
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
-            pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
+            pedido.TrocarStatus(StatusPedido.PedidoCancelado);
 
             //Assert
-            Assert.Equal(StatusPedido.PedidoEmPreparacao, pedido.StatusPedido);
+            Assert.Equal(StatusPedido.PedidoCancelado, pedido.StatusPedido);
         }
 
         [Fact(DisplayName = "Trocar o status do pedido para preparação com falha")]
@@ -166,6 +166,7 @@ namespace TechLanches.UnitTests.Domain
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
+            pedido.TrocarStatus(StatusPedido.PedidoRecebido);
             pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
             pedido.TrocarStatus(StatusPedido.PedidoPronto);
             var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao));
@@ -188,9 +189,10 @@ namespace TechLanches.UnitTests.Domain
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
+            pedido.TrocarStatus(StatusPedido.PedidoRecebido);
             pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
             pedido.TrocarStatus(StatusPedido.PedidoPronto);
-            pedido.TrocarStatus(StatusPedido.PedidoRetirado);
+            pedido.TrocarStatus(StatusPedido.PedidoFinalizado);
             var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(StatusPedido.PedidoPronto));
 
             //Assert
@@ -211,9 +213,9 @@ namespace TechLanches.UnitTests.Domain
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
+            pedido.TrocarStatus(StatusPedido.PedidoRecebido);
             pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
             pedido.TrocarStatus(StatusPedido.PedidoPronto);
-            pedido.TrocarStatus(StatusPedido.PedidoRetirado);
             pedido.TrocarStatus(StatusPedido.PedidoFinalizado);
             var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(StatusPedido.PedidoRetirado));
 
@@ -235,9 +237,9 @@ namespace TechLanches.UnitTests.Domain
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
+            pedido.TrocarStatus(StatusPedido.PedidoRecebido);
             pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
             pedido.TrocarStatus(StatusPedido.PedidoPronto);
-            pedido.TrocarStatus(StatusPedido.PedidoRetirado);
             pedido.TrocarStatus(StatusPedido.PedidoFinalizado);
             var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(StatusPedido.PedidoDescartado));
 
@@ -259,10 +261,7 @@ namespace TechLanches.UnitTests.Domain
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
-            pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
-            pedido.TrocarStatus(StatusPedido.PedidoPronto);
-            pedido.TrocarStatus(StatusPedido.PedidoRetirado);
-            pedido.TrocarStatus(StatusPedido.PedidoFinalizado);
+            pedido.TrocarStatus(StatusPedido.PedidoRecebido);
             var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(StatusPedido.PedidoCancelado));
 
             //Assert
@@ -283,9 +282,8 @@ namespace TechLanches.UnitTests.Domain
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
+            pedido.TrocarStatus(StatusPedido.PedidoRecebido);
             pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
-            pedido.TrocarStatus(StatusPedido.PedidoPronto);
-            pedido.TrocarStatus(StatusPedido.PedidoCancelado);
             var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(StatusPedido.PedidoFinalizado));
 
             //Assert
@@ -306,9 +304,9 @@ namespace TechLanches.UnitTests.Domain
 
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
+            pedido.TrocarStatus(StatusPedido.PedidoRecebido);
             pedido.TrocarStatus(StatusPedido.PedidoEmPreparacao);
             pedido.TrocarStatus(StatusPedido.PedidoPronto);
-            pedido.TrocarStatus(StatusPedido.PedidoCancelado);
             var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(StatusPedido.PedidoRecebido));
 
             //Assert

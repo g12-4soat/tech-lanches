@@ -93,7 +93,7 @@ namespace TechLanches.UnitTests.Services
             var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
 
             //Act 
-            var pedido = await pedidoService.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoEmPreparacao);
+            var pedido = await pedidoService.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoRecebido);
 
             //Assert
             await pedidoRepository.Received().BuscarPorId(PEDIDO_ID);
@@ -134,7 +134,7 @@ namespace TechLanches.UnitTests.Services
             var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
 
             //Act 
-            var exception = await Assert.ThrowsAsync<DomainException>(async () => await pedidoService.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoCancelado));
+            var exception = await Assert.ThrowsAsync<DomainException>(async () => await pedidoService.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoFinalizado));
 
             //Assert
             Assert.NotNull(exception);
