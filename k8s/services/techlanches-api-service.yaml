@@ -9,6 +9,6 @@ spec:
     app: techlanches-api
   ports:
     - protocol: TCP
-      port: 80
+      port: 31111
       targetPort: 5050
   type: LoadBalancer

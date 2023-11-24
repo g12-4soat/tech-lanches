@@ -16,6 +16,21 @@ spec:
     spec:
       containers:
         - name: techlanches-api
-          image: g124soat/techlanches-api:latest
+          image: g124soat/techlanches-api:develop
           ports:
             - containerPort: 5050
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: techlanches-api-service
+  namespace: techlanches
+spec:
+  selector:
+    app: techlanches-api
+  ports:
+    - protocol: TCP
+      port: 31111
+      targetPort: 5050
+  type: LoadBalancer
