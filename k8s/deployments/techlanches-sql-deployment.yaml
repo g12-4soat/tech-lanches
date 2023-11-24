@@ -51,4 +51,20 @@ spec:
     targetPort: 1433
   selector:
     app: techlanches-sql
+  type: NodePort
+
+---
+# techlanches-sql-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: techlanches-sql-service-lb
+  namespace: techlanches
+spec:
+  ports:
+  - name: techlanches-sql
+    port: 1444
+    targetPort: 1433
+  selector:
+    app: techlanches-sql
   type: LoadBalancer

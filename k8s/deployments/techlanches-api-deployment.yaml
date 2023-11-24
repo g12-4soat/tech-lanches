@@ -19,6 +19,14 @@ spec:
           image: g124soat/techlanches-api:develop
           ports:
             - containerPort: 5050
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: Production
+            - name: DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: techlanches-secrets
+                  key: DefaultConnection
 
 ---
 apiVersion: v1
