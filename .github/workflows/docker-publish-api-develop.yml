@@ -25,7 +25,7 @@ jobs:
       - name: Build the Docker image
         run: #|
           cd src/TechLanches
-          docker build -f Dockerfile.API -t ${{secrets.DOCKER_USERNAME}}/techlanches-api:v1.0.1 . --no-cache
+          docker build -f Dockerfile.API -t ${{secrets.DOCKER_USERNAME}}/techlanches-api:1.0.1 . --no-cache
           # docker build -f Dockerfile.API -t ${{secrets.DOCKER_USERNAME}}/techlanches-api:develop . --no-cache
         
       - name: Docker Push
