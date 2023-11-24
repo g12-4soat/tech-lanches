@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
         - name: techlanches-worker
-          image: g12-4soat/techlanches-worker:latest
+          image: g124soat/techlanches-worker:latest
           ports:
             - containerPort: 5060

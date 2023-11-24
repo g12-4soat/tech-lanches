@@ -1,0 +1,34 @@
+name: API Docker Publish
+
+on:
+  push:
+    branches:
+      - main
+  workflow_run:
+    workflows: ["Build API Docker Image"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  publish-to-docker-hub:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v1
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v1
+
+    - name: Pull Docker Image
+      run: docker pull g124soat/techlanches-api:latest
+
+    - name: Push Docker Image
+      run: docker push g124soat/techlanches-api:latest
