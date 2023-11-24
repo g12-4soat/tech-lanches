@@ -25,7 +25,7 @@ namespace TechLanches.Adapter.SqlServer
         {
             if (app is null) throw new ArgumentNullException(nameof(app));
 
-            //SetDatabaseDefaults(app.ApplicationServices);
+            SetDatabaseDefaults(app.ApplicationServices);
         }
 
         private static void SetDatabaseDefaults(IServiceProvider serviceProvider)
