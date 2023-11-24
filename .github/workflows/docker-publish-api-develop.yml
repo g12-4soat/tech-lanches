@@ -31,4 +31,4 @@ jobs:
         
       - name: Docker Push
         #run: docker push ${{secrets.DOCKER_USERNAME}}/techlanches-api:develop
-        run: docker push ${{secrets.DOCKER_USERNAME}}/techlanches-api
+        run: docker push ${{secrets.DOCKER_USERNAME}}/techlanches-api:1.0.1
