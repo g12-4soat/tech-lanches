@@ -21,13 +21,19 @@ spec:
         ports:
         - containerPort: 1433
         env:
-        - name: SA_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: techlanches-secrets
-              key: SA_PASSWORD
+        # - name: SA_PASSWORD
+        #   valueFrom:
+        #     secretKeyRef:
+        #       name: techlanches-secrets
+        #       key: SA_PASSWORD
+        # - name: ACCEPT_EULA
+        #   value: "Y"
         - name: ACCEPT_EULA
           value: "Y"
+        - name: MSSQL_PID
+          value: Developer
+        - name: SA_PASSWORD
+          value: Qwerty@12345
   volumeClaimTemplates:
   - metadata:
       name: mssql-data
