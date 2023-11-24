@@ -28,4 +28,4 @@ jobs:
         docker build -f Dockerfile.API -t techlanches-api:develop . --no-cache
       
     - name: Docker Push
-      run: docker push ${{secrets.DOCKER_USERNAME}}/techlanches-api:develop
+      run: docker push g124soat/techlanches-api:develop
