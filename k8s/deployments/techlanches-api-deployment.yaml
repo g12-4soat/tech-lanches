@@ -22,13 +22,11 @@ spec:
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: "Production"
-            - name: DefaultConnection
-              value: "Test"
-            # - name: ConnectionStrings__DefaultConnection
-            #   valueFrom:
-            #     secretKeyRef:
-            #       name: techlanches-secrets
-            #       key: DefaultConnection
+            - name: ConnectionStrings__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: techlanches-secrets
+                  key: DefaultConnection
 
 ---
 apiVersion: v1
