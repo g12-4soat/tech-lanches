@@ -15,6 +15,7 @@ namespace TechLanches.Adapter.API.Configuration
             services.AddScoped<IPedidoService, PedidoService>();
             services.AddScoped<IProdutoService, ProdutoService>();
             services.AddScoped<IPagamentoService, FakeCheckoutService>();
+            services.AddScoped<ICheckoutService, CheckoutService>();
 
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();

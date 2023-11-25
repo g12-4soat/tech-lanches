@@ -40,6 +40,9 @@ namespace TechLanches.Application.Ports.Services
             return novoCliente;
         }
 
+        public async Task<Cliente> BuscarPorId(int idCliente)
+            => await _clienteRepository.BuscarPorId(idCliente);
+
         private static Cpf RetornarCpf(string cpf)
         {
             return new Cpf(cpf);
