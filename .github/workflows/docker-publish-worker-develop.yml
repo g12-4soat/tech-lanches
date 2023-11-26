@@ -1,11 +1,11 @@
-name: API Docker Publish Develop
+name: Worker Docker Publish Develop
 
 on:
   push:
     branches:
       - develop
   workflow_run:
-    workflows: ["Build API Docker Image"]
+    workflows: ["Build Worker Docker Image"]
     types:
       - completed
   workflow_dispatch:
@@ -26,6 +26,6 @@ jobs:
         run: |
           cd src/TechLanches
           TAG=$(date +%Y%m%d%H%M%S)
-          docker build -f Dockerfile.API -t ${{secrets.DOCKER_USERNAME}}/techlanches-api:$TAG -t ${{secrets.DOCKER_USERNAME}}/techlanches-api:develop . --no-cache
-          docker push ${{secrets.DOCKER_USERNAME}}/techlanches-api:$TAG
-          docker push ${{secrets.DOCKER_USERNAME}}/techlanches-api:develop
+          docker build -f Dockerfile.Worker -t ${{secrets.DOCKER_USERNAME}}/techlanches-worker:$TAG -t ${{secrets.DOCKER_USERNAME}}/techlanches-worker:develop . --no-cache
+          docker push ${{secrets.DOCKER_USERNAME}}/techlanches-worker:$TAG
+          docker push ${{secrets.DOCKER_USERNAME}}/techlanches-worker:develop
