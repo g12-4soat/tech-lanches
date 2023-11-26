@@ -22,13 +22,17 @@ jobs:
           DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
         run: |
           docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD 
-      - name: Build the Docker image
+      - name: Build and Push Docker image
         run: |
           cd src/TechLanches
-          docker build -f Dockerfile.API -t ${{secrets.DOCKER_USERNAME}}/techlanches-api:1.0.7 . --no-cache
           
+          docker build -f Dockerfile.API -t ${{secrets.DOCKER_USERNAME}}/techlanches-api:$TAG -t ${{secrets.DOCKER_USERNAME}}/techlanches-api:develop . --no-cache
+          docker push ${{secrets.DOCKER_USERNAME}}/techlanches-api:$TAG
+          docker push ${{secrets.DOCKER_USERNAME}}/techlanches-api:develop
+
+        #  docker build -f Dockerfile.API -t ${{secrets.DOCKER_USERNAME}}/techlanches-api:1.0.7 . --no-cache         
         # docker build -f Dockerfile.API -t ${{secrets.DOCKER_USERNAME}}/techlanches-api:develop . --no-cache
         
-      - name: Docker Push
+      #- name: Docker 
         #run: docker push ${{secrets.DOCKER_USERNAME}}/techlanches-api:develop
-        run: docker push ${{secrets.DOCKER_USERNAME}}/techlanches-api:1.0.7
+        #run: docker push ${{secrets.DOCKER_USERNAME}}/techlanches-api:1.0.7
