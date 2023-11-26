@@ -25,11 +25,11 @@ jobs:
       - name: Build and Push Docker image
         run: |
           cd src/TechLanches
-          
+          TAG=$(date +%Y%m%d%H%M%S)
           docker build -f Dockerfile.API -t ${{secrets.DOCKER_USERNAME}}/techlanches-api:$TAG -t ${{secrets.DOCKER_USERNAME}}/techlanches-api:develop . --no-cache
           docker push ${{secrets.DOCKER_USERNAME}}/techlanches-api:$TAG
           docker push ${{secrets.DOCKER_USERNAME}}/techlanches-api:develop
-
+          
         #  docker build -f Dockerfile.API -t ${{secrets.DOCKER_USERNAME}}/techlanches-api:1.0.7 . --no-cache         
         # docker build -f Dockerfile.API -t ${{secrets.DOCKER_USERNAME}}/techlanches-api:develop . --no-cache
         
