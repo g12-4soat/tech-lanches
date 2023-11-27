@@ -1,5 +1,6 @@
 ﻿using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Entities;
+using TechLanches.Domain.Enums;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Adapter.SqlServer
@@ -11,6 +12,7 @@ namespace TechLanches.Adapter.SqlServer
             ClientesSeed(context);
             ProdutosSeed(context);
             PedidosSeed(context);
+            PagamentosSeed(context);
         }
 
         private static void ClientesSeed(TechLanchesDbContext context)
@@ -29,6 +31,23 @@ namespace TechLanches.Adapter.SqlServer
             }
         }
 
+        private static void ProdutosSeed(TechLanchesDbContext context)
+        {
+            if (!context.Produtos.Any())
+            {
+                var produtos = new List<Produto>
+                {
+                    new Produto("X-Burguer", "Lanche com pão carne e queijo", 30, 1),
+                    new Produto("Batata Frita", "Fritas comum", 8, 2),
+                    new Produto("Suco de Laranja", "Suco natural de laranjas", 10, 3),
+                    new Produto("Sorvete", "Casquinha sabor chocolate ou baunilha", 3, 4),
+                };
+
+                context.AddRange(produtos);
+                context.SaveChanges();
+            }
+        }
+
         private static void PedidosSeed(TechLanchesDbContext context)
         {
             if (!context.Pedidos.Any())
@@ -43,19 +62,15 @@ namespace TechLanches.Adapter.SqlServer
             }
         }
 
-        private static void ProdutosSeed(TechLanchesDbContext context)
+        private static void PagamentosSeed(TechLanchesDbContext context)
         {
-            if (!context.Produtos.Any())
+            if (!context.Pagamentos.Any())
             {
-                var produtos = new List<Produto>
-                {
-                    new Produto("X-Burguer", "Lanche com pão carne e queijo", 30, 1),
-                    new Produto("Batata Frita", "Fritas comum", 8, 2),
-                    new Produto("Suco de Laranja", "Suco natural de laranjas", 10, 3),
-                    new Produto("Sorvete", "Casquinha sabor chocolate ou baunilha", 3, 4),
-                };
+                const int PEDIDO_ID = 1;
+                var pedido = context.Pedidos.Find(PEDIDO_ID);
+                var pagamento = new Pagamento(pedido.Id, pedido.Valor, FormaPagamento.QrCodeMercadoPago);
 
-                context.AddRange(produtos);
+                context.Add(pagamento);
                 context.SaveChanges();
             }
         }

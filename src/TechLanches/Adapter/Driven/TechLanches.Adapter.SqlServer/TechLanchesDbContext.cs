@@ -13,6 +13,7 @@ namespace TechLanches.Adapter.SqlServer
         public DbSet<Pedido> Pedidos { get; set; }
         public DbSet<ItemPedido> ItemPedido { get; set; }
         public DbSet<Produto> Produtos { get; set; }
+        public DbSet<Pagamento> Pagamentos { get; set; }
 
         public TechLanchesDbContext(DbContextOptions options) : base(options)
         {
