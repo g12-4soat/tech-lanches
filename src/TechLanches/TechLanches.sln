@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Adapter.FilaPed
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TechLanches.Adapter.API", "Adapter\Driver\TechLanches.Adapter.API\TechLanches.Adapter.API.csproj", "{E7106367-CBB9-4D93-8B9B-E7D725E4FCEA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TechLanches.Adapter.ACL.Pagamento.QrCode", "Adapter\Driven\TechLanches.Adapter.ACL.Pagamento.QrCode\TechLanches.Adapter.ACL.Pagamento.QrCode.csproj", "{6700A8E6-91A2-41B7-A15A-FD0EAF714DE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -61,6 +63,10 @@ Global
 		{E7106367-CBB9-4D93-8B9B-E7D725E4FCEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E7106367-CBB9-4D93-8B9B-E7D725E4FCEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E7106367-CBB9-4D93-8B9B-E7D725E4FCEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6700A8E6-91A2-41B7-A15A-FD0EAF714DE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6700A8E6-91A2-41B7-A15A-FD0EAF714DE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6700A8E6-91A2-41B7-A15A-FD0EAF714DE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6700A8E6-91A2-41B7-A15A-FD0EAF714DE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -75,6 +81,7 @@ Global
 		{BAD9630F-6EB2-4C4A-8C19-CC05431FF337} = {DC168DB4-3498-48EA-BA73-E09EE2366644}
 		{BCE03215-2C1A-45F7-A0B8-C64F6B1326E1} = {2CF4C9F4-510E-438F-92C3-D79C32864CEC}
 		{E7106367-CBB9-4D93-8B9B-E7D725E4FCEA} = {2CF4C9F4-510E-438F-92C3-D79C32864CEC}
+		{6700A8E6-91A2-41B7-A15A-FD0EAF714DE2} = {6E7D4CC5-6E8F-4083-8C90-154A5EB20622}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {90375589-63E6-4F0F-8F51-A7B40E657961}
