@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace TechLanches.Application.DTOs
+﻿namespace TechLanches.Application.DTOs
 {
     public class ErrorResponseDTO
     {
