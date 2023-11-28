@@ -1,6 +1,7 @@
 ﻿using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Domain.Aggregates;
+using TechLanches.Domain.Enums;
 
 namespace TechLanches.Application.Ports.Services
 {
