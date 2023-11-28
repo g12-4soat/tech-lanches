@@ -1,5 +1,6 @@
 ﻿using Mapster;
 using System.Reflection;
+using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
 using TechLanches.Adapter.API.Constantes;
 using TechLanches.Application.DTOs;
 using TechLanches.Domain.Aggregates;
@@ -18,6 +19,11 @@ namespace TechLanches.Adapter.API.Configuration
             TypeAdapterConfig<Pedido, PedidoResponseDTO>.NewConfig()
                 .Map(dest => dest.StatusPedido, src => src.StatusPedido.ToString())
                 .Map(dest => dest.NomeCliente, src => src.Cliente == null ? MensagensConstantes.CLIENTE_NAO_IDENTIFICADO : src.Cliente.Nome);
+
+            TypeAdapterConfig<Pedido, PedidoACLDTO>.NewConfig();
+
+            TypeAdapterConfig<ItemPedido, ItemPedidoACLDTO>.NewConfig()
+               .Map(dest => dest.NomeProduto, src => src.Produto.Nome);
 
             TypeAdapterConfig<ItemPedido, ItemPedidoResponseDTO>.NewConfig()
                 .Map(dest => dest.NomeProduto, src => src.Produto.Nome);

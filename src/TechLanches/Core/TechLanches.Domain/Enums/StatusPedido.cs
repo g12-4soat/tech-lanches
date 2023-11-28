@@ -2,10 +2,11 @@
 public enum StatusPedido
 {
     PedidoCriado = 1,
+    PedidoRecebido,
+    PedidoCancelado,
     PedidoEmPreparacao,
     PedidoPronto,
+    PedidoFinalizado,
     PedidoRetirado,
     PedidoDescartado,
-    PedidoCancelado,
-    PedidoFinalizado
 }

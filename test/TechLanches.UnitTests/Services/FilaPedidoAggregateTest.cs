@@ -65,10 +65,10 @@ namespace TechLanches.UnitTests.Services
             var filaPedidoService = new FilaPedidoService(mockPedidoRepository, mockFilaPedidoRepository);
 
             // Act
-            await filaPedidoService.TrocarStatus(pedido, StatusPedido.PedidoEmPreparacao);
+            await filaPedidoService.TrocarStatus(pedido, StatusPedido.PedidoRecebido);
 
             // Assert
-            Assert.Equal(StatusPedido.PedidoEmPreparacao, pedido.StatusPedido);
+            Assert.Equal(StatusPedido.PedidoRecebido, pedido.StatusPedido);
             await mockPedidoRepository.Received(1).UnitOfWork.Commit();
         }
     }

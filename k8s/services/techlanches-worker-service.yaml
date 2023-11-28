@@ -1,0 +1,14 @@
+# techlanches-worker-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: techlanches-worker-service
+  namespace: techlanches
+spec:
+  selector:
+    app: techlanches-worker
+  ports:
+    - protocol: TCP
+      port: 5060
+      targetPort: 5060
+  type: LoadBalancer

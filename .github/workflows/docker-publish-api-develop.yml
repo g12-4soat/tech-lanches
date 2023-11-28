@@ -1,0 +1,31 @@
+name: API Docker Publish Develop
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_run:
+    workflows: ["Build API Docker Image"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  publish-to-docker-hub:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: docker login
+      env:
+        DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+        DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      run: |
+        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD 
+    - name: Build the Docker image
+      run: |
+        cd src/TechLanches
+        docker build -f Dockerfile.API -t g124soat/techlanches-api:develop . --no-cache
+      
+    - name: Docker Push
+      run: docker push g124soat/techlanches-api:develop

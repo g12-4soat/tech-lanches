@@ -1,5 +1,6 @@
 ﻿using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Entities;
+using TechLanches.Domain.Enums;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Adapter.SqlServer
@@ -65,7 +66,9 @@ namespace TechLanches.Adapter.SqlServer
         {
             if (!context.Pagamentos.Any())
             {
-                var pagamento = new Pagamento(1, 10);
+                const int PEDIDO_ID = 1;
+                var pedido = context.Pedidos.Find(PEDIDO_ID);
+                var pagamento = new Pagamento(pedido.Id, pedido.Valor, FormaPagamento.QrCodeMercadoPago);
 
                 context.Add(pagamento);
                 context.SaveChanges();

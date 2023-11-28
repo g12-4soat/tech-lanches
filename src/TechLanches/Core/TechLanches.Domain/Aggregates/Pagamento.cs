@@ -7,17 +7,19 @@ public class Pagamento : Entity, IAggregateRoot
 {
     private Pagamento() { }
 
-    public Pagamento(int pedidoId, decimal valor)
+    public Pagamento(int pedidoId, decimal valor, FormaPagamento formaPagamento)
     {
         PedidoId = pedidoId;
         Valor = valor;
         StatusPagamento = StatusPagamento.Aguardando;
+        FormaPagamento = formaPagamento;
         Validar();
     }
 
     public int PedidoId { get; private set; }
     public decimal Valor { get; private set; }
     public StatusPagamento StatusPagamento { get; private set; }
+    public FormaPagamento FormaPagamento { get; private set; }
     public Pedido Pedido { get; private set; }
 
     public void Validar()
@@ -28,14 +30,12 @@ public class Pagamento : Entity, IAggregateRoot
         if (Valor <= 0)
             throw new DomainException("O valor deve ser maior que zero.");
 
-        //Revisar essa regra por isso não foi criado testes
         if (StatusPagamento != StatusPagamento.Aguardando)
             throw new DomainException("O pagamento deve iniciar como aguardando.");
     }
 
     public void Reprovar()
     {
-        //Revisar essa regra por isso não foi criado testes
         if (StatusPagamento == StatusPagamento.Aprovado)
             throw new DomainException("O pagamento já foi aprovado, assim não podendo reprova-lo.");
 

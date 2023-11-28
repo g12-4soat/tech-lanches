@@ -26,7 +26,13 @@ namespace TechLanches.Adapter.SqlServer.EntityTypeConfigurations
                     v => (StatusPagamento)Enum.Parse(typeof(StatusPagamento), v))
                   .IsRequired();
 
-            // Revisar regra se essa relação deve ser 1 -> N
+            builder.Property(x => x.FormaPagamento)
+                 .HasColumnName("FormaPagamento")
+                 .HasConversion(
+                   v => v.ToString(),
+                   v => (FormaPagamento)Enum.Parse(typeof(FormaPagamento), v))
+                 .IsRequired();
+
             builder.HasOne(x => x.Pedido)
                 .WithMany(x => x.Pagamentos)
                 .HasForeignKey(x => x.PedidoId);
