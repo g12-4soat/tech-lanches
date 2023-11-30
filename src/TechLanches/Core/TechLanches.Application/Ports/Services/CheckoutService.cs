@@ -1,4 +1,5 @@
-﻿using TechLanches.Application.Ports.Repositories;
+﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
+using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
@@ -23,34 +24,33 @@ namespace TechLanches.Application.Ports.Services
             _produtoService = produtoService;   
         }
 
-        public async Task<List<string>> ValidaPedido(int pedidoId)
+        public async Task<Tuple<bool,string>> ValidaPedido(int pedidoId)
         {
             //pedido existe?
             var pedido = await _pedidoService.BuscarPorId(pedidoId);
 
-            if(pedido is null) return new List<string>() { $"Pedido não encontrado para checkout - IdPedido: {pedidoId}" };
+            if (pedido is null) return Tuple.Create(false, $"Pedido não encontrado para checkout - IdPedido: {pedidoId}");
 
-            //cliente existe?
-            //var clienteIdentificado = pedido.ClienteIdentificado;
-
-            var resultadoValidacao = new List<string>();
+            #region
+            //var resultadoValidacao = new List<string>();
 
             //produto existe?
-            foreach (var item in pedido.ItensPedido)
-            {
-                var itemExistente = await _produtoService.BuscarPorId(item.ProdutoId);
+            //foreach (var item in pedido.ItensPedido)
+            //{
+            //    var itemExistente = await _produtoService.BuscarPorId(item.ProdutoId);
 
-                if (itemExistente is null)
-                    resultadoValidacao.Add($"Produto não disponível - IdProduto: {item.ProdutoId}");
+            //    if (itemExistente is null)
+            //        resultadoValidacao.Add($"Produto não disponível - IdProduto: {item.ProdutoId}");
 
-                //qtd de produto disponível em estoque?
-            }
+            //    //qtd de produto disponível em estoque?
+            //}
+            #endregion
 
             //qual statusPedido é esperado para fazer o checkout
             if (pedido.StatusPedido != StatusPedido.PedidoCriado)
-                resultadoValidacao.Add($"Status não autorizado para checkout - Status: {pedido.StatusPedido}");
+                return Tuple.Create(false, $"Status não autorizado para checkout - Status: {pedido.StatusPedido}");
 
-            return resultadoValidacao;
+            return Tuple.Create(true, "Pedido validado com sucesso");
         }
     }
 }
