@@ -28,6 +28,8 @@ spec:
               key: SA_PASSWORD
         - name: ACCEPT_EULA
           value: "Y"
+        - name: MSSQL_PID
+          value: Developer
   volumeClaimTemplates:
   - metadata:
       name: mssql-data

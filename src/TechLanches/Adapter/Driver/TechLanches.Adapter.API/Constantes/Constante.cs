@@ -7,6 +7,7 @@
         public const string TAG_PEDIDO = "Pedidos";
         public const string TAG_CHECKOUT = "Checkout";
         public const string TAG_FILA_PEDIDO = "FilaPedidos";
+        public const string TAG_PAGAMENTO = "Pagamentos";
     }
 
     public static class MensagensConstantes

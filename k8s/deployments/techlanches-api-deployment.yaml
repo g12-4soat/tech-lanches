@@ -16,6 +16,29 @@ spec:
     spec:
       containers:
         - name: techlanches-api
-          image: g124soat/techlanches-api:latest
+          image: g124soat/techlanches-api:develop # usar latest quando for pra main
           ports:
-            - containerPort: 5050
+            - containerPort: 80
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: ConnectionStrings__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: techlanches-secrets
+                  key: DefaultConnection
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: techlanches-api-service
+  namespace: techlanches
+spec:
+  selector:
+    app: techlanches-api
+  ports:
+    - protocol: TCP
+      port: 5050
+      targetPort: 80
+  type: LoadBalancer
