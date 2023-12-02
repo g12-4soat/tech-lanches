@@ -1,14 +1,10 @@
-﻿using Mapster;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using TechLanches.Adapter.API.Constantes;
 using Swashbuckle.AspNetCore.Annotations;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services.Interfaces;
-using TechLanches.Domain.ValueObjects;
-using Newtonsoft.Json;
 using TechLanches.Adapter.ACL.Pagamento.QrCode;
-using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
 
 namespace TechLanches.Adapter.API.Endpoints
 {
@@ -25,35 +21,38 @@ namespace TechLanches.Adapter.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"));
         }
 
-        private static async Task<IResult> Checkout(
+        public static async Task<IResult> Checkout(
             int pedidoId,
             [FromServices] ICheckoutService checkoutService, 
                            IPagamentoQrCodeACLService pagamentoQrCodeACLService, 
                            IPedidoService pedidoService)
         {
-            var resultadoCheckout = await checkoutService.ValidaPedido(pedidoId);
 
-            if (resultadoCheckout.Item1 is true)
-            {
-                var pedido = await pedidoService.BuscarPorId(pedidoId);
+            var checkout = await checkoutService.ValidarCheckout(pedidoId);
 
-                var pedidoAcl = new PedidoACLDTO()
-                {
-                    Valor = pedido.Valor,
-                    ItensPedido = pedido.ItensPedido.Adapt<List<ItemPedidoACLDTO>>()
-                };
+#if !DEBUG
+            string qrdCodeData = string.Empty;
 
-                var qrcode = await pagamentoQrCodeACLService.GerarQrCode(pedidoAcl);
-                resultadoCheckout = Tuple.Create(true, qrcode);
-            }
+            if (checkout is true)
+                qrdCodeData = await checkoutService.CriarPagamentoCheckout(pedidoId);
 
-            return resultadoCheckout is not null && resultadoCheckout.Item1 is true
-                   ? Results.Ok(new CheckoutResponseDTO()
-                   {
-                       PedidoId = pedidoId,
-                       QRCodeData = resultadoCheckout.Item2
-                   })
-                   : Results.BadRequest(new ErrorResponseDTO { MensagemErro = $"Falha ao realizar checkout. {resultadoCheckout?.Item2}", StatusCode = (int)HttpStatusCode.BadRequest});
+            return checkout is true
+                  ? Results.Ok(new CheckoutResponseDTO()
+                  {
+                      PedidoId = pedidoId,
+                      QRCodeData = qrdCodeData
+                  })
+                  : Results.BadRequest(new ErrorResponseDTO { MensagemErro = $"Falha ao realizar checkout.", StatusCode = (int)HttpStatusCode.BadRequest });
+#else
+        byte[] qrCode = new byte[] { };
+
+        if (checkout is true)
+                qrCode = await checkoutService.CriarPagamentoEQrCode(pedidoId);
+
+            return checkout is true
+                      ? Results.File(qrCode, "image/png")
+                      : Results.BadRequest(new ErrorResponseDTO { MensagemErro = $"Falha ao realizar checkout.", StatusCode = (int)HttpStatusCode.BadRequest });
+#endif
         }
     }
 }

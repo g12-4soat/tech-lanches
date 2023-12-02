@@ -4,6 +4,8 @@ namespace TechLanches.Application.Ports.Services.Interfaces
 {
     public interface ICheckoutService
     {
-        Task<Tuple<bool, string>> ValidaPedido(int pedidoId);
+        Task<bool> ValidarCheckout(int pedidoId);
+        Task<byte[]> CriarPagamentoEQrCode(int pedidoId);
+        Task<string> CriarPagamentoCheckout(int pedidoId);
     }
 }

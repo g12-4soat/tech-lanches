@@ -1,4 +1,7 @@
-﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
+﻿using Mapster;
+using System.Drawing;
+using TechLanches.Adapter.ACL.Pagamento.QrCode;
+using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
@@ -12,45 +15,56 @@ namespace TechLanches.Application.Ports.Services
     public class CheckoutService : ICheckoutService
     {
         private readonly IPedidoService _pedidoService;
-        private readonly IClienteService _clienteService;
-        private readonly IProdutoService _produtoService;
+        private readonly IPagamentoService _pagamentoService;
+        private readonly IQrCodeGeneratorService _qrCodeGeneratorService;
+        private readonly IPagamentoQrCodeACLService _pagamentoQrCodeACLService;
 
         public CheckoutService(IPedidoService pedidoService, 
-                               IProdutoService produtoService,
-                               IClienteService clienteService)
+                               IPagamentoService pagamentoService,
+                               IQrCodeGeneratorService qrCodeGeneratorService,
+                               IPagamentoQrCodeACLService pagamentoQrCodeACLService)
         {
             _pedidoService = pedidoService;
-            _clienteService = clienteService;
-            _produtoService = produtoService;   
+            _pagamentoService = pagamentoService;
+            _qrCodeGeneratorService = qrCodeGeneratorService;   
+            _pagamentoQrCodeACLService = pagamentoQrCodeACLService;
         }
 
-        public async Task<Tuple<bool,string>> ValidaPedido(int pedidoId)
+        public async Task<bool> ValidarCheckout(int pedidoId)
         {
-            //pedido existe?
+            var pedido = await _pedidoService.BuscarPorId(pedidoId)
+                ?? throw new DomainException($"Pedido não encontrado para checkout - PedidoId: {pedidoId}");
+
+            if (pedido.StatusPedido != StatusPedido.PedidoCriado)
+                throw new DomainException($"Status não autorizado para checkout - Status: {pedido.StatusPedido}");
+
+            return true;
+        }
+
+        public async Task<string> CriarPagamentoCheckout(int pedidoId)
+        {
             var pedido = await _pedidoService.BuscarPorId(pedidoId);
 
-            if (pedido is null) return Tuple.Create(false, $"Pedido não encontrado para checkout - IdPedido: {pedidoId}");
+            //pedido = await _pagamentoService.RealizarPagamento(pedidoId, FormaPagamento.QrCodeMercadoPago, pedido.Valor);
 
-            #region
-            //var resultadoValidacao = new List<string>();
+            var pedidoAcl = new PedidoACLDTO()
+            {
+                Valor = pedido.Valor,
+                ItensPedido = pedido.ItensPedido.Adapt<List<ItemPedidoACLDTO>>()
+            };
 
-            //produto existe?
-            //foreach (var item in pedido.ItensPedido)
-            //{
-            //    var itemExistente = await _produtoService.BuscarPorId(item.ProdutoId);
+            var qrCode = await _pagamentoQrCodeACLService.GerarQrCode(pedidoAcl);
 
-            //    if (itemExistente is null)
-            //        resultadoValidacao.Add($"Produto não disponível - IdProduto: {item.ProdutoId}");
+            return qrCode;
+        }
 
-            //    //qtd de produto disponível em estoque?
-            //}
-            #endregion
+        public async Task<byte[]> CriarPagamentoEQrCode(int pedidoId)
+        {
+            var qrCode = await CriarPagamentoCheckout(pedidoId);
 
-            //qual statusPedido é esperado para fazer o checkout
-            if (pedido.StatusPedido != StatusPedido.PedidoCriado)
-                return Tuple.Create(false, $"Status não autorizado para checkout - Status: {pedido.StatusPedido}");
+            var bytesQrCode = _qrCodeGeneratorService.GenerateByteArray(qrCode);
 
-            return Tuple.Create(true, "Pedido validado com sucesso");
+            return bytesQrCode; 
         }
     }
 }
