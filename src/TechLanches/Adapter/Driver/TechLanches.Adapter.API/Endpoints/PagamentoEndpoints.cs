@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
+using TechLanches.Adapter.ACL.Pagamento.QrCode;
 using TechLanches.Adapter.API.Constantes;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services.Interfaces;
@@ -14,12 +15,17 @@ namespace TechLanches.Adapter.API.Endpoints
         {
             app.MapGet("api/pagamentos/status/{pedidoId}", BuscarStatusPagamentoPorPedidoId).WithTags(EndpointTagConstantes.TAG_PAGAMENTO)
                .WithMetadata(new SwaggerOperationAttribute(summary: "Buscar status pagamento", description: "Retorna o status do pagamento"))
-               .WithMetadata(new SwaggerResponseAttribute(200, type: typeof(PagamentoResponseDTO), description: "Status do pagamento encontrado com sucesso"))
+               .WithMetadata(new SwaggerResponseAttribute(200, type: typeof(PagamentoStatusResponseDTO), description: "Status do pagamento encontrado com sucesso"))
                .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ErrorResponseDTO), description: "Pedido não encontrado"))
                .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno")); ;
 
-            app.MapPost("api/pagamentos", BuscarPagamento).WithTags(EndpointTagConstantes.TAG_PAGAMENTO);
+            app.MapPost("api/pagamentos", BuscarPagamento).WithTags(EndpointTagConstantes.TAG_PAGAMENTO)
+               .WithMetadata(new SwaggerOperationAttribute(summary: "Webhook pagamento", description: "Retorna o pagamento"))
+               .WithMetadata(new SwaggerResponseAttribute(200, type: typeof(PagamentoStatusResponseDTO), description:  "Pagamento encontrado com sucesso"))
+               .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
+               .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ErrorResponseDTO), description: "Pagamento não encontrado"))
+               .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"));
         }
 
         private static async Task<IResult> BuscarStatusPagamentoPorPedidoId([FromRoute] int pedidoId, [FromServices] IPagamentoService pagamentoService)
@@ -30,12 +36,18 @@ namespace TechLanches.Adapter.API.Endpoints
                 return Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum pedido encontrado para o id: {pedidoId}", StatusCode = (int)HttpStatusCode.NotFound });
 
 
-            return Results.Ok(pagamento.Adapt<PagamentoResponseDTO>());
+            return Results.Ok(pagamento.Adapt<PagamentoStatusResponseDTO>());
         }
 
-        private static async Task<IResult> BuscarPagamento()///?????
+        private static async Task<IResult> BuscarPagamento(int mercadoPagoVendaId, [FromServices] IPagamentoQrCodeACLService pagamentoQrCodeACLService)
         {
-            throw new NotImplementedException();
+            var pagamento =  await pagamentoQrCodeACLService.ConsultarPagamento(mercadoPagoVendaId);
+
+            if (pagamento is null)
+                return Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum pedido encontrado para o id: {mercadoPagoVendaId}", StatusCode = (int)HttpStatusCode.NotFound });
+
+
+            return Results.Ok(pagamento.Adapt<PagamentoResponseDTO>());
         }
     }
 }
