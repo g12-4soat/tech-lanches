@@ -36,7 +36,10 @@ namespace TechLanches.Application.Ports.Services
                 ?? throw new DomainException($"Pedido não encontrado para checkout - PedidoId: {pedidoId}");
 
             if (pedido.StatusPedido != StatusPedido.PedidoCriado)
-                throw new DomainException($"Status não autorizado para checkout - Status: {pedido.StatusPedido}");
+                throw new DomainException($"Status não autorizado para checkout - StatusPedido: {pedido.StatusPedido}");
+
+            if(pedido.Pagamentos is not null)
+                throw new DomainException($"Pedido já contém pagamento - StatusPagamento: {pedido.Pagamentos?.FirstOrDefault()?.StatusPagamento}");
 
             return true;
         }
