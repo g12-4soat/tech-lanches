@@ -64,15 +64,15 @@ namespace TechLanches.Adapter.SqlServer
 
         private static void PagamentosSeed(TechLanchesDbContext context)
         {
-            if (!context.Pagamentos.Any())
-            {
-                const int PEDIDO_ID = 1;
-                var pedido = context.Pedidos.Find(PEDIDO_ID);
-                var pagamento = new Pagamento(pedido.Id, pedido.Valor, FormaPagamento.QrCodeMercadoPago);
+            //if (!context.Pagamentos.Any())
+            //{
+            //    const int PEDIDO_ID = 1;
+            //    var pedido = context.Pedidos.Find(PEDIDO_ID);
+            //    var pagamento = new Pagamento(pedido.Id, pedido.Valor, FormaPagamento.QrCodeMercadoPago);
 
-                context.Add(pagamento);
-                context.SaveChanges();
-            }
+            //    context.Add(pagamento);
+            //    context.SaveChanges();
+            //}
         }
     }
 }
