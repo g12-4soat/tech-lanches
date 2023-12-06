@@ -27,6 +27,20 @@ spec:
                 secretKeyRef:
                   name: techlanches-secrets
                   key: DefaultConnection
+          readinessProbe:
+            tcpSocket:
+              port: 5000
+            initialDelaySeconds: 5
+            failureThreshold: 2
+            timeoutSeconds: 3
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 5000
+            initialDelaySeconds: 15
+            failureThreshold: 2
+            timeoutSeconds: 3
+            periodSeconds: 20
 
 ---
 apiVersion: v1
