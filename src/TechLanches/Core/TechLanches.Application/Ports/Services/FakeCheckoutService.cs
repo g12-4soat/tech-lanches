@@ -1,4 +1,5 @@
-﻿using TechLanches.Application.Ports.Repositories;
+﻿using TechLanches.Adapter.ACL.Pagamento.QrCode;
+using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
@@ -9,10 +10,12 @@ namespace TechLanches.Application.Ports.Services
     public class FakeCheckoutService : IPagamentoService
     {
         private readonly IPagamentoRepository _repository;
+        private readonly IPagamentoQrCodeACLService _serviceACL;
 
-        public FakeCheckoutService(IPagamentoRepository repository)
+        public FakeCheckoutService(IPagamentoRepository repository, IPagamentoQrCodeACLService serviceACL)
         {
             _repository = repository;
+            _serviceACL = serviceACL;
         }
 
         public async Task Aprovar(Pagamento pagamento)
@@ -21,7 +24,7 @@ namespace TechLanches.Application.Ports.Services
             await _repository.UnitOfWork.Commit();
         }
 
-        public async Task<Pagamento> BuscarStatusPagamentoPorPedidoId(int pedidoId)
+        public async Task<Pagamento> BuscarPagamentoPorPedidoId(int pedidoId)
         {
             return await _repository.BuscarStatusPagamentoPorPedidoId(pedidoId);
         }
@@ -31,11 +34,16 @@ namespace TechLanches.Application.Ports.Services
             var pagamentoExistente = await _repository.BuscarStatusPagamentoPorPedidoId(pedidoId);
 
             if (pagamentoExistente is not null)
-                throw new DomainException($"Pagamento já efetuado para o pedido: {pagamentoExistente}.");
+                throw new DomainException($"Pagamento já efetuado para o pedido: {pagamentoExistente.Id}.");
 
             Pagamento pagamento = new(pedidoId, valor, formaPagamento);
             await _repository.Cadastrar(pagamento);
             await _repository.UnitOfWork.Commit();
+        }
+
+        public async Task<string> GerarQrCode(string url)
+        {
+            return await _serviceACL.GerarQrCode(url);
         }
 
         public Task<bool> RealizarPagamento(int pedidoId, FormaPagamento formaPagamento, decimal valor)
