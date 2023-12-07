@@ -29,11 +29,10 @@ namespace TechLanches.Adapter.API.Endpoints
             if (pagamento is null)
                 return Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum pedido encontrado para o id: {pedidoId}", StatusCode = (int)HttpStatusCode.NotFound });
 
-
             return Results.Ok(pagamento.Adapt<PagamentoResponseDTO>());
         }
 
-        private static async Task<IResult> BuscarPagamento()///?????
+        private static Task<IResult> BuscarPagamento()//?????
         {
             throw new NotImplementedException();
         }

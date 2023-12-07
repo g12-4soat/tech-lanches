@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
+using NSubstitute.ReturnsExtensions;
 using TechLanches.Adapter.FilaPedidos;
 using TechLanches.Adapter.FilaPedidos.Options;
 using TechLanches.Application.Ports.Services.Interfaces;
@@ -19,7 +20,7 @@ namespace TechLanches.UnitTests.Worker
         {
             // Arrange
             var mockFilaPedidoService = Substitute.For<IFilaPedidoService>();
-            mockFilaPedidoService.RetornarPrimeiroPedidoDaFila().Returns(new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1) }));
+            mockFilaPedidoService.RetornarPrimeiroPedidoDaFila().Returns(new Pedido(1, new List<ItemPedido> { new (1, 1, 1) }));
             var mockLogger = Substitute.For<ILogger<FilaPedidosHostedService>>();
 
             var mockOptions = Substitute.For<IOptions<WorkerOptions>>();
@@ -48,7 +49,7 @@ namespace TechLanches.UnitTests.Worker
         {
             // Arrange
             var mockFilaPedidoService = Substitute.For<IFilaPedidoService>();
-            mockFilaPedidoService.RetornarPrimeiroPedidoDaFila().Returns(Task.FromResult<Pedido>(null));
+            mockFilaPedidoService.RetornarPrimeiroPedidoDaFila().ReturnsNull();
 
             var mockLogger = Substitute.For<ILogger<FilaPedidosHostedService>>();
 
