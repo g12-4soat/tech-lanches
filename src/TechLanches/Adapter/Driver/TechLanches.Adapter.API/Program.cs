@@ -1,4 +1,5 @@
 using TechLanches.Adapter.API.Configuration;
+using TechLanches.Adapter.API.Middlewares;
 using TechLanches.Adapter.SqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,7 +38,7 @@ app.UseSwaggerConfiguration();
 
 app.UseMapEndpointsConfiguration();
 
-app.AddGlobalErrorHandler();
+app.AddCustomMiddlewares();
 
 app.UseStaticFiles();
 
