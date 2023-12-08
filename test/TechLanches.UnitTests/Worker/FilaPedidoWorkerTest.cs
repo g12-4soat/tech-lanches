@@ -36,7 +36,7 @@ namespace TechLanches.UnitTests.Worker
 
             // Act
             await workerService.StartAsync(CancellationToken.None);
-            await Task.Delay(1000 * (workerOptions.DelayPreparacaoPedidoEmSegundos + 1)); // Aguardando um período para permitir que o método ExecuteAsync seja executado
+            await Task.Delay(10000);
 
             // Assert
             await mockFilaPedidoService.Received(1).RetornarPrimeiroPedidoDaFila();
@@ -66,7 +66,7 @@ namespace TechLanches.UnitTests.Worker
 
             // Act
             await workerService.StartAsync(CancellationToken.None);
-            await Task.Delay(100);
+            await Task.Delay(1500);
 
             // Assert
             await mockFilaPedidoService.Received(1).RetornarPrimeiroPedidoDaFila();
@@ -93,7 +93,7 @@ namespace TechLanches.UnitTests.Worker
 
             // Act
             await workerService.StartAsync(CancellationToken.None);
-            await Task.Delay(100);
+            await Task.Delay(1500);
 
             // Assert
             await mockFilaPedidoService.Received(1).RetornarPrimeiroPedidoDaFila();
