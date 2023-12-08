@@ -25,6 +25,8 @@ namespace TechLanches.Adapter.FilaPedidos
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                await Task.Delay(_workerOptions.DelayVerificacaoFilaEmSegundos * 1000, stoppingToken);
+
                 try
                 {
                     _logger.LogInformation("FilaPedidosHostedService iniciado: {time}", DateTimeOffset.Now);
@@ -33,15 +35,15 @@ namespace TechLanches.Adapter.FilaPedidos
 
                     if (proximoPedido is not null)
                     {
-                        _logger.LogInformation($"Próximo pedido da fila: {proximoPedido.Id}");
+                        _logger.LogInformation($"Prï¿½ximo pedido da fila: {proximoPedido.Id}");
 
                         await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoEmPreparacao);
 
-                        _logger.LogInformation($"Pedido {proximoPedido.Id} em preparação.");
+                        _logger.LogInformation($"Pedido {proximoPedido.Id} em preparaï¿½ï¿½o.");
 
                         await Task.Delay(1000 * _workerOptions.DelayPreparacaoPedidoEmSegundos, stoppingToken);
 
-                        _logger.LogInformation($"Pedido {proximoPedido.Id} preparação finalizada.");
+                        _logger.LogInformation($"Pedido {proximoPedido.Id} preparaï¿½ï¿½o finalizada.");
 
                         await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoPronto);
 
@@ -56,8 +58,6 @@ namespace TechLanches.Adapter.FilaPedidos
                 {
                     _logger.LogError(ex, "Erro ao processar fila de pedidos.");
                 }
-
-                await Task.Delay(_workerOptions.DelayVerificacaoFilaEmSegundos * 1000, stoppingToken);
             }
         }
     }
