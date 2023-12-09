@@ -35,15 +35,15 @@ namespace TechLanches.Adapter.FilaPedidos
 
                     if (proximoPedido is not null)
                     {
-                        _logger.LogInformation($"Pr�ximo pedido da fila: {proximoPedido.Id}");
+                        _logger.LogInformation($"Próximo pedido da fila: {proximoPedido.Id}");
 
                         await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoEmPreparacao);
 
-                        _logger.LogInformation($"Pedido {proximoPedido.Id} em prepara��o.");
+                        _logger.LogInformation($"Pedido {proximoPedido.Id} em preparação.");
 
                         await Task.Delay(1000 * _workerOptions.DelayPreparacaoPedidoEmSegundos, stoppingToken);
 
-                        _logger.LogInformation($"Pedido {proximoPedido.Id} prepara��o finalizada.");
+                        _logger.LogInformation($"Pedido {proximoPedido.Id} preparação finalizada.");
 
                         await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoPronto);
 
