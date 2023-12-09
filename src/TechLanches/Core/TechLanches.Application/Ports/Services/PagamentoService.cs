@@ -7,12 +7,12 @@ using TechLanches.Domain.Enums;
 
 namespace TechLanches.Application.Ports.Services
 {
-    public class FakeCheckoutService : IPagamentoService
+    public class PagamentoService : IPagamentoService
     {
         private readonly IPagamentoRepository _repository;
         private readonly IPagamentoQrCodeACLService _serviceACL;
 
-        public FakeCheckoutService(IPagamentoRepository repository, IPagamentoQrCodeACLService serviceACL)
+        public PagamentoService(IPagamentoRepository repository, IPagamentoQrCodeACLService serviceACL)
         {
             _repository = repository;
             _serviceACL = serviceACL;
@@ -41,10 +41,8 @@ namespace TechLanches.Application.Ports.Services
             await _repository.UnitOfWork.Commit();
         }
 
-        public async Task<string> GerarQrCode(string url)
-        {
-            return await _serviceACL.GerarQrCode(url);
-        }
+        public async Task<string> GerarQrCode()
+            => await _serviceACL.GerarQrCode();
 
         public Task<bool> RealizarPagamento(int pedidoId, FormaPagamento formaPagamento, decimal valor)
         {

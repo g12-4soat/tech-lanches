@@ -30,7 +30,7 @@ namespace TechLanches.Adapter.API.Endpoints
 
             var checkout = await checkoutService.ValidarCheckout(pedidoId);
 
-#if !DEBUG
+#if DEBUG
             string qrdCodeData = string.Empty;
 
             if (checkout is true)

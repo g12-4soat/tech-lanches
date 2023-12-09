@@ -10,5 +10,5 @@ public interface IPagamentoService
     Task Cadastrar(int pedidoId, FormaPagamento formaPagamento, decimal valor);
     Task Aprovar(Pagamento pagamento);
     Task Reprovar(Pagamento pagamento);
-    Task<string> GerarQrCode(string url);
+    Task<string> GerarQrCode();
 }

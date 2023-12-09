@@ -1,7 +1,6 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Net.Http.Json;
-using TechLanches.Adapter.ACL.Pagamento.QrCode.Configuration;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.Models;
 
 namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago

@@ -15,7 +15,6 @@ namespace TechLanches.Application.Ports.Services
         private readonly IQrCodeGeneratorService _qrCodeGeneratorService;
         private readonly IPagamentoQrCodeACLService _pagamentoQrCodeACLService;
         private readonly IMercadoPagoService _mercadoPagoService;
-        
 
         public CheckoutService(IPedidoService pedidoService, 
                                IPagamentoService pagamentoService,
@@ -41,7 +40,7 @@ namespace TechLanches.Application.Ports.Services
             if(pedido.Pagamentos is not null)
                 throw new DomainException($"Pedido já contém pagamento - StatusPagamento: {pedido.Pagamentos?.FirstOrDefault()?.StatusPagamento}");
 
-            //var xpto = await _mercadoPagoService.ObterPedido("1d500ba2-ae69-442f-9f30-ccf22955b11f");
+            //var teste = await _mercadoPagoService.ObterPedido("1d500ba2-ae69-442f-9f30-ccf22955b11f");
 
             return true;
         }
@@ -50,17 +49,20 @@ namespace TechLanches.Application.Ports.Services
         {
             var pedido = await _pedidoService.BuscarPorId(pedidoId);
 
-            //chamar o cadastrar pagamento
-            //pedido = await _pagamentoService.RealizarPagamento(pedidoId, FormaPagamento.QrCodeMercadoPago, pedido.Valor);
+            await _pagamentoService.Cadastrar(pedidoId, FormaPagamento.QrCodeMercadoPago, pedido.Valor);
 
-            var pedidoAcl = new PedidoACLDTO()
-            {
-                Valor = pedido.Valor,
-                ItensPedido = pedido.ItensPedido.Adapt<List<ItemPedidoACLDTO>>()
-            };
+            #region
+            //var pedidoAcl = new PedidoACLDTO()
+            //{
+            //    Valor = pedido.Valor,
+            //    ItensPedido = pedido.ItensPedido.Adapt<List<ItemPedidoACLDTO>>()
+            //};
 
-            var qrCode = await _pagamentoQrCodeACLService.GerarQrCode(pedidoAcl);
+            //var qrCode = await _pagamentoQrCodeACLService.GerarQrCode(pedidoAcl);
+            #endregion
 
+            var qrCode = await _pagamentoService.GerarQrCode();
+            
             return qrCode;
         }
 
