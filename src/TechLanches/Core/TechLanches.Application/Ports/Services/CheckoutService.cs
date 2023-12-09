@@ -41,7 +41,7 @@ namespace TechLanches.Application.Ports.Services
             if(pedido.Pagamentos is not null)
                 throw new DomainException($"Pedido já contém pagamento - StatusPagamento: {pedido.Pagamentos?.FirstOrDefault()?.StatusPagamento}");
 
-            var xpto = await _mercadoPagoService.ObterPedido("1d500ba2-ae69-442f-9f30-ccf22955b11f");
+            //var xpto = await _mercadoPagoService.ObterPedido("1d500ba2-ae69-442f-9f30-ccf22955b11f");
 
             return true;
         }
