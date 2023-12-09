@@ -19,7 +19,7 @@ namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
 
         public Task<string> GerarQrCode(PedidoACLDTO Pedido)
         {
-            return Task.FromResult("qrcodedata");
+            return Task.FromResult("00020101021226940014BR.GOV.BCB.PIX2572pix-qr-h.mercadopago.com/instore/h/p/v2/968f23cc18f946678a366d10d883809a43530016com.mercadolibre0129https://mpago.la/pos/889704125204000053039865802BR5909Test Test6009SAO PAULO62070503***6304091A");
         }
 
         private string ObterStatusPagamentoSimulado()

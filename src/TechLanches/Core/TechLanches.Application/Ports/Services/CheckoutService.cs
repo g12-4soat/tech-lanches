@@ -1,14 +1,10 @@
 ﻿using Mapster;
-using System.Drawing;
 using TechLanches.Adapter.ACL.Pagamento.QrCode;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
-using TechLanches.Application.Ports.Repositories;
+using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
-using TechLanches.Domain.Aggregates;
-using TechLanches.Domain.Entities;
 using TechLanches.Domain.Enums;
-using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Application.Ports.Services
 {
@@ -18,16 +14,20 @@ namespace TechLanches.Application.Ports.Services
         private readonly IPagamentoService _pagamentoService;
         private readonly IQrCodeGeneratorService _qrCodeGeneratorService;
         private readonly IPagamentoQrCodeACLService _pagamentoQrCodeACLService;
+        private readonly IMercadoPagoService _mercadoPagoService;
+        
 
         public CheckoutService(IPedidoService pedidoService, 
                                IPagamentoService pagamentoService,
                                IQrCodeGeneratorService qrCodeGeneratorService,
+                               IMercadoPagoService mercadoPagoService,
                                IPagamentoQrCodeACLService pagamentoQrCodeACLService)
         {
             _pedidoService = pedidoService;
             _pagamentoService = pagamentoService;
             _qrCodeGeneratorService = qrCodeGeneratorService;   
             _pagamentoQrCodeACLService = pagamentoQrCodeACLService;
+            _mercadoPagoService = mercadoPagoService;
         }
 
         public async Task<bool> ValidarCheckout(int pedidoId)
@@ -41,6 +41,8 @@ namespace TechLanches.Application.Ports.Services
             if(pedido.Pagamentos is not null)
                 throw new DomainException($"Pedido já contém pagamento - StatusPagamento: {pedido.Pagamentos?.FirstOrDefault()?.StatusPagamento}");
 
+            var xpto = await _mercadoPagoService.ObterPedido("1d500ba2-ae69-442f-9f30-ccf22955b11f");
+
             return true;
         }
 
@@ -48,6 +50,7 @@ namespace TechLanches.Application.Ports.Services
         {
             var pedido = await _pedidoService.BuscarPorId(pedidoId);
 
+            //chamar o cadastrar pagamento
             //pedido = await _pagamentoService.RealizarPagamento(pedidoId, FormaPagamento.QrCodeMercadoPago, pedido.Valor);
 
             var pedidoAcl = new PedidoACLDTO()
