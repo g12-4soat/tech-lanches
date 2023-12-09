@@ -25,7 +25,7 @@ namespace TechLanches.UnitTests.Services
             {
                 new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1) })
             });
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
+            var pedidoService = new PedidoService(pedidoRepository, clienteService);
 
             //Act 
             var pedidos = await pedidoService.BuscarTodos();
@@ -45,7 +45,7 @@ namespace TechLanches.UnitTests.Services
             var clienteService = Substitute.For<IClienteService>();
 
             pedidoRepository.BuscarPorId(1).Returns(new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1) }));
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
+            var pedidoService = new PedidoService(pedidoRepository, clienteService);
 
             //Act 
             var pedido = await pedidoService.BuscarPorId(1);
@@ -68,7 +68,7 @@ namespace TechLanches.UnitTests.Services
             {
                 new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1) })
             });
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
+            var pedidoService = new PedidoService(pedidoRepository, clienteService);
 
             //Act 
             var pedidos = await pedidoService.BuscarPorStatus(StatusPedido.PedidoEmPreparacao);
@@ -90,7 +90,7 @@ namespace TechLanches.UnitTests.Services
             var pedidoEditar = new Pedido(null, new List<ItemPedido>() { new ItemPedido(1, 1, 1) });
 
             pedidoRepository.BuscarPorId(PEDIDO_ID).Returns(pedidoEditar);
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
+            var pedidoService = new PedidoService(pedidoRepository, clienteService);
 
             //Act 
             var pedido = await pedidoService.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoRecebido);
@@ -110,7 +110,7 @@ namespace TechLanches.UnitTests.Services
             var pagamentoService = Substitute.For<IPagamentoService>();
             var clienteService = Substitute.For<IClienteService>();
 
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
+            var pedidoService = new PedidoService(pedidoRepository, clienteService);
 
             //Act 
             var exception = await Assert.ThrowsAsync<DomainException>(async () => await pedidoService.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoEmPreparacao));
@@ -131,7 +131,7 @@ namespace TechLanches.UnitTests.Services
             var pedidoEditar = new Pedido(null, new List<ItemPedido>() { new ItemPedido(1, 1, 1) });
 
             pedidoRepository.BuscarPorId(PEDIDO_ID).Returns(pedidoEditar);
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
+            var pedidoService = new PedidoService(pedidoRepository, clienteService);
 
             //Act 
             var exception = await Assert.ThrowsAsync<DomainException>(async () => await pedidoService.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoFinalizado));
@@ -153,7 +153,7 @@ namespace TechLanches.UnitTests.Services
             var clienteService = Substitute.For<IClienteService>();
             clienteService.BuscarPorCpf(CPF).Returns(new Cliente("Joao", "joao@gmail.com", CPF));
             pagamentoService.RealizarPagamento(Arg.Any<int>(), FormaPagamento.QrCodeMercadoPago, pedidoReturn.Valor).Returns(true);
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
+            var pedidoService = new PedidoService(pedidoRepository, clienteService);
 
             pedidoRepository.Cadastrar(pedidoReturn).Returns(pedidoReturn);
             //Act 
@@ -175,7 +175,7 @@ namespace TechLanches.UnitTests.Services
             var unitOfWork = Substitute.For<IUnitOfWork>();
             pedidoRepository.UnitOfWork.Returns(unitOfWork);
 
-            var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService);
+            var pedidoService = new PedidoService(pedidoRepository, clienteService);
             var itensPedidos = new List<ItemPedido>() { new ItemPedido(1, 1, 1) };
 
             //Act 
