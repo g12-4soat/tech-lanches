@@ -35,23 +35,23 @@ namespace TechLanches.Adapter.FilaPedidos
 
                     if (proximoPedido is not null)
                     {
-                        _logger.LogInformation($"Próximo pedido da fila: {proximoPedido.Id}");
+                        _logger.LogInformation("Próximo pedido da fila: {proximoPedido.Id}", proximoPedido.Id);
 
                         await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoEmPreparacao);
 
-                        _logger.LogInformation($"Pedido {proximoPedido.Id} em preparação.");
+                        _logger.LogInformation("Pedido {proximoPedido.Id} em preparação.", proximoPedido.Id);
 
                         await Task.Delay(1000 * _workerOptions.DelayPreparacaoPedidoEmSegundos, stoppingToken);
 
-                        _logger.LogInformation($"Pedido {proximoPedido.Id} preparação finalizada.");
+                        _logger.LogInformation("Pedido {proximoPedido.Id} preparação finalizada.", proximoPedido.Id);
 
                         await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoPronto);
 
-                        _logger.LogInformation($"Pedido {proximoPedido.Id} pronto.");
+                        _logger.LogInformation("Pedido {proximoPedido.Id} pronto.", proximoPedido.Id);
                     }
                     else
                     {
-                        _logger.LogInformation($"Nenhum Pedido na fila. Verificando novamente em 5 segundos.");
+                        _logger.LogInformation("Nenhum Pedido na fila. Verificando novamente em 5 segundos.");
                     }
                 }
                 catch (Exception ex)
