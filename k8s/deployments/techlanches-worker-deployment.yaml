@@ -5,7 +5,7 @@ metadata:
   name: techlanches-worker
   namespace: techlanches
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: techlanches-worker
