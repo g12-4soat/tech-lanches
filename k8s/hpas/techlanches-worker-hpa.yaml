@@ -10,7 +10,7 @@ spec:
     kind: Deployment
     name: techlanches-worker
   minReplicas: 1
-  maxReplicas: 3
+  maxReplicas: 5
   metrics:
     - type: Resource
       resource:
@@ -23,4 +23,7 @@ spec:
         name: memory
         target:
           type: Utilization
-          averageUtilization: 50
+          averageUtilization: 70 
+  behavior:
+   scaleDown:
+    stabilizationWindowSeconds: 30
