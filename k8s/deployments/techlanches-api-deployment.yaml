@@ -25,7 +25,7 @@ spec:
               memory: "500Mi"
             # limits: 
             #   cpu: "1"
-            #   memory: "300Mi" Removi para testar o HPA... Validar se deve ser usado no futuro.
+            #   memory: "1Gi" Removi para testar o HPA... Validar se deve ser usado no futuro.
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: "Production"
