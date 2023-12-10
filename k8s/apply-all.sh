@@ -4,7 +4,7 @@
 # /> chmod +x apply-all.sh
 
 # Apply all files (including subdirectories)
-kubectl apply -f metrics.yaml
+kubectl apply -f metrics/metrics.yaml
 kubectl apply -f techlanches-namespace.yaml
 kubectl apply -f techlanches-secrets.yaml
 kubectl apply -f hpas/techlanches-api-hpa.yaml
