@@ -1,4 +1,5 @@
 using TechLanches.Adapter.FilaPedidos;
+using TechLanches.Adapter.FilaPedidos.Health;
 using TechLanches.Adapter.FilaPedidos.Options;
 using TechLanches.Adapter.SqlServer;
 using TechLanches.Adapter.SqlServer.Repositories;
@@ -18,10 +19,14 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddDatabaseConfiguration(settingsConfig, ServiceLifetime.Singleton);
         services.Configure<WorkerOptions>(settingsConfig.GetSection("Worker"));
 
+
         services.AddSingleton<IPedidoRepository, PedidoRepository>();
         services.AddSingleton<IFilaPedidoRepository, FilaPedidoRepository>();
         services.AddSingleton<IFilaPedidoService, FilaPedidoService>();
         services.AddHostedService<FilaPedidosHostedService>();
+
+        services.AddHealthChecks().AddCheck<DbHealthCheck>("db_hc");
+        services.AddHostedService<TcpHealthProbeService>();
     });
 
 

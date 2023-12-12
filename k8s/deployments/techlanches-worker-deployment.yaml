@@ -17,8 +17,6 @@ spec:
       containers:
         - name: techlanches-worker
           image: g124soat/techlanches-worker:develop # usar latest quando for pra main
-          ports:
-            - containerPort: 5060
           resources:
             requests:
               cpu: "500m"
@@ -31,18 +29,17 @@ spec:
                 secretKeyRef:
                   name: techlanches-secrets
                   key: DefaultConnection
-
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: techlanches-worker-service
-  namespace: techlanches
-spec:
-  selector:
-    app: techlanches-worker
-  ports:
-    - protocol: TCP
-      port: 5060
-      targetPort: 5060
-  type: LoadBalancer
+          readinessProbe:
+            tcpSocket:
+              port: 5000
+            initialDelaySeconds: 5
+            failureThreshold: 2
+            timeoutSeconds: 3
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 5000
+            initialDelaySeconds: 15
+            failureThreshold: 2
+            timeoutSeconds: 3
+            periodSeconds: 20
