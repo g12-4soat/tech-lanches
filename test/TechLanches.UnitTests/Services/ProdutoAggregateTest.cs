@@ -1,4 +1,5 @@
 ﻿using NSubstitute;
+using NSubstitute.ReturnsExtensions;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services;
 using TechLanches.Core;
@@ -62,7 +63,7 @@ namespace TechLanches.UnitTests.Services
             var produtoRepository = Substitute.For<IProdutoRepository>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             produtoRepository.UnitOfWork.Returns(unitOfWork);
-            produtoRepository.BuscarPorCategoria(new CategoriaProduto(1, "teste")).Returns(new List<Produto> { new Produto("Nome", "Descrição do produto", 20.0m, 2) });
+            produtoRepository.BuscarPorCategoria(new CategoriaProduto(1, "teste")).Returns(new List<Produto> { new ("Nome", "Descrição do produto", 20.0m, 2) });
 
             var produtoService = new ProdutoService(produtoRepository);
 
@@ -101,7 +102,7 @@ namespace TechLanches.UnitTests.Services
             var produtoRepository = Substitute.For<IProdutoRepository>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             produtoRepository.UnitOfWork.Returns(unitOfWork);
-            produtoRepository.BuscarTodos().Returns(new List<Produto> { new Produto("Nome", "Descrição do produto", 20, 2) });
+            produtoRepository.BuscarTodos().Returns(new List<Produto> { new ("Nome", "Descrição do produto", 20, 2) });
 
 
             var produtoService = new ProdutoService(produtoRepository);
@@ -140,7 +141,7 @@ namespace TechLanches.UnitTests.Services
             var produtoRepository = Substitute.For<IProdutoRepository>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             produtoRepository.UnitOfWork.Returns(unitOfWork);
-            produtoRepository.BuscarPorId(1).Returns(Task.FromResult<Produto>(null)); // Produto não encontrado
+            produtoRepository.BuscarPorId(1).ReturnsNull(); // Produto não encontrado
 
             var produtoService = new ProdutoService(produtoRepository);
             var produto = await produtoService.BuscarPorId(1);

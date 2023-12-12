@@ -150,9 +150,8 @@ namespace TechLanches.Adapter.API.Endpoints
                 .ToList();
 
             return categorias is not null
-                ? Results.Ok(categorias)
+                ? Results.Ok(await Task.FromResult(categorias))
                 : Results.NotFound(new ErrorResponseDTO { MensagemErro = "Nenhuma categoria encontrada.", StatusCode = (int)HttpStatusCode.NotFound });
-
         }
     }
 }

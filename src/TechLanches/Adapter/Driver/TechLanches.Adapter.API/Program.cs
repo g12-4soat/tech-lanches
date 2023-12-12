@@ -1,4 +1,5 @@
 using TechLanches.Adapter.API.Configuration;
+using TechLanches.Adapter.API.Middlewares;
 using TechLanches.Adapter.SqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +24,9 @@ builder.Services.AddDatabaseConfiguration(builder.Configuration);
 //Setting mapster
 builder.Services.RegisterMaps();
 
+//Setting Health Check
+builder.Services.AddHealthCheckConfig(builder.Configuration);
+
 var app = builder.Build();
 
 app.UseDatabaseConfiguration();
@@ -32,12 +36,15 @@ if (app.Environment.IsDevelopment())
 {
 
 }
+app.UseRouting();
 
 app.UseSwaggerConfiguration();
 
+app.AddHealthCheckEndpoint();
+
 app.UseMapEndpointsConfiguration();
 
-app.AddGlobalErrorHandler();
+app.AddCustomMiddlewares();
 
 app.UseStaticFiles();
 

@@ -16,6 +16,14 @@ public class Pagamento : Entity, IAggregateRoot
         Validar();
     }
 
+    public Pagamento(int pagamentoId, int pedidoId, decimal valor, StatusPagamento statusPagamento) : base(pagamentoId)
+    {
+        PedidoId = pedidoId;
+        Valor = valor;
+        StatusPagamento = statusPagamento;
+        Validar();
+    }
+
     public int PedidoId { get; private set; }
     public decimal Valor { get; private set; }
     public StatusPagamento StatusPagamento { get; private set; }
@@ -30,7 +38,7 @@ public class Pagamento : Entity, IAggregateRoot
         if (Valor <= 0)
             throw new DomainException("O valor deve ser maior que zero.");
 
-        if (StatusPagamento != StatusPagamento.Aguardando)
+        if (StatusPagamento != StatusPagamento.Aguardando && Id <= 0)
             throw new DomainException("O pagamento deve iniciar como aguardando.");
     }
 

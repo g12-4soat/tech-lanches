@@ -40,5 +40,6 @@ namespace TechLanches.Adapter.SqlServer
 
             DataSeeder.Seed(context);
         }
+
     }
 }
