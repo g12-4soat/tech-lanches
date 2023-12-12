@@ -6,6 +6,7 @@ using TechLanches.Adapter.SqlServer.Repositories;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services;
 using TechLanches.Application.Ports.Services.Interfaces;
+using TechLanches.Domain.Services;
 
 var hostBuilder = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
@@ -23,6 +24,8 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IPedidoRepository, PedidoRepository>();
         services.AddSingleton<IFilaPedidoRepository, FilaPedidoRepository>();
         services.AddSingleton<IFilaPedidoService, FilaPedidoService>();
+        services.AddSingleton<IStatusPedidoValidacaoService, StatusPedidoValidacaoService>();
+
         services.AddHostedService<FilaPedidosHostedService>();
 
         services.AddHealthChecks().AddCheck<DbHealthCheck>("db_hc");
