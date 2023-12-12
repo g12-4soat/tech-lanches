@@ -19,6 +19,13 @@ spec:
           image: g124soat/techlanches-api:develop # usar latest quando for pra main
           ports:
             - containerPort: 80
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "500Mi"
+            # limits: 
+            #   cpu: "1"
+            #   memory: "1Gi" Removi para testar o HPA... Validar se deve ser usado no futuro.
           env:
             - name: ASPNETCORE_ENVIRONMENT
               value: "Production"
