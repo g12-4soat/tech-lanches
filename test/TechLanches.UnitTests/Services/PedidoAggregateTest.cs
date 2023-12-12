@@ -173,7 +173,6 @@ namespace TechLanches.UnitTests.Services
             var pagamentoService = Substitute.For<IPagamentoService>();
             var clienteService = Substitute.For<IClienteService>();
             clienteService.BuscarPorCpf(CPF).Returns(new Cliente("Joao", "joao@gmail.com", CPF));
-            pagamentoService.RealizarPagamento(Arg.Any<int>(), FormaPagamento.QrCodeMercadoPago, pedidoReturn.Valor).Returns(true);
             var pedidoService = new PedidoService(pedidoRepository, pagamentoService, clienteService, _statusPedidoValidacaoService);
 
             pedidoRepository.Cadastrar(pedidoReturn).Returns(pedidoReturn);
