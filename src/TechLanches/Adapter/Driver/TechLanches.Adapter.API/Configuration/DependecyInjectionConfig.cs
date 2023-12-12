@@ -4,6 +4,8 @@ using TechLanches.Adapter.SqlServer.Repositories;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services;
 using TechLanches.Application.Ports.Services.Interfaces;
+using TechLanches.Domain.Services;
+using TechLanches.Domain.Validations;
 
 namespace TechLanches.Adapter.API.Configuration
 {
@@ -13,11 +15,21 @@ namespace TechLanches.Adapter.API.Configuration
         {
             if (services is null) throw new ArgumentNullException(nameof(services));
 
+            services.AddScoped<IStatusPedidoValidacao, StatusPedidoCriadoValidacao>();
+            services.AddScoped<IStatusPedidoValidacao, StatusPedidoCanceladoValidacao>();
+            services.AddScoped<IStatusPedidoValidacao, StatusPedidoEmPreparacaoValidacao>();
+            services.AddScoped<IStatusPedidoValidacao, StatusPedidoDescartadoValidacao>();
+            services.AddScoped<IStatusPedidoValidacao, StatusPedidoFinalizadoValidacao>();
+            services.AddScoped<IStatusPedidoValidacao, StatusPedidoProntoValidacao>();
+            services.AddScoped<IStatusPedidoValidacao, StatusPedidoRecebidoValidacao>();
+            services.AddScoped<IStatusPedidoValidacao, StatusPedidoRetiradoValidacao>();
+
             services.AddScoped<IClienteService, ClienteService>();
             services.AddScoped<IPedidoService, PedidoService>();
             services.AddScoped<IProdutoService, ProdutoService>();
             services.AddScoped<IPagamentoService, FakeCheckoutService>();
             services.AddScoped<IPagamentoQrCodeACLService, MercadoPagoMocadoService>();
+            services.AddScoped<IStatusPedidoValidacaoService, StatusPedidoValidacaoService>();
 
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();

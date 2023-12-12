@@ -2,20 +2,24 @@
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
+using TechLanches.Domain.Services;
 
 namespace TechLanches.Application.Ports.Services
 {
     public class FilaPedidoService : IFilaPedidoService
     {
+        private readonly IStatusPedidoValidacaoService _statusPedidoValidacaoService;
         private readonly IFilaPedidoRepository _filaPedidoRepository;
         private readonly IPedidoRepository _pedidoRepository;
 
         public FilaPedidoService(
             IPedidoRepository pedidoRepository,
-            IFilaPedidoRepository filaPedidoRepository)
+            IFilaPedidoRepository filaPedidoRepository,
+            IStatusPedidoValidacaoService statusPedidoValidacaoService)
         {
             _pedidoRepository = pedidoRepository;
             _filaPedidoRepository = filaPedidoRepository;
+            _statusPedidoValidacaoService = statusPedidoValidacaoService;
         }
 
         public async Task<Pedido?> RetornarPrimeiroPedidoDaFila()
@@ -35,7 +39,7 @@ namespace TechLanches.Application.Ports.Services
 
         public async Task TrocarStatus(Pedido pedido, StatusPedido statusPedido)
         {
-            pedido.TrocarStatus(statusPedido);
+            pedido.TrocarStatus(_statusPedidoValidacaoService, statusPedido);
             await _pedidoRepository.UnitOfWork.Commit();
         }
     }

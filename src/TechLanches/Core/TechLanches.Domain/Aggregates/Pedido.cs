@@ -1,6 +1,7 @@
 ﻿using TechLanches.Core;
 using TechLanches.Domain.Entities;
 using TechLanches.Domain.Enums;
+using TechLanches.Domain.Services;
 using TechLanches.Domain.Validations;
 using TechLanches.Domain.ValueObjects;
 
@@ -54,25 +55,13 @@ namespace TechLanches.Domain.Aggregates
             Valor = _itensPedido.Sum(i => i.Valor);
         }
 
-        public void TrocarStatus(StatusPedido statusPedido)
+        public void TrocarStatus(IStatusPedidoValidacaoService validacaoService, StatusPedido statusPedidoNovo)
         {
-            if (!Enum.IsDefined(typeof(StatusPedido), statusPedido))
+            if (!Enum.IsDefined(typeof(StatusPedido), statusPedidoNovo))
                 throw new DomainException("Status inválido");
 
-            ValidarStatus(statusPedido);
-            StatusPedido = statusPedido;
-        }
-
-        private void ValidarStatus(StatusPedido statusPedidoNovo)
-        {
-            new StatusPedidoValidacao(new StatusPedidoCriadoValidacao()).Validar(StatusPedido, statusPedidoNovo);
-            new StatusPedidoValidacao(new StatusPedidoEmPreparacaoValidacao()).Validar(StatusPedido, statusPedidoNovo);
-            new StatusPedidoValidacao(new StatusPedidoProntoValidacao()).Validar(StatusPedido, statusPedidoNovo);
-            new StatusPedidoValidacao(new StatusPedidoRetiradoValidacao()).Validar(StatusPedido, statusPedidoNovo);
-            new StatusPedidoValidacao(new StatusPedidoDescartadoValidacao()).Validar(StatusPedido, statusPedidoNovo);
-            new StatusPedidoValidacao(new StatusPedidoCanceladoValidacao()).Validar(StatusPedido, statusPedidoNovo);
-            new StatusPedidoValidacao(new StatusPedidoFinalizadoValidacao()).Validar(StatusPedido, statusPedidoNovo);
-            new StatusPedidoValidacao(new StatusPedidoRecebidoValidacao()).Validar(StatusPedido, statusPedidoNovo);
+            validacaoService.Validar(StatusPedido, statusPedidoNovo);
+            StatusPedido = statusPedidoNovo;
         }
 
         private void Validar()

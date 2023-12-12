@@ -8,5 +8,5 @@ public enum StatusPedido
     PedidoPronto,
     PedidoFinalizado,
     PedidoRetirado,
-    PedidoDescartado,
+    PedidoDescartado
 }
