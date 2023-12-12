@@ -22,15 +22,15 @@ namespace TechLanches.Adapter.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ErrorResponseDTO), description: "Pedido não encontrado"))
                .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno")); ;
 
-            app.MapPost("api/pagamentos", BuscarPagamento).WithTags(EndpointTagConstantes.TAG_PAGAMENTO)
+            app.MapPost("api/pagamentos/webhook/mercadopago", BuscarPagamento).WithTags(EndpointTagConstantes.TAG_PAGAMENTO)
                .WithMetadata(new SwaggerOperationAttribute(summary: "Webhook pagamento do mercado pago", description: "Retorna o pagamento"))
                .WithMetadata(new SwaggerResponseAttribute(200, description: "Pagamento encontrado com sucesso"))
                .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ErrorResponseDTO), description: "Pagamento não encontrado"))
                .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"));
 
-            app.MapGet("api/pagamentos/mocado", BuscarPagamentoMocado).WithTags(EndpointTagConstantes.TAG_PAGAMENTO)
-               .WithMetadata(new SwaggerOperationAttribute(summary: "Webhook pagamento mocado", description: "Retorna o pagamento"))
+            app.MapGet("api/pagamentos/webhook/mockado", BuscarPagamentoMockado).WithTags(EndpointTagConstantes.TAG_PAGAMENTO)
+               .WithMetadata(new SwaggerOperationAttribute(summary: "Webhook pagamento mockado", description: "Retorna o pagamento"))
                .WithMetadata(new SwaggerResponseAttribute(200, description: "Pagamento encontrado com sucesso"))
                .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ErrorResponseDTO), description: "Pagamento não encontrado"))
@@ -61,7 +61,7 @@ namespace TechLanches.Adapter.API.Endpoints
             return Results.Ok();
         }
 
-        private static async Task<IResult> BuscarPagamentoMocado(int pedidoId, [FromServices] IPagamentoACLService pagamentoQrCodeACLService, [FromServices] IPagamentoService pagamentoService)
+        private static async Task<IResult> BuscarPagamentoMockado(int pedidoId, [FromServices] IPagamentoACLService pagamentoQrCodeACLService, [FromServices] IPagamentoService pagamentoService)
         {
             var pagamentoACL = await pagamentoQrCodeACLService.ConsultarPagamento(pedidoId.ToString());
 
