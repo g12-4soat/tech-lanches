@@ -24,6 +24,9 @@ builder.Services.AddDatabaseConfiguration(builder.Configuration);
 //Setting mapster
 builder.Services.RegisterMaps();
 
+//Setting Health Check
+builder.Services.AddHealthCheckConfig(builder.Configuration);
+
 var app = builder.Build();
 
 app.UseDatabaseConfiguration();
@@ -33,8 +36,11 @@ if (app.Environment.IsDevelopment())
 {
 
 }
+app.UseRouting();
 
 app.UseSwaggerConfiguration();
+
+app.AddHealthCheckEndpoint();
 
 app.UseMapEndpointsConfiguration();
 

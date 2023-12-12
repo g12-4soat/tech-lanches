@@ -17,7 +17,7 @@ namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
             return Task.FromResult(consultaPagamentoResponse);
         }
 
-        public Task<string> GerarQrCode(PedidoACLDTO Pedido)
+        public Task<string> GerarQrCode(string url)
         {
             return Task.FromResult("qrcodedata");
         }
