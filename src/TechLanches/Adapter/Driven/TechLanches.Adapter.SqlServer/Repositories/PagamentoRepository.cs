@@ -1,9 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
@@ -24,6 +19,21 @@ namespace TechLanches.Adapter.SqlServer.Repositories
         public async Task<Pagamento> BuscarStatusPagamentoPorPedidoId(int pedidoId)
         {
             return await _context.Pagamentos.SingleOrDefaultAsync(x => x.PedidoId == pedidoId);
+        }
+
+        public async Task<Pagamento> Cadastrar(Pagamento pagamento)
+        {
+            return (await _context.AddAsync(pagamento)).Entity;
+        }
+
+        public void Aprovar(Pagamento pagamento)
+        {
+            pagamento.Aprovar();
+        }
+
+        public void Reprovar(Pagamento pagamento)
+        {
+            pagamento.Reprovar();
         }
     }
 }
