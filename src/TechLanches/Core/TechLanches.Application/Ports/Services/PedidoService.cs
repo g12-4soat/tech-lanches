@@ -4,19 +4,27 @@ using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Entities;
 using TechLanches.Domain.Enums;
+using TechLanches.Domain.Services;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Application.Ports.Services
 {
     public class PedidoService : IPedidoService
     {
-        private readonly IPedidoRepository _pedidoRepository;
+        private readonly IStatusPedidoValidacaoService _statusPedidoValidacaoService;
+        private readonly IPagamentoService _pagamentoService;
         private readonly IClienteService _clienteService;
+        private readonly IPedidoRepository _pedidoRepository;
 
-        public PedidoService(IPedidoRepository pedidoRepository, IClienteService clienteService)
+        public PedidoService(
+            IPedidoRepository pedidoRepository,
+            IPagamentoService pagamentoService,
+            IClienteService clienteService,
+            IStatusPedidoValidacaoService statusPedidoValidacaoService)
         {
             _pedidoRepository = pedidoRepository;
             _clienteService = clienteService;
+            _statusPedidoValidacaoService = statusPedidoValidacaoService;
         }
 
         public async Task<List<Pedido>> BuscarTodos()
@@ -54,7 +62,9 @@ namespace TechLanches.Application.Ports.Services
         {
             var pedido = await _pedidoRepository.BuscarPorId(pedidoId)
                 ?? throw new DomainException("Não foi encontrado nenhum pedido com id informado.");
-            pedido.TrocarStatus(statusPedido);
+
+            pedido.TrocarStatus(_statusPedidoValidacaoService, statusPedido);
+
             _pedidoRepository.Atualizar(pedido);
             await _pedidoRepository.UnitOfWork.Commit();
             return pedido;

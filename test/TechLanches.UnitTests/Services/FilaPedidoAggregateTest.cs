@@ -4,6 +4,8 @@ using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
+using TechLanches.Domain.Services;
+using TechLanches.Domain.Validations;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.UnitTests.Services
@@ -11,6 +13,25 @@ namespace TechLanches.UnitTests.Services
     [Trait("Services", "FilaPedidoAggregate")]
     public class FilaPedidoAggregateTest
     {
+        private readonly IStatusPedidoValidacaoService _statusPedidoValidacaoService;
+
+        public FilaPedidoAggregateTest()
+        {
+            var validacoes = new List<IStatusPedidoValidacao>
+            {
+                new StatusPedidoCriadoValidacao(),
+                new StatusPedidoCanceladoValidacao(),
+                new StatusPedidoEmPreparacaoValidacao(),
+                new StatusPedidoDescartadoValidacao(),
+                new StatusPedidoFinalizadoValidacao(),
+                new StatusPedidoProntoValidacao(),
+                new StatusPedidoRecebidoValidacao(),
+                new StatusPedidoRetiradoValidacao()
+            };
+
+            _statusPedidoValidacaoService = new StatusPedidoValidacaoService(validacoes);
+        }
+
         [Fact]
         public async Task RetornarPrimeiroPedidoDaFila_ComPedidosNaFila_DeveRetornarPedido()
         {
@@ -26,7 +47,7 @@ namespace TechLanches.UnitTests.Services
 
             mockPedidoRepository.BuscarPorId(1).Returns(Task.FromResult(new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1) })));
 
-            var filaPedidoService = new FilaPedidoService(mockPedidoRepository, mockFilaPedidoRepository);
+            var filaPedidoService = new FilaPedidoService(mockPedidoRepository, mockFilaPedidoRepository, _statusPedidoValidacaoService);
 
             // Act
             var pedido = await filaPedidoService.RetornarPrimeiroPedidoDaFila();
@@ -44,7 +65,7 @@ namespace TechLanches.UnitTests.Services
 
             mockFilaPedidoRepository.RetornarFilaPedidos().Returns(Task.FromResult(new List<FilaPedido>()));
 
-            var filaPedidoService = new FilaPedidoService(mockPedidoRepository, mockFilaPedidoRepository);
+            var filaPedidoService = new FilaPedidoService(mockPedidoRepository, mockFilaPedidoRepository, _statusPedidoValidacaoService);
 
             // Act
             var result = await filaPedidoService.RetornarPrimeiroPedidoDaFila();
@@ -62,7 +83,7 @@ namespace TechLanches.UnitTests.Services
 
             var pedido = new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1) });
 
-            var filaPedidoService = new FilaPedidoService(mockPedidoRepository, mockFilaPedidoRepository);
+            var filaPedidoService = new FilaPedidoService(mockPedidoRepository, mockFilaPedidoRepository, _statusPedidoValidacaoService);
 
             // Act
             await filaPedidoService.TrocarStatus(pedido, StatusPedido.PedidoRecebido);
