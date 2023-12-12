@@ -18,12 +18,11 @@ public class ClienteRepository : IClienteRepository
     }
 
     public async Task<Cliente> BuscarPorCpf(Cpf cpf)
-    {
-        return await _context.Clientes.SingleOrDefaultAsync(x => x.CPF.Numero == cpf.Numero);
-    }
+        => await _context.Clientes.SingleOrDefaultAsync(x => x.CPF.Numero == cpf.Numero);
 
     public async Task<Cliente> Cadastrar(Cliente cliente)
-    {
-        return (await _context.AddAsync(cliente)).Entity;
-    }
+        => (await _context.AddAsync(cliente)).Entity;
+
+    public async Task<Cliente> BuscarPorId(int idCliente)
+        => await _context.Clientes.SingleOrDefaultAsync(x => x.Id == idCliente);
 }

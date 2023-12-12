@@ -6,5 +6,6 @@ namespace TechLanches.Application.Ports.Services.Interfaces
     {
         Task<Cliente> BuscarPorCpf(string cpf);
         Task<Cliente> Cadastrar(string nome, string email, string cpf);
+        Task<Cliente> BuscarPorId(int idCliente);
     }
 }

@@ -11,6 +11,7 @@ namespace TechLanches.Adapter.API.Configuration
             endpoints.MapProdutoEndpoints();
             endpoints.MapFilaPedidoEndpoints();
             endpoints.MapPagamentoEndpoints();
+            endpoints.MapCheckoutEndpoints();
         }
     }
 }
