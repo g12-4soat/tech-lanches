@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
-using TechLanches.Adapter.ACL.Pagamento.QrCode;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
+using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 using TechLanches.Adapter.API.Constantes;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services.Interfaces;
@@ -40,11 +40,11 @@ namespace TechLanches.Adapter.API.Endpoints
             return Results.Ok(pagamento.Adapt<PagamentoStatusResponseDTO>());
         }
 
-        private static async Task<IResult> BuscarPagamento(int id, TopicACL topic, int pedidoId, [FromServices] IPagamentoQrCodeACLService pagamentoQrCodeACLService, [FromServices] IPagamentoService pagamentoService)
+        private static async Task<IResult> BuscarPagamento(int id, TopicACL topic, int pedidoId, [FromServices] IPagamentoACLService pagamentoQrCodeACLService, [FromServices] IPagamentoService pagamentoService)
         {
             if (topic == TopicACL.merchant_order)
             {
-                var pagamentoACL = await pagamentoQrCodeACLService.ConsultarPagamento(id);
+                var pagamentoACL = await pagamentoQrCodeACLService.ConsultarPagamento(id.ToString());
 
                 if (pagamentoACL is null)
                     return Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum pedido encontrado para o id: {id}", StatusCode = (int)HttpStatusCode.NotFound });

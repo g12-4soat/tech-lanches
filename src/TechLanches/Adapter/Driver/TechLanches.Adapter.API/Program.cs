@@ -4,12 +4,15 @@ using System.Net.Http.Headers;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 using TechLanches.Adapter.API.Configuration;
 using TechLanches.Adapter.SqlServer;
+using TechLanches.Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration
     .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json", true, true)
     .AddEnvironmentVariables();
+
+AppSettings.Configuration = builder.Configuration;
 
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -32,13 +35,11 @@ var retryPolicy = HttpPolicyExtensions.HandleTransientHttpError()
                   .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
 
 //Registrar httpclient
-builder.Services.AddHttpClient<IMercadoPagoService, MercadoPagoService>((serviceProvider, httpClient) =>
+builder.Services.AddHttpClient<IPagamentoACLService, MercadoPagoService>((serviceProvider, httpClient) =>
 {
-    //var mercadoPagoConfig = serviceProvider.GetRequiredService<IOptions<MercadoPagoConfig>>().Value;
-
     httpClient.DefaultRequestHeaders.Authorization = 
-        new AuthenticationHeaderValue("Bearer", builder.Configuration.GetSection("ApiMercadoPago")["AccessToken"]);
-    httpClient.BaseAddress = new Uri(builder.Configuration.GetSection("ApiMercadoPago")["BaseUrl"]); 
+        new AuthenticationHeaderValue("Bearer", builder.Configuration.GetSection($"ApiMercadoPago:{AppSettings.GetEnv()}")["AccessToken"]);
+    httpClient.BaseAddress = new Uri(builder.Configuration.GetSection($"ApiMercadoPago:{AppSettings.GetEnv()}")["BaseUrl"]); 
 })
 .AddPolicyHandler(retryPolicy);
 

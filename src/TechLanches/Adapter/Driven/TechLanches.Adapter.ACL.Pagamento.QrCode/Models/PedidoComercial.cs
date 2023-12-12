@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
+﻿using System.Text.Json.Serialization;
 
 namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Models
 {
@@ -28,7 +23,7 @@ namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Models
         public string PreferenceId { get; set; }
 
         [JsonPropertyName("payments")]
-        public List<Pagamento> Pagamentos { get; set; }
+        public List<PagamentoGerado> Pagamentos { get; set; }
 
         [JsonPropertyName("notification_url")]
         public string UrlNotificacao { get; set; }
@@ -43,7 +38,7 @@ namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Models
         public List<Items> Items { get; set; }
     }
 
-    public class Pagamento
+    public class PagamentoGerado
     {
         [JsonPropertyName("id")]
         public decimal Id { get; set; }
@@ -101,5 +96,14 @@ namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Models
 
         [JsonPropertyName("unit_price")]
         public int PrecoUnitario { get; set; }
+    }
+
+    public class PedidoGerado
+    {
+        [JsonPropertyName("in_store_order_id")]
+        public string in_store_order_id { get; set; }
+
+        [JsonPropertyName("qr_data")]
+        public string qr_data { get; set; }
     }
 }

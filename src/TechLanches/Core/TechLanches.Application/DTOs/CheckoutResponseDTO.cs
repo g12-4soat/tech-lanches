@@ -16,5 +16,6 @@
         /// </summary>
         /// <example>qrcodedata</example>
         public string QRCodeData { get; set; }
+        public string URLData { get; set; }
     }
 }

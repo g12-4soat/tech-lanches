@@ -19,8 +19,8 @@ namespace TechLanches.Adapter.API.Configuration
             services.AddScoped<IPagamentoService, PagamentoService>();
             services.AddScoped<ICheckoutService, CheckoutService>();
             services.AddScoped<IQrCodeGeneratorService, QrCodeGeneratorService>();
-            services.AddScoped<IPagamentoQrCodeACLService, MercadoPagoMocadoService>();
-            services.AddScoped<IMercadoPagoService, MercadoPagoService>();
+            services.AddScoped<IPagamentoACLService, MercadoPagoMocadoService>();
+            //services.AddScoped<IPagamentoACLService, MercadoPagoService>();
 
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();

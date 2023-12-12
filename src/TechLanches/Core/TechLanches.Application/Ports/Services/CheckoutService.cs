@@ -1,10 +1,9 @@
-﻿using Mapster;
-using TechLanches.Adapter.ACL.Pagamento.QrCode;
-using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
+﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
 using TechLanches.Domain.Enums;
+using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Application.Ports.Services
 {
@@ -13,20 +12,14 @@ namespace TechLanches.Application.Ports.Services
         private readonly IPedidoService _pedidoService;
         private readonly IPagamentoService _pagamentoService;
         private readonly IQrCodeGeneratorService _qrCodeGeneratorService;
-        private readonly IPagamentoQrCodeACLService _pagamentoQrCodeACLService;
-        private readonly IMercadoPagoService _mercadoPagoService;
 
         public CheckoutService(IPedidoService pedidoService, 
                                IPagamentoService pagamentoService,
-                               IQrCodeGeneratorService qrCodeGeneratorService,
-                               IMercadoPagoService mercadoPagoService,
-                               IPagamentoQrCodeACLService pagamentoQrCodeACLService)
+                               IQrCodeGeneratorService qrCodeGeneratorService)
         {
             _pedidoService = pedidoService;
             _pagamentoService = pagamentoService;
             _qrCodeGeneratorService = qrCodeGeneratorService;   
-            _pagamentoQrCodeACLService = pagamentoQrCodeACLService;
-            _mercadoPagoService = mercadoPagoService;
         }
 
         public async Task<bool> ValidarCheckout(int pedidoId)
@@ -40,8 +33,6 @@ namespace TechLanches.Application.Ports.Services
             if(pedido.Pagamentos is not null)
                 throw new DomainException($"Pedido já contém pagamento - StatusPagamento: {pedido.Pagamentos?.FirstOrDefault()?.StatusPagamento}");
 
-            //var teste = await _mercadoPagoService.ObterPedido("1d500ba2-ae69-442f-9f30-ccf22955b11f");
-
             return true;
         }
 
@@ -51,18 +42,35 @@ namespace TechLanches.Application.Ports.Services
 
             await _pagamentoService.Cadastrar(pedidoId, FormaPagamento.QrCodeMercadoPago, pedido.Valor);
 
-            #region
-            //var pedidoAcl = new PedidoACLDTO()
-            //{
-            //    Valor = pedido.Valor,
-            //    ItensPedido = pedido.ItensPedido.Adapt<List<ItemPedidoACLDTO>>()
-            //};
+            var pedidoMercadoPago = new PedidoACLDTO()
+            {
+                ReferenciaExterna = pedido.Id.ToString(), 
+                TotalTransacao = pedido.Valor,
+                ItensPedido = new List<ItemPedidoACLDTO>(),
+                Titulo = "Compra em TechLanches",
+                Descricao = "Compra e Retirada de produto",
+                DataExpiracao = DateTime.Now.AddHours(1).ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), 
+                UrlNotificacao = "https://webhook.site/8f9a1d85-e8d3-4c97-a9b3-ec92220f3aa8" //alterar para endpoint de pagamento para receber notificacao
+            };
 
-            //var qrCode = await _pagamentoQrCodeACLService.GerarQrCode(pedidoAcl);
-            #endregion
+            foreach(var item in pedido.ItensPedido)
+            {
+                var itemPedido = new ItemPedidoACLDTO()
+                {
+                    Categoria = CategoriaProduto.From(item.Produto.Categoria.Id).Nome,
+                    NomeProduto = item.Produto.Nome,
+                    Descricao = item.Produto.Descricao,
+                    Quantidade = item.Quantidade,
+                    UnidadeMedida = "unit",
+                    PrecoProduto = item.PrecoProduto,
+                    TotalTransacao = item.Valor
+                };
 
-            var qrCode = await _pagamentoService.GerarQrCode();
-            
+                pedidoMercadoPago.ItensPedido.Add(itemPedido);
+            }
+
+            var qrCode = await _pagamentoService.GerarPagamentoEQrCodeMercadoPago(pedidoMercadoPago);
+
             return qrCode;
         }
 

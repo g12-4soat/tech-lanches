@@ -1,4 +1,5 @@
-﻿using TechLanches.Domain.Aggregates;
+﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
+using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
 
 namespace TechLanches.Application.Ports.Services.Interfaces;
@@ -10,5 +11,6 @@ public interface IPagamentoService
     Task Cadastrar(int pedidoId, FormaPagamento formaPagamento, decimal valor);
     Task Aprovar(Pagamento pagamento);
     Task Reprovar(Pagamento pagamento);
-    Task<string> GerarQrCode();
+    Task<string> GerarPagamentoEQrCodeMercadoPago(PedidoACLDTO pedidoMercadoPago);
+    Task<PagamentoResponseACLDTO> ConsultarPagamentoMercadoPago(string pedidoComercial);
 }
