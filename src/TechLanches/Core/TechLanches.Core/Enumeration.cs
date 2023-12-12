@@ -56,12 +56,11 @@ namespace TechLanches.Core
         {
             var matchingItem = GetAll<T>().FirstOrDefault(predicate);
 
-            if (matchingItem == null)
-                throw new InvalidOperationException($"'{value}' is not a valid {description} in {typeof(T)}");
-
-            return matchingItem;
+            return matchingItem ?? throw new InvalidOperationException($"'{value}' is not a valid {description} in {typeof(T)}");
         }
 
+#pragma warning disable CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
         public int CompareTo(object other) => Id.CompareTo(((Enumeration)other).Id);
+#pragma warning restore CS8767 // Nullability of reference types in type of parameter doesn't match implicitly implemented member (possibly because of nullability attributes).
     }
 }

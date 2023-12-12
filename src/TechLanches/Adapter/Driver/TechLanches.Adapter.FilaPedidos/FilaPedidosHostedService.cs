@@ -25,6 +25,8 @@ namespace TechLanches.Adapter.FilaPedidos
         {
             while (!stoppingToken.IsCancellationRequested)
             {
+                await Task.Delay(_workerOptions.DelayVerificacaoFilaEmSegundos * 1000, stoppingToken);
+
                 try
                 {
                     _logger.LogInformation("FilaPedidosHostedService iniciado: {time}", DateTimeOffset.Now);
@@ -33,31 +35,29 @@ namespace TechLanches.Adapter.FilaPedidos
 
                     if (proximoPedido is not null)
                     {
-                        _logger.LogInformation($"Próximo pedido da fila: {proximoPedido.Id}");
+                        _logger.LogInformation("PrÃ³ximo pedido da fila: {proximoPedido.Id}", proximoPedido.Id);
 
                         await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoEmPreparacao);
 
-                        _logger.LogInformation($"Pedido {proximoPedido.Id} em preparação.");
+                        _logger.LogInformation("Pedido {proximoPedido.Id} em preparaÃ§Ã£o.", proximoPedido.Id);
 
                         await Task.Delay(1000 * _workerOptions.DelayPreparacaoPedidoEmSegundos, stoppingToken);
 
-                        _logger.LogInformation($"Pedido {proximoPedido.Id} preparação finalizada.");
+                        _logger.LogInformation("Pedido {proximoPedido.Id} preparaÃ§Ã£o finalizada.", proximoPedido.Id);
 
                         await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoPronto);
 
-                        _logger.LogInformation($"Pedido {proximoPedido.Id} pronto.");
+                        _logger.LogInformation("Pedido {proximoPedido.Id} pronto.", proximoPedido.Id);
                     }
                     else
                     {
-                        _logger.LogInformation($"Nenhum Pedido na fila. Verificando novamente em 5 segundos.");
+                        _logger.LogInformation("Nenhum Pedido na fila. Verificando novamente em 5 segundos.");
                     }
                 }
                 catch (Exception ex)
                 {
                     _logger.LogError(ex, "Erro ao processar fila de pedidos.");
                 }
-
-                await Task.Delay(_workerOptions.DelayVerificacaoFilaEmSegundos * 1000, stoppingToken);
             }
         }
     }
