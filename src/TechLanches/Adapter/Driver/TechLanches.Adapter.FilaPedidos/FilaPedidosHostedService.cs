@@ -37,7 +37,8 @@ namespace TechLanches.Adapter.FilaPedidos
                     {
                         _logger.LogInformation("Próximo pedido da fila: {proximoPedido.Id}", proximoPedido.Id);
 
-                        await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoEmPreparacao);
+                        if (proximoPedido.StatusPedido != StatusPedido.PedidoEmPreparacao)
+                            await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoEmPreparacao);
 
                         _logger.LogInformation("Pedido {proximoPedido.Id} em preparação.", proximoPedido.Id);
 
