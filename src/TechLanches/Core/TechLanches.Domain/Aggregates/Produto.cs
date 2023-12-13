@@ -17,16 +17,6 @@ namespace TechLanches.Domain.Aggregates
             Validar();
         }
 
-        public Produto(int produtoId, string nome, string descricao, decimal preco, int categoriaId) : base(produtoId)
-        {
-            Nome = nome;
-            Descricao = descricao;
-            Preco = preco;
-            Categoria = CategoriaProduto.From(categoriaId);
-
-            Validar();
-        }
-
         public string Nome { get; private set; }
         public string Descricao { get; private set; }
         public decimal Preco { get; private set; }
@@ -60,7 +50,17 @@ namespace TechLanches.Domain.Aggregates
                 throw new DomainException("Preço deve ser maior do que 0.");
         }
 
-        public void ProdutoDeletado()
+        public void Atualizar(string nome, string descricao, decimal preco, int categoriaId)
+        {
+            Nome = nome;
+            Descricao = descricao;
+            Preco = preco;
+            Categoria = CategoriaProduto.From(categoriaId);
+
+            Validar();
+        }
+
+        public void DeletarProduto()
         {
             Deletado = true;
         }

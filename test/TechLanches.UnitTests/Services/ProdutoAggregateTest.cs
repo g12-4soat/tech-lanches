@@ -26,7 +26,7 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.Cadastrar(produto).Returns(new Produto(nome, descricao, preco, categoriaId));
 
-            var produtoService = new ProdutoService(produtoRepository);
+            var produtoService = new ProdutoController(produtoRepository);
 
             // Act
             var novoProduto = await produtoService.Cadastrar(nome, descricao, preco, categoriaId);
@@ -43,17 +43,22 @@ namespace TechLanches.UnitTests.Services
         public async Task Atualizar_Com_Sucesso()
         {
             // Arrange
+            var produtoId = 1; 
+            var produtoMock = new Produto("Novo Nome", "Nova Descrição", 20, 2);
+
             var produtoRepository = Substitute.For<IProdutoRepository>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             produtoRepository.UnitOfWork.Returns(unitOfWork);
 
-            var produtoService = new ProdutoService(produtoRepository);
+            produtoRepository.BuscarPorId(produtoId).Returns(produtoMock);
+
+            var produtoController = new ProdutoController(produtoRepository);
 
             // Act
-            await produtoService.Atualizar(1, "Novo Nome", "Nova Descrição", 20, 2);
+            await produtoController.Atualizar(produtoId, "Novo Nome", "Nova Descrição", 20, 2);
 
             // Assert
-            produtoRepository.Received(1).Atualizar(Arg.Any<Produto>());
+            await produtoRepository.Received(1).BuscarPorId(Arg.Any<int>());
             await unitOfWork.Received(1).Commit();
         }
         [Fact]
@@ -65,7 +70,7 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.BuscarPorCategoria(new CategoriaProduto(1, "teste")).Returns(new List<Produto> { new ("Nome", "Descrição do produto", 20.0m, 2) });
 
-            var produtoService = new ProdutoService(produtoRepository);
+            var produtoService = new ProdutoController(produtoRepository);
 
             // Act
             var listaDeProdutos = await produtoService.BuscarPorCategoria(1);
@@ -84,7 +89,7 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.BuscarPorId(1).Returns(new Produto("Nome", "Descrição do produto", 20, 2));
 
-            var produtoService = new ProdutoService(produtoRepository);
+            var produtoService = new ProdutoController(produtoRepository);
 
             // Act
             var produto = await produtoService.BuscarPorId(1);
@@ -105,7 +110,7 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.BuscarTodos().Returns(new List<Produto> { new ("Nome", "Descrição do produto", 20, 2) });
 
 
-            var produtoService = new ProdutoService(produtoRepository);
+            var produtoService = new ProdutoController(produtoRepository);
 
             // Act
             var listaDeProdutos = await produtoService.BuscarTodos();
@@ -124,13 +129,13 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.BuscarPorId(1).Returns(new Produto("Nome", "Descrição do produto", 20, 2)); // Produto encontrado
 
-            var produtoService = new ProdutoService(produtoRepository);
+            var produtoService = new ProdutoController(produtoRepository);
             var produto = await produtoService.BuscarPorId(1);
             // Act
             await produtoService.Deletar(produto);
 
             // Assert
-            produtoRepository.Received(1).Deletar(Arg.Any<Produto>());
+            Assert.True(produto.Deletado);
             await unitOfWork.Received(1).Commit();
         }
 
@@ -143,7 +148,7 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.BuscarPorId(1).ReturnsNull(); // Produto não encontrado
 
-            var produtoService = new ProdutoService(produtoRepository);
+            var produtoService = new ProdutoController(produtoRepository);
             var produto = await produtoService.BuscarPorId(1);
 
             // Act & Assert

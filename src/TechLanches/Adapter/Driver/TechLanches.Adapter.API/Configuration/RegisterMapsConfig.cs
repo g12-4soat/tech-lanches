@@ -15,7 +15,7 @@ namespace TechLanches.Adapter.API.Configuration
         public static void RegisterMaps(this IServiceCollection services)
 #pragma warning restore IDE0060 // Remove unused parameter
         {
-            TypeAdapterConfig<Produto, ProdutoResponseDTO>.NewConfig()
+            TypeAdapterConfig<Produto, ProdutoResponsePresenter>.NewConfig()
                 .Map(dest => dest.Categoria, src => CategoriaProduto.From(src.Categoria.Id));
 
 #pragma warning disable CS8604 // Possible null reference argument.

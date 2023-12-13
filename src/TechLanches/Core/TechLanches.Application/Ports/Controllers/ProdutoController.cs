@@ -1,29 +1,25 @@
 ﻿using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services.Interfaces;
+using TechLanches.Application.UseCases.Produtos;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Application.Ports.Services
 {
-    public class ProdutoService : IProdutoService
+    public class ProdutoController : IProdutoController
     {
         private readonly IProdutoRepository _produtoRepository;
 
-        public ProdutoService(IProdutoRepository produtoRepository)
+        public ProdutoController(IProdutoRepository produtoRepository)
         {
             _produtoRepository = produtoRepository;
         }
 
         public async Task Atualizar(int produtoId, string nome, string descricao, decimal preco, int categoriaId)
         {
-            var produtoExistente = await _produtoRepository.BuscarPorNome(nome);
+            await ProdutoUseCases.Atualizar(produtoId, nome, descricao, preco, categoriaId, _produtoRepository);
 
-            if (produtoExistente is not null)
-                throw new DomainException($"Produto já cadastrado para o nome: {nome}");
-
-            var produto = new Produto(produtoId, nome, descricao, preco, categoriaId);
-            _produtoRepository.Atualizar(produto);
             await _produtoRepository.UnitOfWork.Commit();
         }
 
@@ -45,21 +41,17 @@ namespace TechLanches.Application.Ports.Services
 
         public async Task<Produto> Cadastrar(string nome, string descricao, decimal preco, int categoriaId)
         {
-            var produtoExistente = await _produtoRepository.BuscarPorNome(nome);
+            var novoProduto = await ProdutoUseCases.Cadastrar(nome, descricao, preco, categoriaId, _produtoRepository);
 
-            if (produtoExistente is not null)
-                throw new DomainException($"Produto já cadastrado para o nome: {nome}");
-
-            var produto = new Produto(nome, descricao, preco, categoriaId);
-
-            var novoProduto = await _produtoRepository.Cadastrar(produto);
             await _produtoRepository.UnitOfWork.Commit();
 
             return novoProduto;
         }
+
         public async Task Deletar(Produto produto)
         {
-            _produtoRepository.Deletar(produto);
+            produto.DeletarProduto();
+
             await _produtoRepository.UnitOfWork.Commit();
         }
     }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Schema utilizado para retorno de dados do produto.
     /// </summary>
-    public class ProdutoResponseDTO
+    public class ProdutoResponsePresenter
     {
         /// <summary>
         /// Id do produto

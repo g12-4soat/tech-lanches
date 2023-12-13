@@ -3,7 +3,7 @@
     /// <summary>
     /// Schema utilizado para envio de dados do produto.
     /// </summary>
-    public class ProdutoRequestDTO
+    public class ProdutoRequestPresenter
     {
         /// <summary>
         /// Nome do produto

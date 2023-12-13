@@ -16,17 +16,17 @@ public static class ClienteEndpoints
            .WithTags(EndpointTagConstantes.TAG_CLIENTE)
            .WithMetadata(new SwaggerOperationAttribute(summary: "Obter cliente por CPF", description: "Retorna o cliente proprietário do CPF"))
            .WithMetadata(new SwaggerResponseAttribute(200, type: typeof(ClienteResponseDTO), description: "Cliente encontrado com sucesso"))
-           .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
-           .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ErrorResponseDTO), description: "Cliente não encontrado"))
-           .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"));
+           .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ErrorResponsePresenter), description: "Requisição inválida"))
+           .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ErrorResponsePresenter), description: "Cliente não encontrado"))
+           .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ErrorResponsePresenter), description: "Erro no servidor interno"));
 
         app.MapPost("api/clientes", CadastrarCliente)
            .WithTags(EndpointTagConstantes.TAG_CLIENTE)
            .WithMetadata(new SwaggerOperationAttribute(summary: "Cadastrar cliente", "Efetua o cadastramento do cliente"))
            .WithMetadata(new SwaggerResponseAttribute(201, type: typeof(ClienteResponseDTO), description: "Cliente cadastrado com sucesso"))
-           .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
-           .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ErrorResponseDTO), description: "Cliente não cadastrado"))
-           .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"));
+           .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ErrorResponsePresenter), description: "Requisição inválida"))
+           .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ErrorResponsePresenter), description: "Cliente não cadastrado"))
+           .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ErrorResponsePresenter), description: "Erro no servidor interno"));
     }
 
     private static async Task<IResult> BuscarClientePorCpf(
@@ -37,7 +37,7 @@ public static class ClienteEndpoints
 
         return cliente is not null
             ? Results.Ok(cliente.Adapt<ClienteResponseDTO>())
-            : Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Cliente não encontrado para o CPF: {cpf}.", StatusCode = (int)HttpStatusCode.NotFound} );
+            : Results.NotFound(new ErrorResponsePresenter { MensagemErro = $"Cliente não encontrado para o CPF: {cpf}.", StatusCode = (int)HttpStatusCode.NotFound} );
     }
 
     private static async Task<IResult> CadastrarCliente(
@@ -48,6 +48,6 @@ public static class ClienteEndpoints
 
         return cliente is not null
             ? Results.Ok(cliente.Adapt<ClienteResponseDTO>())
-            : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Cliente inválido.", StatusCode = (int)HttpStatusCode.BadRequest });
+            : Results.BadRequest(new ErrorResponsePresenter { MensagemErro = "Cliente inválido.", StatusCode = (int)HttpStatusCode.BadRequest });
     }
 }

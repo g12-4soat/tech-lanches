@@ -2,7 +2,7 @@
 
 namespace TechLanches.Application.Ports.Services.Interfaces
 {
-    public interface IProdutoService
+    public interface IProdutoController
     {
         Task<List<Produto>> BuscarTodos();
         Task<Produto> BuscarPorId(int produtoId);
