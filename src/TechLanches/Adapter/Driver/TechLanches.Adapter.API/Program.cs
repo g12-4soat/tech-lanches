@@ -31,6 +31,10 @@ builder.Services.AddDatabaseConfiguration(builder.Configuration);
 //Setting mapster
 builder.Services.RegisterMaps();
 
+
+//Setting healthcheck
+builder.Services.AddHealthCheckConfig(builder.Configuration);
+
 //Criar uma politica de retry (tente 3x, com timeout de 3 segundos)
 var retryPolicy = HttpPolicyExtensions.HandleTransientHttpError()
                   .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
