@@ -16,7 +16,7 @@ namespace TechLanches.Adapter.SqlServer.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<Pagamento> BuscarStatusPagamentoPorPedidoId(int pedidoId)
+        public async Task<Pagamento> BuscarPagamentoPorPedidoId(int pedidoId)
         {
             return await _context.Pagamentos.SingleOrDefaultAsync(x => x.PedidoId == pedidoId);
         }
@@ -24,16 +24,6 @@ namespace TechLanches.Adapter.SqlServer.Repositories
         public async Task<Pagamento> Cadastrar(Pagamento pagamento)
         {
             return (await _context.AddAsync(pagamento)).Entity;
-        }
-
-        public void Aprovar(Pagamento pagamento)
-        {
-            pagamento.Aprovar();
-        }
-
-        public void Reprovar(Pagamento pagamento)
-        {
-            pagamento.Reprovar();
         }
     }
 }

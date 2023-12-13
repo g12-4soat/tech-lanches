@@ -1,4 +1,5 @@
 ﻿using Mapster;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
@@ -21,8 +22,15 @@ namespace TechLanches.Adapter.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ErrorResponseDTO), description: "Pedido não encontrado"))
                .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno")); ;
 
-            app.MapPost("api/pagamentos", BuscarPagamento).WithTags(EndpointTagConstantes.TAG_PAGAMENTO)
-               .WithMetadata(new SwaggerOperationAttribute(summary: "Webhook pagamento", description: "Retorna o pagamento"))
+            app.MapPost("api/pagamentos/webhook/mercadopago", BuscarPagamento).WithTags(EndpointTagConstantes.TAG_PAGAMENTO)
+               .WithMetadata(new SwaggerOperationAttribute(summary: "Webhook pagamento do mercado pago", description: "Retorna o pagamento"))
+               .WithMetadata(new SwaggerResponseAttribute(200, description: "Pagamento encontrado com sucesso"))
+               .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
+               .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ErrorResponseDTO), description: "Pagamento não encontrado"))
+               .WithMetadata(new SwaggerResponseAttribute(500, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"));
+
+            app.MapGet("api/pagamentos/webhook/mockado", BuscarPagamentoMockado).WithTags(EndpointTagConstantes.TAG_PAGAMENTO)
+               .WithMetadata(new SwaggerOperationAttribute(summary: "Webhook pagamento mockado", description: "Retorna o pagamento"))
                .WithMetadata(new SwaggerResponseAttribute(200, description: "Pagamento encontrado com sucesso"))
                .WithMetadata(new SwaggerResponseAttribute(400, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute(404, type: typeof(ErrorResponseDTO), description: "Pagamento não encontrado"))
@@ -36,11 +44,10 @@ namespace TechLanches.Adapter.API.Endpoints
             if (pagamento is null)
                 return Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum pedido encontrado para o id: {pedidoId}", StatusCode = (int)HttpStatusCode.NotFound });
 
-
             return Results.Ok(pagamento.Adapt<PagamentoStatusResponseDTO>());
         }
 
-        private static async Task<IResult> BuscarPagamento(int id, TopicACL topic, int pedidoId, [FromServices] IPagamentoACLService pagamentoQrCodeACLService, [FromServices] IPagamentoService pagamentoService)
+        private static async Task<IResult> BuscarPagamento(int id, TopicACL topic, [FromServices] IPagamentoACLService pagamentoQrCodeACLService, [FromServices] IPagamentoService pagamentoService)
         {
             if (topic == TopicACL.merchant_order)
             {
@@ -49,19 +56,21 @@ namespace TechLanches.Adapter.API.Endpoints
                 if (pagamentoACL is null)
                     return Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum pedido encontrado para o id: {id}", StatusCode = (int)HttpStatusCode.NotFound });
 
-                var pagamento = await pagamentoService.BuscarPagamentoPorPedidoId(pedidoId > 0 ? pedidoId : pagamentoACL.PedidoId);
-
-                if (pagamentoACL.StatusPagamento == StatusPagamentoEnum.Aprovado)
-                    pagamento.Aprovar();
-                else
-                    pagamento.Reprovar();
-
-                return Results.Ok();
+                await pagamentoService.RealizarPagamento(pagamentoACL.PedidoId, pagamentoACL.StatusPagamento);
             }
-
-            return Results.BadRequest(new ErrorResponseDTO { MensagemErro = $"O topic utilizado precisa ser o merchant_order.", StatusCode = (int)HttpStatusCode.BadRequest });
+            return Results.Ok();
         }
 
-        //adicionar o QRCODE
+        private static async Task<IResult> BuscarPagamentoMockado(int pedidoId, [FromServices] IPagamentoACLService pagamentoQrCodeACLService, [FromServices] IPagamentoService pagamentoService)
+        {
+            var pagamentoACL = await pagamentoQrCodeACLService.ConsultarPagamento(pedidoId.ToString());
+
+            var pagamento = await pagamentoService.RealizarPagamento(pedidoId, pagamentoACL.StatusPagamento);
+
+            if (pagamento)
+                return Results.Ok();
+            else
+                return Results.BadRequest(new ErrorResponseDTO { MensagemErro = $"Erro ao realizar o pagamento.", StatusCode = (int)HttpStatusCode.NotFound });
+        }
     }
 }
