@@ -1,6 +1,4 @@
-﻿using TechLanches.Domain.Aggregates;
-
-namespace TechLanches.Application.Ports.Services.Interfaces
+﻿namespace TechLanches.Application.Ports.Services.Interfaces
 {
     public interface ICheckoutService
     {

@@ -3,7 +3,6 @@ using Polly.Extensions.Http;
 using System.Net.Http.Headers;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 using TechLanches.Adapter.API.Configuration;
-using TechLanches.Adapter.API.Middlewares;
 using TechLanches.Adapter.SqlServer;
 using TechLanches.Application;
 

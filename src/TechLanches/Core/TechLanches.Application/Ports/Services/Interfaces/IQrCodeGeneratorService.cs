@@ -1,5 +1,4 @@
 ﻿using System.Drawing;
-using TechLanches.Domain.Aggregates;
 
 namespace TechLanches.Application.Ports.Services.Interfaces
 {

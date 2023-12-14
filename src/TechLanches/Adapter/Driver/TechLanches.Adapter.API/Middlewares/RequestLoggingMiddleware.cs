@@ -1,6 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace TechLanches.Adapter.API.Middlewares
+﻿namespace TechLanches.Adapter.API.Middlewares
 {
     public class RequestLoggingMiddleware
     {
