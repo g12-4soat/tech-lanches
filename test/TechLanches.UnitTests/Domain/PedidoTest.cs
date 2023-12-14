@@ -1,4 +1,6 @@
-﻿namespace TechLanches.UnitTests.Domain
+﻿using TechLanches.Domain.ValueObjects;
+
+namespace TechLanches.UnitTests.Domain
 {
     [Trait("Domain", "Pedido")]
     public class PedidoTest
@@ -35,6 +37,10 @@
 
             //Assert
             Assert.NotNull(itemPedido);
+            Assert.Equal(produtoId, itemPedido.ProdutoId);
+            Assert.Equal(quantidade, itemPedido.Quantidade);
+            Assert.Equal(precoProduto, itemPedido.PrecoProduto);
+            Assert.Equal(quantidade * precoProduto, itemPedido.Valor);
         }
 
         [Theory(DisplayName = "Criar item do pedido com falha")]
@@ -76,6 +82,10 @@
 
             //Assert
             Assert.NotNull(pedido);
+            Assert.Equal(clienteId, pedido.ClienteId);
+            Assert.Equal(StatusPedido.PedidoCriado, pedido.StatusPedido);
+            Assert.True(pedido.ClienteIdentificado);
+            Assert.True(pedido.ItensPedido.Any());
         }
 
         [Fact(DisplayName = "Criar um pedido com falha")]

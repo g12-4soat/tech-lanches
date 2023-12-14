@@ -59,7 +59,7 @@
             // Arrange
             int produtoId = 1;
 
-            // Arrange, Assert
+            // Act, Assert
             Assert.Throws<DomainException>(() => new Produto(produtoId, nome, descricao, preco, categoriaId));
         }
     }
