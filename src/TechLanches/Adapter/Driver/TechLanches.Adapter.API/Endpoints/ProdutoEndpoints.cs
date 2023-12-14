@@ -20,7 +20,7 @@ namespace TechLanches.Adapter.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Produtos não encontrados"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"));
-            
+
             app.MapGet("api/produtos/{id}", BuscarProdutoPorId)
                .WithTags(EndpointTagConstantes.TAG_PRODUTO)
                .WithMetadata(new SwaggerOperationAttribute(summary: "Obter todos os produtos por id", description: "Retorna o produto cadastrado por id"))
@@ -40,7 +40,7 @@ namespace TechLanches.Adapter.API.Endpoints
             app.MapPost("api/produtos", CadastrarProduto)
                .WithTags(EndpointTagConstantes.TAG_PRODUTO)
                .WithMetadata(new SwaggerOperationAttribute(summary: "Cadastrar produto", description: "Efetua o cadastramento do produto"))
-               .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.OK, type: typeof(ProdutoResponseDTO), description: "Produto cadastrado com sucesso"))
+               .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.Created, type: typeof(ProdutoResponseDTO), description: "Produto cadastrado com sucesso"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Produto não cadastrado"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"));
@@ -77,9 +77,8 @@ namespace TechLanches.Adapter.API.Endpoints
             var produto = await produtoService.Cadastrar(produtoRequest.Nome, produtoRequest.Descricao, produtoRequest.Preco, produtoRequest.CategoriaId);
 
             return produto is not null
-                ? Results.Ok(produto.Adapt<ProdutoResponseDTO>())
-            : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao cadastrar produto.", StatusCode = HttpStatusCode.BadRequest});
-
+                ? Results.Created($"api/produtos/{produto.Id}", produto.Adapt<ProdutoResponseDTO>())
+                : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao cadastrar produto.", StatusCode = HttpStatusCode.BadRequest });
         }
 
         private static async Task<IResult> AtualizarProduto(
@@ -146,7 +145,7 @@ namespace TechLanches.Adapter.API.Endpoints
         private static async Task<IResult> BuscarCategorias()
         {
             var categorias = CategoriaProduto.List()
-                .Select(x => new CategoriaResponseDTO { Id = x.Id, Nome = x.Nome})
+                .Select(x => new CategoriaResponseDTO { Id = x.Id, Nome = x.Nome })
                 .ToList();
 
             return categorias is not null

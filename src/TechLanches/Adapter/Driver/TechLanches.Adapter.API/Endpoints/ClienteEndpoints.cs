@@ -23,7 +23,7 @@ public static class ClienteEndpoints
         app.MapPost("api/clientes", CadastrarCliente)
            .WithTags(EndpointTagConstantes.TAG_CLIENTE)
            .WithMetadata(new SwaggerOperationAttribute(summary: "Cadastrar cliente", "Efetua o cadastramento do cliente"))
-           .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.OK, type: typeof(ClienteResponseDTO), description: "Cliente cadastrado com sucesso"))
+           .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.Created, type: typeof(ClienteResponseDTO), description: "Cliente cadastrado com sucesso"))
            .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
            .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Cliente não cadastrado"))
            .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"));
@@ -37,7 +37,7 @@ public static class ClienteEndpoints
 
         return cliente is not null
             ? Results.Ok(cliente.Adapt<ClienteResponseDTO>())
-            : Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Cliente não encontrado para o CPF: {cpf}.", StatusCode = HttpStatusCode.NotFound} );
+            : Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Cliente não encontrado para o CPF: {cpf}.", StatusCode = HttpStatusCode.NotFound });
     }
 
     private static async Task<IResult> CadastrarCliente(
@@ -47,7 +47,7 @@ public static class ClienteEndpoints
         var cliente = await clienteService.Cadastrar(clienteRequest.Nome, clienteRequest.Email, clienteRequest.CPF);
 
         return cliente is not null
-            ? Results.Ok(cliente.Adapt<ClienteResponseDTO>())
+            ? Results.Created($"api/clientes/{cliente.CPF}", cliente.Adapt<ClienteResponseDTO>())
             : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Cliente inválido.", StatusCode = HttpStatusCode.BadRequest });
     }
 }

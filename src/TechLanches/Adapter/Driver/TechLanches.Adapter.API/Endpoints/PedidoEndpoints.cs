@@ -41,7 +41,7 @@ public static class PedidoEndpoints
         app.MapPost("api/pedidos", CadastrarPedido)
            .WithTags(EndpointTagConstantes.TAG_PEDIDO)
            .WithMetadata(new SwaggerOperationAttribute(summary: "Cadastrar pedido", description: "Efetua o cadastramento do pedido"))
-           .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.OK, type: typeof(PedidoResponseDTO), description: "Pedido cadastrado com sucesso"))
+           .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.Created, type: typeof(PedidoResponseDTO), description: "Pedido cadastrado com sucesso"))
            .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
            .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Pedido não cadastrado"))
            .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"));
@@ -114,7 +114,7 @@ public static class PedidoEndpoints
         var novoPedido = await pedidoService.Cadastrar(pedidoDto.Cpf, itensPedido);
 
         return novoPedido is not null
-            ? Results.Ok(novoPedido.Adapt<PedidoResponseDTO>())
+            ? Results.Created($"api/pedidos/{novoPedido.Id}", novoPedido.Adapt<PedidoResponseDTO>())
             : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao cadastrar pedido.", StatusCode = HttpStatusCode.BadRequest });
     }
 
