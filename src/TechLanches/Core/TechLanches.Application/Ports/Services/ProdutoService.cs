@@ -57,9 +57,10 @@ namespace TechLanches.Application.Ports.Services
 
             return novoProduto;
         }
+
         public async Task Deletar(Produto produto)
         {
-            _produtoRepository.Deletar(produto);
+            produto.ProdutoDeletado();
             await _produtoRepository.UnitOfWork.Commit();
         }
     }

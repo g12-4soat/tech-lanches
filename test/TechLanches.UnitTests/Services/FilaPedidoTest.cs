@@ -1,21 +1,14 @@
 ﻿using NSubstitute;
-using TechLanches.Application.DTOs;
-using TechLanches.Application.Ports.Repositories;
-using TechLanches.Application.Ports.Services;
-using TechLanches.Domain.Aggregates;
-using TechLanches.Domain.Enums;
-using TechLanches.Domain.Services;
-using TechLanches.Domain.Validations;
-using TechLanches.Domain.ValueObjects;
+
 
 namespace TechLanches.UnitTests.Services
 {
-    [Trait("Services", "FilaPedidoAggregate")]
-    public class FilaPedidoAggregateTest
+    [Trait("Services", "FilaPedido")]
+    public class FilaPedidoTest
     {
         private readonly IStatusPedidoValidacaoService _statusPedidoValidacaoService;
 
-        public FilaPedidoAggregateTest()
+        public FilaPedidoTest()
         {
             var validacoes = new List<IStatusPedidoValidacao>
             {

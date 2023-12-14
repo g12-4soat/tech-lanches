@@ -12,6 +12,5 @@ namespace TechLanches.Application.Ports.Repositories
         Task<List<Produto>> BuscarPorCategoria(CategoriaProduto categoria);
         Task<Produto> Cadastrar(Produto produto);
         void Atualizar(Produto produto);
-        void Deletar(Produto produto);
     }
 }
