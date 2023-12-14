@@ -1,5 +1,4 @@
-﻿using TechLanches.Adapter.ACL.Pagamento.QrCode;
-using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
+﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 using TechLanches.Adapter.SqlServer.Repositories;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services;

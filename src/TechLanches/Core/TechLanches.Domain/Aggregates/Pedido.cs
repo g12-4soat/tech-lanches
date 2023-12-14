@@ -2,7 +2,6 @@
 using TechLanches.Domain.Entities;
 using TechLanches.Domain.Enums;
 using TechLanches.Domain.Services;
-using TechLanches.Domain.Validations;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Domain.Aggregates
