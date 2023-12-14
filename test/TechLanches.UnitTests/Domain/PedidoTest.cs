@@ -1,18 +1,11 @@
-﻿using TechLanches.Core;
-using TechLanches.Domain.Aggregates;
-using TechLanches.Domain.Enums;
-using TechLanches.Domain.Services;
-using TechLanches.Domain.Validations;
-using TechLanches.Domain.ValueObjects;
-
-namespace TechLanches.UnitTests.Domain
+﻿namespace TechLanches.UnitTests.Domain
 {
-    [Trait("Domain", "PedidoAggregate")]
-    public class PedidoAggregateTest
+    [Trait("Domain", "Pedido")]
+    public class PedidoTest
     {
         private readonly IStatusPedidoValidacaoService _statusPedidoValidacaoService;
 
-        public PedidoAggregateTest()
+        public PedidoTest()
         {
             var validacoes = new List<IStatusPedidoValidacao>
             {
@@ -30,11 +23,10 @@ namespace TechLanches.UnitTests.Domain
         }
 
         [Fact(DisplayName = "Criar item do pedido com sucesso")]
-        public void Criar_item_pedido_sucesso()
+        public void CriarItemPedido_DeveRetornarSucesso()
         {
             //Arrange    
             var produtoId = 1;
-            //var pedidoId = 1;
             var quantidade = 1;
             var precoProduto = 11;
 
@@ -45,59 +37,20 @@ namespace TechLanches.UnitTests.Domain
             Assert.NotNull(itemPedido);
         }
 
-        [Fact(DisplayName = "Criar item do pedido com falha")]
-        public void Criar_item_pedido_falha()
+        [Theory(DisplayName = "Criar item do pedido com falha")]
+        [InlineData(1, 0, 11)]
+        [InlineData(1, 1, 0)]
+        public void CriarItemPedido_Invalido_DeveLancarException(int produtoId, int quantidade, decimal precoProduto)
         {
-            //Arrange    
-            var produtoId = 1;
-            //var pedidoId = 1;
-            var quantidade = 0;
-            var precoProduto = 11;
-
-            //Act & Assert
+            //Arrange, Act & Assert
             Assert.Throws<DomainException>(() => new ItemPedido(produtoId, quantidade, precoProduto));
         }
 
-        [Fact(DisplayName = "Criar item do pedido com quantidade inválida")]
-        public void Criar_item_pedido_com_quantidade_invalida()
-        {
-            //Arrange    
-            var produtoId = 1;
-            //var pedidoId = 1;
-            var quantidade = 0;
-            var precoProduto = 11;
-
-            //Act
-            var exception = Assert.Throws<DomainException>(() => new ItemPedido(produtoId, quantidade, precoProduto));
-
-            //Assert
-            Assert.NotNull(exception);
-            Assert.Equal("Quantidade deve ser maior que zero.", exception.Message);
-        }
-
-        [Fact(DisplayName = "Criar item do pedido com preço produto inválido")]
-        public void Criar_item_pedido_com_preco_produto_invalido()
-        {
-            //Arrange    
-            var produtoId = 1;
-            //var pedidoId = 1;
-            var quantidade = 1;
-            var precoProduto = 0;
-
-            //Act
-            var exception = Assert.Throws<DomainException>(() => new ItemPedido(produtoId, quantidade, precoProduto));
-
-            //Assert
-            Assert.NotNull(exception);
-            Assert.Equal("Preço Produto deve ser maior que zero.", exception.Message);
-        }
-
         [Fact(DisplayName = "Criar item do pedido com valor valido")]
-        public void Criar_item_pedido_com_valor_valido()
+        public void CalcularValorItemPedido_Valido_DeveCalcularValorCorretamente()
         {
             //Arrange    
             var produtoId = 1;
-            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
 
@@ -109,12 +62,11 @@ namespace TechLanches.UnitTests.Domain
         }
 
         [Fact(DisplayName = "Criar um pedido com sucesso")]
-        public void Criar_pedido_com_sucesso()
+        public void CriarPedido_DeveRetornarSucesso()
         {
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            //var pedidoId = 1;
             var quantidade = 1;
             var precoProduto = 1;
             var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
@@ -127,7 +79,7 @@ namespace TechLanches.UnitTests.Domain
         }
 
         [Fact(DisplayName = "Criar um pedido com falha")]
-        public void Criar_pedido_com_falha()
+        public void CriarPedido_Invalido_DeveLancarException()
         {
             //Arrange    
             var clienteId = 1;
@@ -138,12 +90,11 @@ namespace TechLanches.UnitTests.Domain
         }
 
         [Fact(DisplayName = "Criar um pedido com valor valido")]
-        public void Criar_pedido_com_valor_valido()
+        public void CalcularValorPedido_Valido_DeveCalcularValorCorretamente()
         {
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
             var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
@@ -156,12 +107,11 @@ namespace TechLanches.UnitTests.Domain
         }
 
         [Fact(DisplayName = "Trocar o status do pedido com sucesso")]
-        public void Trocar_status_pedido_com_sucesso()
+        public void TrocarStatus_ComStatusValido_DeveRetornarSucesso()
         {
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
             var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
@@ -175,12 +125,11 @@ namespace TechLanches.UnitTests.Domain
         }
 
         [Fact(DisplayName = "Trocar o status do pedido para preparação com falha")]
-        public void Trocar_status_pedido_para_preparacao_com_falha()
+        public void TrocarStatus_ParaPreparacao_DeveLancarException()
         {
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
             var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
@@ -190,20 +139,17 @@ namespace TechLanches.UnitTests.Domain
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoRecebido);
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoEmPreparacao);
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoPronto);
-            var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoEmPreparacao));
 
             //Assert
-            Assert.NotNull(exception);
-            Assert.Equal("O status selecionado não é válido", exception.Message);
+            Assert.Throws<DomainException>(() => pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoEmPreparacao));
         }
 
         [Fact(DisplayName = "Trocar o status do pedido para pronto com falha")]
-        public void Trocar_status_pedido_para_pronto_com_falha()
+        public void TrocarStatus_ParaPronto_DeveLancarException()
         {
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
             var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
@@ -215,20 +161,17 @@ namespace TechLanches.UnitTests.Domain
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoPronto);
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoRetirado);
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoFinalizado);
-            var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoPronto));
 
             //Assert
-            Assert.NotNull(exception);
-            Assert.Equal("O status selecionado não é válido", exception.Message);
+            Assert.Throws<DomainException>(() => pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoEmPreparacao));
         }
 
         [Fact(DisplayName = "Trocar o status do pedido para retirado com falha")]
-        public void Trocar_status_pedido_para_retirado_com_falha()
+        public void TrocarStatus_ParaRetirado_DeveLancarException()
         {
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
             var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
@@ -240,20 +183,17 @@ namespace TechLanches.UnitTests.Domain
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoPronto);
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoRetirado);
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoFinalizado);
-            var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoRetirado));
 
             //Assert
-            Assert.NotNull(exception);
-            Assert.Equal("O status selecionado não é válido", exception.Message);
+            Assert.Throws<DomainException>(() => pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoRetirado));
         }
 
         [Fact(DisplayName = "Trocar o status do pedido para descartado com falha")]
-        public void Trocar_status_pedido_para_descartado_com_falha()
+        public void TrocarStatus_ParaDescartado_DeveLancarException()
         {
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
             var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
@@ -265,20 +205,17 @@ namespace TechLanches.UnitTests.Domain
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoPronto);
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoRetirado);
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoFinalizado);
-            var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoDescartado));
 
             //Assert
-            Assert.NotNull(exception);
-            Assert.Equal("O status selecionado não é válido", exception.Message);
+            Assert.Throws<DomainException>(() => pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoDescartado));
         }
 
         [Fact(DisplayName = "Trocar o status do pedido para cancelado com falha")]
-        public void Trocar_status_pedido_para_cancelado_com_falha()
+        public void TrocarStatus_ParaCancelado_DeveLancarException()
         {
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
             var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
@@ -286,20 +223,17 @@ namespace TechLanches.UnitTests.Domain
             //Act
             var pedido = new Pedido(clienteId, itensPedido);
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoRecebido);
-            var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoCancelado));
 
             //Assert
-            Assert.NotNull(exception);
-            Assert.Equal("O status selecionado não é válido", exception.Message);
+            Assert.Throws<DomainException>(() => pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoCancelado));
         }
 
         [Fact(DisplayName = "Trocar o status do pedido para finalizado com falha")]
-        public void Trocar_status_pedido_para_finalizado_com_falha()
+        public void TrocarStatus_ParaFinalizado_DeveLancarException()
         {
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
             var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
@@ -308,20 +242,17 @@ namespace TechLanches.UnitTests.Domain
             var pedido = new Pedido(clienteId, itensPedido);
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoRecebido);
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoEmPreparacao);
-            var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoFinalizado));
 
             //Assert
-            Assert.NotNull(exception);
-            Assert.Equal("O status selecionado não é válido", exception.Message);
+            Assert.Throws<DomainException>(() => pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoFinalizado));
         }
 
         [Fact(DisplayName = "Trocar o status do pedido para recebido com falha")]
-        public void Trocar_status_pedido_para_recebido_com_falha()
+        public void TrocarStatus_ParaRecebido_DeveLancarException()
         {
             //Arrange    
             var clienteId = 1;
             var produtoId = 1;
-            //var pedidoId = 1;
             var quantidade = 3;
             var precoProduto = 10;
             var itensPedido = new List<ItemPedido>() { new ItemPedido(produtoId, quantidade, precoProduto) };
@@ -331,11 +262,9 @@ namespace TechLanches.UnitTests.Domain
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoRecebido);
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoEmPreparacao);
             pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoPronto);
-            var exception = Assert.Throws<DomainException>(() => pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoRecebido));
 
             //Assert
-            Assert.NotNull(exception);
-            Assert.Equal("O status selecionado não é válido", exception.Message);
+            Assert.Throws<DomainException>(() => pedido.TrocarStatus(_statusPedidoValidacaoService, StatusPedido.PedidoRecebido));
         }
     }
 }

@@ -1,13 +1,10 @@
-﻿using TechLanches.Core;
-using TechLanches.Domain.Aggregates;
-
-namespace TechLanches.UnitTests.Domain
+﻿namespace TechLanches.UnitTests.Domain
 {
     [Trait("Domain", "ProdutoTest")]
     public class ProdutoTest
     {
         [Fact]
-        public void CriarProduto_ComValoresValidos_DevePassar()
+        public void CriarProduto_DeveRetornarSucesso()
         {
             // Arrange
             string nome = "Produto Teste";
@@ -28,14 +25,14 @@ namespace TechLanches.UnitTests.Domain
         [Theory]
         [InlineData("Produto Teste", "Descrição", -1.0, 1)]
         [InlineData("Produto Teste", "Descrição", 10.0, 0)]
-        public void CriarProduto_ComValoresInvalidos_DeveLancarException(string nome, string descricao, decimal preco, int categoriaId)
+        public void CriarProduto_Invalido_DeveLancarException(string nome, string descricao, decimal preco, int categoriaId)
         {
             // Arrange, Act & Assert
             Assert.Throws<DomainException>(() => new Produto(nome, descricao, preco, categoriaId));
         }
 
         [Fact]
-        public void AtualizarProduto_ComValoresValidos_DevePassar()
+        public void AtualizarProduto_Valido_DeveRetornarSucesso()
         {
             // Arrange
             int produtoId = 1;
@@ -57,7 +54,7 @@ namespace TechLanches.UnitTests.Domain
         [Theory]
         [InlineData("Produto Teste", "Descrição", -1.0, 1)]
         [InlineData("Produto Teste", "Descrição", 10.0, 0)]
-        public void AtualizarProduto_ComValoresInvalidos_DeveLancarException(string nome, string descricao, decimal preco, int categoriaId)
+        public void AtualizarProduto_Invalido_DeveLancarException(string nome, string descricao, decimal preco, int categoriaId)
         {
             // Arrange
             int produtoId = 1;

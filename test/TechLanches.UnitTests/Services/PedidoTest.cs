@@ -1,23 +1,13 @@
 ﻿using NSubstitute;
-using TechLanches.Application.Ports.Repositories;
-using TechLanches.Application.Ports.Services;
-using TechLanches.Application.Ports.Services.Interfaces;
-using TechLanches.Core;
-using TechLanches.Domain.Aggregates;
-using TechLanches.Domain.Entities;
-using TechLanches.Domain.Enums;
-using TechLanches.Domain.Services;
-using TechLanches.Domain.Validations;
-using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.UnitTests.Services
 {
-    [Trait("Services", "PedidoAggregate")]
-    public class PedidoAggregateTest
+    [Trait("Services", "Pedido")]
+    public class PedidoTest
     {
         private readonly IStatusPedidoValidacaoService _statusPedidoValidacaoService;
 
-        public PedidoAggregateTest()
+        public PedidoTest()
         {
             var validacoes = new List<IStatusPedidoValidacao>
             {
@@ -35,7 +25,7 @@ namespace TechLanches.UnitTests.Services
         }
 
         [Fact(DisplayName = "Buscar todos pedidos com sucesso")]
-        public async Task Buscar_todos_pedidos_com_sucesso()
+        public async Task BuscarTodos_DeveRetornarTodosPedidos()
         {
             //Arrange    
             var pedidoRepository = Substitute.For<IPedidoRepository>();
@@ -58,7 +48,7 @@ namespace TechLanches.UnitTests.Services
         }
 
         [Fact(DisplayName = "Buscar pedido por id com sucesso")]
-        public async Task Buscar_pedido_por_id_com_sucesso()
+        public async Task BuscarPorId_DeveRetornarPedidoSolicitado()
         {
             //Arrange    
             var pedidoRepository = Substitute.For<IPedidoRepository>();
@@ -78,7 +68,7 @@ namespace TechLanches.UnitTests.Services
         }
 
         [Fact(DisplayName = "Buscar pedidos por status com sucesso")]
-        public async Task Buscar_pedidos_por_status_com_sucesso()
+        public async Task BuscarPorStatus_DeveRetornarPedidoComStatusSolicitado()
         {
             //Arrange    
             var pedidoRepository = Substitute.For<IPedidoRepository>();
@@ -101,7 +91,7 @@ namespace TechLanches.UnitTests.Services
         }
 
         [Fact(DisplayName = "Deve trocar status com sucesso")]
-        public async Task Trocar_status_com_sucesso()
+        public async Task TrocarStatus_ComStatusValido_DeveRetornarSucesso()
         {
             //Arrange    
             const int PEDIDO_ID = 1;
@@ -123,7 +113,7 @@ namespace TechLanches.UnitTests.Services
         }
 
         [Fact(DisplayName = "Trocar status pedido inexistente com falha")]
-        public async Task Trocar_status_pedido_inexistente_com_falha()
+        public async Task TrocarStatus_ComPedidoInexistente_DeveLancarException()
         {
             //Arrange    
             const int PEDIDO_ID = 1;
@@ -142,7 +132,7 @@ namespace TechLanches.UnitTests.Services
         }
 
         [Fact(DisplayName = "Trocar status pedido com falha")]
-        public async Task Trocar_status_pedido_com_falha()
+        public async Task TrocarStatus_ComStatusInvalido_DeveLancarException()
         {
             //Arrange    
             const int PEDIDO_ID = 1;
@@ -163,7 +153,7 @@ namespace TechLanches.UnitTests.Services
         }
 
         [Fact(DisplayName = "Deve cadastrar pedido com sucesso")]
-        public async Task Cadastra_pedido_com_sucesso()
+        public async Task CadastrarPedido_DeveRetornarSucesso()
         {
             //Arrange
             const string CPF = "046.047.173-20";
@@ -186,7 +176,7 @@ namespace TechLanches.UnitTests.Services
         }
 
         [Fact(DisplayName = "Deve atualizar pedido com sucesso")]
-        public async Task Atualiza_pedido_com_sucesso()
+        public async Task AtualizarPedido_DeveRetornarSucesso()
         {
             //Arrange    
             var pedidoRepository = Substitute.For<IPedidoRepository>();

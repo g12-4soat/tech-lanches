@@ -1,26 +1,21 @@
 ﻿using NSubstitute;
 using NSubstitute.ReturnsExtensions;
-using TechLanches.Application.Ports.Repositories;
-using TechLanches.Application.Ports.Services;
-using TechLanches.Core;
-using TechLanches.Domain.Aggregates;
-using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.UnitTests.Services
 {
-    [Trait("Services", "ProdutoAggregate")]
-    public class ProdutoAggregateTest
+    [Trait("Services", "Produto")]
+    public class ProdutoTest
     {
-        [Fact]
-        public async Task Cadastrar_Com_Sucesso()
+        [Fact(DisplayName = "Deve cadastrar produto com sucesso")]
+        public async Task CadastrarProduto_DeveRetornarSucesso()
         {
+            // Arrange
             string nome = "Nome";
             string descricao = "Descrição do produto";
             decimal preco = 10;
             int categoriaId = 1;
 
             var produto = new Produto(nome, descricao, preco, categoriaId);
-            // Arrange
             var produtoRepository = Substitute.For<IProdutoRepository>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             produtoRepository.UnitOfWork.Returns(unitOfWork);
@@ -39,8 +34,8 @@ namespace TechLanches.UnitTests.Services
             Assert.Equal(categoriaId, novoProduto.Categoria.Id);
         }
 
-        [Fact]
-        public async Task Atualizar_Com_Sucesso()
+        [Fact(DisplayName = "Deve atualizar produto com sucesso")]
+        public async Task AtualizarProduto_DeveRetornarSucesso()
         {
             // Arrange
             var produtoRepository = Substitute.For<IProdutoRepository>();
@@ -56,8 +51,8 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.Received(1).Atualizar(Arg.Any<Produto>());
             await unitOfWork.Received(1).Commit();
         }
-        [Fact]
-        public async Task Buscar_Por_Categoria_Com_Sucesso()
+        [Fact(DisplayName = "Deve buscar produtos por categoria com sucesso")]
+        public async Task BuscarPorCategoria_DeveRetornarProdutosComCategoriaSolicitada()
         {
             // Arrange
             var produtoRepository = Substitute.For<IProdutoRepository>();
@@ -75,8 +70,8 @@ namespace TechLanches.UnitTests.Services
             Assert.NotNull(listaDeProdutos);
         }
 
-        [Fact]
-        public async Task Busca_Por_Id_Com_Sucesso()
+        [Fact(DisplayName = "Deve buscar produto por id com sucesso")]
+        public async Task BuscarPorId_DeveRetornarProdutoSolicitado()
         {
             // Arrange
             var produtoRepository = Substitute.For<IProdutoRepository>();
@@ -95,15 +90,15 @@ namespace TechLanches.UnitTests.Services
             Assert.IsType<Produto>(produto);
             Assert.Equal("Nome", produto.Nome);
         }
-        [Fact]
-        public async Task BuscarTodos_Com_Sucesso()
+
+        [Fact(DisplayName = "Deve buscar todos produtos com sucesso")]
+        public async Task BuscarTodos_DeveRetornarTodosProdutos()
         {
             // Arrange
             var produtoRepository = Substitute.For<IProdutoRepository>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.BuscarTodos().Returns(new List<Produto> { new ("Nome", "Descrição do produto", 20, 2) });
-
 
             var produtoService = new ProdutoService(produtoRepository);
 
@@ -115,8 +110,9 @@ namespace TechLanches.UnitTests.Services
             Assert.NotNull(listaDeProdutos);
             Assert.IsType<List<Produto>>(listaDeProdutos);
         }
-        [Fact]
-        public async Task Deletar_ProdutoEncontrado_Com_Sucesso()
+
+        [Fact(DisplayName = "Deve deletar o produto com sucesso")]
+        public async Task Deletar_ProdutoEncontrado_DeveDeletarProdutoComSucesso()
         {
             // Arrange
             var produtoRepository = Substitute.For<IProdutoRepository>();
@@ -134,8 +130,8 @@ namespace TechLanches.UnitTests.Services
             await unitOfWork.Received(1).Commit();
         }
 
-        [Fact]
-        public async Task Deletar_ProdutoNaoEncontrado_Deve_Retornar_Nulo()
+        [Fact(DisplayName = "Deve deletar o produto com falha")]
+        public async Task Deletar_ProdutoNaoEncontrado_DeveRetornarNull()
         {
             // Arrange
             var produtoRepository = Substitute.For<IProdutoRepository>();
