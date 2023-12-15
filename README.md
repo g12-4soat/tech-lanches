@@ -22,16 +22,29 @@ Repositório dedicado ao projeto TechChallenge da FIAP - Turma 4SOAT
 - [Docker](https://docs.docker.com/desktop/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
-# Executar o projeto
+# Executando o projeto
 
 O procedimento de inicialização do projeto é simples e leva poucos passos: 
 
 1. Clone o repositório: _[https://github.com/g12-4soat/tech-lanches](https://github.com/g12-4soat/tech-lanches.git)_
  
-1. Abra a pasta via linha de comando no diretório escolhido no **passo 1**. _Ex.: c:\> cd “c:/projetos/tech-lanches”_
+1. Abra a pasta via linha de comando no diretório escolhido no **passo 1**. _Ex.: c:\> cd “c:/tech-lanches”_
 
-1. Da raiz do repositório, onde se encontra o arquivo _**docker-compose.yml**_ _(Ex.: c:/tech-lanches)_, execute o comando no terminal:
+## Via Kubernetes
+Da raiz do repositório, entre no diretório _**./k8s**_ _(onde se encontram todos os manifestos .yaml para execução no kubernetes)_, dê um duplo clique no arquivo "apply-all.sh" ou execute o seguinte comando no terminal:
+
+### Windows 
+> PS c:\tech-lanches\k8s> sh apply-all.sh
+
+### Unix Systems (Linux distros | MacOS)
+> $ exec apply-all.sh
+
+## Via Docker Compose
+
+Da raiz do repositório, onde se encontra o arquivo _**docker-compose.yml**_ _(Ex.: c:/tech-lanches)_, execute o comando no terminal:
 > c:\tech-lanches> docker-compose up
+
+---
 
 Com o projeto inicializado, você terá acesso aos links abaixo e poderá abri-los em uma aba do seu navegador:
 
