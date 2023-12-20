@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace TechLanches.Adapter.API.Configuration
 {

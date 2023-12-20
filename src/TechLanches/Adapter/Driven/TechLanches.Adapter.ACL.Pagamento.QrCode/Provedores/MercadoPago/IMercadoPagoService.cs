@@ -1,5 +1,4 @@
 ﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
-using TechLanches.Adapter.ACL.Pagamento.QrCode.Models;
 
 namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
 {

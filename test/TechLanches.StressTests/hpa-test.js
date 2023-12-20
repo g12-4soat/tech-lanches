@@ -24,7 +24,7 @@ export default function () {
   }
   const header = { headers: { 'Content-Type': 'application/json' } };
   let pedidoCriadoResponse = http.post('http://localhost:5050/api/pedidos', JSON.stringify(data), header);
-  check(pedidoCriadoResponse, { 'status 200 OK': (r) => r.status === 200 });
+  check(pedidoCriadoResponse, { 'status 201 Created': (r) => r.status === 201 });
 
   const pedido = pedidoCriadoResponse.json();
   const STATUS_PEDIDO_RECEBIDO = 2; 

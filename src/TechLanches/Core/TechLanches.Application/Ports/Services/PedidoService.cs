@@ -12,7 +12,6 @@ namespace TechLanches.Application.Ports.Services
     public class PedidoService : IPedidoService
     {
         private readonly IStatusPedidoValidacaoService _statusPedidoValidacaoService;
-        private readonly IPagamentoService _pagamentoService;
         private readonly IClienteService _clienteService;
         private readonly IPedidoRepository _pedidoRepository;
 

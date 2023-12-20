@@ -17,6 +17,7 @@ spec:
       containers:
         - name: techlanches-worker
           image: g124soat/techlanches-worker:develop # usar latest quando for pra main
+          imagePullPolicy: Always
           resources:
             requests:
               cpu: "500m"

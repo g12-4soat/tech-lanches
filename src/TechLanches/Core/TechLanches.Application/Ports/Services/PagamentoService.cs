@@ -82,6 +82,7 @@ namespace TechLanches.Application.Ports.Services
 
         //exemplo de pedidoId = 13971205222
         public async Task<PagamentoResponseACLDTO> ConsultarPagamentoMercadoPago(string pedidoComercial)
+        
             => await GetACLService(false).ConsultarPagamento(pedidoComercial);
 
         public async Task<PagamentoResponseACLDTO> ConsultarPagamentoMockado(string pedidoComercial)
@@ -103,5 +104,6 @@ namespace TechLanches.Application.Ports.Services
 
             return resultado;
         }
+
     }
 }
