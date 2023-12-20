@@ -2,7 +2,7 @@
 
 namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
 {
-    public class MercadoPagoMockadoService : IPagamentoACLService
+    public class MercadoPagoMockadoService : IMercadoPagoMockadoService
     {
         public Task<PagamentoResponseACLDTO> ConsultarPagamento(string idPagamentoComercial)
         {

@@ -3,12 +3,9 @@ using TechLanches.Adapter.ACL.Pagamento.QrCode.Models;
 
 namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
 {
-    public interface IMercadoPagoService
+    public interface IMercadoPagoService : IPagamentoACLService
     {
         //Task<PedidoComercial> ObterPedido(string pedidoComercial);
         //Task<PedidoGerado> GerarPedido(string pedidoMercadoPago, string usuarioId, string posId);
-
-        Task<PagamentoResponseACLDTO> ConsultarPagamento(string pedidoComercial);
-        Task<string> GerarPedidoEQrCode(string pedidoMercadoPago, string usuarioId, string posId);
     }
 }
