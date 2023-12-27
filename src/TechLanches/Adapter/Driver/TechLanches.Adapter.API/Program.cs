@@ -41,9 +41,9 @@ var retryPolicy = HttpPolicyExtensions.HandleTransientHttpError()
 //Registrar httpclient
 builder.Services.AddHttpClient<IPagamentoACLService, MercadoPagoService>((serviceProvider, httpClient) =>
 {
-    httpClient.DefaultRequestHeaders.Authorization = 
+    httpClient.DefaultRequestHeaders.Authorization =
         new AuthenticationHeaderValue("Bearer", builder.Configuration.GetSection($"ApiMercadoPago:{AppSettings.GetEnv()}")["AccessToken"]);
-    httpClient.BaseAddress = new Uri(builder.Configuration.GetSection($"ApiMercadoPago:{AppSettings.GetEnv()}")["BaseUrl"]); 
+    httpClient.BaseAddress = new Uri(builder.Configuration.GetSection($"ApiMercadoPago:{AppSettings.GetEnv()}")["BaseUrl"]);
 })
 .AddPolicyHandler(retryPolicy);
 

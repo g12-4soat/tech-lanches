@@ -1,11 +1,9 @@
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
 using TechLanches.Adapter.FilaPedidos.Options;
 using TechLanches.Application.Ports.Services.Interfaces;
-using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
 
 namespace TechLanches.Adapter.FilaPedidos
@@ -30,85 +28,52 @@ namespace TechLanches.Adapter.FilaPedidos
             _pedidoService = pedidoService;
         }
 
-        //protected override async Task ExecuteAsync(CancellationToken stoppingToken)
-        //{
-        //    while (!stoppingToken.IsCancellationRequested)
-        //    {
-        //        await Task.Delay(_workerOptions.DelayVerificacaoFilaEmSegundos * 1000, stoppingToken);
-
-        //        try
-        //        {
-        //            _logger.LogInformation("FilaPedidosHostedService iniciado: {time}", DateTimeOffset.Now);
-
-        //            var proximoPedido = await _filaPedidoService.RetornarPrimeiroPedidoDaFila();
-
-        //            if (proximoPedido is not null)
-        //            {
-        //                _logger.LogInformation("Próximo pedido da fila: {proximoPedido.Id}", proximoPedido.Id);
-
-        //                if (proximoPedido.StatusPedido != StatusPedido.PedidoEmPreparacao)
-        //                    await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoEmPreparacao);
-
-        //                _logger.LogInformation("Pedido {proximoPedido.Id} em preparação.", proximoPedido.Id);
-
-        //                await Task.Delay(1000 * _workerOptions.DelayPreparacaoPedidoEmSegundos, stoppingToken);
-
-        //                _logger.LogInformation("Pedido {proximoPedido.Id} preparação finalizada.", proximoPedido.Id);
-
-        //                await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoPronto);
-
-        //                _logger.LogInformation("Pedido {proximoPedido.Id} pronto.", proximoPedido.Id);
-        //            }
-        //            else
-        //            {
-        //                _logger.LogInformation("Nenhum Pedido na fila. Verificando novamente em 5 segundos.");
-        //            }
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            _logger.LogError(ex, "Erro ao processar fila de pedidos.");
-        //        }
-        //    }
-        //}
-
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
+
+            var factory = new ConnectionFactory { HostName = "localhost", UserName = "admin", Password = "123456", DispatchConsumersAsync = true }; // Configurações de conexão com o RabbitMQ
+            using var connection = factory.CreateConnection();
+            using var channel = connection.CreateModel();
+
+            channel.QueueDeclare(queue: QUEUENAME, durable: true, exclusive: false, autoDelete: false, arguments: null);
+
+            var consumer = new AsyncEventingBasicConsumer(channel);
+
+            consumer.Received += async (model, ea) =>
             {
-                var factory = new ConnectionFactory { HostName = "localhost", UserName = "admin", Password = "123456" }; // Configurações de conexão com o RabbitMQ
-                using var connection = factory.CreateConnection();
-                using var channel = connection.CreateModel();
 
-                channel.QueueDeclare(queue: QUEUENAME, durable: false, exclusive: false, autoDelete: false, arguments: null);
+                var body = ea.Body.ToArray();
+                var pedidoId = Convert.ToInt32(Encoding.UTF8.GetString(body));
+                await ProcessMessageAsync(pedidoId, stoppingToken);
+                channel.BasicAck(ea.DeliveryTag, false);
+            };
 
-                var consumer = new EventingBasicConsumer(channel);
-                consumer.Received += async (model, ea) =>
-                {
-                    _logger.LogInformation("FilaPedidosHostedService iniciado: {time}", DateTimeOffset.Now);
+            channel.BasicConsume(queue: QUEUENAME, autoAck: false, consumer: consumer);
 
-                    var body = ea.Body.ToArray();
-                    var pedidoId = Convert.ToInt32(Encoding.UTF8.GetString(body));
+            await Task.Delay(Timeout.Infinite, stoppingToken);
+        }
 
-                    var pedido = await _pedidoService.BuscarPorId(pedidoId);
+        public async Task ProcessMessageAsync(int pedidoId, CancellationToken stoppingToken)
+        {
+            _logger.LogInformation("FilaPedidosHostedService iniciado: {time}", DateTimeOffset.Now);
 
-                    _logger.LogInformation("Próximo pedido da fila: {proximoPedido.Id}", pedido.Id);
+            var pedido = await _pedidoService.BuscarPorId(pedidoId);
 
-                    if (pedido.StatusPedido != StatusPedido.PedidoEmPreparacao)
-                        await _filaPedidoService.TrocarStatus(pedido, StatusPedido.PedidoEmPreparacao);
+            _logger.LogInformation("Próximo pedido da fila: {proximoPedido.Id}", pedido.Id);
 
-                    _logger.LogInformation("Pedido {proximoPedido.Id} em preparação.", pedido.Id);
+            if (pedido.StatusPedido != StatusPedido.PedidoEmPreparacao)
+                await _filaPedidoService.TrocarStatus(pedido, StatusPedido.PedidoEmPreparacao);
 
-                    await Task.Delay(1000 * _workerOptions.DelayPreparacaoPedidoEmSegundos, stoppingToken);
+            _logger.LogInformation("Pedido {proximoPedido.Id} em preparação.", pedido.Id);
 
-                    _logger.LogInformation("Pedido {proximoPedido.Id} preparação finalizada.", pedido.Id);
+            await Task.Delay(1000 * _workerOptions.DelayPreparacaoPedidoEmSegundos, stoppingToken);
 
-                    await _filaPedidoService.TrocarStatus(pedido, StatusPedido.PedidoPronto);
+            _logger.LogInformation("Pedido {proximoPedido.Id} preparação finalizada.", pedido.Id);
 
-                    _logger.LogInformation("Pedido {proximoPedido.Id} pronto.", pedido.Id);
-                };
+            await _filaPedidoService.TrocarStatus(pedido, StatusPedido.PedidoPronto);
 
-                channel.BasicConsume(queue: QUEUENAME, autoAck: true, consumer: consumer);
-            }
+            _logger.LogInformation("Pedido {proximoPedido.Id} pronto.", pedido.Id);
         }
     }
+
 }

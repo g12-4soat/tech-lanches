@@ -1,6 +1,7 @@
 ﻿using System.Text.Json;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
+using TechLanches.Adapter.RabbitMq.Messaging;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
@@ -13,11 +14,11 @@ namespace TechLanches.Application.Ports.Services
     {
         private readonly IPagamentoRepository _repository;
         private readonly IPagamentoACLService _pagamentoACLService;
+
         private static string UsuarioId = AppSettings.Configuration.GetSection($"ApiMercadoPago:{AppSettings.GetEnv()}")["UserId"];
         private static string PosId = AppSettings.Configuration.GetSection($"ApiMercadoPago:{AppSettings.GetEnv()}")["PosId"];
 
-        public PagamentoService(IPagamentoRepository repository,
-                                IPagamentoACLService pagamentoACLService)
+        public PagamentoService(IPagamentoRepository repository, IPagamentoACLService pagamentoACLService)
         {
             _repository = repository;
             _pagamentoACLService = pagamentoACLService;
@@ -61,10 +62,12 @@ namespace TechLanches.Application.Ports.Services
         {
             var pagamento = await BuscarPagamentoPorPedidoId(pedidoId);
 
-            if (statusPagamento == StatusPagamentoEnum.Aprovado)
-                pagamento.Aprovar();
+            if (statusPagamento == StatusPagamentoEnum.Aprovado)  
+                pagamento.Aprovar();  
             else
                 pagamento.Reprovar();
+
+            await _repository.UnitOfWork.Commit();
 
             return pagamento.StatusPagamento != StatusPagamento.Aguardando;
         }
