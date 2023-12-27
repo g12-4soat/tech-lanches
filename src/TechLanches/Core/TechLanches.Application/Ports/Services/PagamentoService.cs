@@ -1,4 +1,6 @@
-﻿using System.Text.Json;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
+using System.Text.Json;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 using TechLanches.Adapter.RabbitMq.Messaging;
@@ -13,15 +15,15 @@ namespace TechLanches.Application.Ports.Services
     public class PagamentoService : IPagamentoService
     {
         private readonly IPagamentoRepository _repository;
-        private readonly IPagamentoACLService _pagamentoACLService;
+        private readonly IServiceProvider _serviceProvider;
 
         private static string UsuarioId = AppSettings.Configuration.GetSection($"ApiMercadoPago:{AppSettings.GetEnv()}")["UserId"];
         private static string PosId = AppSettings.Configuration.GetSection($"ApiMercadoPago:{AppSettings.GetEnv()}")["PosId"];
 
-        public PagamentoService(IPagamentoRepository repository, IPagamentoACLService pagamentoACLService)
+        public PagamentoService(IPagamentoRepository repository, IServiceProvider serviceProvider)
         {
             _repository = repository;
-            _pagamentoACLService = pagamentoACLService;
+            _serviceProvider = serviceProvider;
         }
 
         public async Task Aprovar(Pagamento pagamento)
@@ -76,16 +78,35 @@ namespace TechLanches.Application.Ports.Services
         {
             var pedido = JsonSerializer.Serialize(pedidoMercadoPago);
 
-            var resultado = await _pagamentoACLService.GerarPagamentoEQrCode(pedido, UsuarioId, PosId);
+            var resultado = await GetACLService(false).GerarPagamentoEQrCode(pedido, UsuarioId, PosId);
 
             return resultado;
         }
 
         //exemplo de pedidoId = 13971205222
         public async Task<PagamentoResponseACLDTO> ConsultarPagamentoMercadoPago(string pedidoComercial)
-            => await _pagamentoACLService.ConsultarPagamento(pedidoComercial);
+        
+            => await GetACLService(false).ConsultarPagamento(pedidoComercial);
 
         public async Task<PagamentoResponseACLDTO> ConsultarPagamentoMockado(string pedidoComercial)
-            => await _pagamentoACLService.ConsultarPagamento(pedidoComercial);
+            => await GetACLService(true).ConsultarPagamento(pedidoComercial);
+
+        private IPagamentoACLService GetACLService(bool isMockado)
+        {
+            if (isMockado)
+                return _serviceProvider.GetRequiredService(typeof(IMercadoPagoMockadoService)) as IPagamentoACLService;
+
+            return _serviceProvider.GetService(typeof(IMercadoPagoService)) as IPagamentoACLService;
+        }
+
+        public async Task<string> GerarPagamentoEQrCodeMockado(PedidoACLDTO pedidoMercadoPago)
+        {
+            var pedido = JsonSerializer.Serialize(pedidoMercadoPago);
+
+            var resultado = await GetACLService(true).GerarPagamentoEQrCode(pedido, UsuarioId, PosId);
+
+            return resultado;
+        }
+
     }
 }

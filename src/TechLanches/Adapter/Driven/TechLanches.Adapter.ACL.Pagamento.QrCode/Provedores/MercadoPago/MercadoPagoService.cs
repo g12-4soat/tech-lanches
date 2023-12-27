@@ -6,7 +6,7 @@ using TechLanches.Adapter.ACL.Pagamento.QrCode.Models;
 
 namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
 {
-    public class MercadoPagoService : IPagamentoACLService
+    public class MercadoPagoService : IMercadoPagoService
     {
         private readonly HttpClient _httpClient;
         public MercadoPagoService(HttpClient httpClient)
