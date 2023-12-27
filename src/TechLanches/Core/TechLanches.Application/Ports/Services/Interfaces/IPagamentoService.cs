@@ -14,4 +14,5 @@ public interface IPagamentoService
     Task<string> GerarPagamentoEQrCodeMercadoPago(PedidoACLDTO pedidoMercadoPago);
     Task<PagamentoResponseACLDTO> ConsultarPagamentoMercadoPago(string pedidoComercial);
     Task<PagamentoResponseACLDTO> ConsultarPagamentoMockado(string pedidoComercial);
+    Task<string> GerarPagamentoEQrCodeMockado(PedidoACLDTO pedidoMercadoPago);
 }
