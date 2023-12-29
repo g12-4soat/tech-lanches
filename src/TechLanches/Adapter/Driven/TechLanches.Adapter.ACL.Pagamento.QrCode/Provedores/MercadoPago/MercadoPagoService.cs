@@ -9,9 +9,9 @@ namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
     public class MercadoPagoService : IMercadoPagoService
     {
         private readonly HttpClient _httpClient;
-        public MercadoPagoService(HttpClient httpClient)
+        public MercadoPagoService(HttpClient httpClient, IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClient;
+            _httpClient = httpClientFactory.CreateClient("MercadoPago");
         }
 
         public async Task<PagamentoResponseACLDTO> ConsultarPagamento(string idPagamentoComercial)

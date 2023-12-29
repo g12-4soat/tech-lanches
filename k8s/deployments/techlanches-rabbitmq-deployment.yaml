@@ -1,0 +1,49 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: rabbitmq
+  namespace: techlanches
+spec:
+  ports:
+  - port: 5672
+    name: amqp
+  - port: 15672
+    name: http
+  selector:
+    app: rabbitmq
+  type: LoadBalancer
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rabbitmq
+  namespace: techlanches
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rabbitmq
+  template:
+    metadata:
+      labels:
+        app: rabbitmq
+    spec:
+      containers:
+      - name: rabbitmq
+        image: rabbitmq:management
+        ports:
+        - containerPort: 5672
+        - containerPort: 15672
+        env:
+          - name: RABBITMQ_DEFAULT_USER
+            valueFrom:
+              secretKeyRef:
+                name: techlanches-secrets
+                key: RABBITMQ_DEFAULT_USER
+          - name: RABBITMQ_DEFAULT_PASS
+            valueFrom:
+              secretKeyRef:
+                name: techlanches-secrets
+                key: RABBITMQ_DEFAULT_PASS
+

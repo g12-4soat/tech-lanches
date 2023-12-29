@@ -17,8 +17,8 @@ namespace TechLanches.Application.Ports.Services
         private readonly IPagamentoRepository _repository;
         private readonly IServiceProvider _serviceProvider;
 
-        private static string UsuarioId = AppSettings.Configuration.GetSection($"ApiMercadoPago:{AppSettings.GetEnv()}")["UserId"];
-        private static string PosId = AppSettings.Configuration.GetSection($"ApiMercadoPago:{AppSettings.GetEnv()}")["PosId"];
+        private static string UsuarioId = AppSettings.Configuration.GetSection($"ApiMercadoPago:UserId").Value;
+        private static string PosId = AppSettings.Configuration.GetSection($"ApiMercadoPago:PosId").Value;
 
         public PagamentoService(IPagamentoRepository repository, IServiceProvider serviceProvider)
         {
@@ -53,7 +53,7 @@ namespace TechLanches.Application.Ports.Services
             var pagamentoExistente = await _repository.BuscarPagamentoPorPedidoId(pedidoId);
 
             if (pagamentoExistente is not null)
-                throw new DomainException($"Pagamento já efetuado para o pedido: {pagamentoExistente.Id}.");
+                throw new DomainException($"Pagamento já efetuado para o pedido: {pedidoId}.");
 
             Pagamento pagamento = new(pedidoId, valor, formaPagamento);
             await _repository.Cadastrar(pagamento);

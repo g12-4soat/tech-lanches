@@ -51,7 +51,10 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IRabbitMqService, RabbitMqService>();
         services.AddHostedService<FilaPedidosHostedService>();
 
-        services.AddHealthChecks().AddCheck<DbHealthCheck>("db_hc");
+        services.AddHealthChecks()
+        .AddCheck<DbHealthCheck>("db_hc")
+        .AddCheck<RabbitMQHealthCheck>("rabbit_hc");
+
         services.AddHostedService<TcpHealthProbeService>();
     });
 

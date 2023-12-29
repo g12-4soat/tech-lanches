@@ -14,28 +14,36 @@ namespace TechLanches.Adapter.FilaPedidos
         private readonly IPedidoService _pedidoService;
         private readonly ILogger<FilaPedidosHostedService> _logger;
         private readonly WorkerOptions _workerOptions;
-        private const string QUEUENAME = "pedidos";
+        private readonly string _rabbitHost;
+        private readonly string _rabbitUser;
+        private readonly string _rabbitPassword;
+        private readonly string _rabbitQueueName;
 
         public FilaPedidosHostedService(
             ILogger<FilaPedidosHostedService> logger,
             IFilaPedidoService filaPedidoService,
             IOptions<WorkerOptions> workerOptions,
-            IPedidoService pedidoService)
+            IPedidoService pedidoService,
+            IConfiguration configuration)
         {
             _logger = logger;
             _filaPedidoService = filaPedidoService;
             _workerOptions = workerOptions.Value;
             _pedidoService = pedidoService;
+            _rabbitHost = configuration.GetSection("RabbitMQ:Host").Value;
+            _rabbitUser = configuration.GetSection("RabbitMQ:User").Value;
+            _rabbitPassword = configuration.GetSection("RabbitMQ:Password").Value;
+            _rabbitQueueName = configuration.GetSection("RabbitMQ:Queue").Value;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
 
-            var factory = new ConnectionFactory { HostName = "localhost", UserName = "admin", Password = "123456", DispatchConsumersAsync = true }; // Configurações de conexão com o RabbitMQ
+            var factory = new ConnectionFactory { HostName = _rabbitHost, UserName = _rabbitUser, Password = _rabbitPassword, DispatchConsumersAsync = true }; // Configurações de conexão com o RabbitMQ
             using var connection = factory.CreateConnection();
             using var channel = connection.CreateModel();
 
-            channel.QueueDeclare(queue: QUEUENAME, durable: true, exclusive: false, autoDelete: false, arguments: null);
+            channel.QueueDeclare(queue: _rabbitQueueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
             var consumer = new AsyncEventingBasicConsumer(channel);
 
@@ -48,7 +56,7 @@ namespace TechLanches.Adapter.FilaPedidos
                 channel.BasicAck(ea.DeliveryTag, false);
             };
 
-            channel.BasicConsume(queue: QUEUENAME, autoAck: false, consumer: consumer);
+            channel.BasicConsume(queue: _rabbitQueueName, autoAck: false, consumer: consumer);
 
             await Task.Delay(Timeout.Infinite, stoppingToken);
         }

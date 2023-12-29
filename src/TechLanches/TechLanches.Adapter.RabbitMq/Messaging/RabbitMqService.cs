@@ -1,12 +1,6 @@
-﻿using RabbitMQ.Client;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Design;
-using System.Diagnostics;
-using System.Linq;
+﻿using Microsoft.Extensions.Configuration;
+using RabbitMQ.Client;
 using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace TechLanches.Adapter.RabbitMq.Messaging
 {
@@ -14,15 +8,23 @@ namespace TechLanches.Adapter.RabbitMq.Messaging
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
-        private const string QUEUENAME = "pedidos";
+        private readonly string _rabbitHost;
+        private readonly string _rabbitUser;
+        private readonly string _rabbitPassword;
+        private readonly string _rabbitQueueName;
 
-        public RabbitMqService()
+        public RabbitMqService(IConfiguration configuration)
         {
-            var connectionFactory = new ConnectionFactory { HostName = "localhost", UserName = "admin", Password = "123456" };
+            _rabbitHost = configuration.GetSection("RabbitMQ:Host").Value;
+            _rabbitUser = configuration.GetSection("RabbitMQ:User").Value;
+            _rabbitPassword = configuration.GetSection("RabbitMQ:Password").Value;
+            _rabbitQueueName = configuration.GetSection("RabbitMQ:Queue").Value;
+
+            var connectionFactory = new ConnectionFactory { HostName = _rabbitHost, UserName = _rabbitUser, Password = _rabbitPassword };
             _connection = connectionFactory.CreateConnection();
             _channel = _connection.CreateModel();
 
-            _channel.QueueDeclare(queue: QUEUENAME,
+            _channel.QueueDeclare(queue: _rabbitQueueName,
                                   durable: true,
                                   exclusive: false,
                                   autoDelete: false,
@@ -34,7 +36,7 @@ namespace TechLanches.Adapter.RabbitMq.Messaging
             var mensagem = Encoding.UTF8.GetBytes(data.ToString());
 
             _channel.BasicPublish(exchange: string.Empty,
-                                  routingKey: QUEUENAME,
+                                  routingKey: _rabbitQueueName,
                                   null,
                                   body: mensagem);
         }
