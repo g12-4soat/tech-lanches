@@ -3,6 +3,7 @@ using System;
 using System.Text.Json;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
+using TechLanches.Adapter.RabbitMq.Messaging;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
@@ -16,8 +17,8 @@ namespace TechLanches.Application.Ports.Services
         private readonly IPagamentoRepository _repository;
         private readonly IServiceProvider _serviceProvider;
 
-        private static string UsuarioId = AppSettings.Configuration.GetSection($"ApiMercadoPago:{AppSettings.GetEnv()}")["UserId"];
-        private static string PosId = AppSettings.Configuration.GetSection($"ApiMercadoPago:{AppSettings.GetEnv()}")["PosId"];
+        private static string UsuarioId = AppSettings.Configuration.GetSection($"ApiMercadoPago:UserId").Value;
+        private static string PosId = AppSettings.Configuration.GetSection($"ApiMercadoPago:PosId").Value;
 
         public PagamentoService(IPagamentoRepository repository, IServiceProvider serviceProvider)
         {
@@ -52,7 +53,7 @@ namespace TechLanches.Application.Ports.Services
             var pagamentoExistente = await _repository.BuscarPagamentoPorPedidoId(pedidoId);
 
             if (pagamentoExistente is not null)
-                throw new DomainException($"Pagamento já efetuado para o pedido: {pagamentoExistente.Id}.");
+                throw new DomainException($"Pagamento já efetuado para o pedido: {pedidoId}.");
 
             Pagamento pagamento = new(pedidoId, valor, formaPagamento);
             await _repository.Cadastrar(pagamento);
@@ -63,10 +64,12 @@ namespace TechLanches.Application.Ports.Services
         {
             var pagamento = await BuscarPagamentoPorPedidoId(pedidoId);
 
-            if (statusPagamento == StatusPagamentoEnum.Aprovado)
-                pagamento.Aprovar();
+            if (statusPagamento == StatusPagamentoEnum.Aprovado)  
+                pagamento.Aprovar();  
             else
                 pagamento.Reprovar();
+
+            await _repository.UnitOfWork.Commit();
 
             return pagamento.StatusPagamento != StatusPagamento.Aguardando;
         }

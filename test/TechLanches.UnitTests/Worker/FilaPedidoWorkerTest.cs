@@ -16,6 +16,7 @@ namespace TechLanches.UnitTests.Worker
         {
             // Arrange
             var mockFilaPedidoService = Substitute.For<IFilaPedidoService>();
+            var mockPedidoService = Substitute.For<IPedidoService>();
             mockFilaPedidoService.RetornarPrimeiroPedidoDaFila().Returns(new Pedido(1, new List<ItemPedido> { new (1, 1, 1) }));
             var mockLogger = Substitute.For<ILogger<FilaPedidosHostedService>>();
 
@@ -28,7 +29,7 @@ namespace TechLanches.UnitTests.Worker
 
             mockOptions.Value.Returns(workerOptions);
 
-            var workerService = new FilaPedidosHostedService(mockLogger, mockFilaPedidoService, mockOptions);
+            var workerService = new FilaPedidosHostedService(mockLogger, mockFilaPedidoService, mockOptions, mockPedidoService);
 
             // Act
             await workerService.StartAsync(CancellationToken.None);
@@ -46,6 +47,7 @@ namespace TechLanches.UnitTests.Worker
             // Arrange
             var mockFilaPedidoService = Substitute.For<IFilaPedidoService>();
             mockFilaPedidoService.RetornarPrimeiroPedidoDaFila().ReturnsNull();
+            var mockPedidoService = Substitute.For<IPedidoService>();
 
             var mockLogger = Substitute.For<ILogger<FilaPedidosHostedService>>();
 
@@ -58,7 +60,7 @@ namespace TechLanches.UnitTests.Worker
 
             mockOptions.Value.Returns(workerOptions);
 
-            var workerService = new FilaPedidosHostedService(mockLogger, mockFilaPedidoService, mockOptions);
+            var workerService = new FilaPedidosHostedService(mockLogger, mockFilaPedidoService, mockOptions, mockPedidoService);
 
             // Act
             await workerService.StartAsync(CancellationToken.None);
@@ -74,6 +76,7 @@ namespace TechLanches.UnitTests.Worker
         {
             // Arrange
             var mockFilaPedidoService = Substitute.For<IFilaPedidoService>();
+            var mockPedidoService = Substitute.For<IPedidoService>();
             mockFilaPedidoService.RetornarPrimeiroPedidoDaFila().Throws(x => throw new Exception("Simulando erro"));
 
             var mockLogger = Substitute.For<ILogger<FilaPedidosHostedService>>();
@@ -85,7 +88,7 @@ namespace TechLanches.UnitTests.Worker
             };
 
             mockOptions.Value.Returns(workerOptions);
-            var workerService = new FilaPedidosHostedService(mockLogger, mockFilaPedidoService, mockOptions);
+            var workerService = new FilaPedidosHostedService(mockLogger, mockFilaPedidoService, mockOptions, mockPedidoService);
 
             // Act
             await workerService.StartAsync(CancellationToken.None);

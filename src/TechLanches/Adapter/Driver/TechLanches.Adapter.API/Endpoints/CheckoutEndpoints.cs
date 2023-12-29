@@ -24,7 +24,6 @@ namespace TechLanches.Adapter.API.Endpoints
         public static async Task<IResult> Checkout(
             int pedidoId,
             [FromServices] ICheckoutService checkoutService, 
-                           IPagamentoACLService pagamentoQrCodeACLService, 
                            IPedidoService pedidoService)
         {
 
