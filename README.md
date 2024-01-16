@@ -21,7 +21,8 @@ Repositório dedicado ao projeto TechChallenge da FIAP - Turma 4SOAT
 # Dependências
 - [Docker](https://docs.docker.com/desktop/)
 - [Docker Compose](https://docs.docker.com/compose/install/)
-
+- [k6](https://k6.io/docs/get-started/installation/)
+  
 # Executando o projeto
 
 O procedimento de inicialização do projeto é simples e leva poucos passos: 
@@ -57,6 +58,13 @@ Para importar as collections do postman, basta acessar os links a seguir:
 - Local Environment: https://github.com/g12-4soat/tech-lanches/blob/main/docs/TechLanches-Local.postman_environment.json
 
 > Por padrão, a API está configurada para ser executada na porta 5050, como definido no [docker-compose.yml](https://github.com/g12-4soat/tech-lanches/blob/main/docker-compose.yml). Caso tenha problemas de inicialização, verifique se a porta já está sendo utilizada.
+
+---
+
+## Executando Teste de Carga 
+Para executar o teste de carga é necessário a instalação do [k6](https://k6.io/docs/get-started/installation/) conforme seu sistema operacional. 
+Após a instalação do k6, apartir da raiz do repositório, entre no diretório **./test/TechLanches.StressTests** e execute o comando no terminal: 
+> c:\tech-lanches\test\TechLanches.StressTests> k6 run hpa-test.js
 
 ---
 
