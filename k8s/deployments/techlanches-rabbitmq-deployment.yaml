@@ -15,11 +15,12 @@ spec:
 
 ---
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: rabbitmq
   namespace: techlanches
 spec:
+  serviceName: "rabbitmq"
   replicas: 1
   selector:
     matchLabels:
@@ -29,6 +30,7 @@ spec:
       labels:
         app: rabbitmq
     spec:
+      hostname: techlanches
       containers:
       - name: rabbitmq
         image: rabbitmq:management
@@ -46,12 +48,24 @@ spec:
               secretKeyRef:
                 name: techlanches-secrets
                 key: RABBITMQ_DEFAULT_PASS
-    volumeClaimTemplates:
-    - metadata:
-        name: rabbit-data
-      spec:
-        accessModes: ["ReadWriteOnce"]
-        resources:
-          requests:
-            storage: 5Gi
+        volumeMounts:
+        - name: rabbit-data
+          mountPath: /var/lib/rabbitmq/mnesia
 
+      volumes:
+      - name: rabbit-data
+        persistentVolumeClaim:
+          claimName: rabbit-data
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: rabbit-data
+  namespace: techlanches
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi

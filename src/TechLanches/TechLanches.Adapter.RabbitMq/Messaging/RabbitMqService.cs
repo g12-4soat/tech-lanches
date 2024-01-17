@@ -1,6 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using RabbitMQ.Client;
+using RabbitMQ.Client.Events;
 using System.Text;
+using System.Threading.Channels;
 
 namespace TechLanches.Adapter.RabbitMq.Messaging
 {
@@ -20,7 +22,7 @@ namespace TechLanches.Adapter.RabbitMq.Messaging
             _rabbitPassword = configuration.GetSection("RabbitMQ:Password").Value;
             _rabbitQueueName = configuration.GetSection("RabbitMQ:Queue").Value;
 
-            var connectionFactory = new ConnectionFactory { HostName = _rabbitHost, UserName = _rabbitUser, Password = _rabbitPassword };
+            var connectionFactory = new ConnectionFactory { HostName = _rabbitHost, UserName = _rabbitUser, Password = _rabbitPassword, DispatchConsumersAsync = true };
             _connection = connectionFactory.CreateConnection();
             _channel = _connection.CreateModel();
 
@@ -31,13 +33,30 @@ namespace TechLanches.Adapter.RabbitMq.Messaging
                                   arguments: null);
         }
 
+        public async Task Consumir(Func<string, Task> function)
+        {
+            var consumer = new AsyncEventingBasicConsumer(_channel);
+
+            consumer.Received += async (model, ea) =>
+            {
+
+                var body = ea.Body.ToArray();
+                await function(Encoding.UTF8.GetString(body));
+                _channel.BasicAck(ea.DeliveryTag, false);
+            };
+
+            _channel.BasicConsume(queue: _rabbitQueueName, autoAck: false, consumer: consumer);
+        }
+
         public void Publicar(int data)
         {
             var mensagem = Encoding.UTF8.GetBytes(data.ToString());
 
+            var properties = _channel.CreateBasicProperties();
+            properties.DeliveryMode = 2; // Marca a mensagem como persistente
             _channel.BasicPublish(exchange: string.Empty,
                                   routingKey: _rabbitQueueName,
-                                  null,
+                                  basicProperties: properties,
                                   body: mensagem);
         }
     }
