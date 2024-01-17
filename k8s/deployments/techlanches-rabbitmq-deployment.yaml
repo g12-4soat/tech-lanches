@@ -46,4 +46,12 @@ spec:
               secretKeyRef:
                 name: techlanches-secrets
                 key: RABBITMQ_DEFAULT_PASS
+    volumeClaimTemplates:
+    - metadata:
+        name: rabbit-data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 5Gi
 

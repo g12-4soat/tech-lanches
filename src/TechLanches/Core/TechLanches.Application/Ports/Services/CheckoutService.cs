@@ -12,13 +12,13 @@ namespace TechLanches.Application.Ports.Services
         private readonly IPagamentoService _pagamentoService;
         private readonly IQrCodeGeneratorService _qrCodeGeneratorService;
 
-        public CheckoutService(IPedidoService pedidoService, 
+        public CheckoutService(IPedidoService pedidoService,
                                IPagamentoService pagamentoService,
                                IQrCodeGeneratorService qrCodeGeneratorService)
         {
             _pedidoService = pedidoService;
             _pagamentoService = pagamentoService;
-            _qrCodeGeneratorService = qrCodeGeneratorService;   
+            _qrCodeGeneratorService = qrCodeGeneratorService;
         }
 
         public async Task<bool> ValidarCheckout(int pedidoId)
@@ -29,7 +29,7 @@ namespace TechLanches.Application.Ports.Services
             if (pedido.StatusPedido != StatusPedido.PedidoCriado)
                 throw new DomainException($"Status não autorizado para checkout - StatusPedido: {pedido.StatusPedido}");
 
-            if(pedido.Pagamentos is not null)
+            if (pedido.Pagamentos is not null)
                 throw new DomainException($"Pedido já contém pagamento - StatusPagamento: {pedido.Pagamentos?.FirstOrDefault()?.StatusPagamento}");
 
             return true;
@@ -39,20 +39,19 @@ namespace TechLanches.Application.Ports.Services
         {
             var pedido = await _pedidoService.BuscarPorId(pedidoId);
 
-            await _pagamentoService.Cadastrar(pedidoId, FormaPagamento.QrCodeMercadoPago, pedido.Valor);
 
             var pedidoMercadoPago = new PedidoACLDTO()
             {
-                ReferenciaExterna = pedido.Id.ToString(), 
+                ReferenciaExterna = pedido.Id.ToString(),
                 TotalTransacao = pedido.Valor,
                 ItensPedido = new List<ItemPedidoACLDTO>(),
                 Titulo = "Compra em TechLanches",
                 Descricao = "Compra e Retirada de produto",
-                DataExpiracao = DateTime.Now.AddHours(1).ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), 
+                DataExpiracao = DateTime.Now.AddHours(1).ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"),
                 UrlNotificacao = "https://webhook.site/8f9a1d85-e8d3-4c97-a9b3-ec92220f3aa8" //alterar para endpoint de pagamento para receber notificacao
             };
 
-            foreach(var item in pedido.ItensPedido)
+            foreach (var item in pedido.ItensPedido)
             {
                 var itemPedido = new ItemPedidoACLDTO()
                 {
@@ -70,6 +69,8 @@ namespace TechLanches.Application.Ports.Services
 
             var qrCode = await _pagamentoService.GerarPagamentoEQrCodeMercadoPago(pedidoMercadoPago);
 
+            await _pagamentoService.Cadastrar(pedidoId, FormaPagamento.QrCodeMercadoPago, pedido.Valor);
+
             return qrCode;
         }
 
@@ -79,7 +80,7 @@ namespace TechLanches.Application.Ports.Services
 
             var bytesQrCode = _qrCodeGeneratorService.GenerateByteArray(qrCode);
 
-            return bytesQrCode; 
+            return bytesQrCode;
         }
     }
 }

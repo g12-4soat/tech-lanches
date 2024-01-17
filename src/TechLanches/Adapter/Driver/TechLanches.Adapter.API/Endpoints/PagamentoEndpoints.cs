@@ -62,6 +62,7 @@ namespace TechLanches.Adapter.API.Endpoints
 
                 if (pagamento)
                 {
+                    //refatorar
                     await pedidoService.TrocarStatus(pagamentoExistente.PedidoId, StatusPedido.PedidoRecebido);
                     rabbitmqService.Publicar(pagamentoExistente.PedidoId);
                 }
