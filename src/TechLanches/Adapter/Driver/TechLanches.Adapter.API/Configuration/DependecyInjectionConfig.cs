@@ -37,7 +37,7 @@ namespace TechLanches.Adapter.API.Configuration
             services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
             services.AddScoped<IPagamentoRepository, PagamentoRepository>();
-            services.AddScoped<IRabbitMqService, RabbitMqService>();
+            services.AddScoped<IRabbitMqService, RabbitMqService>();            
         }
     }
 }

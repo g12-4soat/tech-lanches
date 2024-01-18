@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Net.Http.Json;
 using System.Text;
+using TechLanches.Adapter.ACL.Pagamento.QrCode.Constantes;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.Models;
 
@@ -9,9 +10,9 @@ namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
     public class MercadoPagoService : IMercadoPagoService
     {
         private readonly HttpClient _httpClient;
-        public MercadoPagoService(HttpClient httpClient, IHttpClientFactory httpClientFactory)
+        public MercadoPagoService(IHttpClientFactory httpClientFactory)
         {
-            _httpClient = httpClientFactory.CreateClient("MercadoPago");
+            _httpClient = httpClientFactory.CreateClient(MercadoPagoConstantes.MERCADO_PAGO);
         }
 
         public async Task<PagamentoResponseACLDTO> ConsultarPagamento(string idPagamentoComercial)
@@ -42,8 +43,8 @@ namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
         {
             return statusStr.ToLower() switch
             {
-                "approved" => StatusPagamentoEnum.Aprovado,
-                "repproved" => StatusPagamentoEnum.Reprovado,
+                MercadoPagoConstantes.STATUS_APROVADO => StatusPagamentoEnum.Aprovado,
+                MercadoPagoConstantes.STATUS_REPROVADO => StatusPagamentoEnum.Reprovado,
                 _ => throw new ArgumentException("String de status pagamento inválida"),
             };
         }

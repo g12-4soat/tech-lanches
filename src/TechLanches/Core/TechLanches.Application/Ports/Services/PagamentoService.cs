@@ -1,9 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System;
 using System.Text.Json;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
-using TechLanches.Adapter.RabbitMq.Messaging;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
@@ -71,7 +69,7 @@ namespace TechLanches.Application.Ports.Services
 
             await _repository.UnitOfWork.Commit();
 
-            return pagamento.StatusPagamento != StatusPagamento.Aguardando;
+            return pagamento.StatusPagamento == StatusPagamento.Aprovado;
         }
 
         public async Task<string> GerarPagamentoEQrCodeMercadoPago(PedidoACLDTO pedidoMercadoPago)

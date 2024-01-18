@@ -1,8 +1,8 @@
 using Polly;
 using Polly.Extensions.Http;
 using System.Net.Http.Headers;
-using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 using TechLanches.Adapter.API.Configuration;
+using TechLanches.Adapter.RabbitMq.Options;
 using TechLanches.Adapter.SqlServer;
 using TechLanches.Application;
 
@@ -30,6 +30,7 @@ builder.Services.AddDatabaseConfiguration(builder.Configuration);
 //Setting mapster
 builder.Services.RegisterMaps();
 
+builder.Services.Configure<RabbitOptions>(builder.Configuration.GetSection("RabbitMQ"));
 
 //Setting healthcheck
 builder.Services.AddHealthCheckConfig(builder.Configuration);

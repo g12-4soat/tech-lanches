@@ -1,7 +1,4 @@
 using Microsoft.Extensions.Options;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
-using System.Text;
 using TechLanches.Adapter.FilaPedidos.Options;
 using TechLanches.Adapter.RabbitMq.Messaging;
 using TechLanches.Application.Ports.Services.Interfaces;

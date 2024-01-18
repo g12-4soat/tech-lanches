@@ -1,4 +1,5 @@
-﻿using TechLanches.Application.Ports.Repositories;
+﻿using TechLanches.Adapter.RabbitMq.Messaging;
+using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
@@ -14,16 +15,18 @@ namespace TechLanches.Application.Ports.Services
         private readonly IStatusPedidoValidacaoService _statusPedidoValidacaoService;
         private readonly IClienteService _clienteService;
         private readonly IPedidoRepository _pedidoRepository;
+        private readonly IRabbitMqService _rabbitmqService;
 
         public PedidoService(
             IPedidoRepository pedidoRepository,
-            IPagamentoService pagamentoService,
             IClienteService clienteService,
-            IStatusPedidoValidacaoService statusPedidoValidacaoService)
+            IStatusPedidoValidacaoService statusPedidoValidacaoService,            
+            IRabbitMqService rabbitmqService)
         {
             _pedidoRepository = pedidoRepository;
             _clienteService = clienteService;
-            _statusPedidoValidacaoService = statusPedidoValidacaoService;
+            _statusPedidoValidacaoService = statusPedidoValidacaoService;           
+            _rabbitmqService = rabbitmqService;
         }
 
         public async Task<List<Pedido>> BuscarTodos()
@@ -66,6 +69,10 @@ namespace TechLanches.Application.Ports.Services
 
             _pedidoRepository.Atualizar(pedido);
             await _pedidoRepository.UnitOfWork.Commit();
+
+            if (statusPedido == StatusPedido.PedidoRecebido)
+                _rabbitmqService.Publicar(pedidoId);
+
             return pedido;
         }
 

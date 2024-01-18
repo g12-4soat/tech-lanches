@@ -1,6 +1,4 @@
-﻿using TechLanches.Domain.Aggregates;
-
-namespace TechLanches.UnitTests.Domain
+﻿namespace TechLanches.UnitTests.Domain
 {
     [Trait("Domain", "Pagamento")]
     public class PagamentoTest

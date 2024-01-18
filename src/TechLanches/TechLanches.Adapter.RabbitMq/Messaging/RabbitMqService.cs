@@ -1,8 +1,9 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
-using System.Threading.Channels;
+using TechLanches.Adapter.RabbitMq.Options;
 
 namespace TechLanches.Adapter.RabbitMq.Messaging
 {
@@ -10,23 +11,17 @@ namespace TechLanches.Adapter.RabbitMq.Messaging
     {
         private readonly IConnection _connection;
         private readonly IModel _channel;
-        private readonly string _rabbitHost;
-        private readonly string _rabbitUser;
-        private readonly string _rabbitPassword;
-        private readonly string _rabbitQueueName;
+        private readonly RabbitOptions _rabbitOptions;
 
-        public RabbitMqService(IConfiguration configuration)
+        public RabbitMqService(IOptions<RabbitOptions> rabbitOptions)
         {
-            _rabbitHost = configuration.GetSection("RabbitMQ:Host").Value;
-            _rabbitUser = configuration.GetSection("RabbitMQ:User").Value;
-            _rabbitPassword = configuration.GetSection("RabbitMQ:Password").Value;
-            _rabbitQueueName = configuration.GetSection("RabbitMQ:Queue").Value;
+            _rabbitOptions = rabbitOptions.Value;
 
-            var connectionFactory = new ConnectionFactory { HostName = _rabbitHost, UserName = _rabbitUser, Password = _rabbitPassword, DispatchConsumersAsync = true };
+            var connectionFactory = new ConnectionFactory { HostName = _rabbitOptions.Host, UserName = _rabbitOptions.User, Password = _rabbitOptions.Password, DispatchConsumersAsync = true };
             _connection = connectionFactory.CreateConnection();
             _channel = _connection.CreateModel();
 
-            _channel.QueueDeclare(queue: _rabbitQueueName,
+            _channel.QueueDeclare(queue: _rabbitOptions.Queue,
                                   durable: true,
                                   exclusive: false,
                                   autoDelete: false,
@@ -45,7 +40,7 @@ namespace TechLanches.Adapter.RabbitMq.Messaging
                 _channel.BasicAck(ea.DeliveryTag, false);
             };
 
-            _channel.BasicConsume(queue: _rabbitQueueName, autoAck: false, consumer: consumer);
+            _channel.BasicConsume(queue: _rabbitOptions.Queue, autoAck: false, consumer: consumer);
         }
 
         public void Publicar(int data)
@@ -55,7 +50,7 @@ namespace TechLanches.Adapter.RabbitMq.Messaging
             var properties = _channel.CreateBasicProperties();
             properties.DeliveryMode = 2; // Marca a mensagem como persistente
             _channel.BasicPublish(exchange: string.Empty,
-                                  routingKey: _rabbitQueueName,
+                                  routingKey: _rabbitOptions.Queue,
                                   basicProperties: properties,
                                   body: mensagem);
         }

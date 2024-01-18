@@ -3,6 +3,7 @@ using TechLanches.Adapter.FilaPedidos;
 using TechLanches.Adapter.FilaPedidos.Health;
 using TechLanches.Adapter.FilaPedidos.Options;
 using TechLanches.Adapter.RabbitMq.Messaging;
+using TechLanches.Adapter.RabbitMq.Options;
 using TechLanches.Adapter.SqlServer;
 using TechLanches.Adapter.SqlServer.Repositories;
 using TechLanches.Application.Ports.Repositories;
@@ -22,6 +23,7 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
 
         services.AddDatabaseConfiguration(settingsConfig, ServiceLifetime.Singleton);
         services.Configure<WorkerOptions>(settingsConfig.GetSection("Worker"));
+        services.Configure<RabbitOptions>(settingsConfig.GetSection("RabbitMQ"));
 
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoCriadoValidacao>();
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoCanceladoValidacao>();
@@ -43,7 +45,7 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<ICheckoutService, CheckoutService>();
         services.AddSingleton<IQrCodeGeneratorService, QrCodeGeneratorService>();
         services.AddSingleton<IPagamentoACLService, MercadoPagoMockadoService>();
-        //services.AddSingleton<IPagamentoACLService, MercadoPagoService>();
+        services.AddSingleton<IPagamentoACLService, MercadoPagoService>();
         services.AddSingleton<IStatusPedidoValidacaoService, StatusPedidoValidacaoService>();
         services.AddSingleton<IClienteRepository, ClienteRepository>();
         services.AddSingleton<IProdutoRepository, ProdutoRepository>();
