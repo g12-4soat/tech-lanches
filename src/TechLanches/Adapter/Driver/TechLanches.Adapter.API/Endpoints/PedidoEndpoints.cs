@@ -7,6 +7,7 @@ using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Domain.Enums;
 using TechLanches.Domain.ValueObjects;
+using TechLanches.Application.Controllers.Interfaces;
 
 namespace TechLanches.Adapter.API.Endpoints;
 
@@ -97,7 +98,7 @@ public static class PedidoEndpoints
 
     private static async Task<IResult> CadastrarPedido(
         [FromBody] PedidoRequestDTO pedidoDto,
-        [FromServices] IPedidoService pedidoService, IClienteService clienteService, IProdutoService produtoService)
+        [FromServices] IPedidoService pedidoService, IClienteService clienteService, IProdutoController produtoController)
     {
         if (!pedidoDto.ItensPedido.Any())
             return Results.BadRequest(MensagensConstantes.SEM_NENHUM_ITEM_PEDIDO);
@@ -105,7 +106,7 @@ public static class PedidoEndpoints
         var itensPedido = new List<ItemPedido>();
         foreach (var itemPedido in pedidoDto.ItensPedido)
         {
-            var dadosProduto = await produtoService.BuscarPorId(itemPedido.IdProduto);
+            var dadosProduto = await produtoController.BuscarPorId(itemPedido.IdProduto);
             var itemPedidoCompleto = new ItemPedido(dadosProduto.Id, itemPedido.Quantidade, dadosProduto.Preco);
 
             itensPedido.Add(itemPedidoCompleto);

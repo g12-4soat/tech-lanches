@@ -176,7 +176,7 @@ namespace TechLanches.UnitTests.Services
 
             //Assert
             pedidoRepository.Received(1).Atualizar(Arg.Any<Pedido>());
-            await unitOfWork.Received(1).Commit();
+            await unitOfWork.Received(1).CommitAsync();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace TechLanches.Application.Ports.Services
 
             var novoCliente = await _clienteRepository.Cadastrar(cliente);
 
-            await _clienteRepository.UnitOfWork.Commit();
+            await _clienteRepository.UnitOfWork.CommitAsync();
 
             return novoCliente;
         }

@@ -40,7 +40,7 @@ namespace TechLanches.Application.Ports.Services
         public async Task TrocarStatus(Pedido pedido, StatusPedido statusPedido)
         {
             pedido.TrocarStatus(_statusPedidoValidacaoService, statusPedido);
-            await _pedidoRepository.UnitOfWork.Commit();
+            await _pedidoRepository.UnitOfWork.CommitAsync();
         }
     }
 }

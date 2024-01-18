@@ -38,6 +38,11 @@ namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
             return result.qr_data;
         }
 
+        public Task<string> GerarPedidoEQrCode(string pedidoMercadoPago, string usuarioId, string posId)
+        {
+            throw new NotImplementedException();
+        }
+
         private StatusPagamentoEnum ConverterResultadoParaEnum(string statusStr)
         {
             return statusStr.ToLower() switch

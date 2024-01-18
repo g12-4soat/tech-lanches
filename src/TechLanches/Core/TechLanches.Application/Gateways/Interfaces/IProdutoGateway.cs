@@ -1,10 +1,9 @@
-﻿using TechLanches.Core;
-using TechLanches.Domain.Aggregates;
+﻿using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.ValueObjects;
 
-namespace TechLanches.Application.Ports.Repositories
+namespace TechLanches.Application.Gateways.Interfaces
 {
-    public interface IProdutoRepository : IRepository<Produto>
+    public interface IProdutoGateway : IRepositoryGateway
     {
         Task<List<Produto>> BuscarTodos();
         Task<Produto> BuscarPorId(int produtoId);
