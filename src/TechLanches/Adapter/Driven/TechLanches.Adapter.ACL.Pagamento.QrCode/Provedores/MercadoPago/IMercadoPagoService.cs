@@ -1,6 +1,4 @@
-﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
-
-namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
+﻿namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
 {
     public interface IMercadoPagoService : IPagamentoACLService
     {

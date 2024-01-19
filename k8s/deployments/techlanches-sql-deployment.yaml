@@ -18,7 +18,7 @@ spec:
       containers:
       - name: sql-server
         image: mcr.microsoft.com/mssql/server:2019-latest
-        imagePullPolicy: Always
+        # imagePullPolicy: Always
         ports:
         - containerPort: 1433
         env:

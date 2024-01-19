@@ -1,5 +1,6 @@
 using Microsoft.Extensions.Options;
 using TechLanches.Adapter.FilaPedidos.Options;
+using TechLanches.Adapter.RabbitMq.Messaging;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Domain.Enums;
 
@@ -8,58 +9,52 @@ namespace TechLanches.Adapter.FilaPedidos
     public class FilaPedidosHostedService : BackgroundService
     {
         private readonly IFilaPedidoService _filaPedidoService;
+        private readonly IPedidoService _pedidoService;
         private readonly ILogger<FilaPedidosHostedService> _logger;
         private readonly WorkerOptions _workerOptions;
-
+        private readonly IRabbitMqService _rabbitMqService;
         public FilaPedidosHostedService(
             ILogger<FilaPedidosHostedService> logger,
             IFilaPedidoService filaPedidoService,
-            IOptions<WorkerOptions> workerOptions)
+            IOptions<WorkerOptions> workerOptions,
+            IPedidoService pedidoService,
+            IRabbitMqService rabbitMqService)
         {
             _logger = logger;
             _filaPedidoService = filaPedidoService;
             _workerOptions = workerOptions.Value;
+            _pedidoService = pedidoService;
+            _rabbitMqService = rabbitMqService;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                await Task.Delay(_workerOptions.DelayVerificacaoFilaEmSegundos * 1000, stoppingToken);
+            await _rabbitMqService.Consumir(ProcessMessageAsync);
+            await Task.Delay(Timeout.Infinite, stoppingToken);
+        }
 
-                try
-                {
-                    _logger.LogInformation("FilaPedidosHostedService iniciado: {time}", DateTimeOffset.Now);
+        public async Task ProcessMessageAsync(string message)
+        {
+            var pedidoId = Convert.ToInt32(message);
 
-                    var proximoPedido = await _filaPedidoService.RetornarPrimeiroPedidoDaFila();
+            _logger.LogInformation("FilaPedidosHostedService iniciado: {time}", DateTimeOffset.Now);
 
-                    if (proximoPedido is not null)
-                    {
-                        _logger.LogInformation("Próximo pedido da fila: {proximoPedido.Id}", proximoPedido.Id);
+            var pedido = await _pedidoService.BuscarPorId(pedidoId);
 
-                        if (proximoPedido.StatusPedido != StatusPedido.PedidoEmPreparacao)
-                            await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoEmPreparacao);
+            _logger.LogInformation("Próximo pedido da fila: {proximoPedido.Id}", pedido.Id);
 
-                        _logger.LogInformation("Pedido {proximoPedido.Id} em preparação.", proximoPedido.Id);
+            if (pedido.StatusPedido != StatusPedido.PedidoEmPreparacao)
+                await _filaPedidoService.TrocarStatus(pedido, StatusPedido.PedidoEmPreparacao);
 
-                        await Task.Delay(1000 * _workerOptions.DelayPreparacaoPedidoEmSegundos, stoppingToken);
+            _logger.LogInformation("Pedido {proximoPedido.Id} em preparação.", pedido.Id);
 
-                        _logger.LogInformation("Pedido {proximoPedido.Id} preparação finalizada.", proximoPedido.Id);
+            await Task.Delay(1000 * _workerOptions.DelayPreparacaoPedidoEmSegundos);
 
-                        await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoPronto);
+            _logger.LogInformation("Pedido {proximoPedido.Id} preparação finalizada.", pedido.Id);
 
-                        _logger.LogInformation("Pedido {proximoPedido.Id} pronto.", proximoPedido.Id);
-                    }
-                    else
-                    {
-                        _logger.LogInformation("Nenhum Pedido na fila. Verificando novamente em 5 segundos.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Erro ao processar fila de pedidos.");
-                }
-            }
+            await _filaPedidoService.TrocarStatus(pedido, StatusPedido.PedidoPronto);
+
+            _logger.LogInformation("Pedido {proximoPedido.Id} pronto.", pedido.Id);
         }
     }
 }

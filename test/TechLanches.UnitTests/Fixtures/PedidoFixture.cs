@@ -1,6 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-
-namespace TechLanches.UnitTests.Fixtures
+﻿namespace TechLanches.UnitTests.Fixtures
 {
     public class PedidoFixture : IDisposable
     {
