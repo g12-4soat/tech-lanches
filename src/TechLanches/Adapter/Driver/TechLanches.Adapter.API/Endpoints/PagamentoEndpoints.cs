@@ -47,7 +47,8 @@ namespace TechLanches.Adapter.API.Endpoints
             return Results.Ok(pagamento.Adapt<PagamentoStatusResponseDTO>());
         }
 
-        private static async Task<IResult> BuscarPagamento(int id, TopicACL topic, [FromServices] IPagamentoService pagamentoService, [FromServices] IPedidoService pedidoService)
+
+        private static async Task<IResult> BuscarPagamento(long id, TopicACL topic, [FromServices] IPagamentoService pagamentoService, [FromServices] IPedidoService pedidoService)
         {
             if (topic == TopicACL.merchant_order)
             {
