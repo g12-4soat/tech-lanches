@@ -23,7 +23,7 @@ spec:
               cpu: "500m"
               memory: "500Mi"
           env:
-            - name: ASPNETCORE_ENVIRONMENT
+            - name: DOTNET_ENVIRONMENT
               value: "Production"
             - name: ConnectionStrings__DefaultConnection
               valueFrom:

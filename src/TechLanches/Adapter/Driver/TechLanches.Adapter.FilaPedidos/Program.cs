@@ -1,3 +1,4 @@
+using System.Net.Http.Headers;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 using TechLanches.Adapter.FilaPedidos;
 using TechLanches.Adapter.FilaPedidos.Health;
@@ -11,15 +12,18 @@ using TechLanches.Application.Ports.Services;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Domain.Services;
 using TechLanches.Domain.Validations;
+using Polly;
+using Polly.Extensions.Http;
 
 var hostBuilder = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
     {
         var settingsConfig = new ConfigurationBuilder()
             .SetBasePath(Path.Combine(Directory.GetCurrentDirectory()))
-            .AddJsonFile("appsettings.json")
+            .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("DOTNET_ENVIRONMENT")}.json", true, true)
             .AddEnvironmentVariables()
             .Build();
+
 
         services.AddDatabaseConfiguration(settingsConfig, ServiceLifetime.Singleton);
         services.Configure<WorkerOptions>(settingsConfig.GetSection("Worker"));
@@ -52,6 +56,15 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IPagamentoRepository, PagamentoRepository>();
         services.AddSingleton<IRabbitMqService, RabbitMqService>();
         services.AddHostedService<FilaPedidosHostedService>();
+
+        var retryPolicy = HttpPolicyExtensions.HandleTransientHttpError()
+                  .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
+        services.AddHttpClient("MercadoPago", httpClient =>
+        {
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", settingsConfig.GetSection($"ApiMercadoPago:AccessToken").Value);
+            httpClient.BaseAddress = new Uri(settingsConfig.GetSection($"ApiMercadoPago:BaseUrl").Value);
+        }).AddPolicyHandler(retryPolicy);
 
         services.AddHealthChecks()
         .AddCheck<DbHealthCheck>("db_hc")
