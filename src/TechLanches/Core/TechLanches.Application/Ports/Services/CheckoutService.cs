@@ -50,7 +50,7 @@ namespace TechLanches.Application.Ports.Services
                 Titulo = "Compra em TechLanches",
                 Descricao = "Compra e Retirada de produto",
                 DataExpiracao = DateTime.Now.AddHours(1).ToString("yyyy-MM-ddTHH:mm:ss.fffzzz"), 
-                UrlNotificacao = "https://webhook.site/8f9a1d85-e8d3-4c97-a9b3-ec92220f3aa8" //alterar para endpoint de pagamento para receber notificacao
+                UrlNotificacao = "https://spider-tight-previously.ngrok-free.app/api/pagamentos/webhook/mercadopago" //alterar para endpoint de pagamento para receber notificacao
             };
 
             foreach(var item in pedido.ItensPedido)

@@ -23,7 +23,7 @@ spec:
             - "sh"
             - "-c"
             - >
-              /bin/ngrok authtoken _token_ &&
+              /bin/ngrok authtoken 2ZUXQw51GKTrQqI9HCc3lMvzI3v_JtCKn4NG2mgvYdNSWLXc &&
               /bin/ngrok http --region=us --log=stdout --hostname=spider-tight-previously.ngrok-free.app techlanches-api-service:5050
 ---
 apiVersion: v1
