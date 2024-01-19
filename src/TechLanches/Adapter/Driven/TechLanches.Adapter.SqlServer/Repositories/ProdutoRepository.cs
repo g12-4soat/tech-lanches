@@ -43,10 +43,5 @@ namespace TechLanches.Adapter.SqlServer.Repositories
         {
             return (await _context.AddAsync(produto)).Entity;
         }
-
-        public void Deletar(Produto produto)
-        {
-            produto.ProdutoDeletado();
-        }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
-using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
 using TechLanches.Domain.Enums;

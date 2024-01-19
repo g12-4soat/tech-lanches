@@ -41,7 +41,7 @@ namespace TechLanches.Adapter.API.Middlewares
                 _ => HttpStatusCode.InternalServerError,
             };
 
-            var exceptionResult = JsonSerializer.Serialize(new ErrorResponseDTO { MensagemErro = message, StatusCode = (int) status});
+            var exceptionResult = JsonSerializer.Serialize(new ErrorResponseDTO { MensagemErro = message, StatusCode = status });
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = (int)status;
 
