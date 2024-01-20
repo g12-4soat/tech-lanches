@@ -8,6 +8,8 @@ using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services;
 using TechLanches.Application.Ports.Services.Interfaces;
+using TechLanches.Application.Presenters;
+using TechLanches.Application.Presenters.Interfaces;
 using TechLanches.Domain.Services;
 using TechLanches.Domain.Validations;
 
@@ -27,7 +29,9 @@ namespace TechLanches.Adapter.API.Configuration
             services.AddScoped<IStatusPedidoValidacao, StatusPedidoProntoValidacao>();
             services.AddScoped<IStatusPedidoValidacao, StatusPedidoRecebidoValidacao>();
             services.AddScoped<IStatusPedidoValidacao, StatusPedidoRetiradoValidacao>();
-            
+
+            services.AddSingleton<IProdutoPresenter, ProdutoPresenter>();
+
             services.AddScoped<IProdutoController, ProdutoController>();
 
             services.AddScoped<IProdutoGateway, ProdutoGateway>();

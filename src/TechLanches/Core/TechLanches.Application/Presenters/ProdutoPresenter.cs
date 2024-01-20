@@ -1,14 +1,10 @@
 ﻿using Mapster;
 using TechLanches.Application.DTOs;
+using TechLanches.Application.Presenters.Interfaces;
 using TechLanches.Domain.Aggregates;
 
 namespace TechLanches.Application.Presenters
 {
-    public interface IProdutoPresenter
-    {
-        ProdutoResponseDTO ParaDto(Produto entidade);
-        List<ProdutoResponseDTO> ParaListaDto(List<Produto> entidade);
-    }
 
     public class ProdutoPresenter : IProdutoPresenter
     {

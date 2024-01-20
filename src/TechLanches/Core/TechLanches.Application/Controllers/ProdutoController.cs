@@ -2,6 +2,7 @@
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Application.Presenters;
+using TechLanches.Application.Presenters.Interfaces;
 using TechLanches.Application.UseCases.Produtos;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.ValueObjects;

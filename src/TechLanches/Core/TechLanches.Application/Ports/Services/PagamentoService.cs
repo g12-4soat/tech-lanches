@@ -14,16 +14,15 @@ namespace TechLanches.Application.Ports.Services
     {
         private readonly IPagamentoRepository _repository;
         private readonly IServiceProvider _serviceProvider;
-        private readonly IPagamentoACLService _pagamentoACLService;
 
         private static readonly string UsuarioId = AppSettings.Configuration.GetSection($"ApiMercadoPago:UserId").Value;
         private static readonly string PosId = AppSettings.Configuration.GetSection($"ApiMercadoPago:PosId").Value;
 
         public PagamentoService(IPagamentoRepository repository,
-                                IPagamentoACLService pagamentoACLService)
+                                IServiceProvider serviceProvider)
         {
             _repository = repository;
-            _pagamentoACLService = pagamentoACLService;
+            _serviceProvider = serviceProvider;
         }
 
         public async Task Aprovar(Pagamento pagamento)
@@ -78,7 +77,7 @@ namespace TechLanches.Application.Ports.Services
         {
             var pedido = JsonSerializer.Serialize(pedidoMercadoPago);
 
-            var resultado = await GetACLService(true).GerarPagamentoEQrCode(pedido, UsuarioId, PosId);
+            var resultado = await GetACLService(false).GerarPagamentoEQrCode(pedido, UsuarioId, PosId);
 
             return resultado;
         }
@@ -94,10 +93,10 @@ namespace TechLanches.Application.Ports.Services
 
         //exemplo de pedidoId = 13971205222
         public async Task<PagamentoResponseACLDTO> ConsultarPagamentoMercadoPago(string pedidoComercial)
-            => await _pagamentoACLService.ConsultarPagamento(pedidoComercial);
+            => await GetACLService(false).ConsultarPagamento(pedidoComercial);
 
         public async Task<PagamentoResponseACLDTO> ConsultarPagamentoMockado(string pedidoComercial)
-            => await _pagamentoACLService.ConsultarPagamento(pedidoComercial);
+            => await GetACLService(true).ConsultarPagamento(pedidoComercial);
 
         private IPagamentoACLService GetACLService(bool isMockado)
         {

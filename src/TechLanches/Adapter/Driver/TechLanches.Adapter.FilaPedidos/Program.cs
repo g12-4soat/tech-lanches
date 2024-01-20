@@ -1,3 +1,6 @@
+using Polly;
+using Polly.Extensions.Http;
+using System.Net.Http.Headers;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 using TechLanches.Adapter.FilaPedidos;
 using TechLanches.Adapter.FilaPedidos.Health;
@@ -13,6 +16,8 @@ using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services;
 using TechLanches.Application.Ports.Services.Interfaces;
+using TechLanches.Application.Presenters;
+using TechLanches.Application.Presenters.Interfaces;
 using TechLanches.Domain.Services;
 using TechLanches.Domain.Validations;
 
@@ -29,6 +34,17 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.Configure<WorkerOptions>(settingsConfig.GetSection("Worker"));
         services.Configure<RabbitOptions>(settingsConfig.GetSection("RabbitMQ"));
 
+        var retryPolicy = HttpPolicyExtensions.HandleTransientHttpError()
+                  .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
+
+        //Registrar httpclient
+        services.AddHttpClient("MercadoPago", httpClient =>
+        {
+            httpClient.DefaultRequestHeaders.Authorization =
+                new AuthenticationHeaderValue("Bearer", settingsConfig.GetSection($"ApiMercadoPago:AccessToken").Value);
+            httpClient.BaseAddress = new Uri(settingsConfig.GetSection($"ApiMercadoPago:BaseUrl").Value);
+        }).AddPolicyHandler(retryPolicy);
+
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoCriadoValidacao>();
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoCanceladoValidacao>();
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoEmPreparacaoValidacao>();
@@ -41,6 +57,8 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IPedidoRepository, PedidoRepository>();
         services.AddSingleton<IFilaPedidoRepository, FilaPedidoRepository>();
         services.AddSingleton<IFilaPedidoService, FilaPedidoService>();
+
+        services.AddSingleton<IProdutoPresenter, ProdutoPresenter>();
 
         services.AddSingleton<IProdutoController, ProdutoController>();
 
