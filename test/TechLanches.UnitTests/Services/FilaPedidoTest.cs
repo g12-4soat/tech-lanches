@@ -83,7 +83,7 @@ namespace TechLanches.UnitTests.Services
 
             // Assert
             Assert.Equal(StatusPedido.PedidoRecebido, pedido.StatusPedido);
-            await mockPedidoRepository.Received(1).UnitOfWork.Commit();
+            await mockPedidoRepository.Received(1).UnitOfWork.CommitAsync();
         }
     }
 }

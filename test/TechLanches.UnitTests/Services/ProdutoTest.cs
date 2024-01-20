@@ -1,4 +1,7 @@
 ﻿using NSubstitute;
+using TechLanches.Application.Controllers;
+using TechLanches.Application.Gateways;
+using TechLanches.Application.Presenters;
 
 namespace TechLanches.UnitTests.Services
 {
@@ -20,35 +23,35 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.Cadastrar(produto).Returns(new Produto(nome, descricao, preco, categoriaId));
 
-            var produtoService = new ProdutoService(produtoRepository);
+            var produtoController = new ProdutoController(new ProdutoGateway(produtoRepository), new ProdutoPresenter());
 
             // Act
-            var novoProduto = await produtoService.Cadastrar(nome, descricao, preco, categoriaId);
+            var novoProduto = await produtoController.Cadastrar(nome, descricao, preco, categoriaId);
 
             // Assert
             Assert.NotNull(novoProduto);
             Assert.Equal(nome, novoProduto.Nome);
             Assert.Equal(descricao, novoProduto.Descricao);
             Assert.Equal(preco, novoProduto.Preco);
-            Assert.Equal(categoriaId, novoProduto.Categoria.Id);
+            Assert.Equal(CategoriaProduto.From(categoriaId).Nome, novoProduto.Categoria);
         }
 
         [Fact(DisplayName = "Deve atualizar produto com sucesso")]
         public async Task AtualizarProduto_DeveRetornarSucesso()
         {
             // Arrange
+            var produto = new Produto("Novo Nome", "Nova Descrição", 20, 2);
             var produtoRepository = Substitute.For<IProdutoRepository>();
             var unitOfWork = Substitute.For<IUnitOfWork>();
             produtoRepository.UnitOfWork.Returns(unitOfWork);
-
-            var produtoService = new ProdutoService(produtoRepository);
+            produtoRepository.BuscarPorId(Arg.Any<int>()).Returns(produto);
+            var produtoController = new ProdutoController(new ProdutoGateway(produtoRepository), new ProdutoPresenter());
 
             // Act
-            await produtoService.Atualizar(1, "Novo Nome", "Nova Descrição", 20, 2);
+            await produtoController.Atualizar(0, "Novo Nome", "Nova Descrição", 20, 2);
 
             // Assert
-            produtoRepository.Received(1).Atualizar(Arg.Any<Produto>());
-            await unitOfWork.Received(1).Commit();
+            await unitOfWork.Received(1).CommitAsync();
         }
 
         [Fact(DisplayName = "Deve buscar produtos por categoria com sucesso")]
@@ -60,10 +63,10 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.BuscarPorCategoria(new CategoriaProduto(1, "teste")).Returns(new List<Produto> { new ("Nome", "Descrição do produto", 20.0m, 2) });
 
-            var produtoService = new ProdutoService(produtoRepository);
+            var produtoController = new ProdutoController(new ProdutoGateway(produtoRepository), new ProdutoPresenter());
 
             // Act
-            var listaDeProdutos = await produtoService.BuscarPorCategoria(1);
+            var listaDeProdutos = await produtoController.BuscarPorCategoria(1);
 
             // Assert
             await produtoRepository.Received(1).BuscarPorCategoria(Arg.Any<CategoriaProduto>());
@@ -80,15 +83,15 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.BuscarPorId(1).Returns(produto);
 
-            var produtoService = new ProdutoService(produtoRepository);
+            var produtoController = new ProdutoController(new ProdutoGateway(produtoRepository), new ProdutoPresenter());
 
             // Act
-            var produtoAtualizado = await produtoService.BuscarPorId(1);
+            var produtoAtualizado = await produtoController.BuscarPorId(1);
 
             // Assert
             await produtoRepository.Received(1).BuscarPorId(1);
             Assert.NotNull(produtoAtualizado);
-            Assert.IsType<Produto>(produtoAtualizado);
+            Assert.IsType<ProdutoResponseDTO>(produtoAtualizado);
             Assert.Equal(produto.Nome, produtoAtualizado.Nome);
         }
 
@@ -101,15 +104,15 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.BuscarTodos().Returns(new List<Produto> { new ("Nome", "Descrição do produto", 20, 2) });
 
-            var produtoService = new ProdutoService(produtoRepository);
+            var produtoController = new ProdutoController(new ProdutoGateway(produtoRepository), new ProdutoPresenter());
 
             // Act
-            var listaDeProdutos = await produtoService.BuscarTodos();
+            var listaDeProdutos = await produtoController.BuscarTodos();
 
             // Assert
             await produtoRepository.Received(1).BuscarTodos();
             Assert.NotNull(listaDeProdutos);
-            Assert.IsType<List<Produto>>(listaDeProdutos);
+            Assert.IsType<List<ProdutoResponseDTO>>(listaDeProdutos);
         }
 
         [Fact(DisplayName = "Deve deletar o produto com sucesso")]
@@ -122,13 +125,13 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.BuscarPorId(1).Returns(produto);
 
-            var produtoService = new ProdutoService(produtoRepository);
+            var produtoController = new ProdutoController(new ProdutoGateway(produtoRepository), new ProdutoPresenter());
 
             // Act
-            await produtoService.Deletar(produto);
+            await produtoController.Deletar(1);
 
             // Assert
-            await unitOfWork.Received(1).Commit();
+            await unitOfWork.Received(1).CommitAsync();
             Assert.NotNull(produto);
             Assert.True(produto.Deletado);
         }

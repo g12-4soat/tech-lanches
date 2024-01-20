@@ -1,9 +1,15 @@
 ﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 using TechLanches.Adapter.RabbitMq.Messaging;
 using TechLanches.Adapter.SqlServer.Repositories;
+using TechLanches.Application.Controllers;
+using TechLanches.Application.Controllers.Interfaces;
+using TechLanches.Application.Gateways;
+using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services;
 using TechLanches.Application.Ports.Services.Interfaces;
+using TechLanches.Application.Presenters;
+using TechLanches.Application.Presenters.Interfaces;
 using TechLanches.Domain.Services;
 using TechLanches.Domain.Validations;
 
@@ -24,15 +30,21 @@ namespace TechLanches.Adapter.API.Configuration
             services.AddScoped<IStatusPedidoValidacao, StatusPedidoRecebidoValidacao>();
             services.AddScoped<IStatusPedidoValidacao, StatusPedidoRetiradoValidacao>();
 
+            services.AddSingleton<IProdutoPresenter, ProdutoPresenter>();
+
+            services.AddScoped<IProdutoController, ProdutoController>();
+
+            services.AddScoped<IProdutoGateway, ProdutoGateway>();
+
             services.AddScoped<IClienteService, ClienteService>();
             services.AddScoped<IPedidoService, PedidoService>();
-            services.AddScoped<IProdutoService, ProdutoService>();
             services.AddScoped<IPagamentoService, PagamentoService>();
             services.AddScoped<ICheckoutService, CheckoutService>();
             services.AddScoped<IQrCodeGeneratorService, QrCodeGeneratorService>();
             services.AddScoped<IMercadoPagoMockadoService, MercadoPagoMockadoService>();
             services.AddScoped<IMercadoPagoService, MercadoPagoService>();
             services.AddScoped<IStatusPedidoValidacaoService, StatusPedidoValidacaoService>();
+
             services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddScoped<IProdutoRepository, ProdutoRepository>();

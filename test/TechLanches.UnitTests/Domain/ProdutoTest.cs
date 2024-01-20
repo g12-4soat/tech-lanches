@@ -35,14 +35,13 @@
         public void AtualizarProduto_Valido_DeveRetornarSucesso()
         {
             // Arrange
-            int produtoId = 1;
             string nome = "Produto Teste Atualizado";
             string descricao = "Nova descrição do produto teste";
             decimal preco = 20.0M;
             int categoriaId = 2;
 
             // Act
-            var produto = new Produto(produtoId, nome, descricao, preco, categoriaId);
+            var produto = new Produto(nome, descricao, preco, categoriaId);
 
             // Assert
             Assert.Equal(nome, produto.Nome);
@@ -56,11 +55,8 @@
         [InlineData("Produto Teste", "Descrição", 10.0, 0)]
         public void AtualizarProduto_Invalido_DeveLancarException(string nome, string descricao, decimal preco, int categoriaId)
         {
-            // Arrange
-            int produtoId = 1;
-
-            // Act, Assert
-            Assert.Throws<DomainException>(() => new Produto(produtoId, nome, descricao, preco, categoriaId));
+            // Arrange, Act, Assert
+            Assert.Throws<DomainException>(() => new Produto(nome, descricao, preco, categoriaId));
         }
     }
 }

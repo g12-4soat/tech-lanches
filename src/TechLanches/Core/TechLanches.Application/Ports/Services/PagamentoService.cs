@@ -15,10 +15,11 @@ namespace TechLanches.Application.Ports.Services
         private readonly IPagamentoRepository _repository;
         private readonly IServiceProvider _serviceProvider;
 
-        private static string UsuarioId = AppSettings.Configuration.GetSection($"ApiMercadoPago:UserId").Value;
-        private static string PosId = AppSettings.Configuration.GetSection($"ApiMercadoPago:PosId").Value;
+        private static readonly string UsuarioId = AppSettings.Configuration.GetSection($"ApiMercadoPago:UserId").Value;
+        private static readonly string PosId = AppSettings.Configuration.GetSection($"ApiMercadoPago:PosId").Value;
 
-        public PagamentoService(IPagamentoRepository repository, IServiceProvider serviceProvider)
+        public PagamentoService(IPagamentoRepository repository,
+                                IServiceProvider serviceProvider)
         {
             _repository = repository;
             _serviceProvider = serviceProvider;
@@ -27,13 +28,13 @@ namespace TechLanches.Application.Ports.Services
         public async Task Aprovar(Pagamento pagamento)
         {
             pagamento.Aprovar();
-            await _repository.UnitOfWork.Commit();
+            await _repository.UnitOfWork.CommitAsync();
         }
 
         public async Task Reprovar(Pagamento pagamento)
         {
             pagamento.Reprovar();
-            await _repository.UnitOfWork.Commit();
+            await _repository.UnitOfWork.CommitAsync();
         }
 
         public async Task<Pagamento> BuscarPagamentoPorPedidoId(int pedidoId)
@@ -55,7 +56,7 @@ namespace TechLanches.Application.Ports.Services
 
             Pagamento pagamento = new(pedidoId, valor, formaPagamento);
             await _repository.Cadastrar(pagamento);
-            await _repository.UnitOfWork.Commit();
+            await _repository.UnitOfWork.CommitAsync();
         }
 
         public async Task<bool> RealizarPagamento(int pedidoId, StatusPagamentoEnum statusPagamento)
@@ -67,7 +68,7 @@ namespace TechLanches.Application.Ports.Services
             else
                 pagamento.Reprovar();
 
-            await _repository.UnitOfWork.Commit();
+            await _repository.UnitOfWork.CommitAsync();
 
             return pagamento.StatusPagamento == StatusPagamento.Aprovado;
         }
@@ -81,9 +82,17 @@ namespace TechLanches.Application.Ports.Services
             return resultado;
         }
 
+        public async Task<string> GerarPagamentoEQrCodeMockado(PedidoACLDTO pedidoMercadoPago)
+        {
+            var pedido = JsonSerializer.Serialize(pedidoMercadoPago);
+
+            var resultado = await GetACLService(true).GerarPagamentoEQrCode(pedido, UsuarioId, PosId);
+
+            return resultado;
+        }
+
         //exemplo de pedidoId = 13971205222
         public async Task<PagamentoResponseACLDTO> ConsultarPagamentoMercadoPago(string pedidoComercial)
-        
             => await GetACLService(false).ConsultarPagamento(pedidoComercial);
 
         public async Task<PagamentoResponseACLDTO> ConsultarPagamentoMockado(string pedidoComercial)
@@ -96,15 +105,5 @@ namespace TechLanches.Application.Ports.Services
 
             return _serviceProvider.GetService(typeof(IMercadoPagoService)) as IPagamentoACLService;
         }
-
-        public async Task<string> GerarPagamentoEQrCodeMockado(PedidoACLDTO pedidoMercadoPago)
-        {
-            var pedido = JsonSerializer.Serialize(pedidoMercadoPago);
-
-            var resultado = await GetACLService(true).GerarPagamentoEQrCode(pedido, UsuarioId, PosId);
-
-            return resultado;
-        }
-
     }
 }

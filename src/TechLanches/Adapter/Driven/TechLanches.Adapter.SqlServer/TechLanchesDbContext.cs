@@ -24,7 +24,7 @@ namespace TechLanches.Adapter.SqlServer
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(TechLanchesDbContext).Assembly);
         }
 
-        public async Task Commit()
+        public async Task CommitAsync()
         {
             await base.SaveChangesAsync();
         }
