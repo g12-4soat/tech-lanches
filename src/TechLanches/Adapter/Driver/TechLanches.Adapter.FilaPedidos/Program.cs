@@ -6,6 +6,10 @@ using TechLanches.Adapter.RabbitMq.Messaging;
 using TechLanches.Adapter.RabbitMq.Options;
 using TechLanches.Adapter.SqlServer;
 using TechLanches.Adapter.SqlServer.Repositories;
+using TechLanches.Application.Controllers;
+using TechLanches.Application.Controllers.Interfaces;
+using TechLanches.Application.Gateways;
+using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services;
 using TechLanches.Application.Ports.Services.Interfaces;
@@ -38,9 +42,12 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IFilaPedidoRepository, FilaPedidoRepository>();
         services.AddSingleton<IFilaPedidoService, FilaPedidoService>();
 
+        services.AddSingleton<IProdutoController, ProdutoController>();
+
+        services.AddSingleton<IProdutoGateway, ProdutoGateway>();
+
         services.AddSingleton<IClienteService, ClienteService>();
         services.AddSingleton<IPedidoService, PedidoService>();
-        services.AddSingleton<IProdutoService, ProdutoService>();
         services.AddSingleton<IPagamentoService, PagamentoService>();
         services.AddSingleton<ICheckoutService, CheckoutService>();
         services.AddSingleton<IQrCodeGeneratorService, QrCodeGeneratorService>();
