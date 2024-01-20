@@ -12,3 +12,5 @@ kubectl apply -f hpas/techlanches-worker-hpa.yaml
 kubectl apply -f ./deployments/techlanches-sql-deployment.yaml
 kubectl apply -f ./deployments/techlanches-api-deployment.yaml
 kubectl apply -f ./deployments/techlanches-worker-deployment.yaml
+kubectl apply -f ./deployments/techlanches-rabbitmq-deployment.yaml
+kubectl apply -f ./deployments/techlanches-ngrok-deployment.yaml

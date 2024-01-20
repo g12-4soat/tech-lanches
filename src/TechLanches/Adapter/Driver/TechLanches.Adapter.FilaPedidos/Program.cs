@@ -1,6 +1,9 @@
+using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 using TechLanches.Adapter.FilaPedidos;
 using TechLanches.Adapter.FilaPedidos.Health;
 using TechLanches.Adapter.FilaPedidos.Options;
+using TechLanches.Adapter.RabbitMq.Messaging;
+using TechLanches.Adapter.RabbitMq.Options;
 using TechLanches.Adapter.SqlServer;
 using TechLanches.Adapter.SqlServer.Repositories;
 using TechLanches.Application.Ports.Repositories;
@@ -20,6 +23,7 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
 
         services.AddDatabaseConfiguration(settingsConfig, ServiceLifetime.Singleton);
         services.Configure<WorkerOptions>(settingsConfig.GetSection("Worker"));
+        services.Configure<RabbitOptions>(settingsConfig.GetSection("RabbitMQ"));
 
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoCriadoValidacao>();
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoCanceladoValidacao>();
@@ -32,13 +36,27 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
 
         services.AddSingleton<IPedidoRepository, PedidoRepository>();
         services.AddSingleton<IFilaPedidoRepository, FilaPedidoRepository>();
-
         services.AddSingleton<IFilaPedidoService, FilaPedidoService>();
-        services.AddSingleton<IStatusPedidoValidacaoService, StatusPedidoValidacaoService>();
 
+        services.AddSingleton<IClienteService, ClienteService>();
+        services.AddSingleton<IPedidoService, PedidoService>();
+        services.AddSingleton<IProdutoService, ProdutoService>();
+        services.AddSingleton<IPagamentoService, PagamentoService>();
+        services.AddSingleton<ICheckoutService, CheckoutService>();
+        services.AddSingleton<IQrCodeGeneratorService, QrCodeGeneratorService>();
+        services.AddSingleton<IPagamentoACLService, MercadoPagoMockadoService>();
+        services.AddSingleton<IPagamentoACLService, MercadoPagoService>();
+        services.AddSingleton<IStatusPedidoValidacaoService, StatusPedidoValidacaoService>();
+        services.AddSingleton<IClienteRepository, ClienteRepository>();
+        services.AddSingleton<IProdutoRepository, ProdutoRepository>();
+        services.AddSingleton<IPagamentoRepository, PagamentoRepository>();
+        services.AddSingleton<IRabbitMqService, RabbitMqService>();
         services.AddHostedService<FilaPedidosHostedService>();
 
-        services.AddHealthChecks().AddCheck<DbHealthCheck>("db_hc");
+        services.AddHealthChecks()
+        .AddCheck<DbHealthCheck>("db_hc")
+        .AddCheck<RabbitMQHealthCheck>("rabbit_hc");
+
         services.AddHostedService<TcpHealthProbeService>();
     });
 

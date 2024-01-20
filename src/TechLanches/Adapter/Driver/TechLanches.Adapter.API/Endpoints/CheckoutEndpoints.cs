@@ -4,7 +4,6 @@ using TechLanches.Adapter.API.Constantes;
 using Swashbuckle.AspNetCore.Annotations;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services.Interfaces;
-using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 
 namespace TechLanches.Adapter.API.Endpoints
 {
@@ -24,7 +23,6 @@ namespace TechLanches.Adapter.API.Endpoints
         public static async Task<IResult> Checkout(
             int pedidoId,
             [FromServices] ICheckoutService checkoutService, 
-                           IPagamentoACLService pagamentoQrCodeACLService, 
                            IPedidoService pedidoService)
         {
 

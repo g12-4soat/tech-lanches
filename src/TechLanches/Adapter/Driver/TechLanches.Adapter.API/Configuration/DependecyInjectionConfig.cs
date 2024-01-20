@@ -1,4 +1,5 @@
 ﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
+using TechLanches.Adapter.RabbitMq.Messaging;
 using TechLanches.Adapter.SqlServer.Repositories;
 using TechLanches.Application.Controllers;
 using TechLanches.Application.Controllers.Interfaces;
@@ -44,6 +45,7 @@ namespace TechLanches.Adapter.API.Configuration
             services.AddScoped<IPedidoRepository, PedidoRepository>();
             services.AddScoped<IProdutoRepository, ProdutoRepository>();
             services.AddScoped<IPagamentoRepository, PagamentoRepository>();
+            services.AddScoped<IRabbitMqService, RabbitMqService>();            
         }
     }
 }

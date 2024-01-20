@@ -1,4 +1,5 @@
-﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
+﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.Constantes;
+using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
 
 namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
 {
@@ -24,7 +25,7 @@ namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
         private string ObterStatusPagamentoSimulado()
         {
             Random random = new Random();
-            string[] statuses = { "approved", "repproved" };
+            string[] statuses = { MercadoPagoConstantes.STATUS_APROVADO, MercadoPagoConstantes.STATUS_REPROVADO };
             return statuses[random.Next(statuses.Length)];
         }
 
@@ -32,8 +33,8 @@ namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
         {
             return statusStr.ToLower() switch
             {
-                "approved" => StatusPagamentoEnum.Aprovado,
-                "repproved" => StatusPagamentoEnum.Reprovado,
+                MercadoPagoConstantes.STATUS_APROVADO => StatusPagamentoEnum.Aprovado,
+                MercadoPagoConstantes.STATUS_REPROVADO => StatusPagamentoEnum.Reprovado,
                 _ => throw new ArgumentException("String de status pagamento inválida"),
             };
         }
