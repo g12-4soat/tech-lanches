@@ -60,12 +60,13 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
 
         services.AddSingleton<IProdutoPresenter, ProdutoPresenter>();
 
-        services.AddSingleton<IProdutoController, ProdutoController>();
+        services.AddScoped<IPedidoController, PedidoController>();
 
-        services.AddSingleton<IProdutoGateway, ProdutoGateway>();
+        services.AddScoped<IPedidoGateway, PedidoGateway>();
+
+        services.AddScoped<IPedidoPresenter, PedidoPresenter>();
 
         services.AddSingleton<IClienteService, ClienteService>();
-        services.AddSingleton<IPedidoService, PedidoService>();
         services.AddSingleton<IPagamentoService, PagamentoService>();
         services.AddSingleton<ICheckoutService, CheckoutService>();
         services.AddSingleton<IQrCodeGeneratorService, QrCodeGeneratorService>();

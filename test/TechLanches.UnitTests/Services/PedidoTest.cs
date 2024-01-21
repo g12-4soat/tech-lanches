@@ -1,5 +1,8 @@
 ﻿using NSubstitute;
 using TechLanches.Adapter.RabbitMq.Messaging;
+using TechLanches.Application.Controllers;
+using TechLanches.Application.Gateways;
+using TechLanches.Application.Presenters;
 using TechLanches.UnitTests.Fixtures;
 
 namespace TechLanches.UnitTests.Services
@@ -23,10 +26,10 @@ namespace TechLanches.UnitTests.Services
             var rabbitMqService = Substitute.For<IRabbitMqService>();
 
             pedidoRepository.BuscarTodos().Returns(_pedidoFixture.GerarPedidosValidos());
-            var pedidoService = new PedidoService(pedidoRepository, clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
+            var pedidoController = new PedidoController(new PedidoGateway(pedidoRepository), new PedidoPresenter(), clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
 
             //Act 
-            var pedidos = await pedidoService.BuscarTodos();
+            var pedidos = await pedidoController.BuscarTodos();
 
             //Assert
             await pedidoRepository.Received().BuscarTodos();
@@ -43,10 +46,10 @@ namespace TechLanches.UnitTests.Services
             var rabbitMqService = Substitute.For<IRabbitMqService>();
 
             pedidoRepository.BuscarPorId(1).Returns(_pedidoFixture.GerarPedidoValido());
-            var pedidoService = new PedidoService(pedidoRepository, clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
+            var pedidoController = new PedidoController(new PedidoGateway(pedidoRepository), new PedidoPresenter(), clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
 
             //Act 
-            var pedido = await pedidoService.BuscarPorId(1);
+            var pedido = await pedidoController.BuscarPorId(1);
 
             //Assert
             await pedidoRepository.Received().BuscarPorId(1);
@@ -63,10 +66,10 @@ namespace TechLanches.UnitTests.Services
             var rabbitMqService = Substitute.For<IRabbitMqService>();
 
             pedidoRepository.BuscarPorStatus(StatusPedido.PedidoEmPreparacao).Returns(_pedidoFixture.GerarPedidosValidos());
-            var pedidoService = new PedidoService(pedidoRepository, clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
+            var pedidoController = new PedidoController(new PedidoGateway(pedidoRepository), new PedidoPresenter(), clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
 
             //Act 
-            var pedidos = await pedidoService.BuscarPorStatus(StatusPedido.PedidoEmPreparacao);
+            var pedidos = await pedidoController.BuscarPorStatus(StatusPedido.PedidoEmPreparacao);
 
             //Assert
             await pedidoRepository.Received().BuscarPorStatus(StatusPedido.PedidoEmPreparacao);
@@ -85,10 +88,10 @@ namespace TechLanches.UnitTests.Services
             var pedidoEditar = _pedidoFixture.GerarPedidoSemClienteValido();
 
             pedidoRepository.BuscarPorId(PEDIDO_ID).Returns(pedidoEditar);
-            var pedidoService = new PedidoService(pedidoRepository, clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
+            var pedidoController = new PedidoController(new PedidoGateway(pedidoRepository), new PedidoPresenter(), clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
 
             //Act 
-            var pedido = await pedidoService.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoRecebido);
+            var pedido = await pedidoController.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoRecebido);
 
             //Assert
             await pedidoRepository.Received().BuscarPorId(PEDIDO_ID);
@@ -105,10 +108,10 @@ namespace TechLanches.UnitTests.Services
             var clienteService = Substitute.For<IClienteService>();
             var rabbitMqService = Substitute.For<IRabbitMqService>();
 
-            var pedidoService = new PedidoService(pedidoRepository, clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
+            var pedidoController = new PedidoController(new PedidoGateway(pedidoRepository), new PedidoPresenter(), clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
 
             //Act 
-            var exception = await Assert.ThrowsAsync<DomainException>(async () => await pedidoService.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoEmPreparacao));
+            var exception = await Assert.ThrowsAsync<DomainException>(async () => await pedidoController.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoEmPreparacao));
 
             //Assert
             Assert.NotNull(exception);
@@ -126,10 +129,10 @@ namespace TechLanches.UnitTests.Services
             var pedidoEditar = _pedidoFixture.GerarPedidoSemClienteValido();
 
             pedidoRepository.BuscarPorId(PEDIDO_ID).Returns(pedidoEditar);
-            var pedidoService = new PedidoService(pedidoRepository, clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
+            var pedidoController = new PedidoController(new PedidoGateway(pedidoRepository), new PedidoPresenter(), clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
 
             //Act 
-            var exception = await Assert.ThrowsAsync<DomainException>(async () => await pedidoService.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoFinalizado));
+            var exception = await Assert.ThrowsAsync<DomainException>(async () => await pedidoController.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoFinalizado));
 
             //Assert
             Assert.NotNull(exception);
@@ -147,14 +150,15 @@ namespace TechLanches.UnitTests.Services
             var clienteService = Substitute.For<IClienteService>();
             var rabbitMqService = Substitute.For<IRabbitMqService>();
             clienteService.BuscarPorCpf(CPF).Returns(new Cliente("Joao", "joao@gmail.com", CPF));
-            var pedidoService = new PedidoService(pedidoRepository, clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
+            var pedidoController = new PedidoController(new PedidoGateway(pedidoRepository), new PedidoPresenter(), clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
 
             pedidoRepository.Cadastrar(pedidoReturn).Returns(pedidoReturn);
+
             //Act 
-            var pedido = await pedidoService.Cadastrar(CPF, itensPedidos);
+            var pedido = await pedidoController.Cadastrar(CPF, itensPedidos);
 
             //Assert
-            await pedidoRepository.Received().Cadastrar(pedido);
+            await pedidoRepository.Received().Cadastrar(pedidoReturn);
             Assert.NotNull(pedido);
             Assert.Equal(1, pedido.ClienteId);
         }
@@ -169,11 +173,12 @@ namespace TechLanches.UnitTests.Services
             var rabbitMqService = Substitute.For<IRabbitMqService>();
             pedidoRepository.UnitOfWork.Returns(unitOfWork);
 
-            var pedidoService = new PedidoService(pedidoRepository, clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
+            var pedidoController = new PedidoController(new PedidoGateway(pedidoRepository), new PedidoPresenter(), clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
+
             var itensPedidos = _pedidoFixture.GerarItensPedidoValidos();
 
             //Act 
-            await pedidoService.Atualizar(1, 1, itensPedidos);
+            await pedidoController.Atualizar(1, 1, itensPedidos);
 
             //Assert
             pedidoRepository.Received(1).Atualizar(Arg.Any<Pedido>());
