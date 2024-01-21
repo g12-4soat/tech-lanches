@@ -81,8 +81,6 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IRabbitMqService, RabbitMqService>();
         services.AddHostedService<FilaPedidosHostedService>();
 
-        var retryPolicy = HttpPolicyExtensions.HandleTransientHttpError()
-                  .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
         services.AddHttpClient("MercadoPago", httpClient =>
         {
             httpClient.DefaultRequestHeaders.Authorization =
