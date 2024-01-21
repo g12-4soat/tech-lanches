@@ -4,6 +4,7 @@ using TechLanches.Application.DTOs;
 using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Application.Presenters.Interfaces;
+using TechLanches.Application.UseCases.Pedidos;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Entities;
@@ -60,39 +61,15 @@ namespace TechLanches.Application.Controllers
 
         public async Task<PedidoResponseDTO> Cadastrar(string? cpf, List<ItemPedido> itensPedido)
         {
-            var cliente = await IdentificarCliente(cpf);
-            var pedido = new Pedido(cliente?.Id, itensPedido);
-
-            pedido = await _pedidoGateway.Cadastrar(pedido);
-            await _pedidoGateway.CommitAsync();
+            var pedido = await PedidoUseCases.Cadastrar(cpf, itensPedido, _pedidoGateway, _clienteService);
 
             return _pedidoPresenter.ParaDto(pedido);
         }
 
-        private async Task<Cliente?> IdentificarCliente(string? cpf)
-        {
-            if (cpf is null) return null;
-
-            var clienteExistente = await _clienteService.BuscarPorCpf(cpf);
-
-            if (clienteExistente is null) throw new DomainException("Cliente não cadastrado!");
-
-            return clienteExistente;
-        }
-
         public async Task<PedidoResponseDTO> TrocarStatus(int pedidoId, StatusPedido statusPedido)
         {
-            var pedido = await _pedidoGateway.BuscarPorId(pedidoId)
-               ?? throw new DomainException("Não foi encontrado nenhum pedido com id informado.");
+            var pedido = await PedidoUseCases.TrocarStatus(pedidoId, statusPedido, _pedidoGateway, _statusPedidoValidacaoService, _rabbitmqService);
 
-            pedido.TrocarStatus(_statusPedidoValidacaoService, statusPedido);
-
-            _pedidoGateway.Atualizar(pedido);
-
-            if (statusPedido == StatusPedido.PedidoRecebido)
-                _rabbitmqService.Publicar(pedidoId);
-
-            await _pedidoGateway.CommitAsync();
             return _pedidoPresenter.ParaDto(pedido);
         }
 
