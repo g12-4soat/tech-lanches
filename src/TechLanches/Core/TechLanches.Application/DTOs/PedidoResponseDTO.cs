@@ -1,4 +1,6 @@
-﻿namespace TechLanches.Application.DTOs
+﻿using TechLanches.Domain.Enums;
+
+namespace TechLanches.Application.DTOs
 {
     /// <summary>
     /// Schema utilizado para retorno de dados do pedido.
@@ -24,10 +26,16 @@
         public string NomeCliente { get; set; }
 
         /// <summary>
+        /// Nome do Status do pedido 
+        /// </summary>
+        /// <example>PedidoCriado</example>
+        public string NomeStatusPedido { get; set; }
+
+        /// <summary>
         /// Status do pedido
         /// </summary>
         /// <example>PedidoCriado</example>
-        public string StatusPedido { get; set; }
+        public StatusPedido StatusPedido { get; set; }
 
         /// <summary>
         /// Valor total do pedido
@@ -36,5 +44,6 @@
         public decimal Valor { get; set; }
 
         public List<ItemPedidoResponseDTO> ItensPedido { get; set; }
+        public List<PagamentoResponseDTO> Pagamentos { get; set; }
     }
 }

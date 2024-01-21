@@ -5,6 +5,7 @@ using System.Net;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
 using TechLanches.Adapter.API.Constantes;
 using TechLanches.Adapter.RabbitMq.Messaging;
+using TechLanches.Application.Controllers.Interfaces;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Domain.Enums;
@@ -48,7 +49,7 @@ namespace TechLanches.Adapter.API.Endpoints
         }
 
 
-        private static async Task<IResult> BuscarPagamento(long id, TopicACL topic, [FromServices] IPagamentoService pagamentoService, [FromServices] IPedidoService pedidoService)
+        private static async Task<IResult> BuscarPagamento(long id, TopicACL topic, [FromServices] IPagamentoService pagamentoService, [FromServices] IPedidoController pedidoController)
         {
             if (topic == TopicACL.merchant_order)
             {
@@ -60,14 +61,14 @@ namespace TechLanches.Adapter.API.Endpoints
                 var pagamento = await pagamentoService.RealizarPagamento(pagamentoExistente.PedidoId, pagamentoExistente.StatusPagamento);
 
                 if (pagamento)
-                    await pedidoService.TrocarStatus(pagamentoExistente.PedidoId, StatusPedido.PedidoRecebido);
+                    await pedidoController.TrocarStatus(pagamentoExistente.PedidoId, StatusPedido.PedidoRecebido);
                 else
-                    await pedidoService.TrocarStatus(pagamentoExistente.PedidoId, StatusPedido.PedidoCancelado);
+                    await pedidoController.TrocarStatus(pagamentoExistente.PedidoId, StatusPedido.PedidoCancelado);
             }
             return Results.Ok();
         }
 
-        private static async Task<IResult> BuscarPagamentoMockado(int pedidoId, [FromServices] IPagamentoService pagamentoService, [FromServices] IPedidoService pedidoService)
+        private static async Task<IResult> BuscarPagamentoMockado(int pedidoId, [FromServices] IPagamentoService pagamentoService, [FromServices] IPedidoController pedidoController)
         {
             var pagamentoExistente = await pagamentoService.ConsultarPagamentoMockado(pedidoId.ToString());
 
@@ -75,12 +76,12 @@ namespace TechLanches.Adapter.API.Endpoints
 
             if (pagamento)
             {
-                await pedidoService.TrocarStatus(pedidoId, StatusPedido.PedidoRecebido);
+                await pedidoController.TrocarStatus(pedidoId, StatusPedido.PedidoRecebido);
                 return Results.Ok();
             }
             else
             {
-                await pedidoService.TrocarStatus(pedidoId, StatusPedido.PedidoCancelado);
+                await pedidoController.TrocarStatus(pedidoId, StatusPedido.PedidoCancelado);
                 return Results.BadRequest(new ErrorResponseDTO { MensagemErro = $"Erro ao realizar o pagamento.", StatusCode = HttpStatusCode.BadRequest });
             }
 

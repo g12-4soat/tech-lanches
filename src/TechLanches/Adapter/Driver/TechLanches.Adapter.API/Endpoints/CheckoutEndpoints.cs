@@ -4,6 +4,7 @@ using TechLanches.Adapter.API.Constantes;
 using Swashbuckle.AspNetCore.Annotations;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services.Interfaces;
+using TechLanches.Application.Controllers.Interfaces;
 
 namespace TechLanches.Adapter.API.Endpoints
 {
@@ -23,7 +24,7 @@ namespace TechLanches.Adapter.API.Endpoints
         public static async Task<IResult> Checkout(
             int pedidoId,
             [FromServices] ICheckoutService checkoutService, 
-                           IPedidoService pedidoService)
+                           IPedidoController pedidoController)
         {
 
             var checkout = await checkoutService.ValidarCheckout(pedidoId);

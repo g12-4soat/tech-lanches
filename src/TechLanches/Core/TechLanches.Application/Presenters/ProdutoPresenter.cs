@@ -5,7 +5,6 @@ using TechLanches.Domain.Aggregates;
 
 namespace TechLanches.Application.Presenters
 {
-
     public class ProdutoPresenter : IProdutoPresenter
     {
         public ProdutoResponseDTO ParaDto(Produto entidade)
