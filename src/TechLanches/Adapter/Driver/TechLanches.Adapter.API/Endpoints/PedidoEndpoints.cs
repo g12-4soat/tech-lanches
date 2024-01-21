@@ -65,9 +65,9 @@ public static class PedidoEndpoints
     }
 
     private static async Task<IResult> BuscarPedidos(
-        [FromServices] IPedidoService pedidoService)
+        [FromServices] IPedidoController pedidoController)
     {
-        var pedidos = await pedidoService.BuscarTodos();
+        var pedidos = await pedidoController.BuscarTodos();
 
         return pedidos is not null
             ? Results.Ok(pedidos.Adapt<List<PedidoResponseDTO>>())
@@ -76,9 +76,9 @@ public static class PedidoEndpoints
 
     private static async Task<IResult> BuscarPedidoPorId(
         int idPedido,
-        [FromServices] IPedidoService pedidoService)
+        [FromServices] IPedidoController pedidoController)
     {
-        var pedido = await pedidoService.BuscarPorId(idPedido);
+        var pedido = await pedidoController.BuscarPorId(idPedido);
 
         return pedido is not null
             ? Results.Ok(pedido.Adapt<PedidoResponseDTO>())
@@ -87,9 +87,9 @@ public static class PedidoEndpoints
 
     private static async Task<IResult> BuscarPedidosPorStatus(
         StatusPedido statusPedido,
-        [FromServices] IPedidoService pedidoService)
+        [FromServices] IPedidoController pedidoController)
     {
-        var pedidos = await pedidoService.BuscarPorStatus(statusPedido);
+        var pedidos = await pedidoController.BuscarPorStatus(statusPedido);
 
         return pedidos is not null
             ? Results.Ok(pedidos.Adapt<List<PedidoResponseDTO>>())
@@ -98,7 +98,7 @@ public static class PedidoEndpoints
 
     private static async Task<IResult> CadastrarPedido(
         [FromBody] PedidoRequestDTO pedidoDto,
-        [FromServices] IPedidoService pedidoService, IClienteService clienteService, IProdutoController produtoController)
+        [FromServices] IPedidoController pedidoController, IClienteService clienteService, IProdutoController produtoController)
     {
         if (!pedidoDto.ItensPedido.Any())
             return Results.BadRequest(MensagensConstantes.SEM_NENHUM_ITEM_PEDIDO);
@@ -112,7 +112,7 @@ public static class PedidoEndpoints
             itensPedido.Add(itemPedidoCompleto);
         }
 
-        var novoPedido = await pedidoService.Cadastrar(pedidoDto.Cpf, itensPedido);
+        var novoPedido = await pedidoController.Cadastrar(pedidoDto.Cpf, itensPedido);
 
         return novoPedido is not null
             ? Results.Created($"api/pedidos/{novoPedido.Id}", novoPedido.Adapt<PedidoResponseDTO>())
@@ -122,12 +122,12 @@ public static class PedidoEndpoints
     private static async Task<IResult> TrocarStatus(
         [FromRoute] int idPedido,
         [FromBody] int statusPedido,
-        [FromServices] IPedidoService pedidoService)
+        [FromServices] IPedidoController pedidoController)
     {
         if (!Enum.IsDefined(typeof(StatusPedido), statusPedido))
             return Results.BadRequest();
 
-        var pedido = await pedidoService.TrocarStatus(idPedido, (StatusPedido)statusPedido);
+        var pedido = await pedidoController.TrocarStatus(idPedido, (StatusPedido)statusPedido);
 
         return pedido is not null
             ? Results.Ok(pedido.Adapt<PedidoResponseDTO>())
