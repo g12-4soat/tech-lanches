@@ -62,12 +62,14 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IFilaPedidoService, FilaPedidoService>();
 
         services.AddSingleton<IProdutoPresenter, ProdutoPresenter>();
+        services.AddSingleton<IClientePresenter, ClientePresenter>();
 
         services.AddSingleton<IProdutoController, ProdutoController>();
+        services.AddSingleton<IClienteController, ClienteController>();
 
         services.AddSingleton<IProdutoGateway, ProdutoGateway>();
+        services.AddSingleton<IClienteGateway, ClienteGateway>();
 
-        services.AddSingleton<IClienteService, ClienteService>();
         services.AddSingleton<IPedidoService, PedidoService>();
         services.AddSingleton<IPagamentoService, PagamentoService>();
         services.AddSingleton<ICheckoutService, CheckoutService>();

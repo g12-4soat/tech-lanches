@@ -1,6 +1,8 @@
 ﻿using TechLanches.Adapter.RabbitMq.Messaging;
+using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services.Interfaces;
+using TechLanches.Application.UseCases.Clientes;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Entities;
@@ -13,20 +15,20 @@ namespace TechLanches.Application.Ports.Services
     public class PedidoService : IPedidoService
     {
         private readonly IStatusPedidoValidacaoService _statusPedidoValidacaoService;
-        private readonly IClienteService _clienteService;
+        private readonly IClienteGateway _clienteGateway;
         private readonly IPedidoRepository _pedidoRepository;
         private readonly IRabbitMqService _rabbitmqService;
 
         public PedidoService(
             IPedidoRepository pedidoRepository,
-            IClienteService clienteService,
-            IStatusPedidoValidacaoService statusPedidoValidacaoService,            
-            IRabbitMqService rabbitmqService)
+            IStatusPedidoValidacaoService statusPedidoValidacaoService,
+            IRabbitMqService rabbitmqService,
+            IClienteGateway clienteGateway)
         {
             _pedidoRepository = pedidoRepository;
-            _clienteService = clienteService;
-            _statusPedidoValidacaoService = statusPedidoValidacaoService;           
+            _statusPedidoValidacaoService = statusPedidoValidacaoService;
             _rabbitmqService = rabbitmqService;
+            _clienteGateway = clienteGateway;
         }
 
         public async Task<List<Pedido>> BuscarTodos()
@@ -40,7 +42,8 @@ namespace TechLanches.Application.Ports.Services
 
         public async Task<Pedido> Cadastrar(string? cpf, List<ItemPedido> itensPedido)
         {
-            var cliente = await IdentificarCliente(cpf);
+            //var cliente = await IdentificarCliente(cpf);
+            var cliente = await ClienteUseCases.BuscarPorCpf(cpf, _clienteGateway);
             var pedido = new Pedido(cliente?.Id, itensPedido);
 
             pedido = await _pedidoRepository.Cadastrar(pedido);
@@ -49,16 +52,16 @@ namespace TechLanches.Application.Ports.Services
             return pedido;
         }
 
-        private async Task<Cliente?> IdentificarCliente(string? cpf)
-        {
-            if (cpf is null) return null;
+        //private async Task<Cliente?> IdentificarCliente(string? cpf)
+        //{
+        //    if (cpf is null) return null;
 
-            var clienteExistente = await _clienteService.BuscarPorCpf(cpf);
+        //    var clienteExistente = await _clienteService.BuscarPorCpf(cpf);
 
-            if (clienteExistente is null) throw new DomainException("Cliente não cadastrado!");
+        //    if (clienteExistente is null) throw new DomainException("Cliente não cadastrado!");
 
-            return clienteExistente;
-        }
+        //    return clienteExistente;
+        //}
 
         public async Task<Pedido> TrocarStatus(int pedidoId, StatusPedido statusPedido)
         {
