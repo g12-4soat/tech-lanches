@@ -44,7 +44,7 @@ namespace TechLanches.Application.Ports.Services
             var pedido = new Pedido(cliente?.Id, itensPedido);
 
             pedido = await _pedidoRepository.Cadastrar(pedido);
-            await _pedidoRepository.UnitOfWork.Commit();
+            await _pedidoRepository.UnitOfWork.CommitAsync();
 
             return pedido;
         }
@@ -67,12 +67,12 @@ namespace TechLanches.Application.Ports.Services
 
             pedido.TrocarStatus(_statusPedidoValidacaoService, statusPedido);
 
-            _pedidoRepository.Atualizar(pedido);
-            await _pedidoRepository.UnitOfWork.Commit();
+            _pedidoRepository.Atualizar(pedido);            
 
             if (statusPedido == StatusPedido.PedidoRecebido)
                 _rabbitmqService.Publicar(pedidoId);
 
+            await _pedidoRepository.UnitOfWork.CommitAsync();
             return pedido;
         }
 
@@ -81,7 +81,7 @@ namespace TechLanches.Application.Ports.Services
             var pedido = new Pedido(pedidoId, clienteId, itensPedido);
 
             _pedidoRepository.Atualizar(pedido);
-            await _pedidoRepository.UnitOfWork.Commit();
+            await _pedidoRepository.UnitOfWork.CommitAsync();
         }
     }
 }

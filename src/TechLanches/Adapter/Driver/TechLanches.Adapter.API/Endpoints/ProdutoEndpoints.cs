@@ -4,8 +4,8 @@ using System.Net;
 using TechLanches.Adapter.API.Constantes;
 using Swashbuckle.AspNetCore.Annotations;
 using TechLanches.Application.DTOs;
-using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Domain.ValueObjects;
+using TechLanches.Application.Controllers.Interfaces;
 
 namespace TechLanches.Adapter.API.Endpoints
 {
@@ -72,21 +72,30 @@ namespace TechLanches.Adapter.API.Endpoints
 
         private static async Task<IResult> CadastrarProduto(
             [FromBody] ProdutoRequestDTO produtoRequest,
-            [FromServices] IProdutoService produtoService)
+            [FromServices] IProdutoController produtoController)
         {
-            var produto = await produtoService.Cadastrar(produtoRequest.Nome, produtoRequest.Descricao, produtoRequest.Preco, produtoRequest.CategoriaId);
+            var produto = await produtoController.Cadastrar(
+                produtoRequest.Nome,
+                produtoRequest.Descricao,
+                produtoRequest.Preco,
+                produtoRequest.CategoriaId);
 
             return produto is not null
-                ? Results.Created($"api/produtos/{produto.Id}", produto.Adapt<ProdutoResponseDTO>())
+                ? Results.Created($"api/produtos/{produto.Id}", produto)
                 : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao cadastrar produto.", StatusCode = HttpStatusCode.BadRequest });
         }
 
         private static async Task<IResult> AtualizarProduto(
            int id,
            [FromBody] ProdutoRequestDTO produtoRequest,
-           [FromServices] IProdutoService produtoService)
+           [FromServices] IProdutoController produtoController)
         {
-            await produtoService.Atualizar(id, produtoRequest.Nome, produtoRequest.Descricao, produtoRequest.Preco, produtoRequest.CategoriaId);
+            await produtoController.Atualizar(
+                id,
+                produtoRequest.Nome,
+                produtoRequest.Descricao,
+                produtoRequest.Preco,
+                produtoRequest.CategoriaId);
 
             return produtoRequest is not null
                 ? Results.Ok(produtoRequest.Adapt<ProdutoResponseDTO>())
@@ -95,23 +104,24 @@ namespace TechLanches.Adapter.API.Endpoints
 
         private static async Task<IResult> DeletarProduto(
           [FromRoute] int id,
-          [FromServices] IProdutoService produtoService)
+          [FromServices] IProdutoController produtoController)
         {
-            var produto = await produtoService.BuscarPorId(id);
-            if (produto is null)
-                return Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum produto encontrado para o id: {id}", StatusCode = HttpStatusCode.BadRequest });
+            var produto = await produtoController.BuscarPorId(id);
 
-            await produtoService.Deletar(produto);
+            if (produto is null)
+                return Results.NotFound(RetornarErroDtoNotFound());
+
+            await produtoController.Deletar(id);
             return Results.Ok();
         }
 
         private static async Task<IResult> BuscarTodosProdutos(
-           [FromServices] IProdutoService produtoService)
+           [FromServices] IProdutoController produtoController)
         {
-            var produtos = await produtoService.BuscarTodos();
+            var produtos = await produtoController.BuscarTodos();
 
             if (produtos is null)
-                return Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum produto encontrado", StatusCode = HttpStatusCode.BadRequest });
+                return Results.NotFound(RetornarErroDtoNotFound());
 
 
             return Results.Ok(produtos.Adapt<List<ProdutoResponseDTO>>());
@@ -119,27 +129,24 @@ namespace TechLanches.Adapter.API.Endpoints
 
         private static async Task<IResult> BuscarProdutoPorId(
            [FromRoute] int id,
-           [FromServices] IProdutoService produtoService)
+           [FromServices] IProdutoController produtoController)
         {
-            var produto = await produtoService.BuscarPorId(id);
-            if (produto is null)
-                return Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum produto encontrado para o id: {id}", StatusCode = HttpStatusCode.BadRequest });
+            var produto = await produtoController.BuscarPorId(id);
 
             return produto is not null
-                ? Results.Ok(produto.Adapt<ProdutoResponseDTO>())
-                : Results.NotFound(id);
+                ? Results.Ok(produto)
+                : Results.NotFound(RetornarErroDtoNotFound());
         }
 
         private static async Task<IResult> BuscarProdutosPorCategoria(
            [FromRoute] int categoriaId,
-           [FromServices] IProdutoService produtoService)
+           [FromServices] IProdutoController produtoController)
         {
-            var produtos = await produtoService.BuscarPorCategoria(categoriaId);
+            var produtos = await produtoController.BuscarPorCategoria(categoriaId);
 
-            return produtos is not null
+            return produtos is not null || produtos!.Count > 0
                 ? Results.Ok(produtos.Adapt<List<ProdutoResponseDTO>>())
-                : Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Nenhum produto encontrado para a categoria id: {categoriaId}", StatusCode = HttpStatusCode.BadRequest });
-
+                : Results.NotFound(RetornarErroDtoNotFound());
         }
 
         private static async Task<IResult> BuscarCategorias()
@@ -151,6 +158,11 @@ namespace TechLanches.Adapter.API.Endpoints
             return categorias is not null
                 ? Results.Ok(await Task.FromResult(categorias))
                 : Results.NotFound(new ErrorResponseDTO { MensagemErro = "Nenhuma categoria encontrada.", StatusCode = HttpStatusCode.BadRequest });
+        }
+
+        private static ErrorResponseDTO RetornarErroDtoNotFound()
+        {
+            return new ErrorResponseDTO { MensagemErro = $"Nenhum produto encontrado", StatusCode = HttpStatusCode.NotFound };
         }
     }
 }
