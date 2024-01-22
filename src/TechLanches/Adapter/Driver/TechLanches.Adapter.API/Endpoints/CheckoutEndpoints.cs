@@ -26,19 +26,16 @@ namespace TechLanches.Adapter.API.Endpoints
         //{
         //    var checkout = await checkoutController.ValidarCheckout(pedidoId);
 
-        //    string qrdCodeData = string.Empty;
+        //    var qrdCodeData = new CheckoutResponseDTO();
 
         //    if (checkout is true)
         //        qrdCodeData = await checkoutController.CriarPagamentoCheckout(pedidoId);
 
-        //    return checkout is true
-        //            ? Results.Ok(new CheckoutResponseDTO()
-        //            {
-        //                PedidoId = pedidoId,
-        //                QRCodeData = qrdCodeData,
-        //                URLData = $"https://api.qrserver.com/v1/create-qr-code/?size=1500x1500&data={qrdCodeData.Replace(" ", "%20")}"
-        //            })
-        //            : Results.BadRequest(new ErrorResponseDTO { MensagemErro = $"Falha ao realizar checkout.", StatusCode = HttpStatusCode.BadRequest });
-        //}                                
+        //    return checkout is false ?
+        //           Results.BadRequest(new ErrorResponseDTO { MensagemErro = $"Falha ao realizar checkout.", StatusCode = HttpStatusCode.BadRequest }) :
+        //           qrdCodeData.QRCodeImage.Length > 0 ?
+        //           Results.File(qrdCodeData.QRCodeImage, "image/png") :
+        //           Results.Ok(qrdCodeData);
+        //}
     }
 }
