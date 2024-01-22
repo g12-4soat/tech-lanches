@@ -162,27 +162,5 @@ namespace TechLanches.UnitTests.Services
             Assert.NotNull(pedido);
             Assert.Equal(1, pedido.ClienteId);
         }
-
-        [Fact(DisplayName = "Deve atualizar pedido com sucesso")]
-        public async Task AtualizarPedido_DeveRetornarSucesso()
-        {
-            //Arrange    
-            var pedidoRepository = Substitute.For<IPedidoRepository>();
-            var clienteService = Substitute.For<IClienteService>();
-            var unitOfWork = Substitute.For<IUnitOfWork>();
-            var rabbitMqService = Substitute.For<IRabbitMqService>();
-            pedidoRepository.UnitOfWork.Returns(unitOfWork);
-
-            var pedidoController = new PedidoController(new PedidoGateway(pedidoRepository), new PedidoPresenter(), clienteService, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
-
-            var itensPedidos = _pedidoFixture.GerarItensPedidoValidos();
-
-            //Act 
-            await pedidoController.Atualizar(1, 1, itensPedidos);
-
-            //Assert
-            pedidoRepository.Received(1).Atualizar(Arg.Any<Pedido>());
-            await unitOfWork.Received(1).CommitAsync();
-        }
     }
 }

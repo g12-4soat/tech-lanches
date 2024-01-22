@@ -72,13 +72,5 @@ namespace TechLanches.Application.Controllers
 
             return _pedidoPresenter.ParaDto(pedido);
         }
-
-        public async Task Atualizar(int pedidoId, int clienteId, List<ItemPedido> itensPedido)
-        {
-            var pedido = new Pedido(pedidoId, clienteId, itensPedido);
-
-            _pedidoGateway.Atualizar(pedido);
-            await _pedidoGateway.CommitAsync();
-        }
     }
 }
