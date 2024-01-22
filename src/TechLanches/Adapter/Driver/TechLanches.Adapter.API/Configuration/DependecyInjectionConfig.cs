@@ -34,17 +34,24 @@ namespace TechLanches.Adapter.API.Configuration
             services.AddSingleton<IPedidoPresenter, PedidoPresenter>();
             services.AddSingleton<IPagamentoPresenter, PagamentoPresenter>();
             services.AddSingleton<ICheckoutPresenter, CheckoutPresenter>();
+            services.AddSingleton<IClientePresenter, ClientePresenter>();
 
             services.AddScoped<IProdutoController, ProdutoController>();
             services.AddScoped<IPedidoController, PedidoController>();
             services.AddScoped<IPagamentoController, PagamentoController>();
             services.AddScoped<ICheckoutController, CheckoutController>();
             
+            services.AddScoped<IClienteController, ClienteController>();
+
             services.AddScoped<IProdutoGateway, ProdutoGateway>();
             services.AddScoped<IPedidoGateway, PedidoGateway>();
             services.AddScoped<IPagamentoGateway, PagamentoGateway>();
+            services.AddScoped<IClienteGateway, ClienteGateway>();
 
             services.AddScoped<IClienteService, ClienteService>();
+            services.AddScoped<IPedidoService, PedidoService>();
+            services.AddScoped<IPagamentoService, PagamentoService>();
+            services.AddScoped<ICheckoutService, CheckoutService>();
             services.AddScoped<IQrCodeGeneratorService, QrCodeGeneratorService>();
             services.AddScoped<IMercadoPagoMockadoService, MercadoPagoMockadoService>();
             services.AddScoped<IMercadoPagoService, MercadoPagoService>();
