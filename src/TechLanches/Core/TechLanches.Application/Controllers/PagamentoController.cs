@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +13,7 @@ using TechLanches.Application.Controllers.Interfaces;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Gateways;
 using TechLanches.Application.Gateways.Interfaces;
+using TechLanches.Application.Options;
 using TechLanches.Application.Presenters.Interfaces;
 using TechLanches.Application.UseCases.Pagamentos;
 using TechLanches.Core;
@@ -25,15 +27,14 @@ namespace TechLanches.Application.Controllers
         private readonly IPagamentoGateway _pagamentoGateway;
         private readonly IPagamentoPresenter _pagamentoPresenter;
         private readonly IServiceProvider _serviceProvider;
+        private readonly ApplicationOptions _applicationOptions;
 
-        private static readonly string UsuarioId = AppSettings.Configuration.GetSection($"ApiMercadoPago:UserId").Value;
-        private static readonly string PosId = AppSettings.Configuration.GetSection($"ApiMercadoPago:PosId").Value;
-
-        public PagamentoController(IPagamentoGateway pagamentoGateway, IPagamentoPresenter pagamentoPresenter, IServiceProvider serviceProvider)
+        public PagamentoController(IPagamentoGateway pagamentoGateway, IPagamentoPresenter pagamentoPresenter, IServiceProvider serviceProvider, IOptions<ApplicationOptions> applicationOptions)
         {
             _pagamentoGateway = pagamentoGateway;
             _pagamentoPresenter = pagamentoPresenter;
             _serviceProvider = serviceProvider;
+            _applicationOptions = applicationOptions.Value;
         }
 
         public async Task<PagamentoResponseDTO> BuscarPagamentoPorPedidoId(int pedidoId)
@@ -59,7 +60,7 @@ namespace TechLanches.Application.Controllers
         {
             var pedido = JsonSerializer.Serialize(pedidoMercadoPago);
 
-            var resultado = await GetACLService(false).GerarPagamentoEQrCode(pedido, UsuarioId, PosId);
+            var resultado = await GetACLService(false).GerarPagamentoEQrCode(pedido, _applicationOptions.UserId, _applicationOptions.PosId);
 
             return resultado;
         }
@@ -68,7 +69,7 @@ namespace TechLanches.Application.Controllers
         {
             var pedido = JsonSerializer.Serialize(pedidoMercadoPago);
 
-            var resultado = await GetACLService(true).GerarPagamentoEQrCode(pedido, UsuarioId, PosId);
+            var resultado = await GetACLService(true).GerarPagamentoEQrCode(pedido, _applicationOptions.UserId, _applicationOptions.PosId);
 
             return resultado;
         }

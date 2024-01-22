@@ -5,6 +5,7 @@ using TechLanches.Adapter.API.Configuration;
 using TechLanches.Adapter.RabbitMq.Options;
 using TechLanches.Adapter.SqlServer;
 using TechLanches.Application;
+using TechLanches.Application.Options;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -31,6 +32,7 @@ builder.Services.AddDatabaseConfiguration(builder.Configuration);
 builder.Services.RegisterMaps();
 
 builder.Services.Configure<RabbitOptions>(builder.Configuration.GetSection("RabbitMQ"));
+builder.Services.Configure<ApplicationOptions>(builder.Configuration.GetSection("ApiMercadoPago"));
 
 //Setting healthcheck
 builder.Services.AddHealthCheckConfig(builder.Configuration);
