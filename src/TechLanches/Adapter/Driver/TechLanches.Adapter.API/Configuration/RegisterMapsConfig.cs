@@ -38,7 +38,7 @@ namespace TechLanches.Adapter.API.Configuration
                 .Map(dest => dest.Email, src => src.Email.EnderecoEmail)
                 .Map(dest => dest.CPF, src => src.CPF.Numero);
 
-            TypeAdapterConfig<Pagamento, PagamentoStatusResponseDTO>.NewConfig()
+            TypeAdapterConfig<Pagamento, PagamentoResponseDTO>.NewConfig()
                 .Map(dest => dest.Id, src => src.PedidoId)
                 .Map(dest => dest.StatusPagamento, src => src.StatusPagamento.ToString());
 
