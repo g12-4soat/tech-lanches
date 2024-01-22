@@ -31,29 +31,20 @@ namespace TechLanches.Adapter.API.Configuration
             services.AddScoped<IStatusPedidoValidacao, StatusPedidoRetiradoValidacao>();
 
             services.AddSingleton<IProdutoPresenter, ProdutoPresenter>();
-            services.AddScoped<IPedidoPresenter, PedidoPresenter>();
+            services.AddSingleton<IPedidoPresenter, PedidoPresenter>();
             services.AddSingleton<IPagamentoPresenter, PagamentoPresenter>();
             services.AddSingleton<ICheckoutPresenter, CheckoutPresenter>();
 
             services.AddScoped<IProdutoController, ProdutoController>();
+            services.AddScoped<IPedidoController, PedidoController>();
             services.AddScoped<IPagamentoController, PagamentoController>();
             services.AddScoped<ICheckoutController, CheckoutController>();
-            services.AddScoped<IPedidoController, PedidoController>();
-
+            
             services.AddScoped<IProdutoGateway, ProdutoGateway>();
             services.AddScoped<IPedidoGateway, PedidoGateway>();
             services.AddScoped<IPagamentoGateway, PagamentoGateway>();
 
             services.AddScoped<IClienteService, ClienteService>();
-            services.AddScoped<IPedidoService, PedidoService>();
-            services.AddScoped<IPagamentoService, PagamentoService>();
-            services.AddScoped<ICheckoutService, CheckoutService>();
-            services.AddScoped<ICheckoutService, CheckoutService>();
-            services.AddScoped<ICheckoutService, CheckoutService>();
-            services.AddScoped<ICheckoutService, CheckoutService>();
-            services.AddScoped<ICheckoutService, CheckoutService>();
-            services.AddScoped<ICheckoutService, CheckoutService>();
-            services.AddScoped<ICheckoutService, CheckoutService>();
             services.AddScoped<IQrCodeGeneratorService, QrCodeGeneratorService>();
             services.AddScoped<IMercadoPagoMockadoService, MercadoPagoMockadoService>();
             services.AddScoped<IMercadoPagoService, MercadoPagoService>();
