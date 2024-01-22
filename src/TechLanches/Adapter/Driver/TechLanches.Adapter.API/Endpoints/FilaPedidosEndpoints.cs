@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using System.Net;
 using TechLanches.Adapter.API.Constantes;
+using TechLanches.Application.Controllers.Interfaces;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Domain.Enums;
@@ -23,11 +24,11 @@ namespace TechLanches.Adapter.API.Endpoints
         }
 
         private static async Task<IResult> RetornarFilaPedidos(
-            [FromServices] IPedidoService pedidoService)
+            [FromServices] IPedidoController pedidoController)
         {
-            var pedidos = await pedidoService.BuscarPorStatus(StatusPedido.PedidoEmPreparacao);
+            var pedidos = await pedidoController.BuscarPorStatus(StatusPedido.PedidoEmPreparacao);
             return pedidos is not null
-                ? Results.Ok(pedidos.Adapt<List<PedidoResponseDTO>>())
+                ? Results.Ok(pedidos)
                 : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Erro ao retornar fila pedido.", StatusCode = HttpStatusCode.BadRequest });
             ;
         }

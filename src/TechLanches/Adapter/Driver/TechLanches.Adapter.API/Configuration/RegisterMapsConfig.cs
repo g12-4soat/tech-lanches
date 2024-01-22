@@ -21,7 +21,7 @@ namespace TechLanches.Adapter.API.Configuration
 #pragma warning disable CS8604 // Possible null reference argument.
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             TypeAdapterConfig<Pedido, PedidoResponseDTO>.NewConfig()
-                .Map(dest => dest.StatusPedido, src => src.StatusPedido.ToString())
+                .Map(dest => dest.NomeStatusPedido, src => src.StatusPedido.ToString())
                 .Map(dest => dest.NomeCliente, src => src.Cliente == null ? MensagensConstantes.CLIENTE_NAO_IDENTIFICADO : src.Cliente.Nome);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 #pragma warning restore CS8604 // Possible null reference argument.
@@ -32,7 +32,7 @@ namespace TechLanches.Adapter.API.Configuration
                .Map(dest => dest.NomeProduto, src => src.Produto.Nome);
 
             TypeAdapterConfig<ItemPedido, ItemPedidoResponseDTO>.NewConfig()
-                .Map(dest => dest.NomeProduto, src => src.Produto.Nome);
+                .Map(dest => dest.Produto.Nome, src => src.Produto.Nome);
 
             TypeAdapterConfig<Cliente, ClienteResponseDTO>.NewConfig()
                 .Map(dest => dest.Email, src => src.Email.EnderecoEmail)

@@ -52,9 +52,11 @@ namespace TechLanches.Adapter.SqlServer
         {
             if (!context.Pedidos.Any())
             {
+                var produto1 = context.Produtos.Find(1);
+                var produto2 = context.Produtos.Find(2);
                 var pedidos = new List<Pedido>
                 {
-                    new (1, new List<ItemPedido> { new (1, 1, 1), new (2, 2, 2) })
+                    new (1, new List<ItemPedido> { new (produto1!.Id, 1, produto1.Preco), new (produto2!.Id, 2, produto2.Preco) })
                 };
 
                 context.AddRange(pedidos);
