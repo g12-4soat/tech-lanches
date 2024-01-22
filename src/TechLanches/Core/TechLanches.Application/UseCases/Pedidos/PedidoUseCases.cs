@@ -1,6 +1,4 @@
 ﻿using TechLanches.Adapter.RabbitMq.Messaging;
-using TechLanches.Application.DTOs;
-using TechLanches.Application.Gateways;
 using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Core;
@@ -20,7 +18,6 @@ namespace TechLanches.Application.UseCases.Pedidos
             var pedido = new Pedido(cliente?.Id, itensPedido);
 
             pedido = await pedidoGateway.Cadastrar(pedido);
-            await pedidoGateway.CommitAsync();
             return pedido;
         }
 
@@ -50,7 +47,6 @@ namespace TechLanches.Application.UseCases.Pedidos
             if (statusPedido == StatusPedido.PedidoRecebido)
                 rabbitMqService.Publicar(pedidoId);
 
-            await pedidoGateway.CommitAsync();
             return pedido;
         }
     }

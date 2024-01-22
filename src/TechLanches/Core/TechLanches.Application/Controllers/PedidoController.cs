@@ -1,6 +1,7 @@
 ﻿using TechLanches.Adapter.RabbitMq.Messaging;
 using TechLanches.Application.Controllers.Interfaces;
 using TechLanches.Application.DTOs;
+using TechLanches.Application.Gateways;
 using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Application.Ports.Services.Interfaces;
 using TechLanches.Application.Presenters.Interfaces;
@@ -62,6 +63,7 @@ namespace TechLanches.Application.Controllers
         public async Task<PedidoResponseDTO> Cadastrar(string? cpf, List<ItemPedido> itensPedido)
         {
             var pedido = await PedidoUseCases.Cadastrar(cpf, itensPedido, _pedidoGateway, _clienteService);
+            await _pedidoGateway.CommitAsync();
 
             return _pedidoPresenter.ParaDto(pedido);
         }
@@ -69,6 +71,7 @@ namespace TechLanches.Application.Controllers
         public async Task<PedidoResponseDTO> TrocarStatus(int pedidoId, StatusPedido statusPedido)
         {
             var pedido = await PedidoUseCases.TrocarStatus(pedidoId, statusPedido, _pedidoGateway, _statusPedidoValidacaoService, _rabbitmqService);
+            await _pedidoGateway.CommitAsync();
 
             return _pedidoPresenter.ParaDto(pedido);
         }
