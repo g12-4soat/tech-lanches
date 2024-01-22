@@ -1,6 +1,7 @@
 ﻿using TechLanches.Adapter.RabbitMq.Messaging;
 using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Application.Ports.Services.Interfaces;
+using TechLanches.Application.UseCases.Clientes;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Entities;
@@ -14,22 +15,11 @@ namespace TechLanches.Application.UseCases.Pedidos
     {
         public static async Task<Pedido> Cadastrar(string? cpf, List<ItemPedido> itensPedido, IPedidoGateway pedidoGateway, IClienteGateway clienteGateway)
         {
-            var cliente = await IdentificarCliente(cpf, clienteGateway);
+            var cliente = await ClienteUseCases.IdentificarCliente(cpf, clienteGateway);
             var pedido = new Pedido(cliente?.Id, itensPedido);
 
             pedido = await pedidoGateway.Cadastrar(pedido);
             return pedido;
-        }
-
-        private static async Task<Cliente?> IdentificarCliente(string? cpf, IClienteGateway clienteGateway)
-        {
-            if (cpf is null) return null;
-
-            var clienteExistente = await clienteGateway.BuscarPorCpf(new Cpf(cpf));
-
-            if (clienteExistente is null) throw new DomainException("Cliente não cadastrado!");
-
-            return clienteExistente;
         }
 
         public static async Task<Pedido> TrocarStatus(
