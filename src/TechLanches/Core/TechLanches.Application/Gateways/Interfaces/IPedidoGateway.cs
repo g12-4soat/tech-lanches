@@ -9,6 +9,5 @@ namespace TechLanches.Application.Gateways.Interfaces
         Task<List<Pedido>> BuscarPorStatus(StatusPedido statusPedido);
         Task<Pedido> BuscarPorId(int idPedido);
         Task<Pedido> Cadastrar(Pedido pedido);
-        void Atualizar(Pedido pedido);
     }
 }

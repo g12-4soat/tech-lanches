@@ -47,8 +47,6 @@ namespace TechLanches.Application.UseCases.Pedidos
 
             pedido.TrocarStatus(statusPedidoValidacaoService, statusPedido);
 
-            pedidoGateway.Atualizar(pedido);
-
             if (statusPedido == StatusPedido.PedidoRecebido)
                 rabbitMqService.Publicar(pedidoId);
 

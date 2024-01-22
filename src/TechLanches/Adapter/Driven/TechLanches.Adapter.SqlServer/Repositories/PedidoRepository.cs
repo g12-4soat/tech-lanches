@@ -44,7 +44,4 @@ public class PedidoRepository : IPedidoRepository
 
     public async Task<Pedido> Cadastrar(Pedido pedido)
         => (await _context.AddAsync(pedido)).Entity;
-
-    public void Atualizar(Pedido pedido)
-        => _context.Entry(pedido).State = EntityState.Modified;
 }

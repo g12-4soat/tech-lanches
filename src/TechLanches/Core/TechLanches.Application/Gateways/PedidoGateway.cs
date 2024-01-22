@@ -34,11 +34,6 @@ namespace TechLanches.Application.Gateways
             return _pedidoRepository.Cadastrar(pedido);
         }
 
-        public void Atualizar(Pedido pedido)
-        {
-           _pedidoRepository.Atualizar(pedido);
-        }
-
         public async Task CommitAsync()
         {
             await _pedidoRepository.UnitOfWork.CommitAsync();
