@@ -21,20 +21,18 @@ namespace TechLanches.Application.Controllers
         private readonly IPedidoPresenter _pedidoPresenter;
         private readonly IStatusPedidoValidacaoService _statusPedidoValidacaoService;
         private readonly IRabbitMqService _rabbitmqService;
-
-        //TODO: Mudar quando trocar o dominio de cliente para clean arch 
-        private readonly IClienteService _clienteService;
+        private readonly IClienteGateway _clienteGateway;
 
         public PedidoController(
             IPedidoGateway pedidoGateway,
             IPedidoPresenter pedidoPresenter,
-            IClienteService clienteService,
+            IClienteGateway clienteGateway,
             IStatusPedidoValidacaoService statusPedidoValidacaoService,
             IRabbitMqService rabbitmqService)
         {
             _pedidoGateway = pedidoGateway;
             _pedidoPresenter = pedidoPresenter;
-            _clienteService = clienteService;
+            _clienteGateway = clienteGateway;
             _statusPedidoValidacaoService = statusPedidoValidacaoService;
             _rabbitmqService = rabbitmqService;
         }
@@ -62,7 +60,7 @@ namespace TechLanches.Application.Controllers
 
         public async Task<PedidoResponseDTO> Cadastrar(string? cpf, List<ItemPedido> itensPedido)
         {
-            var pedido = await PedidoUseCases.Cadastrar(cpf, itensPedido, _pedidoGateway, _clienteService);
+            var pedido = await PedidoUseCases.Cadastrar(cpf, itensPedido, _pedidoGateway, _clienteGateway);
             await _pedidoGateway.CommitAsync();
 
             return _pedidoPresenter.ParaDto(pedido);

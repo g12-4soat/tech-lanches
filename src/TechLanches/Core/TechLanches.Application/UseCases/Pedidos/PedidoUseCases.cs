@@ -12,20 +12,20 @@ namespace TechLanches.Application.UseCases.Pedidos
 {
     public class PedidoUseCases
     {
-        public static async Task<Pedido> Cadastrar(string? cpf, List<ItemPedido> itensPedido, IPedidoGateway pedidoGateway, IClienteService clienteService)
+        public static async Task<Pedido> Cadastrar(string? cpf, List<ItemPedido> itensPedido, IPedidoGateway pedidoGateway, IClienteGateway clienteGateway)
         {
-            var cliente = await IdentificarCliente(cpf, clienteService);
+            var cliente = await IdentificarCliente(cpf, clienteGateway);
             var pedido = new Pedido(cliente?.Id, itensPedido);
 
             pedido = await pedidoGateway.Cadastrar(pedido);
             return pedido;
         }
 
-        private static async Task<Cliente?> IdentificarCliente(string? cpf, IClienteService clienteService)
+        private static async Task<Cliente?> IdentificarCliente(string? cpf, IClienteGateway clienteGateway)
         {
             if (cpf is null) return null;
 
-            var clienteExistente = await clienteService.BuscarPorCpf(cpf);
+            var clienteExistente = await clienteGateway.BuscarPorCpf(new Cpf(cpf));
 
             if (clienteExistente is null) throw new DomainException("Cliente não cadastrado!");
 

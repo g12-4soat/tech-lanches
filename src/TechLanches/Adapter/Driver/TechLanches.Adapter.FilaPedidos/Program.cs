@@ -68,23 +68,18 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<ICheckoutPresenter, CheckoutPresenter>();
         services.AddSingleton<IClientePresenter, ClientePresenter>();
 
-        services.AddScoped<IPedidoController, PedidoController>();
-        services.AddScoped<IFilaPedidoController, FilaPedidoController>();
-        services.AddScoped<IPagamentoController, PagamentoController>();
-        services.AddScoped<ICheckoutController, CheckoutController>();
         services.AddSingleton<IProdutoController, ProdutoController>();
+        services.AddSingleton<IPedidoController, PedidoController>();
+        services.AddSingleton<IFilaPedidoController, FilaPedidoController>();
+        services.AddSingleton<IPagamentoController, PagamentoController>();
+        services.AddSingleton<ICheckoutController, CheckoutController>();
         services.AddSingleton<IClienteController, ClienteController>();
 
-        services.AddScoped<IPedidoGateway, PedidoGateway>();
-        services.AddScoped<IFilaPedidoGateway, FilaPedidoGateway>();
-        services.AddScoped<IPagamentoGateway, PagamentoGateway>();
-        services.AddSingleton<IProdutoGateway, ProdutoGateway>();
-        services.AddSingleton<IClienteGateway, ClienteGateway>();
 
-        services.AddSingleton<IClienteService, ClienteService>();
-        services.AddSingleton<IPedidoService, PedidoService>();
-        services.AddSingleton<IPagamentoService, PagamentoService>();
-        services.AddSingleton<ICheckoutService, CheckoutService>();
+        services.AddSingleton<IPedidoGateway, PedidoGateway>();
+        services.AddSingleton<IFilaPedidoGateway, FilaPedidoGateway>();
+        services.AddSingleton<IPagamentoGateway, PagamentoGateway>();
+        
         services.AddSingleton<IQrCodeGeneratorService, QrCodeGeneratorService>();
         services.AddSingleton<IPagamentoACLService, MercadoPagoMockadoService>();
         services.AddSingleton<IPagamentoACLService, MercadoPagoService>();

@@ -98,7 +98,7 @@ public static class PedidoEndpoints
 
     private static async Task<IResult> CadastrarPedido(
         [FromBody] PedidoRequestDTO pedidoDto,
-        [FromServices] IPedidoController pedidoController, IClienteService clienteService, IProdutoController produtoController)
+        [FromServices] IPedidoController pedidoController, IProdutoController produtoController)
     {
         if (!pedidoDto.ItensPedido.Any())
             return Results.BadRequest(MensagensConstantes.SEM_NENHUM_ITEM_PEDIDO);

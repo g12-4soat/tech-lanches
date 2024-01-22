@@ -7,6 +7,6 @@ namespace TechLanches.Application.Presenters.Interfaces
     public interface ICheckoutPresenter
     {
         CheckoutResponseDTO ParaDto(int pedidoId, string qrdCodeData, byte[] bytesQrCode);
-        PedidoACLDTO ParaPedidoACLDto(Pedido pedido);
+        PedidoACLDTO ParaPedidoACLDto(PedidoResponseDTO pedido);
     }
 }

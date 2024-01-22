@@ -39,8 +39,7 @@ namespace TechLanches.Adapter.API.Configuration
             services.AddScoped<IProdutoController, ProdutoController>();
             services.AddScoped<IPedidoController, PedidoController>();
             services.AddScoped<IPagamentoController, PagamentoController>();
-            services.AddScoped<ICheckoutController, CheckoutController>();
-            
+            services.AddScoped<ICheckoutController, CheckoutController>();            
             services.AddScoped<IClienteController, ClienteController>();
 
             services.AddScoped<IProdutoGateway, ProdutoGateway>();
@@ -48,10 +47,6 @@ namespace TechLanches.Adapter.API.Configuration
             services.AddScoped<IPagamentoGateway, PagamentoGateway>();
             services.AddScoped<IClienteGateway, ClienteGateway>();
 
-            services.AddScoped<IClienteService, ClienteService>();
-            services.AddScoped<IPedidoService, PedidoService>();
-            services.AddScoped<IPagamentoService, PagamentoService>();
-            services.AddScoped<ICheckoutService, CheckoutService>();
             services.AddScoped<IQrCodeGeneratorService, QrCodeGeneratorService>();
             services.AddScoped<IMercadoPagoMockadoService, MercadoPagoMockadoService>();
             services.AddScoped<IMercadoPagoService, MercadoPagoService>();
