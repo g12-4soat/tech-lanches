@@ -31,17 +31,13 @@ namespace TechLanches.Adapter.API.Configuration
             services.AddScoped<IStatusPedidoValidacao, StatusPedidoRetiradoValidacao>();
 
             services.AddSingleton<IProdutoPresenter, ProdutoPresenter>();
+            services.AddScoped<IPedidoPresenter, PedidoPresenter>();
 
             services.AddScoped<IProdutoController, ProdutoController>();
-
-            services.AddScoped<IProdutoGateway, ProdutoGateway>();
-
-
             services.AddScoped<IPedidoController, PedidoController>();
 
+            services.AddScoped<IProdutoGateway, ProdutoGateway>();
             services.AddScoped<IPedidoGateway, PedidoGateway>();
-
-            services.AddScoped<IPedidoPresenter, PedidoPresenter>();
 
             services.AddScoped<IClienteService, ClienteService>();
             services.AddScoped<IPagamentoService, PagamentoService>();

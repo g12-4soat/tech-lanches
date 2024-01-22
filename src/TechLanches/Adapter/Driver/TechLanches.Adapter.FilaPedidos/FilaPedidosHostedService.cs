@@ -1,29 +1,30 @@
 using Microsoft.Extensions.Options;
 using TechLanches.Adapter.FilaPedidos.Options;
 using TechLanches.Adapter.RabbitMq.Messaging;
-using TechLanches.Application.Ports.Services.Interfaces;
+using TechLanches.Application.Controllers.Interfaces;
+using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Domain.Enums;
 
 namespace TechLanches.Adapter.FilaPedidos
 {
     public class FilaPedidosHostedService : BackgroundService
     {
-        private readonly IFilaPedidoService _filaPedidoService;
-        private readonly IPedidoService _pedidoService;
+        private readonly IFilaPedidoController _filaPedidoController;
+        private readonly IPedidoGateway _pedidoGateway;
         private readonly ILogger<FilaPedidosHostedService> _logger;
         private readonly WorkerOptions _workerOptions;
         private readonly IRabbitMqService _rabbitMqService;
         public FilaPedidosHostedService(
             ILogger<FilaPedidosHostedService> logger,
-            IFilaPedidoService filaPedidoService,
+            IFilaPedidoController filaPedidoService,
             IOptions<WorkerOptions> workerOptions,
-            IPedidoService pedidoService,
+            IPedidoGateway pedidoGateway,
             IRabbitMqService rabbitMqService)
         {
             _logger = logger;
-            _filaPedidoService = filaPedidoService;
+            _filaPedidoController = filaPedidoService;
             _workerOptions = workerOptions.Value;
-            _pedidoService = pedidoService;
+            _pedidoGateway = pedidoGateway;
             _rabbitMqService = rabbitMqService;
         }
 
@@ -39,12 +40,12 @@ namespace TechLanches.Adapter.FilaPedidos
 
             _logger.LogInformation("FilaPedidosHostedService iniciado: {time}", DateTimeOffset.Now);
 
-            var pedido = await _pedidoService.BuscarPorId(pedidoId);
+            var pedido = await _pedidoGateway.BuscarPorId(pedidoId);
 
             _logger.LogInformation("Próximo pedido da fila: {proximoPedido.Id}", pedido.Id);
 
             if (pedido.StatusPedido != StatusPedido.PedidoEmPreparacao)
-                await _filaPedidoService.TrocarStatus(pedido, StatusPedido.PedidoEmPreparacao);
+                await _filaPedidoController.TrocarStatus(pedido, StatusPedido.PedidoEmPreparacao);
 
             _logger.LogInformation("Pedido {proximoPedido.Id} em preparação.", pedido.Id);
 
@@ -52,7 +53,7 @@ namespace TechLanches.Adapter.FilaPedidos
 
             _logger.LogInformation("Pedido {proximoPedido.Id} preparação finalizada.", pedido.Id);
 
-            await _filaPedidoService.TrocarStatus(pedido, StatusPedido.PedidoPronto);
+            await _filaPedidoController.TrocarStatus(pedido, StatusPedido.PedidoPronto);
 
             _logger.LogInformation("Pedido {proximoPedido.Id} pronto.", pedido.Id);
         }

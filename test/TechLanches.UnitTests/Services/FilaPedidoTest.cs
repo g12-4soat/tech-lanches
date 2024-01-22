@@ -1,4 +1,8 @@
 ﻿using NSubstitute;
+using TechLanches.Application.Controllers;
+using TechLanches.Application.Gateways;
+using TechLanches.Application.Gateways.Interfaces;
+using TechLanches.Application.Presenters;
 
 
 namespace TechLanches.UnitTests.Services
@@ -40,10 +44,10 @@ namespace TechLanches.UnitTests.Services
 
             mockPedidoRepository.BuscarPorId(1).Returns(Task.FromResult(new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1) })));
 
-            var filaPedidoService = new FilaPedidoService(mockPedidoRepository, mockFilaPedidoRepository, _statusPedidoValidacaoService);
+            var filaPedidoController = new FilaPedidoController(new PedidoGateway(mockPedidoRepository), new PedidoPresenter(), new FilaPedidoGateway(mockFilaPedidoRepository), _statusPedidoValidacaoService);
 
             // Act
-            var pedido = await filaPedidoService.RetornarPrimeiroPedidoDaFila();
+            var pedido = await filaPedidoController.RetornarPrimeiroPedidoDaFila();
 
             // Assert
             Assert.NotNull(pedido);
@@ -57,11 +61,10 @@ namespace TechLanches.UnitTests.Services
             var mockPedidoRepository = Substitute.For<IPedidoRepository>();
 
             mockFilaPedidoRepository.RetornarFilaPedidos().Returns(Task.FromResult(new List<FilaPedido>()));
-
-            var filaPedidoService = new FilaPedidoService(mockPedidoRepository, mockFilaPedidoRepository, _statusPedidoValidacaoService);
+            var filaPedidoController = new FilaPedidoController(new PedidoGateway(mockPedidoRepository), new PedidoPresenter(), new FilaPedidoGateway(mockFilaPedidoRepository), _statusPedidoValidacaoService);
 
             // Act
-            var result = await filaPedidoService.RetornarPrimeiroPedidoDaFila();
+            var result = await filaPedidoController.RetornarPrimeiroPedidoDaFila();
 
             // Assert
             Assert.Null(result);
@@ -76,10 +79,10 @@ namespace TechLanches.UnitTests.Services
 
             var pedido = new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1) });
 
-            var filaPedidoService = new FilaPedidoService(mockPedidoRepository, mockFilaPedidoRepository, _statusPedidoValidacaoService);
+            var filaPedidoController = new FilaPedidoController(new PedidoGateway(mockPedidoRepository), new PedidoPresenter(), new FilaPedidoGateway(mockFilaPedidoRepository), _statusPedidoValidacaoService);
 
             // Act
-            await filaPedidoService.TrocarStatus(pedido, StatusPedido.PedidoRecebido);
+            await filaPedidoController.TrocarStatus(pedido, StatusPedido.PedidoRecebido);
 
             // Assert
             Assert.Equal(StatusPedido.PedidoRecebido, pedido.StatusPedido);
