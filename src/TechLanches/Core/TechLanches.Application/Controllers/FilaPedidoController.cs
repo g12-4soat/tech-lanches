@@ -39,7 +39,7 @@ namespace TechLanches.Application.Controllers
                 pedido = await _pedidoGateway.BuscarPorId(primeiroPedidoId.PedidoId);
             }
 
-            return pedido is null ? _pedidoPresenter.ParaDto(pedido!) : null;
+            return pedido is not null ? _pedidoPresenter.ParaDto(pedido!) : null;
         }
 
         public async Task TrocarStatus(Pedido pedido, StatusPedido statusPedido)
