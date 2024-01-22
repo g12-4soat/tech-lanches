@@ -19,7 +19,7 @@ namespace TechLanches.Application.Controllers
 
         public async Task<ClienteResponseDTO> BuscarPorCpf(string cpf)
         {
-            var cliente = await _clienteGateway.BuscarPorCpf(cpf);
+            var cliente = await ClienteUseCases.IdentificarCliente(cpf,_clienteGateway);
             return _clientePresenter.ParaDto(cliente);
         }
 

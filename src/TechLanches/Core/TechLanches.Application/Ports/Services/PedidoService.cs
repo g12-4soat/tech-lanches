@@ -43,7 +43,7 @@ namespace TechLanches.Application.Ports.Services
         public async Task<Pedido> Cadastrar(string? cpf, List<ItemPedido> itensPedido)
         {
             //var cliente = await IdentificarCliente(cpf);
-            var cliente = await ClienteUseCases.BuscarPorCpf(cpf, _clienteGateway);
+            var cliente = await ClienteUseCases.IdentificarCliente(cpf, _clienteGateway);
             var pedido = new Pedido(cliente?.Id, itensPedido);
 
             pedido = await _pedidoRepository.Cadastrar(pedido);

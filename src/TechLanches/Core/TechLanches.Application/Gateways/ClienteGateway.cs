@@ -14,11 +14,9 @@ namespace TechLanches.Application.Gateways
             _clienteRepository = clienteRepository;
         }
 
-        public Task<Cliente> BuscarPorCpf(string cpf)
+        public Task<Cliente> BuscarPorCpf(Cpf cpf)
         {
-            var documento = RetornarCpf(cpf);
-
-            return _clienteRepository.BuscarPorCpf(documento);
+            return _clienteRepository.BuscarPorCpf(cpf);
         }
 
         public Task<Cliente> BuscarPorId(int idCliente)
@@ -26,20 +24,14 @@ namespace TechLanches.Application.Gateways
            return _clienteRepository.BuscarPorId(idCliente);
         }
 
-        public Task<Cliente> Cadastrar(string nome, string email, string cpf)
+        public Task<Cliente> Cadastrar(Cliente cliente)
         {
-            var cliente = new Cliente(nome, email, cpf);
             return _clienteRepository.Cadastrar(cliente);
         }
 
         public async Task CommitAsync()
         {
             await _clienteRepository.UnitOfWork.CommitAsync();
-        }
-
-        private static Cpf RetornarCpf(string cpf)
-        {
-            return new Cpf(cpf);
         }
     }
 }

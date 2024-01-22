@@ -1,6 +1,7 @@
 ﻿using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Core;
 using TechLanches.Domain.Entities;
+using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Application.UseCases.Clientes
 {
@@ -10,24 +11,32 @@ namespace TechLanches.Application.UseCases.Clientes
             string nome, string email, string cpf,
             IClienteGateway clienteGateway)
         {
-            var clienteExistente = await clienteGateway.BuscarPorCpf(cpf);
+            var clienteExistente = await clienteGateway.BuscarPorCpf(RetornarCpf(cpf));
 
             if (clienteExistente is not null)
                 throw new DomainException($"Cliente já existente para CPF: {cpf}");
 
-            var novoCliente = await clienteGateway.Cadastrar(nome,email,cpf);
+            var cliente = new Cliente(nome,email, cpf);
+
+            var novoCliente = await clienteGateway.Cadastrar(cliente);
+
             return novoCliente;
         }
 
-        public static async Task<Cliente> BuscarPorCpf(
+        public static async Task<Cliente> IdentificarCliente(
             string cpf,
             IClienteGateway clienteGateway)
         {
-            var clienteExistente = await clienteGateway.BuscarPorCpf(cpf);
+            var clienteExistente = await clienteGateway.BuscarPorCpf(RetornarCpf(cpf));
 
             if (clienteExistente is null) throw new DomainException("Cliente não cadastrado!");
 
             return clienteExistente;
+        }
+
+        private static Cpf RetornarCpf(string cpf)
+        {
+            return new Cpf(cpf);
         }
     }
 }
