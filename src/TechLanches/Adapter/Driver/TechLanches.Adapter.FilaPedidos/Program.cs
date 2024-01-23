@@ -22,6 +22,7 @@ using TechLanches.Domain.Services;
 using TechLanches.Domain.Validations;
 using Polly;
 using Polly.Extensions.Http;
+using TechLanches.Application.Options;
 
 var hostBuilder = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
@@ -36,6 +37,7 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddDatabaseConfiguration(settingsConfig, ServiceLifetime.Singleton);
         services.Configure<WorkerOptions>(settingsConfig.GetSection("Worker"));
         services.Configure<RabbitOptions>(settingsConfig.GetSection("RabbitMQ"));
+        services.Configure<ApplicationOptions>(settingsConfig.GetSection("ApiMercadoPago"));
 
         var retryPolicy = HttpPolicyExtensions.HandleTransientHttpError()
                   .WaitAndRetryAsync(3, retryAttempt => TimeSpan.FromSeconds(retryAttempt));
@@ -59,18 +61,25 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
 
         services.AddSingleton<IPedidoRepository, PedidoRepository>();
         services.AddSingleton<IFilaPedidoRepository, FilaPedidoRepository>();
-        services.AddSingleton<IFilaPedidoService, FilaPedidoService>();
 
         services.AddSingleton<IProdutoPresenter, ProdutoPresenter>();
+        services.AddSingleton<IPedidoPresenter, PedidoPresenter>();
+        services.AddSingleton<IPagamentoPresenter, PagamentoPresenter>();
+        services.AddSingleton<ICheckoutPresenter, CheckoutPresenter>();
+        services.AddSingleton<IClientePresenter, ClientePresenter>();
 
         services.AddSingleton<IProdutoController, ProdutoController>();
+        services.AddSingleton<IPedidoController, PedidoController>();
+        services.AddSingleton<IFilaPedidoController, FilaPedidoController>();
+        services.AddSingleton<IPagamentoController, PagamentoController>();
+        services.AddSingleton<ICheckoutController, CheckoutController>();
+        services.AddSingleton<IClienteController, ClienteController>();
 
-        services.AddSingleton<IProdutoGateway, ProdutoGateway>();
 
-        services.AddSingleton<IClienteService, ClienteService>();
-        services.AddSingleton<IPedidoService, PedidoService>();
-        services.AddSingleton<IPagamentoService, PagamentoService>();
-        services.AddSingleton<ICheckoutService, CheckoutService>();
+        services.AddSingleton<IPedidoGateway, PedidoGateway>();
+        services.AddSingleton<IFilaPedidoGateway, FilaPedidoGateway>();
+        services.AddSingleton<IPagamentoGateway, PagamentoGateway>();
+        
         services.AddSingleton<IQrCodeGeneratorService, QrCodeGeneratorService>();
         services.AddSingleton<IPagamentoACLService, MercadoPagoMockadoService>();
         services.AddSingleton<IPagamentoACLService, MercadoPagoService>();

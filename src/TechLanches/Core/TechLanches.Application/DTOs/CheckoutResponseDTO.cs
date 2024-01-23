@@ -1,4 +1,6 @@
-﻿namespace TechLanches.Application.DTOs
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace TechLanches.Application.DTOs
 {
     /// <summary>
     /// Schema utilizado para envio de dados do checkout.
@@ -12,10 +14,21 @@
         public int PedidoId { get; set; }
 
         /// <summary>
-        /// QRCode de pagamento
+        /// Código de pagamento
         /// </summary>
         /// <example>qrcodedata</example>
+        
         public string QRCodeData { get; set; }
+        /// <summary>
+        /// URL para exibir o QrCode de pagamento
+        /// </summary>
+        /// <example>https://api.qrserver.com/v1/create-qr-code/?size=1500x1500&data=qrcodeexemplo</example>
         public string URLData { get; set; }
+
+        [NotMapped()]
+        public byte[] QRCodeImage { get; set; }
+
+        [NotMapped()]
+        public string ResultType { get; set; }
     }
 }

@@ -19,14 +19,6 @@ namespace TechLanches.Domain.Aggregates
             Validar();
         }
 
-        public Pedido(int pedidoId, int clienteId, List<ItemPedido> itensPedido) : base(pedidoId)
-        {
-            ClienteId = clienteId;
-            _itensPedido = new List<ItemPedido>();
-            AdicionarItensPedidos(itensPedido);
-            Validar();
-        }
-
         private readonly List<ItemPedido> _itensPedido;
         public IReadOnlyCollection<ItemPedido> ItensPedido => _itensPedido;
         public int? ClienteId { get; private set; }

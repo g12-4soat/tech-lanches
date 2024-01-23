@@ -34,5 +34,11 @@
         /// </summary>
         /// <example>Lanche</example>
         public string Categoria { get;  set; }
+
+        /// <summary>
+        /// Categoria do produto id
+        /// </summary>
+        /// <example>Lanche</example>
+        public int CategoriaId { get; set; }
     }
 }

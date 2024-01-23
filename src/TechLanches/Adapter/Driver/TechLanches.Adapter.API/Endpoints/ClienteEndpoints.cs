@@ -5,6 +5,7 @@ using TechLanches.Adapter.API.Constantes;
 using Swashbuckle.AspNetCore.Annotations;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Ports.Services.Interfaces;
+using TechLanches.Application.Controllers.Interfaces;
 
 namespace TechLanches.Adapter.API.Endpoints;
 
@@ -31,23 +32,23 @@ public static class ClienteEndpoints
 
     private static async Task<IResult> BuscarClientePorCpf(
         [FromRoute] string cpf,
-        [FromServices] IClienteService clienteService)
+        [FromServices] IClienteController clienteController)
     {
-        var cliente = await clienteService.BuscarPorCpf(cpf);
+        var cliente = await clienteController.BuscarPorCpf(cpf);
 
         return cliente is not null
-            ? Results.Ok(cliente.Adapt<ClienteResponseDTO>())
+            ? Results.Ok(cliente)
             : Results.NotFound(new ErrorResponseDTO { MensagemErro = $"Cliente não encontrado para o CPF: {cpf}.", StatusCode = HttpStatusCode.NotFound });
     }
 
     private static async Task<IResult> CadastrarCliente(
         [FromBody] ClienteRequestDTO clienteRequest,
-        [FromServices] IClienteService clienteService)
+        [FromServices] IClienteController clienteController)
     {
-        var cliente = await clienteService.Cadastrar(clienteRequest.Nome, clienteRequest.Email, clienteRequest.CPF);
+        var cliente = await clienteController.Cadastrar(clienteRequest.Nome, clienteRequest.Email, clienteRequest.CPF);
 
         return cliente is not null
-            ? Results.Created($"api/clientes/{cliente.CPF}", cliente.Adapt<ClienteResponseDTO>())
+            ? Results.Created($"api/clientes/{cliente.CPF}", cliente)
             : Results.BadRequest(new ErrorResponseDTO { MensagemErro = "Cliente inválido.", StatusCode = HttpStatusCode.BadRequest });
     }
 }

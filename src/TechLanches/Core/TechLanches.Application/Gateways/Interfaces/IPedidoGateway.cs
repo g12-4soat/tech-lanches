@@ -1,10 +1,9 @@
-﻿using TechLanches.Core;
-using TechLanches.Domain.Aggregates;
+﻿using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
 
-namespace TechLanches.Application.Ports.Repositories
+namespace TechLanches.Application.Gateways.Interfaces
 {
-    public interface IPedidoRepository : IRepository<Pedido>
+    public interface IPedidoGateway : IRepositoryGateway
     {
         Task<List<Pedido>> BuscarTodos();
         Task<List<Pedido>> BuscarPorStatus(StatusPedido statusPedido);
