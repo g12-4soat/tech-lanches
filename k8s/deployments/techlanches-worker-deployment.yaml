@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: techlanches-worker
-          image: g124soat/techlanches-worker:develop
+          image: g124soat/techlanches-worker:latest
           imagePullPolicy: Always
           resources:
             requests:
