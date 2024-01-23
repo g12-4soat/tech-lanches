@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: techlanches-api
-          image: g124soat/techlanches-api:latest
+          image: g124soat/techlanches-api:develop
           imagePullPolicy: Always
           ports:
             - containerPort: 80
