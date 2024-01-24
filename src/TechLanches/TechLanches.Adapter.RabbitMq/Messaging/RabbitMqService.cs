@@ -35,9 +35,17 @@ namespace TechLanches.Adapter.RabbitMq.Messaging
             consumer.Received += async (model, ea) =>
             {
 
-                var body = ea.Body.ToArray();
-                await function(Encoding.UTF8.GetString(body));
-                _channel.BasicAck(ea.DeliveryTag, false);
+                try
+                {
+                    var body = ea.Body.ToArray();
+                    await function(Encoding.UTF8.GetString(body));
+                    _channel.BasicAck(ea.DeliveryTag, false);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Erro ao processar mensagem: {ex.Message}");
+                    _channel.BasicNack(ea.DeliveryTag, false, true);
+                }
             };
 
             _channel.BasicConsume(queue: _rabbitOptions.Queue, autoAck: false, consumer: consumer);

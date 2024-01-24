@@ -40,7 +40,10 @@ namespace TechLanches.Application.UseCases.Pagamentos
         private static async Task<Pagamento> VerificarPagamentoNaoExistente(int id, IPagamentoGateway pagamentoGateway)
         {
             var pagamento = await pagamentoGateway.BuscarPagamentoPorPedidoId(id)
-                ?? throw new DomainException($"Pagamento já efetuado para o pedido: {id}.");
+                ?? throw new DomainException($"É necessário realizar o checkout primeiro antes de realizar o pagamento.");
+
+            if (pagamento.StatusPagamento == StatusPagamento.Aprovado)
+                throw new DomainException($"Pagamento já efetuado para o pedido: {id}.");
 
             return pagamento;
         }

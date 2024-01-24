@@ -52,7 +52,7 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
 
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoCriadoValidacao>();
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoCanceladoValidacao>();
-        services.AddScoped<IStatusPedidoValidacao, StatusPedidoCanceladoPorPagamentoValidacao>();
+        services.AddSingleton<IStatusPedidoValidacao, StatusPedidoCanceladoPorPagamentoValidacao>();
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoEmPreparacaoValidacao>();
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoDescartadoValidacao>();
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoFinalizadoValidacao>();
