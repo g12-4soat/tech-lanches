@@ -79,7 +79,9 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IPedidoGateway, PedidoGateway>();
         services.AddSingleton<IFilaPedidoGateway, FilaPedidoGateway>();
         services.AddSingleton<IPagamentoGateway, PagamentoGateway>();
-        
+        services.AddSingleton<IProdutoGateway, ProdutoGateway>();
+        services.AddSingleton<IClienteGateway, ClienteGateway>();
+
         services.AddSingleton<IQrCodeGeneratorService, QrCodeGeneratorService>();
         services.AddSingleton<IPagamentoACLService, MercadoPagoMockadoService>();
         services.AddSingleton<IPagamentoACLService, MercadoPagoService>();

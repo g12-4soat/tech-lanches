@@ -24,7 +24,7 @@ namespace TechLanches.Application.UseCases.Pagamentos
 
         public static async Task<Pagamento> RealizarPagamento(int pedidoId, StatusPagamentoEnum statusPagamento, IPagamentoGateway pagamentoGateway)
         {
-            var pagamento = await VerificarPagamentoExistente(pedidoId, pagamentoGateway);
+            var pagamento = await VerificarPagamentoNaoExistente(pedidoId, pagamentoGateway);
 
             if (statusPagamento == StatusPagamentoEnum.Aprovado)
                 pagamento.Aprovar();
@@ -34,16 +34,16 @@ namespace TechLanches.Application.UseCases.Pagamentos
             return pagamento;
         }
 
-        //private static async Task<Pagamento> VerificarPagamentoExistente(int id, IPagamentoGateway pagamentoGateway)
-        //{
-        //    var pagamento = await pagamentoGateway.BuscarPagamentoPorPedidoId(id);
-
-        //    if (pagamento is not null)
-        //        throw new DomainException($"Pagamento já cadastrado para o pedido: {id} com status: {pagamento.StatusPagamento}.");
-
-        //    return pagamento;
-        //}
         private static async Task<Pagamento> VerificarPagamentoExistente(int id, IPagamentoGateway pagamentoGateway)
+        {
+            var pagamento = await pagamentoGateway.BuscarPagamentoPorPedidoId(id);
+
+            if (pagamento is not null)
+                throw new DomainException($"Pagamento já cadastrado para o pedido: {id} com status: {pagamento.StatusPagamento}.");
+
+            return pagamento;
+        }
+        private static async Task<Pagamento> VerificarPagamentoNaoExistente(int id, IPagamentoGateway pagamentoGateway)
         {
             var pagamento = await pagamentoGateway.BuscarPagamentoPorPedidoId(id)
                 ?? throw new DomainException($"Pagamento já efetuado para o pedido: {id}.");
