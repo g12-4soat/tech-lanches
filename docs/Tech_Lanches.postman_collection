@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "0ea6c99e-c575-43aa-8840-441897b3428c",
+		"_postman_id": "7de20b3d-102e-4090-8947-613a67d17e48",
 		"name": "Tech Lanches",
 		"description": "Tech Lanches API Swagger\n\nContact Support:\n Name: Tech Lanches\n Email: g12.4soat.fiap@outlook.com",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
@@ -802,10 +802,10 @@
 							"name": "webhook",
 							"item": [
 								{
-									"name": "mercadopago",
+									"name": "mockado",
 									"item": [
 										{
-											"name": "Webhook pagamento do mercado pago",
+											"name": "Webhook pagamento mockado",
 											"request": {
 												"method": "POST",
 												"header": [
@@ -814,230 +814,17 @@
 														"value": "application/json"
 													}
 												],
-												"url": {
-													"raw": "{{baseUrl}}/api/pagamentos/webhook/mercadopago?id=<long>&topic=<string>",
-													"host": [
-														"{{baseUrl}}"
-													],
-													"path": [
-														"api",
-														"pagamentos",
-														"webhook",
-														"mercadopago"
-													],
-													"query": [
-														{
-															"key": "id",
-															"value": "<long>",
-															"description": "(Required) "
-														},
-														{
-															"key": "topic",
-															"value": "<string>",
-															"description": "(Required) "
+												"body": {
+													"mode": "raw",
+													"raw": "1",
+													"options": {
+														"raw": {
+															"language": "json"
 														}
-													]
-												},
-												"description": "Retorna o pagamento"
-											},
-											"response": [
-												{
-													"name": "Pagamento encontrado com sucesso",
-													"originalRequest": {
-														"method": "POST",
-														"header": [],
-														"url": {
-															"raw": "{{baseUrl}}/api/pagamentos/webhook/mercadopago?id=<long>&topic=<string>",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"api",
-																"pagamentos",
-																"webhook",
-																"mercadopago"
-															],
-															"query": [
-																{
-																	"key": "id",
-																	"value": "<long>",
-																	"description": "(Required) "
-																},
-																{
-																	"key": "topic",
-																	"value": "<string>",
-																	"description": "(Required) "
-																}
-															]
-														}
-													},
-													"status": "OK",
-													"code": 200,
-													"_postman_previewlanguage": "text",
-													"header": [],
-													"cookie": [],
-													"body": ""
-												},
-												{
-													"name": "Requisição inválida",
-													"originalRequest": {
-														"method": "POST",
-														"header": [
-															{
-																"key": "Accept",
-																"value": "application/json"
-															}
-														],
-														"url": {
-															"raw": "{{baseUrl}}/api/pagamentos/webhook/mercadopago?id=<long>&topic=<string>",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"api",
-																"pagamentos",
-																"webhook",
-																"mercadopago"
-															],
-															"query": [
-																{
-																	"key": "id",
-																	"value": "<long>",
-																	"description": "(Required) "
-																},
-																{
-																	"key": "topic",
-																	"value": "<string>",
-																	"description": "(Required) "
-																}
-															]
-														}
-													},
-													"status": "Bad Request",
-													"code": 400,
-													"_postman_previewlanguage": "json",
-													"header": [
-														{
-															"key": "Content-Type",
-															"value": "application/json"
-														}
-													],
-													"cookie": [],
-													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
-												},
-												{
-													"name": "Pagamento não encontrado",
-													"originalRequest": {
-														"method": "POST",
-														"header": [
-															{
-																"key": "Accept",
-																"value": "application/json"
-															}
-														],
-														"url": {
-															"raw": "{{baseUrl}}/api/pagamentos/webhook/mercadopago?id=<long>&topic=<string>",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"api",
-																"pagamentos",
-																"webhook",
-																"mercadopago"
-															],
-															"query": [
-																{
-																	"key": "id",
-																	"value": "<long>",
-																	"description": "(Required) "
-																},
-																{
-																	"key": "topic",
-																	"value": "<string>",
-																	"description": "(Required) "
-																}
-															]
-														}
-													},
-													"status": "Not Found",
-													"code": 404,
-													"_postman_previewlanguage": "json",
-													"header": [
-														{
-															"key": "Content-Type",
-															"value": "application/json"
-														}
-													],
-													"cookie": [],
-													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
-												},
-												{
-													"name": "Erro no servidor interno",
-													"originalRequest": {
-														"method": "POST",
-														"header": [
-															{
-																"key": "Accept",
-																"value": "application/json"
-															}
-														],
-														"url": {
-															"raw": "{{baseUrl}}/api/pagamentos/webhook/mercadopago?id=<long>&topic=<string>",
-															"host": [
-																"{{baseUrl}}"
-															],
-															"path": [
-																"api",
-																"pagamentos",
-																"webhook",
-																"mercadopago"
-															],
-															"query": [
-																{
-																	"key": "id",
-																	"value": "<long>",
-																	"description": "(Required) "
-																},
-																{
-																	"key": "topic",
-																	"value": "<string>",
-																	"description": "(Required) "
-																}
-															]
-														}
-													},
-													"status": "Internal Server Error",
-													"code": 500,
-													"_postman_previewlanguage": "json",
-													"header": [
-														{
-															"key": "Content-Type",
-															"value": "application/json"
-														}
-													],
-													"cookie": [],
-													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
-												}
-											]
-										}
-									]
-								},
-								{
-									"name": "mockado",
-									"item": [
-										{
-											"name": "Webhook pagamento mockado",
-											"request": {
-												"method": "GET",
-												"header": [
-													{
-														"key": "Accept",
-														"value": "application/json"
 													}
-												],
+												},
 												"url": {
-													"raw": "{{baseUrl}}/api/pagamentos/webhook/mockado?pedidoId=1",
+													"raw": "{{baseUrl}}/api/pagamentos/webhook/mockado",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -1046,13 +833,6 @@
 														"pagamentos",
 														"webhook",
 														"mockado"
-													],
-													"query": [
-														{
-															"key": "pedidoId",
-															"value": "1",
-															"description": "(Required) "
-														}
 													]
 												},
 												"description": "Retorna o pagamento"
