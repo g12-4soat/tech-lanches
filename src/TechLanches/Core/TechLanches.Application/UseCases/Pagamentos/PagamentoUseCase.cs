@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
-using TechLanches.Adapter.ACL.Pagamento.QrCode.Models;
+﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
 using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
