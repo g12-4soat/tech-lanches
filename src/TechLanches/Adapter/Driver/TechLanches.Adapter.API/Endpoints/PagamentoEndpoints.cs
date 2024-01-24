@@ -63,7 +63,7 @@ namespace TechLanches.Adapter.API.Endpoints
                 if (pagamento)
                     await pedidoController.TrocarStatus(pagamentoExistente.PedidoId, StatusPedido.PedidoRecebido);
                 else
-                    await pedidoController.TrocarStatus(pagamentoExistente.PedidoId, StatusPedido.PedidoCancelado);
+                    await pedidoController.TrocarStatus(pagamentoExistente.PedidoId, StatusPedido.PedidoCanceladoPorPagamentoRecusado);
             }
             return Results.Ok();
         }
@@ -81,8 +81,8 @@ namespace TechLanches.Adapter.API.Endpoints
             }
             else
             {
-                await pedidoController.TrocarStatus(pedidoId, StatusPedido.PedidoCancelado);
-                return Results.BadRequest(new ErrorResponseDTO { MensagemErro = $"Erro ao realizar o pagamento.", StatusCode = HttpStatusCode.BadRequest });
+                await pedidoController.TrocarStatus(pedidoId, StatusPedido.PedidoCanceladoPorPagamentoRecusado);
+                return Results.BadRequest(new ErrorResponseDTO { MensagemErro = $"Pagamento recusado.", StatusCode = HttpStatusCode.BadRequest });
             }
 
         }

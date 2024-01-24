@@ -10,6 +10,7 @@
             {
                 new StatusPedidoCriadoValidacao(),
                 new StatusPedidoCanceladoValidacao(),
+                new StatusPedidoCanceladoPorPagamentoValidacao(),
                 new StatusPedidoEmPreparacaoValidacao(),
                 new StatusPedidoDescartadoValidacao(),
                 new StatusPedidoFinalizadoValidacao(),
