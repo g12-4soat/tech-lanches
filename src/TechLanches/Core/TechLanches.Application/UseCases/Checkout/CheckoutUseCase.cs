@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
-using TechLanches.Adapter.ACL.Pagamento.QrCode.Models;
-using TechLanches.Application.Controllers.Interfaces;
-using TechLanches.Application.Gateways.Interfaces;
+﻿using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Core;
-using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
 
 namespace TechLanches.Application.UseCases.Pagamentos
 {
     public class CheckoutUseCase
     {
-        public static async Task<bool> ValidarPedidoCompleto(int pedidoId, IPedidoController pedidoController)
+        public static async Task<bool> ValidarPedidoCompleto(int pedidoId, IPedidoGateway pedidoGateway)
         {
-            var pedido = await pedidoController.BuscarPorId(pedidoId)
+            var pedido = await pedidoGateway.BuscarPorId(pedidoId)
                 ?? throw new DomainException($"Pedido não encontrado para checkout - PedidoId: {pedidoId}");
 
             if (pedido.StatusPedido != StatusPedido.PedidoCriado)

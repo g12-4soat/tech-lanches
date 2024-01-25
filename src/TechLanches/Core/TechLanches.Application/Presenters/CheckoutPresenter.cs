@@ -22,7 +22,7 @@ namespace TechLanches.Application.Presenters
             };
         }
 
-        public PedidoACLDTO ParaPedidoACLDto(PedidoResponseDTO pedido)
+        public PedidoACLDTO ParaPedidoACLDto(Pedido pedido)
         {
             var pedidoMercadoPago = new PedidoACLDTO()
             {
@@ -39,7 +39,7 @@ namespace TechLanches.Application.Presenters
             {
                 var itemPedido = new ItemPedidoACLDTO()
                 {
-                    Categoria = item.Produto.Categoria,
+                    Categoria = CategoriaProduto.From(item.Produto.Categoria.Id).Nome,
                     NomeProduto = item.Produto.Nome,
                     Descricao = item.Produto.Descricao,
                     Quantidade = item.Quantidade,

@@ -1,5 +1,4 @@
 ﻿using TechLanches.Application.DTOs;
-using TechLanches.Domain.Entities;
 
 namespace TechLanches.Application.Controllers.Interfaces
 {
