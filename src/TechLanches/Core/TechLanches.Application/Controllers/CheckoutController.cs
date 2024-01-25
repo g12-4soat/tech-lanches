@@ -1,4 +1,5 @@
-﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
+﻿using Microsoft.Extensions.Options;
+using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 using TechLanches.Application.Controllers.Interfaces;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Gateways;
@@ -25,10 +26,10 @@ namespace TechLanches.Application.Controllers
             IMercadoPagoService mercadoPagoService, 
             IPedidoRepository pedidoRepository, 
             ICheckoutPresenter checkoutPresenter, 
-            IQrCodeGeneratorService qrCodeGeneratorService, 
-            ApplicationOptions applicationOptions)
+            IQrCodeGeneratorService qrCodeGeneratorService,
+            IOptions<ApplicationOptions> applicationOptions)
         {
-            _pagamentoGateway = new PagamentoGateway(pagamentoRepository, mercadoPagoMockadoService, mercadoPagoService, applicationOptions, false);
+            _pagamentoGateway = new PagamentoGateway(pagamentoRepository, mercadoPagoMockadoService, mercadoPagoService, applicationOptions.Value, false);
             _pedidoGateway = new PedidoGateway(pedidoRepository);
             _checkoutPresenter = checkoutPresenter;
             _qrCodeGeneratorService = qrCodeGeneratorService;

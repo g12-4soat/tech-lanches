@@ -1,4 +1,5 @@
-﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
+﻿using Microsoft.Extensions.Options;
+using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
 using TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago;
 using TechLanches.Application.Controllers.Interfaces;
 using TechLanches.Application.DTOs;
@@ -23,13 +24,13 @@ namespace TechLanches.Application.Controllers
             IPagamentoPresenter pagamentoPresenter,
             IMercadoPagoMockadoService mercadoPagoMockadoService,
             IMercadoPagoService mercadoPagoService,
-            ApplicationOptions applicationOptions)
+            IOptions<ApplicationOptions> applicationOptions)
         {
             _pagamentoRepository = pagamentoRepository;
             _pagamentoPresenter = pagamentoPresenter;
             _mercadoPagoMockadoService = mercadoPagoMockadoService;
             _mercadoPagoService = mercadoPagoService;
-            _applicationOptions = applicationOptions;
+            _applicationOptions = applicationOptions.Value;
         }
 
         public async Task<PagamentoResponseDTO> BuscarPagamentoPorPedidoId(int pedidoId)
