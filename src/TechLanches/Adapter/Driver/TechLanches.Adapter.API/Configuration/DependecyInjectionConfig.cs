@@ -23,6 +23,7 @@ namespace TechLanches.Adapter.API.Configuration
 
             services.AddScoped<IStatusPedidoValidacao, StatusPedidoCriadoValidacao>();
             services.AddScoped<IStatusPedidoValidacao, StatusPedidoCanceladoValidacao>();
+            services.AddScoped<IStatusPedidoValidacao, StatusPedidoCanceladoPorPagamentoValidacao>();
             services.AddScoped<IStatusPedidoValidacao, StatusPedidoEmPreparacaoValidacao>();
             services.AddScoped<IStatusPedidoValidacao, StatusPedidoDescartadoValidacao>();
             services.AddScoped<IStatusPedidoValidacao, StatusPedidoFinalizadoValidacao>();

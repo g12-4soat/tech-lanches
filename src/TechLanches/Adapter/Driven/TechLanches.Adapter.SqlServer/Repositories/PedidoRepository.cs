@@ -32,6 +32,7 @@ public class PedidoRepository : IPedidoRepository
         => await _context.Pedidos.Include(x => x.ItensPedido)
                                  .ThenInclude(i => i.Produto)
                                  .Include(x => x.Cliente)
+                                 .Include(x => x.Pagamentos)
                                  .SingleOrDefaultAsync(x => x.Id == idPedido);
 
     public async Task<List<Pedido>> BuscarPorStatus(StatusPedido statusPedido)

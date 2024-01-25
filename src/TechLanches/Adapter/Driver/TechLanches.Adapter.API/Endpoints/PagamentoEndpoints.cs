@@ -30,7 +30,7 @@ namespace TechLanches.Adapter.API.Endpoints
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.NotFound, type: typeof(ErrorResponseDTO), description: "Pagamento não encontrado"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.InternalServerError, type: typeof(ErrorResponseDTO), description: "Erro no servidor interno"));
 
-            app.MapGet("api/pagamentos/webhook/mockado", BuscarPagamentoMockado).WithTags(EndpointTagConstantes.TAG_PAGAMENTO)
+            app.MapPost("api/pagamentos/webhook/mockado", BuscarPagamentoMockado).WithTags(EndpointTagConstantes.TAG_PAGAMENTO)
                .WithMetadata(new SwaggerOperationAttribute(summary: "Webhook pagamento mockado", description: "Retorna o pagamento"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.OK, description: "Pagamento encontrado com sucesso"))
                .WithMetadata(new SwaggerResponseAttribute((int)HttpStatusCode.BadRequest, type: typeof(ErrorResponseDTO), description: "Requisição inválida"))
@@ -63,26 +63,26 @@ namespace TechLanches.Adapter.API.Endpoints
                 if (pagamento)
                     await pedidoController.TrocarStatus(pagamentoExistente.PedidoId, StatusPedido.PedidoRecebido);
                 else
-                    await pedidoController.TrocarStatus(pagamentoExistente.PedidoId, StatusPedido.PedidoCancelado);
+                    await pedidoController.TrocarStatus(pagamentoExistente.PedidoId, StatusPedido.PedidoCanceladoPorPagamentoRecusado);
             }
             return Results.Ok();
         }
 
-        private static async Task<IResult> BuscarPagamentoMockado(int pedidoId, [FromServices] IPagamentoController pagamentoController, [FromServices] IPedidoController pedidoController)
+        private static async Task<IResult> BuscarPagamentoMockado([FromBody] PagamentoMocadoRequestDTO request, [FromServices] IPagamentoController pagamentoController, [FromServices] IPedidoController pedidoController)
         {
-            var pagamentoExistente = await pagamentoController.ConsultarPagamentoMockado(pedidoId.ToString());
+            var pagamentoExistente = await pagamentoController.ConsultarPagamentoMockado(request.PedidoId.ToString());
 
-            var pagamento = await pagamentoController.RealizarPagamento(pedidoId, pagamentoExistente.StatusPagamento);
+            var pagamento = await pagamentoController.RealizarPagamento(request.PedidoId, pagamentoExistente.StatusPagamento);
 
             if (pagamento)
             {
-                await pedidoController.TrocarStatus(pedidoId, StatusPedido.PedidoRecebido);
+                await pedidoController.TrocarStatus(request.PedidoId, StatusPedido.PedidoRecebido);
                 return Results.Ok();
             }
             else
             {
-                await pedidoController.TrocarStatus(pedidoId, StatusPedido.PedidoCancelado);
-                return Results.BadRequest(new ErrorResponseDTO { MensagemErro = $"Erro ao realizar o pagamento.", StatusCode = HttpStatusCode.BadRequest });
+                await pedidoController.TrocarStatus(request.PedidoId, StatusPedido.PedidoCanceladoPorPagamentoRecusado);
+                return Results.BadRequest(new ErrorResponseDTO { MensagemErro = $"Pagamento recusado.", StatusCode = HttpStatusCode.BadRequest });
             }
 
         }

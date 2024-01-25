@@ -25,7 +25,7 @@ namespace TechLanches.Application.Gateways
 
         public Task<Pagamento> Cadastrar(Pagamento pagamento)
         {
-            throw new NotImplementedException();
+            return _pagamentoRepository.Cadastrar(pagamento);
         }
 
         public async Task CommitAsync()
