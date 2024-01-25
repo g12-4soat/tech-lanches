@@ -23,13 +23,13 @@ namespace TechLanches.Application.Controllers
             IPagamentoRepository pagamentoRepository, 
             IMercadoPagoMockadoService mercadoPagoMockadoService, 
             IMercadoPagoService mercadoPagoService, 
-            IPedidoGateway pedidoGateway, 
+            IPedidoRepository pedidoRepository, 
             ICheckoutPresenter checkoutPresenter, 
             IQrCodeGeneratorService qrCodeGeneratorService, 
             ApplicationOptions applicationOptions)
         {
-            _pagamentoGateway = _pagamentoGateway = new PagamentoGateway(pagamentoRepository, mercadoPagoMockadoService, mercadoPagoService, applicationOptions, false);
-            _pedidoGateway = pedidoGateway;
+            _pagamentoGateway = new PagamentoGateway(pagamentoRepository, mercadoPagoMockadoService, mercadoPagoService, applicationOptions, false);
+            _pedidoGateway = new PedidoGateway(pedidoRepository);
             _checkoutPresenter = checkoutPresenter;
             _qrCodeGeneratorService = qrCodeGeneratorService;
         }
