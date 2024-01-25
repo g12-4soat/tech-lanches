@@ -3,12 +3,9 @@ using TechLanches.Application.Controllers.Interfaces;
 using TechLanches.Application.DTOs;
 using TechLanches.Application.Gateways;
 using TechLanches.Application.Gateways.Interfaces;
-using TechLanches.Application.Ports.Services.Interfaces;
+using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Presenters.Interfaces;
 using TechLanches.Application.UseCases.Pedidos;
-using TechLanches.Core;
-using TechLanches.Domain.Aggregates;
-using TechLanches.Domain.Entities;
 using TechLanches.Domain.Enums;
 using TechLanches.Domain.Services;
 using TechLanches.Domain.ValueObjects;
@@ -24,13 +21,13 @@ namespace TechLanches.Application.Controllers
         private readonly IClienteGateway _clienteGateway;
 
         public PedidoController(
-            IPedidoGateway pedidoGateway,
+            IPedidoRepository pedidoRepository,
             IPedidoPresenter pedidoPresenter,
             IClienteGateway clienteGateway,
             IStatusPedidoValidacaoService statusPedidoValidacaoService,
             IRabbitMqService rabbitmqService)
         {
-            _pedidoGateway = pedidoGateway;
+            _pedidoGateway = new PedidoGateway(pedidoRepository);
             _pedidoPresenter = pedidoPresenter;
             _clienteGateway = clienteGateway;
             _statusPedidoValidacaoService = statusPedidoValidacaoService;

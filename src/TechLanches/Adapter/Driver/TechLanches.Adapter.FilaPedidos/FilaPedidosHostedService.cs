@@ -2,7 +2,9 @@ using Microsoft.Extensions.Options;
 using TechLanches.Adapter.FilaPedidos.Options;
 using TechLanches.Adapter.RabbitMq.Messaging;
 using TechLanches.Application.Controllers.Interfaces;
+using TechLanches.Application.Gateways;
 using TechLanches.Application.Gateways.Interfaces;
+using TechLanches.Application.Ports.Repositories;
 using TechLanches.Domain.Enums;
 
 namespace TechLanches.Adapter.FilaPedidos
@@ -18,13 +20,13 @@ namespace TechLanches.Adapter.FilaPedidos
             ILogger<FilaPedidosHostedService> logger,
             IFilaPedidoController filaPedidoService,
             IOptions<WorkerOptions> workerOptions,
-            IPedidoGateway pedidoGateway,
+            IPedidoRepository pedidoRepository,
             IRabbitMqService rabbitMqService)
         {
             _logger = logger;
             _filaPedidoController = filaPedidoService;
             _workerOptions = workerOptions.Value;
-            _pedidoGateway = pedidoGateway;
+            _pedidoGateway = new PedidoGateway(pedidoRepository);
             _rabbitMqService = rabbitMqService;
         }
 
