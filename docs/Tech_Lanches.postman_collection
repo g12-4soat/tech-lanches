@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "ed52c85d-84a4-4520-93a4-bf6ab3fbfc90",
+		"_postman_id": "7de20b3d-102e-4090-8947-613a67d17e48",
 		"name": "Tech Lanches",
 		"description": "Tech Lanches API Swagger\n\nContact Support:\n Name: Tech Lanches\n Email: g12.4soat.fiap@outlook.com",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "30725918"
+		"_exporter_id": "24235764"
 	},
 	"item": [
 		{
@@ -18,6 +18,9 @@
 							"item": [
 								{
 									"name": "Obter cliente por CPF",
+									"protocolProfileBehavior": {
+										"disableBodyPruning": true
+									},
 									"request": {
 										"method": "GET",
 										"header": [
@@ -26,22 +29,19 @@
 												"value": "application/json"
 											}
 										],
+										"body": {
+											"mode": "raw",
+											"raw": ""
+										},
 										"url": {
-											"raw": "{{baseUrl}}/api/clientes/:cpf",
+											"raw": "{{baseUrl}}/api/clientes/18696905083",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
 												"clientes",
-												":cpf"
-											],
-											"variable": [
-												{
-													"key": "cpf",
-													"value": "<string>",
-													"description": "(Required) "
-												}
+												"18696905083"
 											]
 										},
 										"description": "Retorna o cliente proprietário do CPF"
@@ -123,7 +123,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										},
 										{
 											"name": "Cliente não encontrado",
@@ -162,7 +162,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										},
 										{
 											"name": "Erro no servidor interno",
@@ -201,7 +201,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										}
 									]
 								}
@@ -223,7 +223,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"nome\": \"<string>\",\n  \"email\": \"<string>\",\n  \"cpf\": \"<string>\"\n}",
+									"raw": "{\n  \"nome\": \"Maria da Silva\",\n  \"email\": \"maria.silva@usuario.com\",\n  \"cpf\": \"510.138.370-88\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -336,7 +336,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								},
 								{
 									"name": "Cliente não cadastrado",
@@ -383,7 +383,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								},
 								{
 									"name": "Erro no servidor interno",
@@ -430,7 +430,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								}
 							]
 						}
@@ -493,7 +493,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"id\": \"<integer>\",\n  \"clienteId\": \"<integer>\",\n  \"nomeCliente\": \"<string>\",\n  \"statusPedido\": \"<string>\",\n  \"valor\": \"<double>\",\n  \"itensPedido\": [\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    },\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    }\n  ]\n}"
+									"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"clienteId\": \"<integer>\",\n    \"nomeCliente\": \"<string>\",\n    \"nomeStatusPedido\": \"<string>\",\n    \"statusPedido\": 5,\n    \"valor\": \"<double>\",\n    \"itensPedido\": [\n      {\n        \"produto\": {\n          \"id\": \"<integer>\",\n          \"nome\": \"<string>\",\n          \"descricao\": \"<string>\",\n          \"preco\": \"<double>\",\n          \"categoria\": \"<string>\",\n          \"categoriaId\": \"<integer>\"\n        },\n        \"quantidade\": \"<integer>\",\n        \"valor\": \"<double>\"\n      },\n      {\n        \"produto\": {\n          \"id\": \"<integer>\",\n          \"nome\": \"<string>\",\n          \"descricao\": \"<string>\",\n          \"preco\": \"<double>\",\n          \"categoria\": \"<string>\",\n          \"categoriaId\": \"<integer>\"\n        },\n        \"quantidade\": \"<integer>\",\n        \"valor\": \"<double>\"\n      }\n    ],\n    \"pagamentos\": [\n      {\n        \"id\": \"<integer>\",\n        \"valor\": \"<double>\",\n        \"statusPagamento\": \"<string>\"\n      },\n      {\n        \"id\": \"<integer>\",\n        \"valor\": \"<double>\",\n        \"statusPagamento\": \"<string>\"\n      }\n    ]\n  },\n  {\n    \"id\": \"<integer>\",\n    \"clienteId\": \"<integer>\",\n    \"nomeCliente\": \"<string>\",\n    \"nomeStatusPedido\": \"<string>\",\n    \"statusPedido\": 5,\n    \"valor\": \"<double>\",\n    \"itensPedido\": [\n      {\n        \"produto\": {\n          \"id\": \"<integer>\",\n          \"nome\": \"<string>\",\n          \"descricao\": \"<string>\",\n          \"preco\": \"<double>\",\n          \"categoria\": \"<string>\",\n          \"categoriaId\": \"<integer>\"\n        },\n        \"quantidade\": \"<integer>\",\n        \"valor\": \"<double>\"\n      },\n      {\n        \"produto\": {\n          \"id\": \"<integer>\",\n          \"nome\": \"<string>\",\n          \"descricao\": \"<string>\",\n          \"preco\": \"<double>\",\n          \"categoria\": \"<string>\",\n          \"categoriaId\": \"<integer>\"\n        },\n        \"quantidade\": \"<integer>\",\n        \"valor\": \"<double>\"\n      }\n    ],\n    \"pagamentos\": [\n      {\n        \"id\": \"<integer>\",\n        \"valor\": \"<double>\",\n        \"statusPagamento\": \"<string>\"\n      },\n      {\n        \"id\": \"<integer>\",\n        \"valor\": \"<double>\",\n        \"statusPagamento\": \"<string>\"\n      }\n    ]\n  }\n]"
 								},
 								{
 									"name": "Requisição inválida",
@@ -526,7 +526,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								},
 								{
 									"name": "Pedidos da fila não encontrados",
@@ -559,7 +559,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								},
 								{
 									"name": "Erro no servidor interno",
@@ -592,7 +592,413 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "pagamentos",
+					"item": [
+						{
+							"name": "status",
+							"item": [
+								{
+									"name": "{pedidoId}",
+									"item": [
+										{
+											"name": "Buscar status pagamento",
+											"request": {
+												"method": "GET",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"url": {
+													"raw": "{{baseUrl}}/api/pagamentos/status/1",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pagamentos",
+														"status",
+														"1"
+													]
+												},
+												"description": "Retorna o status do pagamento"
+											},
+											"response": [
+												{
+													"name": "Status do pagamento encontrado com sucesso",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/pagamentos/status/:pedidoId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"pagamentos",
+																"status",
+																":pedidoId"
+															],
+															"variable": [
+																{
+																	"key": "pedidoId"
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"id\": \"<integer>\",\n  \"valor\": \"<double>\",\n  \"statusPagamento\": \"<string>\"\n}"
+												},
+												{
+													"name": "Requisição inválida",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/pagamentos/status/:pedidoId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"pagamentos",
+																"status",
+																":pedidoId"
+															],
+															"variable": [
+																{
+																	"key": "pedidoId"
+																}
+															]
+														}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
+												},
+												{
+													"name": "Pedido não encontrado",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/pagamentos/status/:pedidoId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"pagamentos",
+																"status",
+																":pedidoId"
+															],
+															"variable": [
+																{
+																	"key": "pedidoId"
+																}
+															]
+														}
+													},
+													"status": "Not Found",
+													"code": 404,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
+												},
+												{
+													"name": "Erro no servidor interno",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/pagamentos/status/:pedidoId",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"pagamentos",
+																"status",
+																":pedidoId"
+															],
+															"variable": [
+																{
+																	"key": "pedidoId"
+																}
+															]
+														}
+													},
+													"status": "Internal Server Error",
+													"code": 500,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
+												}
+											]
+										}
+									]
+								}
+							]
+						},
+						{
+							"name": "webhook",
+							"item": [
+								{
+									"name": "mockado",
+									"item": [
+										{
+											"name": "Webhook pagamento mockado",
+											"request": {
+												"method": "POST",
+												"header": [
+													{
+														"key": "Accept",
+														"value": "application/json"
+													}
+												],
+												"body": {
+													"mode": "raw",
+													"raw": "{\r\n  \"pedidoId\": 1\r\n}",
+													"options": {
+														"raw": {
+															"language": "json"
+														}
+													}
+												},
+												"url": {
+													"raw": "{{baseUrl}}/api/pagamentos/webhook/mockado",
+													"host": [
+														"{{baseUrl}}"
+													],
+													"path": [
+														"api",
+														"pagamentos",
+														"webhook",
+														"mockado"
+													]
+												},
+												"description": "Retorna o pagamento"
+											},
+											"response": [
+												{
+													"name": "Pagamento encontrado com sucesso",
+													"originalRequest": {
+														"method": "GET",
+														"header": [],
+														"url": {
+															"raw": "{{baseUrl}}/api/pagamentos/webhook/mockado?pedidoId=<integer>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"pagamentos",
+																"webhook",
+																"mockado"
+															],
+															"query": [
+																{
+																	"key": "pedidoId",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"status": "OK",
+													"code": 200,
+													"_postman_previewlanguage": "text",
+													"header": [],
+													"cookie": [],
+													"body": ""
+												},
+												{
+													"name": "Requisição inválida",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/pagamentos/webhook/mockado?pedidoId=<integer>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"pagamentos",
+																"webhook",
+																"mockado"
+															],
+															"query": [
+																{
+																	"key": "pedidoId",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"status": "Bad Request",
+													"code": 400,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
+												},
+												{
+													"name": "Pagamento não encontrado",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/pagamentos/webhook/mockado?pedidoId=<integer>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"pagamentos",
+																"webhook",
+																"mockado"
+															],
+															"query": [
+																{
+																	"key": "pedidoId",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"status": "Not Found",
+													"code": 404,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
+												},
+												{
+													"name": "Erro no servidor interno",
+													"originalRequest": {
+														"method": "GET",
+														"header": [
+															{
+																"key": "Accept",
+																"value": "application/json"
+															}
+														],
+														"url": {
+															"raw": "{{baseUrl}}/api/pagamentos/webhook/mockado?pedidoId=<integer>",
+															"host": [
+																"{{baseUrl}}"
+															],
+															"path": [
+																"api",
+																"pagamentos",
+																"webhook",
+																"mockado"
+															],
+															"query": [
+																{
+																	"key": "pedidoId",
+																	"value": "<integer>",
+																	"description": "(Required) "
+																}
+															]
+														}
+													},
+													"status": "Internal Server Error",
+													"code": 500,
+													"_postman_previewlanguage": "json",
+													"header": [
+														{
+															"key": "Content-Type",
+															"value": "application/json"
+														}
+													],
+													"cookie": [],
+													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
+												}
+											]
+										}
+									]
 								}
 							]
 						}
@@ -623,7 +1029,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "<integer>",
+													"raw": "2",
 													"options": {
 														"raw": {
 															"headerFamily": "json",
@@ -632,22 +1038,15 @@
 													}
 												},
 												"url": {
-													"raw": "{{baseUrl}}/api/pedidos/:idPedido/trocarstatus",
+													"raw": "{{baseUrl}}/api/pedidos/1/trocarstatus",
 													"host": [
 														"{{baseUrl}}"
 													],
 													"path": [
 														"api",
 														"pedidos",
-														":idPedido",
+														"1",
 														"trocarstatus"
-													],
-													"variable": [
-														{
-															"key": "idPedido",
-															"value": "<integer>",
-															"description": "(Required) "
-														}
 													]
 												},
 												"description": "Efetua a troca de status do pedido"
@@ -705,7 +1104,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"id\": \"<integer>\",\n  \"clienteId\": \"<integer>\",\n  \"nomeCliente\": \"<string>\",\n  \"statusPedido\": \"<string>\",\n  \"valor\": \"<double>\",\n  \"itensPedido\": [\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    },\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    }\n  ]\n}"
+													"body": "{\n  \"id\": \"<integer>\",\n  \"clienteId\": \"<integer>\",\n  \"nomeCliente\": \"<string>\",\n  \"nomeStatusPedido\": \"<string>\",\n  \"statusPedido\": 6,\n  \"valor\": \"<double>\",\n  \"itensPedido\": [\n    {\n      \"produto\": {\n        \"id\": \"<integer>\",\n        \"nome\": \"<string>\",\n        \"descricao\": \"<string>\",\n        \"preco\": \"<double>\",\n        \"categoria\": \"<string>\",\n        \"categoriaId\": \"<integer>\"\n      },\n      \"quantidade\": \"<integer>\",\n      \"valor\": \"<double>\"\n    },\n    {\n      \"produto\": {\n        \"id\": \"<integer>\",\n        \"nome\": \"<string>\",\n        \"descricao\": \"<string>\",\n        \"preco\": \"<double>\",\n        \"categoria\": \"<string>\",\n        \"categoriaId\": \"<integer>\"\n      },\n      \"quantidade\": \"<integer>\",\n      \"valor\": \"<double>\"\n    }\n  ],\n  \"pagamentos\": [\n    {\n      \"id\": \"<integer>\",\n      \"valor\": \"<double>\",\n      \"statusPagamento\": \"<string>\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"valor\": \"<double>\",\n      \"statusPagamento\": \"<string>\"\n    }\n  ]\n}"
 												},
 												{
 													"name": "Requisição inválida",
@@ -759,7 +1158,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 												},
 												{
 													"name": "Status do pedido não alterado",
@@ -813,7 +1212,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 												},
 												{
 													"name": "Erro no servidor interno",
@@ -867,7 +1266,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 												}
 											]
 										}
@@ -884,21 +1283,14 @@
 											}
 										],
 										"url": {
-											"raw": "{{baseUrl}}/api/pedidos/:idPedido",
+											"raw": "{{baseUrl}}/api/pedidos/1",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
 												"pedidos",
-												":idPedido"
-											],
-											"variable": [
-												{
-													"key": "idPedido",
-													"value": "<integer>",
-													"description": "(Required) "
-												}
+												"1"
 											]
 										},
 										"description": "Retorna o pedido cadastrado por id"
@@ -941,7 +1333,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"id\": \"<integer>\",\n  \"clienteId\": \"<integer>\",\n  \"nomeCliente\": \"<string>\",\n  \"statusPedido\": \"<string>\",\n  \"valor\": \"<double>\",\n  \"itensPedido\": [\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    },\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    }\n  ]\n}"
+											"body": "{\n  \"id\": \"<integer>\",\n  \"clienteId\": \"<integer>\",\n  \"nomeCliente\": \"<string>\",\n  \"nomeStatusPedido\": \"<string>\",\n  \"statusPedido\": 6,\n  \"valor\": \"<double>\",\n  \"itensPedido\": [\n    {\n      \"produto\": {\n        \"id\": \"<integer>\",\n        \"nome\": \"<string>\",\n        \"descricao\": \"<string>\",\n        \"preco\": \"<double>\",\n        \"categoria\": \"<string>\",\n        \"categoriaId\": \"<integer>\"\n      },\n      \"quantidade\": \"<integer>\",\n      \"valor\": \"<double>\"\n    },\n    {\n      \"produto\": {\n        \"id\": \"<integer>\",\n        \"nome\": \"<string>\",\n        \"descricao\": \"<string>\",\n        \"preco\": \"<double>\",\n        \"categoria\": \"<string>\",\n        \"categoriaId\": \"<integer>\"\n      },\n      \"quantidade\": \"<integer>\",\n      \"valor\": \"<double>\"\n    }\n  ],\n  \"pagamentos\": [\n    {\n      \"id\": \"<integer>\",\n      \"valor\": \"<double>\",\n      \"statusPagamento\": \"<string>\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"valor\": \"<double>\",\n      \"statusPagamento\": \"<string>\"\n    }\n  ]\n}"
 										},
 										{
 											"name": "Requisição inválida",
@@ -980,7 +1372,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										},
 										{
 											"name": "Pedido não encontrado",
@@ -1019,7 +1411,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										},
 										{
 											"name": "Erro no servidor interno",
@@ -1058,7 +1450,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										}
 									]
 								}
@@ -1081,7 +1473,7 @@
 													}
 												],
 												"url": {
-													"raw": "{{baseUrl}}/api/pedidos/buscarpedidosporstatus/:statusPedido",
+													"raw": "{{baseUrl}}/api/pedidos/buscarpedidosporstatus/1",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -1089,14 +1481,7 @@
 														"api",
 														"pedidos",
 														"buscarpedidosporstatus",
-														":statusPedido"
-													],
-													"variable": [
-														{
-															"key": "statusPedido",
-															"value": "<string>",
-															"description": "(Required) "
-														}
+														"1"
 													]
 												},
 												"description": "Retorna todos os pedidos contidos no status"
@@ -1140,7 +1525,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"id\": \"<integer>\",\n  \"clienteId\": \"<integer>\",\n  \"nomeCliente\": \"<string>\",\n  \"statusPedido\": \"<string>\",\n  \"valor\": \"<double>\",\n  \"itensPedido\": [\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    },\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    }\n  ]\n}"
+													"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"clienteId\": \"<integer>\",\n    \"nomeCliente\": \"<string>\",\n    \"nomeStatusPedido\": \"<string>\",\n    \"statusPedido\": 5,\n    \"valor\": \"<double>\",\n    \"itensPedido\": [\n      {\n        \"produto\": {\n          \"id\": \"<integer>\",\n          \"nome\": \"<string>\",\n          \"descricao\": \"<string>\",\n          \"preco\": \"<double>\",\n          \"categoria\": \"<string>\",\n          \"categoriaId\": \"<integer>\"\n        },\n        \"quantidade\": \"<integer>\",\n        \"valor\": \"<double>\"\n      },\n      {\n        \"produto\": {\n          \"id\": \"<integer>\",\n          \"nome\": \"<string>\",\n          \"descricao\": \"<string>\",\n          \"preco\": \"<double>\",\n          \"categoria\": \"<string>\",\n          \"categoriaId\": \"<integer>\"\n        },\n        \"quantidade\": \"<integer>\",\n        \"valor\": \"<double>\"\n      }\n    ],\n    \"pagamentos\": [\n      {\n        \"id\": \"<integer>\",\n        \"valor\": \"<double>\",\n        \"statusPagamento\": \"<string>\"\n      },\n      {\n        \"id\": \"<integer>\",\n        \"valor\": \"<double>\",\n        \"statusPagamento\": \"<string>\"\n      }\n    ]\n  },\n  {\n    \"id\": \"<integer>\",\n    \"clienteId\": \"<integer>\",\n    \"nomeCliente\": \"<string>\",\n    \"nomeStatusPedido\": \"<string>\",\n    \"statusPedido\": 5,\n    \"valor\": \"<double>\",\n    \"itensPedido\": [\n      {\n        \"produto\": {\n          \"id\": \"<integer>\",\n          \"nome\": \"<string>\",\n          \"descricao\": \"<string>\",\n          \"preco\": \"<double>\",\n          \"categoria\": \"<string>\",\n          \"categoriaId\": \"<integer>\"\n        },\n        \"quantidade\": \"<integer>\",\n        \"valor\": \"<double>\"\n      },\n      {\n        \"produto\": {\n          \"id\": \"<integer>\",\n          \"nome\": \"<string>\",\n          \"descricao\": \"<string>\",\n          \"preco\": \"<double>\",\n          \"categoria\": \"<string>\",\n          \"categoriaId\": \"<integer>\"\n        },\n        \"quantidade\": \"<integer>\",\n        \"valor\": \"<double>\"\n      }\n    ],\n    \"pagamentos\": [\n      {\n        \"id\": \"<integer>\",\n        \"valor\": \"<double>\",\n        \"statusPagamento\": \"<string>\"\n      },\n      {\n        \"id\": \"<integer>\",\n        \"valor\": \"<double>\",\n        \"statusPagamento\": \"<string>\"\n      }\n    ]\n  }\n]"
 												},
 												{
 													"name": "Requisição inválida",
@@ -1180,7 +1565,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 												},
 												{
 													"name": "Pedidos não encontrados",
@@ -1220,7 +1605,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 												},
 												{
 													"name": "Erro no servidor interno",
@@ -1260,7 +1645,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 												}
 											]
 										}
@@ -1327,7 +1712,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\"\n}"
+											"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"nome\": \"<string>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"nome\": \"<string>\"\n  }\n]"
 										},
 										{
 											"name": "Requisição inválida",
@@ -1361,7 +1746,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										},
 										{
 											"name": "Status do pedido não encontrado",
@@ -1395,7 +1780,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										},
 										{
 											"name": "Erro no servidor interno",
@@ -1429,7 +1814,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										}
 									]
 								}
@@ -1489,7 +1874,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"id\": \"<integer>\",\n  \"clienteId\": \"<integer>\",\n  \"nomeCliente\": \"<string>\",\n  \"statusPedido\": \"<string>\",\n  \"valor\": \"<double>\",\n  \"itensPedido\": [\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    },\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    }\n  ]\n}"
+									"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"clienteId\": \"<integer>\",\n    \"nomeCliente\": \"<string>\",\n    \"nomeStatusPedido\": \"<string>\",\n    \"statusPedido\": 5,\n    \"valor\": \"<double>\",\n    \"itensPedido\": [\n      {\n        \"produto\": {\n          \"id\": \"<integer>\",\n          \"nome\": \"<string>\",\n          \"descricao\": \"<string>\",\n          \"preco\": \"<double>\",\n          \"categoria\": \"<string>\",\n          \"categoriaId\": \"<integer>\"\n        },\n        \"quantidade\": \"<integer>\",\n        \"valor\": \"<double>\"\n      },\n      {\n        \"produto\": {\n          \"id\": \"<integer>\",\n          \"nome\": \"<string>\",\n          \"descricao\": \"<string>\",\n          \"preco\": \"<double>\",\n          \"categoria\": \"<string>\",\n          \"categoriaId\": \"<integer>\"\n        },\n        \"quantidade\": \"<integer>\",\n        \"valor\": \"<double>\"\n      }\n    ],\n    \"pagamentos\": [\n      {\n        \"id\": \"<integer>\",\n        \"valor\": \"<double>\",\n        \"statusPagamento\": \"<string>\"\n      },\n      {\n        \"id\": \"<integer>\",\n        \"valor\": \"<double>\",\n        \"statusPagamento\": \"<string>\"\n      }\n    ]\n  },\n  {\n    \"id\": \"<integer>\",\n    \"clienteId\": \"<integer>\",\n    \"nomeCliente\": \"<string>\",\n    \"nomeStatusPedido\": \"<string>\",\n    \"statusPedido\": 5,\n    \"valor\": \"<double>\",\n    \"itensPedido\": [\n      {\n        \"produto\": {\n          \"id\": \"<integer>\",\n          \"nome\": \"<string>\",\n          \"descricao\": \"<string>\",\n          \"preco\": \"<double>\",\n          \"categoria\": \"<string>\",\n          \"categoriaId\": \"<integer>\"\n        },\n        \"quantidade\": \"<integer>\",\n        \"valor\": \"<double>\"\n      },\n      {\n        \"produto\": {\n          \"id\": \"<integer>\",\n          \"nome\": \"<string>\",\n          \"descricao\": \"<string>\",\n          \"preco\": \"<double>\",\n          \"categoria\": \"<string>\",\n          \"categoriaId\": \"<integer>\"\n        },\n        \"quantidade\": \"<integer>\",\n        \"valor\": \"<double>\"\n      }\n    ],\n    \"pagamentos\": [\n      {\n        \"id\": \"<integer>\",\n        \"valor\": \"<double>\",\n        \"statusPagamento\": \"<string>\"\n      },\n      {\n        \"id\": \"<integer>\",\n        \"valor\": \"<double>\",\n        \"statusPagamento\": \"<string>\"\n      }\n    ]\n  }\n]"
 								},
 								{
 									"name": "Requisição inválida",
@@ -1522,7 +1907,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								},
 								{
 									"name": "Pedidos não encontrados",
@@ -1555,7 +1940,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								},
 								{
 									"name": "Erro no servidor interno",
@@ -1588,7 +1973,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								}
 							]
 						},
@@ -1608,7 +1993,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"cpf\": \"<string>\",\n  \"itensPedido\": [\n    {\n      \"idProduto\": \"<integer>\",\n      \"quantidade\": \"<integer>\"\n    },\n    {\n      \"idProduto\": \"<integer>\",\n      \"quantidade\": \"<integer>\"\n    }\n  ]\n}",
+									"raw": "{\n  \"cpf\": \"18696905083\",\n  \"itensPedido\": [\n    {\n      \"idProduto\": 1,\n      \"quantidade\": 2\n    }\n  ]\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -1674,7 +2059,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"id\": \"<integer>\",\n  \"clienteId\": \"<integer>\",\n  \"nomeCliente\": \"<string>\",\n  \"statusPedido\": \"<string>\",\n  \"valor\": \"<double>\",\n  \"itensPedido\": [\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    },\n    {\n      \"produtoId\": \"<integer>\",\n      \"nomeProduto\": \"<string>\",\n      \"quantidade\": \"<integer>\",\n      \"precoProduto\": \"<double>\",\n      \"valor\": \"<double>\"\n    }\n  ]\n}"
+									"body": "{\n  \"id\": \"<integer>\",\n  \"clienteId\": \"<integer>\",\n  \"nomeCliente\": \"<string>\",\n  \"nomeStatusPedido\": \"<string>\",\n  \"statusPedido\": 6,\n  \"valor\": \"<double>\",\n  \"itensPedido\": [\n    {\n      \"produto\": {\n        \"id\": \"<integer>\",\n        \"nome\": \"<string>\",\n        \"descricao\": \"<string>\",\n        \"preco\": \"<double>\",\n        \"categoria\": \"<string>\",\n        \"categoriaId\": \"<integer>\"\n      },\n      \"quantidade\": \"<integer>\",\n      \"valor\": \"<double>\"\n    },\n    {\n      \"produto\": {\n        \"id\": \"<integer>\",\n        \"nome\": \"<string>\",\n        \"descricao\": \"<string>\",\n        \"preco\": \"<double>\",\n        \"categoria\": \"<string>\",\n        \"categoriaId\": \"<integer>\"\n      },\n      \"quantidade\": \"<integer>\",\n      \"valor\": \"<double>\"\n    }\n  ],\n  \"pagamentos\": [\n    {\n      \"id\": \"<integer>\",\n      \"valor\": \"<double>\",\n      \"statusPagamento\": \"<string>\"\n    },\n    {\n      \"id\": \"<integer>\",\n      \"valor\": \"<double>\",\n      \"statusPagamento\": \"<string>\"\n    }\n  ]\n}"
 								},
 								{
 									"name": "Requisição inválida",
@@ -1721,7 +2106,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								},
 								{
 									"name": "Pedido não cadastrado",
@@ -1768,7 +2153,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								},
 								{
 									"name": "Erro no servidor interno",
@@ -1815,7 +2200,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								}
 							]
 						}
@@ -1838,21 +2223,14 @@
 											}
 										],
 										"url": {
-											"raw": "{{baseUrl}}/api/produtos/:id",
+											"raw": "{{baseUrl}}/api/produtos/1",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
 												"produtos",
-												":id"
-											],
-											"variable": [
-												{
-													"key": "id",
-													"value": "<integer>",
-													"description": "(Required) "
-												}
+												"1"
 											]
 										},
 										"description": "Retorna o produto cadastrado por id"
@@ -1895,7 +2273,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\"\n}"
+											"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\",\n  \"categoriaId\": \"<integer>\"\n}"
 										},
 										{
 											"name": "Requisição inválida",
@@ -1934,7 +2312,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										},
 										{
 											"name": "Produto não encontrado",
@@ -1973,7 +2351,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										},
 										{
 											"name": "Erro no servidor interno",
@@ -2012,7 +2390,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										}
 									]
 								},
@@ -2027,21 +2405,14 @@
 											}
 										],
 										"url": {
-											"raw": "{{baseUrl}}/api/produtos/:id",
+											"raw": "{{baseUrl}}/api/produtos/4",
 											"host": [
 												"{{baseUrl}}"
 											],
 											"path": [
 												"api",
 												"produtos",
-												":id"
-											],
-											"variable": [
-												{
-													"key": "id",
-													"value": "<integer>",
-													"description": "(Required) "
-												}
+												"4"
 											]
 										},
 										"description": "Efetua a remoção do produto"
@@ -2084,7 +2455,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\"\n}"
+											"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\",\n  \"categoriaId\": \"<integer>\"\n}"
 										},
 										{
 											"name": "Requisição inválida",
@@ -2123,7 +2494,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										},
 										{
 											"name": "Produto não removido",
@@ -2162,7 +2533,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										},
 										{
 											"name": "Erro no servidor interno",
@@ -2201,7 +2572,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										}
 									]
 								}
@@ -2224,7 +2595,7 @@
 													}
 												],
 												"url": {
-													"raw": "{{baseUrl}}/api/produtos/categoria/:categoriaId",
+													"raw": "{{baseUrl}}/api/produtos/categoria/2",
 													"host": [
 														"{{baseUrl}}"
 													],
@@ -2232,14 +2603,7 @@
 														"api",
 														"produtos",
 														"categoria",
-														":categoriaId"
-													],
-													"variable": [
-														{
-															"key": "categoriaId",
-															"value": "<integer>",
-															"description": "(Required) "
-														}
+														"2"
 													]
 												},
 												"description": "Retorna os produtos cadastrados por id da categoria"
@@ -2283,7 +2647,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\"\n}"
+													"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"nome\": \"<string>\",\n    \"descricao\": \"<string>\",\n    \"preco\": \"<double>\",\n    \"categoria\": \"<string>\",\n    \"categoriaId\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"nome\": \"<string>\",\n    \"descricao\": \"<string>\",\n    \"preco\": \"<double>\",\n    \"categoria\": \"<string>\",\n    \"categoriaId\": \"<integer>\"\n  }\n]"
 												},
 												{
 													"name": "Requisição inválida",
@@ -2323,7 +2687,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 												},
 												{
 													"name": "Produtos não encontrados",
@@ -2363,7 +2727,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 												},
 												{
 													"name": "Erro no servidor interno",
@@ -2403,7 +2767,7 @@
 														}
 													],
 													"cookie": [],
-													"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+													"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 												}
 											]
 										}
@@ -2470,7 +2834,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\"\n}"
+											"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"nome\": \"<string>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"nome\": \"<string>\"\n  }\n]"
 										},
 										{
 											"name": "Requisição inválida",
@@ -2504,7 +2868,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										},
 										{
 											"name": "Categorias não encontradas",
@@ -2538,7 +2902,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										},
 										{
 											"name": "Erro no servidor interno",
@@ -2572,7 +2936,7 @@
 												}
 											],
 											"cookie": [],
-											"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+											"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 										}
 									]
 								}
@@ -2632,7 +2996,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\"\n}"
+									"body": "[\n  {\n    \"id\": \"<integer>\",\n    \"nome\": \"<string>\",\n    \"descricao\": \"<string>\",\n    \"preco\": \"<double>\",\n    \"categoria\": \"<string>\",\n    \"categoriaId\": \"<integer>\"\n  },\n  {\n    \"id\": \"<integer>\",\n    \"nome\": \"<string>\",\n    \"descricao\": \"<string>\",\n    \"preco\": \"<double>\",\n    \"categoria\": \"<string>\",\n    \"categoriaId\": \"<integer>\"\n  }\n]"
 								},
 								{
 									"name": "Requisição inválida",
@@ -2665,7 +3029,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								},
 								{
 									"name": "Produtos não encontrados",
@@ -2698,7 +3062,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								},
 								{
 									"name": "Erro no servidor interno",
@@ -2731,7 +3095,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								}
 							]
 						},
@@ -2751,7 +3115,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoriaId\": \"<integer>\"\n}",
+									"raw": "{\n  \"nome\": \"X-Bacon\",\n  \"descricao\": \"Lanche com carne, bacon e queijo.\",\n  \"preco\": \"30\",\n  \"categoriaId\": \"1\"\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -2817,7 +3181,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\"\n}"
+									"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\",\n  \"categoriaId\": \"<integer>\"\n}"
 								},
 								{
 									"name": "Requisição inválida",
@@ -2864,7 +3228,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								},
 								{
 									"name": "Produto não cadastrado",
@@ -2911,7 +3275,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								},
 								{
 									"name": "Erro no servidor interno",
@@ -2958,7 +3322,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								}
 							]
 						},
@@ -2978,7 +3342,7 @@
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoriaId\": \"<integer>\"\n}",
+									"raw": "{\n    \"nome\": \"Suco de Laranja\",\n    \"descricao\": \"Suco natural de laranjas\",\n    \"preco\": 12.00,\n    \"categoriaId\": 3\n}",
 									"options": {
 										"raw": {
 											"headerFamily": "json",
@@ -2987,7 +3351,7 @@
 									}
 								},
 								"url": {
-									"raw": "{{baseUrl}}/api/produtos?id=<integer>",
+									"raw": "{{baseUrl}}/api/produtos?id=3",
 									"host": [
 										"{{baseUrl}}"
 									],
@@ -2998,7 +3362,7 @@
 									"query": [
 										{
 											"key": "id",
-											"value": "<integer>",
+											"value": "3",
 											"description": "(Required) "
 										}
 									]
@@ -3058,7 +3422,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\"\n}"
+									"body": "{\n  \"id\": \"<integer>\",\n  \"nome\": \"<string>\",\n  \"descricao\": \"<string>\",\n  \"preco\": \"<double>\",\n  \"categoria\": \"<string>\",\n  \"categoriaId\": \"<integer>\"\n}"
 								},
 								{
 									"name": "Requisição inválida",
@@ -3112,7 +3476,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								},
 								{
 									"name": "Produto não atualizado",
@@ -3166,7 +3530,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								},
 								{
 									"name": "Erro no servidor interno",
@@ -3220,7 +3584,7 @@
 										}
 									],
 									"cookie": [],
-									"body": "{\n  \"statusCode\": \"<integer>\",\n  \"mensagemErro\": \"<string>\"\n}"
+									"body": "{\n  \"statusCode\": 302,\n  \"mensagemErro\": \"<string>\"\n}"
 								}
 							]
 						}
