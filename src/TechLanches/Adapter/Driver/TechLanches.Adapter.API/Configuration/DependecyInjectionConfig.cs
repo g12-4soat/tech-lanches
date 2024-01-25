@@ -42,8 +42,6 @@ namespace TechLanches.Adapter.API.Configuration
             services.AddScoped<ICheckoutController, CheckoutController>();            
             services.AddScoped<IClienteController, ClienteController>();
 
-            services.AddScoped<IPedidoGateway, PedidoGateway>();
-            services.AddScoped<IPagamentoGateway, PagamentoGateway>();
             services.AddScoped<IClienteGateway, ClienteGateway>();
 
             services.AddScoped<IQrCodeGeneratorService, QrCodeGeneratorService>();

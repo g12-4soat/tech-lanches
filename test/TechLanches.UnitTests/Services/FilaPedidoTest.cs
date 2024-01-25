@@ -43,7 +43,7 @@ namespace TechLanches.UnitTests.Services
 
             mockPedidoRepository.BuscarPorId(1).Returns(Task.FromResult(new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1) })));
 
-            var filaPedidoController = new FilaPedidoController(mockPedidoRepository, new PedidoPresenter(), new FilaPedidoGateway(mockFilaPedidoRepository), _statusPedidoValidacaoService);
+            var filaPedidoController = new FilaPedidoController(mockPedidoRepository, new PedidoPresenter(), mockFilaPedidoRepository, _statusPedidoValidacaoService);
 
             // Act
             var pedido = await filaPedidoController.RetornarPrimeiroPedidoDaFila();
@@ -60,7 +60,7 @@ namespace TechLanches.UnitTests.Services
             var mockPedidoRepository = Substitute.For<IPedidoRepository>();
 
             mockFilaPedidoRepository.RetornarFilaPedidos().Returns(Task.FromResult(new List<FilaPedido>()));
-            var filaPedidoController = new FilaPedidoController(mockPedidoRepository, new PedidoPresenter(), new FilaPedidoGateway(mockFilaPedidoRepository), _statusPedidoValidacaoService);
+            var filaPedidoController = new FilaPedidoController(mockPedidoRepository, new PedidoPresenter(), mockFilaPedidoRepository, _statusPedidoValidacaoService);
 
             // Act
             var result = await filaPedidoController.RetornarPrimeiroPedidoDaFila();
@@ -78,7 +78,7 @@ namespace TechLanches.UnitTests.Services
 
             var pedido = new Pedido(1, new List<ItemPedido> { new ItemPedido(1, 1, 1) });
 
-            var filaPedidoController = new FilaPedidoController(mockPedidoRepository, new PedidoPresenter(), new FilaPedidoGateway(mockFilaPedidoRepository), _statusPedidoValidacaoService);
+            var filaPedidoController = new FilaPedidoController(mockPedidoRepository, new PedidoPresenter(), mockFilaPedidoRepository, _statusPedidoValidacaoService);
 
             // Act
             await filaPedidoController.TrocarStatus(pedido, StatusPedido.PedidoRecebido);

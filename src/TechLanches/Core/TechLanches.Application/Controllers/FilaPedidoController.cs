@@ -20,12 +20,12 @@ namespace TechLanches.Application.Controllers
         public FilaPedidoController(
             IPedidoRepository pedidoRepository, 
             IPedidoPresenter pedidoPresenter, 
-            IFilaPedidoGateway filaPedidoGateway, 
+            IFilaPedidoRepository filaPedidoRepository, 
             IStatusPedidoValidacaoService statusPedidoValidacaoService)
         {
             _pedidoGateway = new PedidoGateway(pedidoRepository);
             _pedidoPresenter = pedidoPresenter;
-            _filaPedidoGateway = filaPedidoGateway;
+            _filaPedidoGateway = new FilaPedidoGateway(filaPedidoRepository);
             _statusPedidoValidacaoService = statusPedidoValidacaoService;
         }
 
