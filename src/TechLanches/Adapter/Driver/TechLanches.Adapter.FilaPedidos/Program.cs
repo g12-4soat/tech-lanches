@@ -78,6 +78,8 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IQrCodeGeneratorService, QrCodeGeneratorService>();
         services.AddSingleton<IPagamentoACLService, MercadoPagoMockadoService>();
         services.AddSingleton<IPagamentoACLService, MercadoPagoService>();
+        services.AddSingleton<IMercadoPagoMockadoService, MercadoPagoMockadoService>();
+        services.AddSingleton<IMercadoPagoService, MercadoPagoService>();
         services.AddSingleton<IStatusPedidoValidacaoService, StatusPedidoValidacaoService>();
         services.AddSingleton<IRabbitMqService, RabbitMqService>();
         services.AddHostedService<FilaPedidosHostedService>();

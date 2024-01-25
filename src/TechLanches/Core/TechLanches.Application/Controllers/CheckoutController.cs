@@ -47,6 +47,7 @@ namespace TechLanches.Application.Controllers
             var qrCode = await _pagamentoGateway.GerarPagamentoEQrCodeMercadoPago(pedidoMercadoPago);
 
             await PagamentoUseCase.Cadastrar(pedidoId, FormaPagamento.QrCodeMercadoPago, pedido.Valor, _pagamentoGateway);
+            await _pagamentoGateway.CommitAsync();
 
             var bytesQrCode = new byte[] { };
 
