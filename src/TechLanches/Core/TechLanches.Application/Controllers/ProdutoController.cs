@@ -1,10 +1,10 @@
 ﻿using TechLanches.Application.Controllers.Interfaces;
 using TechLanches.Application.DTOs;
+using TechLanches.Application.Gateways;
 using TechLanches.Application.Gateways.Interfaces;
-using TechLanches.Application.Presenters;
+using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Presenters.Interfaces;
 using TechLanches.Application.UseCases.Produtos;
-using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Application.Controllers
@@ -14,9 +14,9 @@ namespace TechLanches.Application.Controllers
         private readonly IProdutoGateway _produtoGateway;
         private readonly IProdutoPresenter _produtoPresenter;
 
-        public ProdutoController(IProdutoGateway produtoGateway, IProdutoPresenter produtoPresenter)
+        public ProdutoController(IProdutoRepository produtoRepository, IProdutoPresenter produtoPresenter)
         {
-            _produtoGateway = produtoGateway;
+            _produtoGateway = new ProdutoGateway(produtoRepository);
             _produtoPresenter = produtoPresenter;
         }
 

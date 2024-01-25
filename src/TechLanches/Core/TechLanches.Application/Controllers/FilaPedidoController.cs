@@ -1,6 +1,8 @@
 ﻿using TechLanches.Application.Controllers.Interfaces;
 using TechLanches.Application.DTOs;
+using TechLanches.Application.Gateways;
 using TechLanches.Application.Gateways.Interfaces;
+using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Presenters.Interfaces;
 using TechLanches.Domain.Aggregates;
 using TechLanches.Domain.Enums;
@@ -16,14 +18,14 @@ namespace TechLanches.Application.Controllers
         private readonly IStatusPedidoValidacaoService _statusPedidoValidacaoService;
 
         public FilaPedidoController(
-            IPedidoGateway pedidoGateway, 
+            IPedidoRepository pedidoRepository, 
             IPedidoPresenter pedidoPresenter, 
-            IFilaPedidoGateway filaPedidoGateway, 
+            IFilaPedidoRepository filaPedidoRepository, 
             IStatusPedidoValidacaoService statusPedidoValidacaoService)
         {
-            _pedidoGateway = pedidoGateway;
+            _pedidoGateway = new PedidoGateway(pedidoRepository);
             _pedidoPresenter = pedidoPresenter;
-            _filaPedidoGateway = filaPedidoGateway;
+            _filaPedidoGateway = new FilaPedidoGateway(filaPedidoRepository);
             _statusPedidoValidacaoService = statusPedidoValidacaoService;
         }
 

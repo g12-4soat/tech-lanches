@@ -11,8 +11,7 @@ using TechLanches.Adapter.SqlServer;
 using TechLanches.Adapter.SqlServer.Repositories;
 using TechLanches.Application.Controllers;
 using TechLanches.Application.Controllers.Interfaces;
-using TechLanches.Application.Gateways;
-using TechLanches.Application.Gateways.Interfaces;
+using TechLanches.Application.Options;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services;
 using TechLanches.Application.Ports.Services.Interfaces;
@@ -20,9 +19,6 @@ using TechLanches.Application.Presenters;
 using TechLanches.Application.Presenters.Interfaces;
 using TechLanches.Domain.Services;
 using TechLanches.Domain.Validations;
-using Polly;
-using Polly.Extensions.Http;
-using TechLanches.Application.Options;
 
 var hostBuilder = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
@@ -62,6 +58,9 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
 
         services.AddSingleton<IPedidoRepository, PedidoRepository>();
         services.AddSingleton<IFilaPedidoRepository, FilaPedidoRepository>();
+        services.AddSingleton<IClienteRepository, ClienteRepository>();
+        services.AddSingleton<IProdutoRepository, ProdutoRepository>();
+        services.AddSingleton<IPagamentoRepository, PagamentoRepository>();
 
         services.AddSingleton<IProdutoPresenter, ProdutoPresenter>();
         services.AddSingleton<IPedidoPresenter, PedidoPresenter>();
@@ -76,20 +75,12 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<ICheckoutController, CheckoutController>();
         services.AddSingleton<IClienteController, ClienteController>();
 
-
-        services.AddSingleton<IPedidoGateway, PedidoGateway>();
-        services.AddSingleton<IFilaPedidoGateway, FilaPedidoGateway>();
-        services.AddSingleton<IPagamentoGateway, PagamentoGateway>();
-        services.AddSingleton<IProdutoGateway, ProdutoGateway>();
-        services.AddSingleton<IClienteGateway, ClienteGateway>();
-
         services.AddSingleton<IQrCodeGeneratorService, QrCodeGeneratorService>();
         services.AddSingleton<IPagamentoACLService, MercadoPagoMockadoService>();
         services.AddSingleton<IPagamentoACLService, MercadoPagoService>();
+        services.AddSingleton<IMercadoPagoMockadoService, MercadoPagoMockadoService>();
+        services.AddSingleton<IMercadoPagoService, MercadoPagoService>();
         services.AddSingleton<IStatusPedidoValidacaoService, StatusPedidoValidacaoService>();
-        services.AddSingleton<IClienteRepository, ClienteRepository>();
-        services.AddSingleton<IProdutoRepository, ProdutoRepository>();
-        services.AddSingleton<IPagamentoRepository, PagamentoRepository>();
         services.AddSingleton<IRabbitMqService, RabbitMqService>();
         services.AddHostedService<FilaPedidosHostedService>();
 

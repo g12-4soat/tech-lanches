@@ -16,7 +16,7 @@ namespace TechLanches.Application.UseCases.Clientes
             if (clienteExistente is not null)
                 throw new DomainException($"Cliente já existente para CPF: {cpf}");
 
-            var cliente = new Cliente(nome,email, cpf);
+            var cliente = new Cliente(nome, email, cpf);
 
             var novoCliente = await clienteGateway.Cadastrar(cliente);
 
@@ -27,6 +27,7 @@ namespace TechLanches.Application.UseCases.Clientes
             string cpf,
             IClienteGateway clienteGateway)
         {
+            if (cpf is null) return null;
             var clienteExistente = await clienteGateway.BuscarPorCpf(RetornarCpf(cpf));
 
             if (clienteExistente is null) throw new DomainException("Cliente não cadastrado!");

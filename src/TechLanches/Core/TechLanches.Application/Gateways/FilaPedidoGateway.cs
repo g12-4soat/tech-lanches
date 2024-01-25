@@ -1,7 +1,8 @@
 ﻿using TechLanches.Application.DTOs;
+using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Application.Ports.Repositories;
 
-namespace TechLanches.Application.Gateways.Interfaces
+namespace TechLanches.Application.Gateways
 {
     public class FilaPedidoGateway : IFilaPedidoGateway
     {

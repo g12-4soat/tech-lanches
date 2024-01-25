@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TechLanches.Adapter.ACL.Pagamento.QrCode.DTOs;
 using TechLanches.Domain.Aggregates;
 
 namespace TechLanches.Application.Gateways.Interfaces
@@ -11,5 +7,7 @@ namespace TechLanches.Application.Gateways.Interfaces
     {
         Task<Pagamento> BuscarPagamentoPorPedidoId(int pedidoId);
         Task<Pagamento> Cadastrar(Pagamento pagamento);
+        Task<string> GerarPagamentoEQrCodeMercadoPago(PedidoACLDTO pedidoMercadoPago);
+        Task<PagamentoResponseACLDTO> ConsultarPagamentoMercadoPago(string pedidoComercial);
     }
 }

@@ -1,6 +1,5 @@
 ﻿using NSubstitute;
 using TechLanches.Application.Controllers;
-using TechLanches.Application.Gateways;
 using TechLanches.Application.Presenters;
 
 namespace TechLanches.UnitTests.Services
@@ -23,7 +22,7 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.Cadastrar(produto).Returns(new Produto(nome, descricao, preco, categoriaId));
 
-            var produtoController = new ProdutoController(new ProdutoGateway(produtoRepository), new ProdutoPresenter());
+            var produtoController = new ProdutoController(produtoRepository, new ProdutoPresenter());
 
             // Act
             var novoProduto = await produtoController.Cadastrar(nome, descricao, preco, categoriaId);
@@ -45,7 +44,7 @@ namespace TechLanches.UnitTests.Services
             var unitOfWork = Substitute.For<IUnitOfWork>();
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.BuscarPorId(Arg.Any<int>()).Returns(produto);
-            var produtoController = new ProdutoController(new ProdutoGateway(produtoRepository), new ProdutoPresenter());
+            var produtoController = new ProdutoController(produtoRepository, new ProdutoPresenter());
 
             // Act
             await produtoController.Atualizar(0, "Novo Nome", "Nova Descrição", 20, 2);
@@ -63,7 +62,7 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.BuscarPorCategoria(new CategoriaProduto(1, "teste")).Returns(new List<Produto> { new ("Nome", "Descrição do produto", 20.0m, 2) });
 
-            var produtoController = new ProdutoController(new ProdutoGateway(produtoRepository), new ProdutoPresenter());
+            var produtoController = new ProdutoController(produtoRepository, new ProdutoPresenter());
 
             // Act
             var listaDeProdutos = await produtoController.BuscarPorCategoria(1);
@@ -83,7 +82,7 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.BuscarPorId(1).Returns(produto);
 
-            var produtoController = new ProdutoController(new ProdutoGateway(produtoRepository), new ProdutoPresenter());
+            var produtoController = new ProdutoController(produtoRepository, new ProdutoPresenter());
 
             // Act
             var produtoAtualizado = await produtoController.BuscarPorId(1);
@@ -104,7 +103,7 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.BuscarTodos().Returns(new List<Produto> { new ("Nome", "Descrição do produto", 20, 2) });
 
-            var produtoController = new ProdutoController(new ProdutoGateway(produtoRepository), new ProdutoPresenter());
+            var produtoController = new ProdutoController(produtoRepository, new ProdutoPresenter());
 
             // Act
             var listaDeProdutos = await produtoController.BuscarTodos();
@@ -125,7 +124,7 @@ namespace TechLanches.UnitTests.Services
             produtoRepository.UnitOfWork.Returns(unitOfWork);
             produtoRepository.BuscarPorId(1).Returns(produto);
 
-            var produtoController = new ProdutoController(new ProdutoGateway(produtoRepository), new ProdutoPresenter());
+            var produtoController = new ProdutoController(produtoRepository, new ProdutoPresenter());
 
             // Act
             await produtoController.Deletar(1);
