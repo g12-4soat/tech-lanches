@@ -816,7 +816,7 @@
 												],
 												"body": {
 													"mode": "raw",
-													"raw": "1",
+													"raw": "{\r\n  \"pedidoId\": 1\r\n}",
 													"options": {
 														"raw": {
 															"language": "json"
