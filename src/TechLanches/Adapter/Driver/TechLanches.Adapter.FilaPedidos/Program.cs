@@ -48,6 +48,7 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
 
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoCriadoValidacao>();
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoCanceladoValidacao>();
+        services.AddSingleton<IStatusPedidoValidacao, StatusPedidoCanceladoPorPagamentoValidacao>();
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoEmPreparacaoValidacao>();
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoDescartadoValidacao>();
         services.AddSingleton<IStatusPedidoValidacao, StatusPedidoFinalizadoValidacao>();
@@ -73,7 +74,7 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IPagamentoController, PagamentoController>();
         services.AddSingleton<ICheckoutController, CheckoutController>();
         services.AddSingleton<IClienteController, ClienteController>();
-        
+
         services.AddSingleton<IQrCodeGeneratorService, QrCodeGeneratorService>();
         services.AddSingleton<IPagamentoACLService, MercadoPagoMockadoService>();
         services.AddSingleton<IPagamentoACLService, MercadoPagoService>();

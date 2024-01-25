@@ -14,7 +14,7 @@ namespace TechLanches.Application.UseCases.Pagamentos
             if (pedido.StatusPedido != StatusPedido.PedidoCriado)
                 throw new DomainException($"Status não autorizado para checkout - StatusPedido: {pedido.StatusPedido}");
 
-            if (pedido.Pagamentos is not null)
+            if (pedido.Pagamentos.Count() > 0)
                 throw new DomainException($"Pedido já contém pagamento - StatusPagamento: {pedido.Pagamentos?.FirstOrDefault()?.StatusPagamento}");
 
             return true;

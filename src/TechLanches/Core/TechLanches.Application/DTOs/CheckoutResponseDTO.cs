@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace TechLanches.Application.DTOs
 {
@@ -25,10 +26,10 @@ namespace TechLanches.Application.DTOs
         /// <example>https://api.qrserver.com/v1/create-qr-code/?size=1500x1500&data=qrcodeexemplo</example>
         public string URLData { get; set; }
 
-        [NotMapped()]
+        [JsonIgnore]
         public byte[] QRCodeImage { get; set; }
 
-        [NotMapped()]
+        [JsonIgnore]
         public string ResultType { get; set; }
     }
 }

@@ -22,7 +22,7 @@ namespace TechLanches.Adapter.ACL.Pagamento.QrCode.Provedores.MercadoPago
             return new PagamentoResponseACLDTO()
             {
                 PedidoId = Int32.Parse(response.ExternalReference),
-                StatusPagamento = ConverterResultadoParaEnum(response.Pagamentos.FirstOrDefault().Status)
+                StatusPagamento = ConverterResultadoParaEnum(response.Pagamentos.LastOrDefault().Status)
             };
         }
 

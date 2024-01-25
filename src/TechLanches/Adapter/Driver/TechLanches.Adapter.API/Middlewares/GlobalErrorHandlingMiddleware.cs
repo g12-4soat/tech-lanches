@@ -28,11 +28,8 @@ namespace TechLanches.Adapter.API.Middlewares
 
         private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
-            string message = "Erro interno. Contate um administrador do sistema. \n";
-
             var exceptionType = exception.GetType();
 
-            message += exception.Message;
 
             var status = exceptionType switch
             {
@@ -40,6 +37,8 @@ namespace TechLanches.Adapter.API.Middlewares
                 Type t when t == typeof(NotImplementedException) => HttpStatusCode.NotImplemented,
                 _ => HttpStatusCode.InternalServerError,
             };
+
+            var message = (status == HttpStatusCode.InternalServerError) ? "Erro interno. Contate um administrador do sistema." : exception.Message;
 
             var exceptionResult = JsonSerializer.Serialize(new ErrorResponseDTO { MensagemErro = message, StatusCode = status });
             context.Response.ContentType = "application/json";

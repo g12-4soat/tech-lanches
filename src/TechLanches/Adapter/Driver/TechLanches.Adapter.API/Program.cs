@@ -1,7 +1,9 @@
+using Microsoft.AspNetCore.Builder;
 using Polly;
 using Polly.Extensions.Http;
 using System.Net.Http.Headers;
 using TechLanches.Adapter.API.Configuration;
+using TechLanches.Adapter.API.Middlewares;
 using TechLanches.Adapter.RabbitMq.Options;
 using TechLanches.Adapter.SqlServer;
 using TechLanches.Application;
@@ -51,6 +53,8 @@ builder.Services.AddHttpClient("MercadoPago", httpClient =>
 
 var app = builder.Build();
 
+app.AddCustomMiddlewares();
+
 app.UseDatabaseConfiguration();
 
 // Configure the HTTP request pipeline.
@@ -65,8 +69,6 @@ app.UseSwaggerConfiguration();
 app.AddHealthCheckEndpoint();
 
 app.UseMapEndpointsConfiguration();
-
-app.AddCustomMiddlewares();
 
 app.UseStaticFiles();
 
