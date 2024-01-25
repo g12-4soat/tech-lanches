@@ -1,6 +1,8 @@
 ﻿using TechLanches.Application.Controllers.Interfaces;
 using TechLanches.Application.DTOs;
+using TechLanches.Application.Gateways;
 using TechLanches.Application.Gateways.Interfaces;
+using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Presenters.Interfaces;
 using TechLanches.Application.UseCases.Clientes;
 
@@ -11,10 +13,10 @@ namespace TechLanches.Application.Controllers
         private readonly IClientePresenter _clientePresenter;
         private readonly IClienteGateway _clienteGateway;
 
-        public ClienteController(IClientePresenter clientePresenter, IClienteGateway clienteGateway)
+        public ClienteController(IClientePresenter clientePresenter, IClienteRepository clienteRepository)
         {
             _clientePresenter = clientePresenter;
-            _clienteGateway = clienteGateway;
+            _clienteGateway = new ClienteGateway(clienteRepository);
         }
 
         public async Task<ClienteResponseDTO> BuscarPorCpf(string cpf)

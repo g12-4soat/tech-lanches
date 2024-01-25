@@ -23,13 +23,13 @@ namespace TechLanches.Application.Controllers
         public PedidoController(
             IPedidoRepository pedidoRepository,
             IPedidoPresenter pedidoPresenter,
-            IClienteGateway clienteGateway,
+            IClienteRepository clienteRepository,
             IStatusPedidoValidacaoService statusPedidoValidacaoService,
             IRabbitMqService rabbitmqService)
         {
             _pedidoGateway = new PedidoGateway(pedidoRepository);
             _pedidoPresenter = pedidoPresenter;
-            _clienteGateway = clienteGateway;
+            _clienteGateway = new ClienteGateway(clienteRepository);
             _statusPedidoValidacaoService = statusPedidoValidacaoService;
             _rabbitmqService = rabbitmqService;
         }

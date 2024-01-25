@@ -3,8 +3,6 @@ using TechLanches.Adapter.RabbitMq.Messaging;
 using TechLanches.Adapter.SqlServer.Repositories;
 using TechLanches.Application.Controllers;
 using TechLanches.Application.Controllers.Interfaces;
-using TechLanches.Application.Gateways;
-using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Application.Ports.Repositories;
 using TechLanches.Application.Ports.Services;
 using TechLanches.Application.Ports.Services.Interfaces;
@@ -41,8 +39,6 @@ namespace TechLanches.Adapter.API.Configuration
             services.AddScoped<IPagamentoController, PagamentoController>();
             services.AddScoped<ICheckoutController, CheckoutController>();            
             services.AddScoped<IClienteController, ClienteController>();
-
-            services.AddScoped<IClienteGateway, ClienteGateway>();
 
             services.AddScoped<IQrCodeGeneratorService, QrCodeGeneratorService>();
             services.AddScoped<IMercadoPagoMockadoService, MercadoPagoMockadoService>();

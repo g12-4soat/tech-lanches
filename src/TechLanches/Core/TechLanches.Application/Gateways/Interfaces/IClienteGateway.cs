@@ -3,7 +3,7 @@ using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Application.Gateways.Interfaces
 {
-    public interface IClienteGateway:IRepositoryGateway
+    public interface IClienteGateway : IRepositoryGateway
     {
         Task<Cliente> BuscarPorCpf(Cpf cpf);
         Task<Cliente> Cadastrar(Cliente cliente);

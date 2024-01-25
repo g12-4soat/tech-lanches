@@ -57,6 +57,9 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
 
         services.AddSingleton<IPedidoRepository, PedidoRepository>();
         services.AddSingleton<IFilaPedidoRepository, FilaPedidoRepository>();
+        services.AddSingleton<IClienteRepository, ClienteRepository>();
+        services.AddSingleton<IProdutoRepository, ProdutoRepository>();
+        services.AddSingleton<IPagamentoRepository, PagamentoRepository>();
 
         services.AddSingleton<IProdutoPresenter, ProdutoPresenter>();
         services.AddSingleton<IPedidoPresenter, PedidoPresenter>();
@@ -75,9 +78,6 @@ var hostBuilder = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IPagamentoACLService, MercadoPagoMockadoService>();
         services.AddSingleton<IPagamentoACLService, MercadoPagoService>();
         services.AddSingleton<IStatusPedidoValidacaoService, StatusPedidoValidacaoService>();
-        services.AddSingleton<IClienteRepository, ClienteRepository>();
-        services.AddSingleton<IProdutoRepository, ProdutoRepository>();
-        services.AddSingleton<IPagamentoRepository, PagamentoRepository>();
         services.AddSingleton<IRabbitMqService, RabbitMqService>();
         services.AddHostedService<FilaPedidosHostedService>();
 
