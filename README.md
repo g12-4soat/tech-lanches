@@ -70,8 +70,24 @@ A implementação do contexto NGROK surgiu da necessidade de um serviço capaz d
 
 - TechLanches.RABBITMQ: Para o RABBITMQ, adotamos uma estrutura bem próxima à implementada para o SQL, com a exceção da porta exposta para a internet no Load Balancer, que é a 15672, destinada exclusivamente ao Dashboard da ferramenta. Essa escolha foi feita considerando que o RABBITMQ desempenha um papel crucial no auxílio ao Worker para controlar e gerenciar a fila de pedidos, sendo uma função fundamental para a agilidade dos processos.
 
-- TechLanches.METRICS: 
+- TechLanches.METRICS: O Metrics coleta métricas sobre os recursos do cluster, como pods e nodes, e disponibiliza essas métricas para ferramentas externas de monitoramento e análise.
+  ServiceAccount (metrics-server): Tem como responsabilidade definir uma identidade que será usada pelos pods relacionados ao Metrics dentro do namespace kube-system.
 
+  ClusterRole (system:aggregated-metrics-reader): Define regras de acesso que permitem leitura agregada de métricas, configurando permissões para acessar informações de pods e nodes do Kubernetes.
+
+  ClusterRole (system:metrics-server): Este ClusterRole configura permissões adicionais para leitura de informações específicas, como configmaps e namespaces.
+
+  RoleBinding (metrics-server-auth-reader): Associa a Role "extension-apiserver-authentication-reader" ao ServiceAccount "metrics-server" no namespace kube-system, tem como objetivo condecer permissões específicas para o Metrics apenas no namespace. 
+
+  ClusterRoleBinding (system:metrics-server): Associa o ClusterRole "system:metrics-server" ao ServiceAccount "metrics-server" no namespace kube-system, tem como objetivo condecer permissões específicas para o Metricse em todo o Cluster. 
+
+  Service (metrics-server): Esse serviço está expondo a porta 443, permitindo a comunicação externa com o Metrics.
+
+  Deployment (metrics-server): Define um conjunto de pods chamado "metrics-server" no namespace kube-system. Os Pods contêm Probes, ServiceAccount e também Metrics e são gerenciados pelo Deployment.
+
+  APIService (v1beta1.metrics.k8s.io): Define um recurso APIService para o Metrics, especificando a versão v1beta1 do grupo de métricas. Esse recurso permite a exposição de métricas do Kubernetes através da API.
+
+  Em resumo, esse contexto configura e provisiona todos os recursos necessários para implementar o Metrics Server no Kubernetes, garantindo permissões adequadas e funcionalidade para coleta de métricas do cluster.
 
  <img src="https://github.com/g12-4soat/tech-lanches/blob/feature/README/docs/arquitetura-k8s.png" style="max-width: 100%;">
 
@@ -123,7 +139,30 @@ Para importar as collections do postman, basta acessar os links a seguir:
 
    ## Pagamento via QrCode no Mercado Pago
  
- Implementar texto de como realizar o pagamento do mercado pago mockado e consumindo o serviço.
+Para os testes de pagamento, utilizamos o Swagger ou o Postman para a execução dos endpoints. :rotating_light: <b>OBS:</b> No tópico anterior informamos como utilizar as ferramentas informadas. :rotating_light:
+
+A realização do pagamento pode ocorrer de duas maneiras. A primeira envolve o fluxo mockado, que simula aleatoriamente o resultado do pagamento, seja ele aprovado ou recusado. Entretanto, mesmo em caso de recusa, há a possibilidade de realizar uma nova tentativa para efetuar o pagamento do pedido. A segunda opção é via integração do fluxo com o Mercado Pago, onde uma URL de pagamento é fornecida após o checkout. Essa URL pode ser aberta no browser, exibindo um QR Code na tela para efetuar o pagamento por meio do aplicativo do Mercado Pago.
+
+Para testar ambos os fluxos, é obrigatório que o pedido esteja criado e o checkout tenha sido concluído. Isso permitirá prosseguir com o passo a passo dos fluxos de pagamento com sucesso.
+
+  <h4>Fluxo de Pagamento Mockado:</h4>
+  <ol>
+    <li>Localize o endpoint relacionado ao fluxo de pagamento mockado dentro do contexto de pagamento, por exemplo: <code>/api/pagamentos/webhook/mockado</code></li>
+    <li>Insira apenas o ID do pedido desejado no parâmetro <code>pedidoId</code> no corpo do JSON e execute a request.</li>
+    <li>Verifique a resposta do endpoint. Se o pagamento for <code>recusado</code>, é permitido realizar uma nova tentativa de pagamento. Se o pagamento for <code>aprovado</code>, o pedido seguirá o fluxo da fila de pedidos com o status <code>PedidoEmPreparacao</code>.</li>
+  </ol>
+
+  <h4>Fluxo de Pagamento Integrado ao Mercado Pago:</h4> 
+  <ol>
+    <li>Após a conclusão do checkout, verifique a resposta do endpoint que retorna alguns parâmetros.</li>
+    <li>Um desses parâmetros é o <code>urlData</code>, que é uma URL que, ao ser aberta no browser, exibirá o <code>QR Code</code> para efetuar o pagamento.</li>
+    <li>Faça o download do aplicativo do Mercado Pago. (<a href="https://www.mercadopago.com.br/c/app" rel="nofollow">Android</a>/<a href="https://apps.apple.com/br/app/mercado-pago-banco-digital/id925436649" rel="nofollow">IOS</a>)</li>
+    <li>Acesse a conta de teste do comprador no Mercado Pago. <code>Usuário Comprador</code> TESTUSER298503702 <code>Senha</code> Xb7hdlnygo</li>
+    <li>Na parte inferior central da tela, clique na opção <code>"Pix"</code> e <code>escaneie o QR Code</code>.</li>
+    <li>Pronto, seu pedido foi pago com sucesso no Mercado Pago! O pedido está seguindo o fluxo da fila de pedidos com o status <code>PedidoEmPreparacao</code>.</li>
+    <li>Caso queira verificar o histórico da transação, clique em <code>"Atividade"</code> na parte inferior da tela e selecione seu pagamento.</li>
+    <li>Se desejar conferir a conta de teste do vendedor no Mercado Pago, as credenciais estão a seguir. <code>Usuário Vendedor</code> TESTUSER451316434 <code>Senha</code> fhA3QgrGbg</li>
+  </ol>
 </details>
 
 <details>
@@ -136,6 +175,16 @@ Após a instalação do k6, apartir da raiz do repositório, entre no diretório
   ###  
   > c:\tech-lanches\test\TechLanches.StressTests> k6 run hpa-test.js
 ---
+</details>
+
+<details>
+  <summary>Versões</summary>
+
+## Software
+- C-Sharp - 10.0
+- .NET - 6.0
+- MSSQL Server - 2019
+ --- 
 </details>
 
 # Dependências
