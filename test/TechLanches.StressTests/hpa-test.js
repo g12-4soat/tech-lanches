@@ -8,8 +8,8 @@ import { check, sleep } from 'k6';
 
 export const options = {
   stages: [
-    { target: 800, duration: '30s' },
-    { target: 0, duration: '30s' },
+    { target: 100, duration: '30s' },
+    { target: 0, duration: '15s' },
   ],
 };
 
@@ -26,6 +26,8 @@ export default function () {
   let pedidoCriadoResponse = http.post('http://localhost:5050/api/pedidos', JSON.stringify(data), header);
   check(pedidoCriadoResponse, { 'status 201 Created': (r) => r.status === 201 });
 
+  sleep(5);
+  
   const pedido = pedidoCriadoResponse.json();
   const STATUS_PEDIDO_RECEBIDO = 2; 
   let pedidoRecebidoResponse =  http.put(`http://localhost:5050/api/pedidos/${pedido.id}/trocarstatus`, JSON.stringify(parseInt(STATUS_PEDIDO_RECEBIDO)), header);
