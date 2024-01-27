@@ -5,7 +5,12 @@ namespace TechLanches.Adapter.API.Configuration
 {
     public static class ApplicationBuilderConfig
     {
-        public static IApplicationBuilder AddGlobalErrorHandler(this IApplicationBuilder applicationBuilder)
-        => applicationBuilder.UseMiddleware<GlobalErrorHandlingMiddleware>();
+        public static IApplicationBuilder AddCustomMiddlewares(this IApplicationBuilder applicationBuilder)
+        {
+            applicationBuilder.UseMiddleware<RequestLoggingMiddleware>();
+            applicationBuilder.UseMiddleware<GlobalErrorHandlingMiddleware>();
+
+            return applicationBuilder;
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace TechLanches.Domain.Validations
 {
     public interface IStatusPedidoValidacao
     {
-        void Validar(StatusPedido statusPedidoAtual, StatusPedido statusPedidoNovo);
+        StatusPedido StatusPedido { get; }
+        bool Validar(StatusPedido statusPedido);
     }
 }

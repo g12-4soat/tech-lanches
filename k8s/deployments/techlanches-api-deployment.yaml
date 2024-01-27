@@ -1,0 +1,63 @@
+# techlanches-api-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: techlanches-api
+  namespace: techlanches
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: techlanches-api
+  template:
+    metadata:
+      labels:
+        app: techlanches-api
+    spec:
+      containers:
+        - name: techlanches-api
+          image: g124soat/techlanches-api:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "500Mi"
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: ConnectionStrings__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: techlanches-secrets
+                  key: DefaultConnection
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 30
+            periodSeconds: 10
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 80
+            initialDelaySeconds: 20
+            periodSeconds: 5
+            timeoutSeconds: 3
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: techlanches-api-service
+  namespace: techlanches
+spec:
+  selector:
+    app: techlanches-api
+  ports:
+    - protocol: TCP
+      port: 5050
+      targetPort: 80
+  type: LoadBalancer

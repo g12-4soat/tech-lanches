@@ -1,0 +1,32 @@
+name: Worker Docker Publish
+
+on:
+  push:
+    branches:
+      - main
+  workflow_run:
+    workflows: ["Build Worker Docker Image"]
+    types:
+      - completed
+  workflow_dispatch:
+
+jobs:
+  publish-to-docker-hub:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: docker login
+        env:
+          DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+        run: |
+          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD 
+      - name: Build and Push Docker image
+        run: |
+          cd src/TechLanches
+          TAG=$(date +%Y%m%d%H%M%S)
+          docker build -f Dockerfile.Worker -t ${{secrets.DOCKER_USERNAME}}/techlanches-worker:latest -t ${{secrets.DOCKER_USERNAME}}/techlanches-worker:$TAG -t ${{secrets.DOCKER_USERNAME}}/techlanches-worker:develop . --no-cache
+          docker push ${{secrets.DOCKER_USERNAME}}/techlanches-worker:$TAG
+          docker push ${{secrets.DOCKER_USERNAME}}/techlanches-worker:develop
+          docker push ${{secrets.DOCKER_USERNAME}}/techlanches-worker:latest

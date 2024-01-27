@@ -1,10 +1,10 @@
-﻿using System.Text.Json.Serialization;
+﻿using System.Net;
 
 namespace TechLanches.Application.DTOs
 {
     public class ErrorResponseDTO
     {
-        public int StatusCode { get; set; }
+        public HttpStatusCode StatusCode { get; set; }
         public string MensagemErro { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace TechLanches.Adapter.SqlServer.Repositories
     public class ProdutoRepository : IProdutoRepository
     {
         private readonly TechLanchesDbContext _context;
+
         public IUnitOfWork UnitOfWork => _context;
 
         public ProdutoRepository(TechLanchesDbContext context)
@@ -16,14 +17,9 @@ namespace TechLanches.Adapter.SqlServer.Repositories
             _context = context ?? throw new ArgumentNullException(nameof(context));
         }
 
-        public void Atualizar(Produto produto)
-        {
-            _context.Entry(produto).State = EntityState.Modified;
-        }
-
         public async Task<List<Produto>> BuscarPorCategoria(CategoriaProduto categoria)
         {
-            return await _context.Produtos.Where(x => x.Categoria.Id == categoria.Id).ToListAsync(); //mesmo erro do Cliente?
+            return await _context.Produtos.Where(x => x.Categoria.Id == categoria.Id).ToListAsync();
         }
 
         public async Task<Produto> BuscarPorId(int produtoId)
@@ -42,11 +38,6 @@ namespace TechLanches.Adapter.SqlServer.Repositories
         public async Task<Produto> Cadastrar(Produto produto)
         {
             return (await _context.AddAsync(produto)).Entity;
-        }
-
-        public async void Deletar(Produto produto)
-        {
-            produto.ProdutoDeletado();
         }
     }
 }

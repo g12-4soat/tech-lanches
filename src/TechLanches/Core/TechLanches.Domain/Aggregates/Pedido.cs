@@ -1,7 +1,7 @@
 ﻿using TechLanches.Core;
 using TechLanches.Domain.Entities;
 using TechLanches.Domain.Enums;
-using TechLanches.Domain.Validations;
+using TechLanches.Domain.Services;
 using TechLanches.Domain.ValueObjects;
 
 namespace TechLanches.Domain.Aggregates
@@ -19,14 +19,6 @@ namespace TechLanches.Domain.Aggregates
             Validar();
         }
 
-        public Pedido(int pedidoId, int clienteId, List<ItemPedido> itensPedido) : base(pedidoId)
-        {
-            ClienteId = clienteId;
-            _itensPedido = new List<ItemPedido>();
-            AdicionarItensPedidos(itensPedido);
-            Validar();
-        }
-
         private readonly List<ItemPedido> _itensPedido;
         public IReadOnlyCollection<ItemPedido> ItensPedido => _itensPedido;
         public int? ClienteId { get; private set; }
@@ -34,6 +26,8 @@ namespace TechLanches.Domain.Aggregates
         public StatusPedido StatusPedido { get; private set; }
         public Cliente? Cliente { get; private set; }
         public bool ClienteIdentificado => ClienteId.HasValue;
+
+        public IReadOnlyCollection<Pagamento> Pagamentos { get; private set; }
 
         private void AdicionarItensPedidos(List<ItemPedido> itensPedido)
         {
@@ -52,24 +46,13 @@ namespace TechLanches.Domain.Aggregates
             Valor = _itensPedido.Sum(i => i.Valor);
         }
 
-        public void TrocarStatus(StatusPedido statusPedido)
+        public void TrocarStatus(IStatusPedidoValidacaoService validacaoService, StatusPedido statusPedidoNovo)
         {
-            if (!Enum.IsDefined(typeof(StatusPedido), statusPedido))
+            if (!Enum.IsDefined(typeof(StatusPedido), statusPedidoNovo))
                 throw new DomainException("Status inválido");
 
-            ValidarStatus(statusPedido);
-            StatusPedido = statusPedido;
-        }
-
-        private void ValidarStatus(StatusPedido statusPedidoNovo)
-        {
-            new StatusPedidoValidacao(new StatusPedidoCriadoValidacao()).Validar(StatusPedido, statusPedidoNovo);
-            new StatusPedidoValidacao(new StatusPedidoEmPreparacaoValidacao()).Validar(StatusPedido, statusPedidoNovo);
-            new StatusPedidoValidacao(new StatusPedidoProntoValidacao()).Validar(StatusPedido, statusPedidoNovo);
-            new StatusPedidoValidacao(new StatusPedidoRetiradoValidacao()).Validar(StatusPedido, statusPedidoNovo);
-            new StatusPedidoValidacao(new StatusPedidoDescartadoValidacao()).Validar(StatusPedido, statusPedidoNovo);
-            new StatusPedidoValidacao(new StatusPedidoCanceladoValidacao()).Validar(StatusPedido, statusPedidoNovo);
-            new StatusPedidoValidacao(new StatusPedidoFinalizadoValidacao()).Validar(StatusPedido, statusPedidoNovo);
+            validacaoService.Validar(StatusPedido, statusPedidoNovo);
+            StatusPedido = statusPedidoNovo;
         }
 
         private void Validar()

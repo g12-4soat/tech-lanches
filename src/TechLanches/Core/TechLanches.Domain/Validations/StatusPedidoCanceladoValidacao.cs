@@ -1,16 +1,11 @@
-﻿using TechLanches.Core;
-using TechLanches.Domain.Enums;
+﻿using TechLanches.Domain.Enums;
 
 namespace TechLanches.Domain.Validations
 {
     public class StatusPedidoCanceladoValidacao : IStatusPedidoValidacao
     {
-        public void Validar(StatusPedido statusPedidoAtual, StatusPedido statusPedidoNovo)
-        {
-            if (statusPedidoNovo == StatusPedido.PedidoCancelado && statusPedidoAtual != StatusPedido.PedidoPronto)
-            {
-                throw new DomainException("O status selecionado não é válido");
-            }
-        }
+        public StatusPedido StatusPedido => StatusPedido.PedidoCancelado;
+
+        public bool Validar(StatusPedido statusPedido) => statusPedido == StatusPedido.PedidoCriado;
     }
 }

@@ -1,0 +1,46 @@
+# techlanches-worker-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: techlanches-worker
+  namespace: techlanches
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: techlanches-worker
+  template:
+    metadata:
+      labels:
+        app: techlanches-worker
+    spec:
+      containers:
+        - name: techlanches-worker
+          image: g124soat/techlanches-worker:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "500Mi"
+          env:
+            - name: DOTNET_ENVIRONMENT
+              value: "Production"
+            - name: ConnectionStrings__DefaultConnection
+              valueFrom:
+                secretKeyRef:
+                  name: techlanches-secrets
+                  key: DefaultConnection
+          readinessProbe:
+            tcpSocket:
+              port: 5000
+            initialDelaySeconds: 5
+            failureThreshold: 2
+            timeoutSeconds: 3
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 5000
+            initialDelaySeconds: 15
+            failureThreshold: 2
+            timeoutSeconds: 3
+            periodSeconds: 20

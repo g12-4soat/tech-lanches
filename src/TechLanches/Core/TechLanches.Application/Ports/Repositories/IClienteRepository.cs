@@ -8,5 +8,6 @@ namespace TechLanches.Application.Ports.Repositories
     {
         Task<Cliente> BuscarPorCpf(Cpf cpf);
         Task<Cliente> Cadastrar(Cliente cliente);
+        Task<Cliente> BuscarPorId(int idCliente);
     }
 }

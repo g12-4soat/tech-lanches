@@ -1,0 +1,57 @@
+# techlanches-sql-statefulset.yaml
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: techlanches-sql
+  namespace: techlanches
+spec:
+  serviceName: "techlanches-sql"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: techlanches-sql
+  template:
+    metadata:
+      labels:
+        app: techlanches-sql
+    spec:
+      containers:
+      - name: sql-server
+        image: mcr.microsoft.com/mssql/server:2019-latest
+        # imagePullPolicy: Always
+        ports:
+        - containerPort: 1433
+        env:
+        - name: SA_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: techlanches-secrets
+              key: SA_PASSWORD
+        - name: ACCEPT_EULA
+          value: "Y"
+        - name: MSSQL_PID
+          value: Developer
+  volumeClaimTemplates:
+  - metadata:
+      name: mssql-data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      resources:
+        requests:
+          storage: 5Gi
+
+---
+# techlanches-sql-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: techlanches-sql-service
+  namespace: techlanches
+spec:
+  ports:
+  - name: techlanches-sql
+    port: 1433
+    targetPort: 1433
+  selector:
+    app: techlanches-sql
+  type: LoadBalancer

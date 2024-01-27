@@ -22,6 +22,38 @@ namespace TechLanches.Adapter.SqlServer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("TechLanches.Domain.Aggregates.Pagamento", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("FormaPagamento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("FormaPagamento");
+
+                    b.Property<int>("PedidoId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("StatusPagamento")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)")
+                        .HasColumnName("StatusPagamento");
+
+                    b.Property<decimal>("Valor")
+                        .HasColumnType("decimal(18,2)")
+                        .HasColumnName("Valor");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PedidoId");
+
+                    b.ToTable("Pagamentos", (string)null);
+                });
+
             modelBuilder.Entity("TechLanches.Domain.Aggregates.Pedido", b =>
                 {
                     b.Property<int>("Id")
@@ -126,6 +158,17 @@ namespace TechLanches.Adapter.SqlServer.Migrations
                         .IsUnique();
 
                     b.ToTable("ItemPedido", (string)null);
+                });
+
+            modelBuilder.Entity("TechLanches.Domain.Aggregates.Pagamento", b =>
+                {
+                    b.HasOne("TechLanches.Domain.Aggregates.Pedido", "Pedido")
+                        .WithMany("Pagamentos")
+                        .HasForeignKey("PedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pedido");
                 });
 
             modelBuilder.Entity("TechLanches.Domain.Aggregates.Pedido", b =>
@@ -236,6 +279,8 @@ namespace TechLanches.Adapter.SqlServer.Migrations
             modelBuilder.Entity("TechLanches.Domain.Aggregates.Pedido", b =>
                 {
                     b.Navigation("ItensPedido");
+
+                    b.Navigation("Pagamentos");
                 });
 
             modelBuilder.Entity("TechLanches.Domain.Aggregates.Produto", b =>

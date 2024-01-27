@@ -1,64 +1,63 @@
 using Microsoft.Extensions.Options;
 using TechLanches.Adapter.FilaPedidos.Options;
-using TechLanches.Application.Ports.Services.Interfaces;
+using TechLanches.Adapter.RabbitMq.Messaging;
+using TechLanches.Application.Controllers.Interfaces;
+using TechLanches.Application.Gateways;
+using TechLanches.Application.Gateways.Interfaces;
+using TechLanches.Application.Ports.Repositories;
 using TechLanches.Domain.Enums;
 
 namespace TechLanches.Adapter.FilaPedidos
 {
     public class FilaPedidosHostedService : BackgroundService
     {
-        private readonly IFilaPedidoService _filaPedidoService;
+        private readonly IFilaPedidoController _filaPedidoController;
+        private readonly IPedidoGateway _pedidoGateway;
         private readonly ILogger<FilaPedidosHostedService> _logger;
         private readonly WorkerOptions _workerOptions;
-
+        private readonly IRabbitMqService _rabbitMqService;
         public FilaPedidosHostedService(
             ILogger<FilaPedidosHostedService> logger,
-            IFilaPedidoService filaPedidoService,
-            IOptions<WorkerOptions> workerOptions)
+            IFilaPedidoController filaPedidoService,
+            IOptions<WorkerOptions> workerOptions,
+            IPedidoRepository pedidoRepository,
+            IRabbitMqService rabbitMqService)
         {
             _logger = logger;
-            _filaPedidoService = filaPedidoService;
+            _filaPedidoController = filaPedidoService;
             _workerOptions = workerOptions.Value;
+            _pedidoGateway = new PedidoGateway(pedidoRepository);
+            _rabbitMqService = rabbitMqService;
         }
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            while (!stoppingToken.IsCancellationRequested)
-            {
-                try
-                {
-                    _logger.LogInformation("FilaPedidosHostedService iniciado: {time}", DateTimeOffset.Now);
+            await _rabbitMqService.Consumir(ProcessMessageAsync);
+            await Task.Delay(Timeout.Infinite, stoppingToken);
+        }
 
-                    var proximoPedido = await _filaPedidoService.RetornarPrimeiroPedidoDaFila();
+        public async Task ProcessMessageAsync(string message)
+        {
+            var pedidoId = Convert.ToInt32(message);
 
-                    if (proximoPedido is not null)
-                    {
-                        _logger.LogInformation($"Próximo pedido da fila: {proximoPedido.Id}");
+            _logger.LogInformation("FilaPedidosHostedService iniciado: {time}", DateTimeOffset.Now);
 
-                        await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoEmPreparacao);
+            var pedido = await _pedidoGateway.BuscarPorId(pedidoId);
 
-                        _logger.LogInformation($"Pedido {proximoPedido.Id} em preparação.");
+            _logger.LogInformation("PrÃ³ximo pedido da fila: {proximoPedido.Id}", pedido.Id);
 
-                        await Task.Delay(1000 * _workerOptions.DelayPreparacaoPedidoEmSegundos, stoppingToken);
+            if (pedido.StatusPedido != StatusPedido.PedidoEmPreparacao)
+                await _filaPedidoController.TrocarStatus(pedido, StatusPedido.PedidoEmPreparacao);
 
-                        _logger.LogInformation($"Pedido {proximoPedido.Id} preparação finalizada.");
+            _logger.LogInformation("Pedido {proximoPedido.Id} em preparaÃ§Ã£o.", pedido.Id);
 
-                        await _filaPedidoService.TrocarStatus(proximoPedido, StatusPedido.PedidoPronto);
+            await Task.Delay(1000 * _workerOptions.DelayPreparacaoPedidoEmSegundos);
 
-                        _logger.LogInformation($"Pedido {proximoPedido.Id} pronto.");
-                    }
-                    else
-                    {
-                        _logger.LogInformation($"Nenhum Pedido na fila. Verificando novamente em 5 segundos.");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, "Erro ao processar fila de pedidos.");
-                }
+            _logger.LogInformation("Pedido {proximoPedido.Id} preparaÃ§Ã£o finalizada.", pedido.Id);
 
-                await Task.Delay(_workerOptions.DelayVerificacaoFilaEmSegundos * 1000, stoppingToken);
-            }
+            await _filaPedidoController.TrocarStatus(pedido, StatusPedido.PedidoPronto);
+
+            _logger.LogInformation("Pedido {proximoPedido.Id} pronto.", pedido.Id);
         }
     }
 }
