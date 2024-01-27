@@ -161,5 +161,27 @@ namespace TechLanches.UnitTests.Services
             Assert.NotNull(pedido);
             Assert.Equal(1, pedido.ClienteId);
         }
+
+        [Fact(DisplayName = "Trocar status pedido sucesso publica no RabbitMQ")]
+        public async Task TrocarStatus_DevePublicarMensagemAposCommitAsync()
+        {
+            //Arrange    
+            const int PEDIDO_ID = 1;
+            var pedidoRepository = Substitute.For<IPedidoRepository>();
+            var clienteRepository = Substitute.For<IClienteRepository>();
+            var rabbitMqService = Substitute.For<IRabbitMqService>();
+            var pedidoEditar = _pedidoFixture.GerarPedidoSemClienteValido();
+
+            pedidoRepository.BuscarPorId(PEDIDO_ID).Returns(pedidoEditar);
+            var pedidoController = new PedidoController(pedidoRepository, new PedidoPresenter(), clienteRepository, _pedidoFixture.StatusPedidoValidacaoService, rabbitMqService);
+
+            //Act 
+            var result = await pedidoController.TrocarStatus(PEDIDO_ID, StatusPedido.PedidoRecebido);
+
+            //Assert
+            Assert.NotNull(result);
+            Assert.Equal(StatusPedido.PedidoRecebido, result.StatusPedido);
+            rabbitMqService.Received(1).Publicar(Arg.Any<int>());
+        }
     }
 }
