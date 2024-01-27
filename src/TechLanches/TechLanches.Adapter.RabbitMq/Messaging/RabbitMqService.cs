@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
+﻿using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 using System.Text;
@@ -26,6 +25,8 @@ namespace TechLanches.Adapter.RabbitMq.Messaging
                                   exclusive: false,
                                   autoDelete: false,
                                   arguments: null);
+            
+            _channel.BasicQos(0, 1, false);
         }
 
         public async Task Consumir(Func<string, Task> function)
@@ -34,17 +35,18 @@ namespace TechLanches.Adapter.RabbitMq.Messaging
 
             consumer.Received += async (model, ea) =>
             {
-
                 try
                 {
                     var body = ea.Body.ToArray();
                     await function(Encoding.UTF8.GetString(body));
-                    _channel.BasicAck(ea.DeliveryTag, false);
                 }
                 catch (Exception ex)
                 {
                     Console.WriteLine($"Erro ao processar mensagem: {ex.Message}");
-                    _channel.BasicNack(ea.DeliveryTag, false, true);
+                }
+                finally 
+                {
+                    _channel.BasicAck(ea.DeliveryTag, false);
                 }
             };
 
