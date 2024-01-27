@@ -1,10 +1,7 @@
-﻿using TechLanches.Adapter.RabbitMq.Messaging;
-using TechLanches.Application.Gateways.Interfaces;
-using TechLanches.Application.Ports.Services.Interfaces;
+﻿using TechLanches.Application.Gateways.Interfaces;
 using TechLanches.Application.UseCases.Clientes;
 using TechLanches.Core;
 using TechLanches.Domain.Aggregates;
-using TechLanches.Domain.Entities;
 using TechLanches.Domain.Enums;
 using TechLanches.Domain.Services;
 using TechLanches.Domain.ValueObjects;
@@ -26,16 +23,12 @@ namespace TechLanches.Application.UseCases.Pedidos
             int pedidoId, 
             StatusPedido statusPedido, 
             IPedidoGateway pedidoGateway, 
-            IStatusPedidoValidacaoService statusPedidoValidacaoService, 
-            IRabbitMqService rabbitMqService)
+            IStatusPedidoValidacaoService statusPedidoValidacaoService)
         {
             var pedido = await pedidoGateway.BuscarPorId(pedidoId)
                ?? throw new DomainException("Não foi encontrado nenhum pedido com id informado.");
 
             pedido.TrocarStatus(statusPedidoValidacaoService, statusPedido);
-
-            if (statusPedido == StatusPedido.PedidoRecebido)
-                rabbitMqService.Publicar(pedidoId);
 
             return pedido;
         }

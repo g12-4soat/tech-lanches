@@ -65,8 +65,12 @@ namespace TechLanches.Application.Controllers
 
         public async Task<PedidoResponseDTO> TrocarStatus(int pedidoId, StatusPedido statusPedido)
         {
-            var pedido = await PedidoUseCases.TrocarStatus(pedidoId, statusPedido, _pedidoGateway, _statusPedidoValidacaoService, _rabbitmqService);
+            var pedido = await PedidoUseCases.TrocarStatus(pedidoId, statusPedido, _pedidoGateway, _statusPedidoValidacaoService);
+            
             await _pedidoGateway.CommitAsync();
+
+            if (statusPedido == StatusPedido.PedidoRecebido)
+                _rabbitmqService.Publicar(pedidoId);
 
             return _pedidoPresenter.ParaDto(pedido);
         }
