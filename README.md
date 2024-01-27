@@ -71,6 +71,7 @@ A implementação do contexto NGROK surgiu da necessidade de um serviço capaz d
 - <b>TechLanches.RABBITMQ</b>: Para o RABBITMQ, adotamos uma estrutura bem próxima à implementada para o SQL, com a exceção da porta exposta para a internet no Load Balancer, que é a 15672, destinada exclusivamente ao Dashboard da ferramenta. Essa escolha foi feita considerando que o RABBITMQ desempenha um papel crucial no auxílio ao Worker para controlar e gerenciar a fila de pedidos, sendo uma função fundamental para a agilidade dos processos.
 
 - <b>TechLanches.METRICS</b>: O Metrics coleta métricas sobre os recursos do cluster, como pods e nodes, e disponibiliza essas métricas para ferramentas externas de monitoramento e análise.
+
   ServiceAccount (metrics-server): Tem como responsabilidade definir uma identidade que será usada pelos pods relacionados ao Metrics dentro do namespace kube-system.
 
   ClusterRole (system:aggregated-metrics-reader): Define regras de acesso que permitem leitura agregada de métricas, configurando permissões para acessar informações de pods e nodes do Kubernetes.
