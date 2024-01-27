@@ -1,4 +1,4 @@
-<p dir="auto"><img src="https://github.com/g12-4soat/tech-lanches/blob/feature/README/src/TechLanches/Adapter/Driver/TechLanches.Adapter.API/wwwroot/SwaggerUI/images/android-chrome-192x192.png" alt="TECHLANCHES" title="TECHLANCHES" align="right" height="60" style="max-width: 100%;"></p>
+<p dir="auto"><img src="https://github.com/g12-4soat/tech-lanches/blob/main/src/TechLanches/Adapter/Driver/TechLanches.Adapter.API/wwwroot/SwaggerUI/images/android-chrome-192x192.png" alt="TECHLANCHES" title="TECHLANCHES" align="right" height="60" style="max-width: 100%;"></p>
 
 # Tech Lanches
 
@@ -49,7 +49,7 @@ A aplicação possuí atualmente uma estrutura monolítica que está modularizad
 - <b>[NGROK](https://ngrok.com/)</b>: Utilizamos como intermediário para realizar a comunicação do Mercado Pago com a API Tech Lanches, atráves de uma URL estática que é enviada ao webhook do Mercado Pago, que após a efetivação do pagamento é enviado uma requisição para o NGrok com o status do pagamento que faz o redirecionamento para o endpoint responsável da API Tech Lanches. Para mais informações clique no nome da ferramenta.
 - <b>[RABBITMQ](https://www.rabbitmq.com/)</b>: Utilizado para auxiliar a fila de pedido no controle e gerenciamento. Para mais informações clique no nome da ferramenta.
 
-  <img src="https://github.com/g12-4soat/tech-lanches/blob/feature/README/docs/arquitetura-sistemica.png" style="max-width: 100%;">
+  <img src="https://github.com/g12-4soat/tech-lanches/blob/main/docs/Fase2/arquitetura-sistemica.png" style="max-width: 100%;">
   
 </details>
 
@@ -89,7 +89,7 @@ A implementação do contexto NGROK surgiu da necessidade de um serviço capaz d
 
   Em resumo, esse contexto configura e provisiona todos os recursos necessários para implementar o Metrics Server no Kubernetes, garantindo permissões adequadas e funcionalidade para coleta de métricas do cluster.
 
- <img src="https://github.com/g12-4soat/tech-lanches/blob/feature/README/docs/arquitetura-k8s.png" style="max-width: 100%;">
+ <img src="https://github.com/g12-4soat/tech-lanches/blob/main/docs/Fase2/arquitetura-k8s.png" style="max-width: 100%;">
 
 </details>
 
@@ -125,10 +125,15 @@ Com o projeto inicializado, você terá acesso aos links abaixo e poderá abri-l
 - Swagger Json: [http://localhost:5050/swagger/v1/swagger.json](http://localhost:5050/swagger/v1/swagger.json)  
 - Redoc: [http://localhost:5050/api-docs/index.html](http://localhost:5050/api-docs/index.html)
 
+### Ngrok
+Para acessar o Ngrok e visualizar as requisições de webhook em tempo real, basta abrir o seguinte link do seu navegador: 
+
+- Ngrok: [http://localhost:4040](http://localhost:4040/)
+
 ### Postman 
 Para importar as collections do postman, basta acessar os links a seguir:
-- Collection: https://github.com/g12-4soat/tech-lanches/blob/main/docs/TechLanches.postman_collection.json
-- Local Environment: https://github.com/g12-4soat/tech-lanches/blob/main/docs/TechLanches-Local.postman_environment.json
+- Collection: https://github.com/g12-4soat/tech-lanches/blob/main/docs/Fase2/TechLanches.postman_collection.json
+- Local Environment: https://github.com/g12-4soat/tech-lanches/blob/main/docs/Fase2/TechLanches-Local.postman_environment.json
 
 > Por padrão, a API está configurada para ser executada na porta 5050, como definido no [docker-compose.yml](https://github.com/g12-4soat/tech-lanches/blob/main/docker-compose.yml). Caso tenha problemas de inicialização, verifique se a porta já está sendo utilizada.
   ---
@@ -213,7 +218,7 @@ Após a instalação do k6, apartir da raiz do repositório, entre no diretório
 ## Vídeo Explicativo da Fase 2
 Abaixo está o link disponível para o vídeo explicativo que detalha a estrutura da arquitetura sistêmica e infraestrutura, e como implementamos o Clean Architecture na aplicação, abordando de forma clara e objetiva os principais tópicos desta fase.
 
-link xpto
+Youtube: https://youtu.be/NTaOozSo41U
 
 ---
 
