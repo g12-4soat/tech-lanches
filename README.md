@@ -49,7 +49,7 @@ A aplicação possuí atualmente uma estrutura monolítica que está modularizad
 - <b>[NGROK](https://ngrok.com/)</b>: Utilizamos como intermediário para realizar a comunicação do Mercado Pago com a API Tech Lanches, atráves de uma URL estática que é enviada ao webhook do Mercado Pago, que após a efetivação do pagamento é enviado uma requisição para o NGrok com o status do pagamento que faz o redirecionamento para o endpoint responsável da API Tech Lanches. Para mais informações clique no nome da ferramenta.
 - <b>[RABBITMQ](https://www.rabbitmq.com/)</b>: Utilizado para auxiliar a fila de pedido no controle e gerenciamento. Para mais informações clique no nome da ferramenta.
 
-  <img src="https://github.com/g12-4soat/tech-lanches/blob/main/docs/Fase2/arquitetura-sistemica.png" style="max-width: 100%;">
+  <img src="https://github.com/g12-4soat/tech-lanches/blob/main/docs/arquitetura-sistemica.png" style="max-width: 100%;">
   
 </details>
 
@@ -90,7 +90,7 @@ A implementação do contexto NGROK surgiu da necessidade de um serviço capaz d
 
   Em resumo, esse contexto configura e provisiona todos os recursos necessários para implementar o Metrics Server no Kubernetes, garantindo permissões adequadas e funcionalidade para coleta de métricas do cluster.
 
- <img src="https://github.com/g12-4soat/tech-lanches/blob/main/docs/Fase2/arquitetura-k8s.png" style="max-width: 100%;">
+ <img src="https://github.com/g12-4soat/tech-lanches/blob/main/docs/arquitetura-k8s.png" style="max-width: 100%;">
 
 </details>
 
